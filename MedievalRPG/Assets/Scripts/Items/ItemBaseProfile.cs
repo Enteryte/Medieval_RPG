@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Items/Item Base Profile", fileName = "New Item Base Profile", order = 0)]
+[CreateAssetMenu(fileName = "New Item Base Profile", menuName = "Scriptable Objects/Items/Item Base Profile", order = 0)]
 public class ItemBaseProfile : ScriptableObject
 {
     [Header("General Informations")]
@@ -17,7 +17,8 @@ public class ItemBaseProfile : ScriptableObject
         weapon
     }
 
-    public ItemType itemType;
+    [Tooltip("The type of the item.")] public ItemType itemType;
+    [Tooltip("Determines whether an item is used for or in a mission.")] public bool neededForMissions = false;
 
     [Header("Visuals")]
     [Tooltip("The 2D-sprite of the item.")] public Sprite itemSprite;
@@ -26,6 +27,15 @@ public class ItemBaseProfile : ScriptableObject
     [Header("Shop Values")]
     [Tooltip("The purchase price of the item.")] [Min(0)] public int buyPrice;
     [Tooltip("The selling price of the item.")] [Min(0)] public int sellingPrice;
+
+    [Header("Inventory Values")]
+    [Tooltip("Indicates how often the item is currently in the inventory.")] [Min(0)] public int amountInInventory;
+    [Tooltip("Determines whether an item in the inventory is stackable.")] [Min(0)] public bool stackable;
+
+    #region NeededForMission Values
+    [HideInInspector] [Tooltip("An array of missions, where the item is needed.")] [Min(0)] public GameObject[] missionsWhereItsNeeded; // MUSS DURCH MISSIONBASEPROFILES
+                                                                                                                                        // ERSETZT WERDEN!
+    #endregion
 
     #region FoodItem Values
     [HideInInspector] public float foodHealValue;
@@ -54,11 +64,32 @@ public class ItemBaseProfile : ScriptableObject
 
             EditorGUILayout.Space();
 
+            if (iBP.neededForMissions)
+            {
+                EditorGUILayout.LabelField("Mission Values", EditorStyles.boldLabel);
+
+                var serializedObject = new SerializedObject(target);
+                var property = serializedObject.FindProperty("missionsWhereItsNeeded");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property, true);
+                serializedObject.ApplyModifiedProperties();
+                // WIP: --> MissionBaseProfil hinzufügen ( sobald vorhanden )
+
+                EditorGUILayout.Space();
+            }
+
             if (iBP.itemType == ItemType.food)
             {
                 EditorGUILayout.LabelField("Food Values", EditorStyles.boldLabel);
 
                 iBP.foodHealValue = EditorGUILayout.FloatField("Heal Value", iBP.foodHealValue);
+
+                if (iBP.foodHealValue < 0)
+                {
+                    iBP.foodHealValue = 0;
+                }
+
+                iBP.stackable = true;
             }
             else if (iBP.itemType == ItemType.weapon)
             {
@@ -71,6 +102,18 @@ public class ItemBaseProfile : ScriptableObject
                 {
                     iBP.normalDamage = 0;
                 }
+
+                iBP.stackable = false;
+            }
+
+            if (iBP.sellingPrice > iBP.buyPrice)
+            {
+                iBP.sellingPrice = iBP.buyPrice;
+            }
+
+            if (iBP.amountInInventory < 0)
+            {
+                iBP.amountInInventory = 0;
             }
 
             EditorUtility.SetDirty(target);
