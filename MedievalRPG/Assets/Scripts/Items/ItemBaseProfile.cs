@@ -78,7 +78,13 @@ public class ItemBaseProfile : ScriptableObject
                 EditorGUILayout.Space();
             }
 
-            if (iBP.itemType == ItemType.food)
+            if (iBP.itemType == ItemType.none)
+            {
+                //EditorGUILayout.Space();
+
+                EditorGUILayout.HelpBox("ItemType: You need to set the type of the item.", MessageType.Warning);
+            }
+            else if (iBP.itemType == ItemType.food)
             {
                 EditorGUILayout.LabelField("Food Values", EditorStyles.boldLabel);
 

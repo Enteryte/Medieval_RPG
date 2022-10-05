@@ -20,7 +20,7 @@ public class ItemDatabaseBase : ScriptableObject, ISerializationCallbackReceiver
             GetItem.Add(i, items[i]);
         }
     }
-
+    
     public void OnBeforeSerialize()
     {
 

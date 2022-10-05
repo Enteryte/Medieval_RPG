@@ -9,7 +9,6 @@ using System;
 [CreateAssetMenu(fileName = "New Inventory Base", menuName = "Scriptable Objects/Inventory/Inventory Base")]
 public class InventoryBase : ScriptableObject, ISerializationCallbackReceiver
 {
-    [Tooltip("Filepath for the Inventory Data")] public string savePath;
     [Tooltip("Database of Items")] public ItemDatabaseBase database;
     [Tooltip("List of all Inventory Slots")] public List<InventorySlot> slots = new List<InventorySlot>();
 
@@ -21,8 +20,13 @@ public class InventoryBase : ScriptableObject, ISerializationCallbackReceiver
         //#if UNITY_EDITOR
         //        database = (ItemDatabaseBase)AssetDatabase.LoadAssetAtPath("Assets/Resources/Database.asset", typeof(ItemDatabaseBase));
         //#else
-        database = Resources.Load<ItemDatabaseBase>("Database");
+        //database = Resources.Load<ItemDatabaseBase>("Database");
         //#endif
+
+        if (database == null)
+        {
+            Debug.Log("ItemDatabase of inventory is null!");
+        }
     }
 
     /// <summary>
