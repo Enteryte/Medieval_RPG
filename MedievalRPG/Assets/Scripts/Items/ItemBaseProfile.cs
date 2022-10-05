@@ -18,6 +18,7 @@ public class ItemBaseProfile : ScriptableObject
     }
 
     [Tooltip("The type of the item.")] public ItemType itemType;
+    [Tooltip("Determines whether an item is used for or in a mission.")] public int minLvlToUse;
     [Tooltip("Determines whether an item is used for or in a mission.")] public bool neededForMissions = false;
 
     [Header("Visuals")]
