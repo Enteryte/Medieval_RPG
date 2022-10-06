@@ -15,6 +15,7 @@ public class ShopManager : MonoBehaviour
     public Transform bowCateParentTrans;
 
     public GameObject shopItemButtonPrefab;
+    public Transform shopItemPreviewCamTrans;
 
     [Header("Right Shop Informations")]
     public GameObject rightShopItemInformationGO;
@@ -100,6 +101,18 @@ public class ShopManager : MonoBehaviour
         }
 
         itemCurrAmountInInvTxt.text = iBP.amountInInventory.ToString();
+
+        for (int i = 0; i < shopItemPreviewCamTrans.childCount; i++)
+        {
+            Destroy(shopItemPreviewCamTrans.GetChild(i).gameObject);
+        }
+
+        GameObject newPreviewItem = Instantiate(iBP.itemPrefab, Vector3.zero, Quaternion.Euler(0, 0, 2f), shopItemPreviewCamTrans);
+        newPreviewItem.AddComponent<ShopPreviewItem>();
+
+        newPreviewItem.transform.localPosition = new Vector3(0, 0, iBP.previewSpawnPositionZ);
+
+        newPreviewItem.layer = LayerMask.NameToLayer("ShopItemPreview");
 
         rightShopItemInformationGO.SetActive(true);
     }

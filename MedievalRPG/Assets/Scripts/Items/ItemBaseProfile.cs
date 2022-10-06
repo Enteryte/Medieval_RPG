@@ -29,6 +29,8 @@ public class ItemBaseProfile : ScriptableObject
     [Tooltip("The purchase price of the item.")] [Min(0)] public int buyPrice;
     [Tooltip("The selling price of the item.")] [Min(0)] public int sellingPrice;
 
+    public float previewSpawnPositionZ;
+
     [Header("Inventory Values")]
     [Tooltip("Indicates how often the item is currently in the inventory.")] [Min(0)] public int amountInInventory;
     [Tooltip("Determines whether an item in the inventory is stackable.")] [Min(0)] public bool stackable;
