@@ -20,6 +20,7 @@ public class ItemBaseProfile : ScriptableObject
     [Tooltip("The type of the item.")] public ItemType itemType;
     [Tooltip("Determines whether an item is used for or in a mission.")] public int minLvlToUse;
     [Tooltip("Determines whether an item is used for or in a mission.")] public bool neededForMissions = false;
+    [Tooltip("Determines whether an item was in the players inventory before.")] public bool isNew = false;
 
     [Header("Visuals")]
     [Tooltip("The 2D-sprite of the item.")] public Sprite itemSprite;

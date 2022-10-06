@@ -7,7 +7,7 @@ using UnityEditor;
 using System;
 
 [CreateAssetMenu(fileName = "New Inventory Base", menuName = "Scriptable Objects/Inventory/Inventory Base")]
-public class InventoryBase : ScriptableObject, ISerializationCallbackReceiver
+public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackReceiver
 {
     [Tooltip("Database of Items")] public ItemDatabaseBase database;
     [Tooltip("List of all Inventory Slots")] public List<InventorySlot> slots = new List<InventorySlot>();
