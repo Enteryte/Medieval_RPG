@@ -66,12 +66,10 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
                 {
                     slots[i].RemoveAmount(amount);
 
-                    // ------ Hier soll der Slot des Items noch aus dem Inventar entfernt werden, sobald 0 Items dieser Itembase auf dem Slot liegen.
-
-                    //if (slots[i].itemAmount == 0)
-                    //{
-                    //    slots.Remove(new InventorySlot(database.GetID[item], item, amount));
-                    //}
+                    if (slots[i].itemAmount == 0)
+                    {
+                        slots.Remove(slots[i]);
+                    }
 
                     return;
                 }

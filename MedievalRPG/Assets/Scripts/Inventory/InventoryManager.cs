@@ -23,8 +23,12 @@ public class InventoryManager : MonoBehaviour
     public TMP_Text currItemSellPriceTxt;
 
     public GameObject rightInventoryScreen;
+    public GameObject useItemButton;
+
+    public Transform invItemPreviewCamTrans;
 
     public static ItemBaseProfile currIBP;
+    public static InventorySlot currIS;
 
     public void Awake()
     {
@@ -62,6 +66,8 @@ public class InventoryManager : MonoBehaviour
 
                     newInventorySlot.GetComponent<InventorySlotButton>().storedItemBase = inventory.slots[i].itemBase;
                     newInventorySlot.GetComponent<InventorySlotButton>().DisplayItemInformations();
+
+                    newInventorySlot.GetComponent<InventorySlotButton>().invSlot = inventory.slots[i];
 
                     if (currIBP == null)
                     {

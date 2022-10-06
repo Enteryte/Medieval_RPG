@@ -85,7 +85,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void DisplayAllInformationsAboutOneItem(ItemBaseProfile iBP)
+    public void DisplayAllInformationsAboutOneItem(ItemBaseProfile iBP/*, InventorySlot invSlot*/)
     {
         itemNameTxt.text = iBP.itemName;
         itemDescriptionTxt.text = iBP.itemDescription;
@@ -100,7 +100,7 @@ public class ShopManager : MonoBehaviour
             itemBuySellPriceTxt.text = iBP.sellingPrice.ToString();
         }
 
-        itemCurrAmountInInvTxt.text = iBP.amountInInventory.ToString();
+        //itemCurrAmountInInvTxt.text = invSlot.itemAmount.ToString();
 
         for (int i = 0; i < shopItemPreviewCamTrans.childCount; i++)
         {
@@ -108,11 +108,11 @@ public class ShopManager : MonoBehaviour
         }
 
         GameObject newPreviewItem = Instantiate(iBP.itemPrefab, Vector3.zero, Quaternion.Euler(0, 0, 2f), shopItemPreviewCamTrans);
-        newPreviewItem.AddComponent<ShopPreviewItem>();
+        newPreviewItem.AddComponent<PreviewItem>();
 
         newPreviewItem.transform.localPosition = new Vector3(0, 0, iBP.previewSpawnPositionZ);
 
-        newPreviewItem.layer = LayerMask.NameToLayer("ShopItemPreview");
+        newPreviewItem.layer = LayerMask.NameToLayer("PreviewItem");
 
         rightShopItemInformationGO.SetActive(true);
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopPreviewItem : MonoBehaviour
+public class PreviewItem : MonoBehaviour
 {
     public float rotationSpeed = 30;
 
