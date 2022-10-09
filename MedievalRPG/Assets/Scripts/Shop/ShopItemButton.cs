@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ShopItemButton : MonoBehaviour
 {
@@ -16,8 +17,10 @@ public class ShopItemButton : MonoBehaviour
     public ShopCursor shopCursor;
 
     [HideInInspector] public bool isPressing = false;
-    [HideInInspector] public float timeToPress = 1f;
+    public float timeToPress = 1f;
     [HideInInspector] public float pressedTime = 0;
+
+    public Button btnComp;
 
     public void Awake()
     {
@@ -67,8 +70,6 @@ public class ShopItemButton : MonoBehaviour
             {
                 isPressing = false;
 
-                Debug.Log("Jjjjjjjjjjjjjjjjjjjjjjjj");
-
                 if (storedItemBase.stackable)
                 {
                     OpenHowManyScreen();
@@ -82,12 +83,32 @@ public class ShopItemButton : MonoBehaviour
                 pressedTime = 0;
             }
         }
+
+        if (ShopManager.instance.isBuying)
+        {
+            if (GameManager.instance.playerMoney >= storedItemBase.buyPrice)
+            {
+                btnComp.interactable = true;
+            }
+            else
+            {
+                btnComp.interactable = false;
+            }
+        }
     }
 
     public void DisplayStoredItemInformation()
     {
         itemNameTxt.text = storedItemBase.itemName;
-        itemBuyPriceTxt.text = storedItemBase.buyPrice.ToString();
+
+        if (ShopManager.instance.isBuying)
+        {
+            itemBuyPriceTxt.text = storedItemBase.buyPrice.ToString();
+        }
+        else
+        {
+            itemBuyPriceTxt.text = storedItemBase.sellingPrice.ToString();
+        }
 
         if (storedItemBase.minLvlToUse != 0)
         {
@@ -101,6 +122,15 @@ public class ShopItemButton : MonoBehaviour
 
     public void OpenHowManyScreen()
     {
+        if (ShopManager.instance.isBuying)
+        {
+            ShopManager.instance.hMScreen.buyOrSellTxt.text = "Wie oft möchtst du das Item kaufen?";
+        }
+        else
+        {
+            ShopManager.instance.hMScreen.buyOrSellTxt.text = "Wie oft möchtst du das Item verkaufen?";
+        }
+
         ShopManager.instance.hMScreen.currAmount = 0;
         ShopManager.instance.hMScreen.currAmountTxt.text = ShopManager.instance.hMScreen.currAmount.ToString();
 
@@ -112,7 +142,17 @@ public class ShopItemButton : MonoBehaviour
 
     public void StartedPressingButton()
     {
-        isPressing = true;
+        if (ShopManager.instance.isBuying)
+        {
+            if (GameManager.instance.playerMoney >= storedItemBase.buyPrice)
+            {
+                isPressing = true;
+            }
+        }
+        else
+        {
+            isPressing = true;
+        }
     }
 
     public void EndedPressingButton()
@@ -125,6 +165,14 @@ public class ShopItemButton : MonoBehaviour
 
     public void CloseRightShopItemInformations()
     {
-        ShopManager.instance.rightShopItemInformationGO.SetActive(false);
+        if (!ShopManager.instance.hMScreen.gameObject.activeSelf)
+        {
+            ShopManager.instance.rightShopItemInformationGO.SetActive(false);
+
+            isPressing = false;
+
+            shopCursor.cursorImg.fillAmount = 0;
+            pressedTime = 0;
+        }
     }
 }

@@ -10,6 +10,7 @@ public class HowManyScreen : MonoBehaviour
 
     public int currAmount = 0;
 
+    public TMP_Text buyOrSellTxt;
     public TMP_Text currAmountTxt;
 
     // Start is called before the first frame update
@@ -32,12 +33,20 @@ public class HowManyScreen : MonoBehaviour
             {
                 currAmount += 1;
             }
+            else
+            {
+                currAmount = 0;
+            }
         }
         else
         {
             if (currItem.buyPrice * (currAmount + 1) <= GameManager.instance.playerMoney)
             {
                 currAmount += 1;
+            }
+            else
+            {
+                currAmount = 0;
             }
         }
 
@@ -50,6 +59,10 @@ public class HowManyScreen : MonoBehaviour
         {
             currAmount -= 1;
         }
+        else if (currAmount == 0 && !ShopManager.instance.isBuying)
+        {
+            currAmount = currAmountInInv;
+        }
 
         currAmountTxt.text = currAmount.ToString();
     }
@@ -58,6 +71,7 @@ public class HowManyScreen : MonoBehaviour
     {
         ShopManager.instance.BuyOrSellItem(currItem, currAmount);
 
+        ShopManager.instance.rightShopItemInformationGO.SetActive(false);
         this.gameObject.SetActive(false);
     }
 }

@@ -80,7 +80,7 @@ public class InventorySlotButton : MonoBehaviour
 
         newPreviewItem.transform.localPosition = new Vector3(0, 0, storedItemBase.previewSpawnPositionZ);
 
-        newPreviewItem.layer = LayerMask.NameToLayer("InventoryItemPreview");
+        newPreviewItem.layer = LayerMask.NameToLayer("PreviewItem");
     }
 
     public void CheckIfSlotHasToBeDestroyed()

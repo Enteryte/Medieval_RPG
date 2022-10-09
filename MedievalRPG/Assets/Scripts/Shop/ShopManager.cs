@@ -7,6 +7,7 @@ public class ShopManager : MonoBehaviour
 {
     public static ShopManager instance;
     public HowManyScreen hMScreen;
+    public BoughtOrSoldMessageScreen bOSMScreen;
 
     public static MerchantBaseProfile currMBP;
     public ShopListBaseProfile currSLBP;
@@ -154,7 +155,10 @@ public class ShopManager : MonoBehaviour
 
         newPreviewItem.layer = LayerMask.NameToLayer("PreviewItem");
 
-        rightShopItemInformationGO.SetActive(true);
+        if (!rightShopItemInformationGO.activeSelf)
+        {
+            rightShopItemInformationGO.SetActive(true);
+        }
     }
 
 
@@ -167,6 +171,8 @@ public class ShopManager : MonoBehaviour
             Debug.Log("Bought: " + itemBase.itemName);
 
             GameManager.instance.playerMoney -= (itemBase.buyPrice * amount);
+
+            bOSMScreen.boughtOrSoldTxt.text = "Item erworben";
         }
         else
         {
@@ -175,9 +181,14 @@ public class ShopManager : MonoBehaviour
             Debug.Log("Sold: " + itemBase.itemName);
 
             GameManager.instance.playerMoney += (itemBase.sellingPrice * amount);
+
+            bOSMScreen.boughtOrSoldTxt.text = "Item verkauft";
         }
 
         ShopManager.instance.DisplayShopItems();
+
+        bOSMScreen.gameObject.SetActive(true);
+        bOSMScreen.enabled = true;
     }
 
     public void ClearShopCategoryChilds(Transform categoryTrans)
