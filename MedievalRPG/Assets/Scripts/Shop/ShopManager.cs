@@ -6,6 +6,7 @@ using TMPro;
 public class ShopManager : MonoBehaviour
 {
     public static ShopManager instance;
+    public HowManyScreen hMScreen;
 
     public static MerchantBaseProfile currMBP;
     public ShopListBaseProfile currSLBP;
@@ -54,34 +55,73 @@ public class ShopManager : MonoBehaviour
         ClearShopCategoryChilds(swordCateParentTrans);
         ClearShopCategoryChilds(bowCateParentTrans);
 
-        for (int i = 0; i < currSLBP.itemBaseProfiles.Length; i++)
+        if (isBuying)
         {
-            GameObject newShopItemButton = null;
-
-            if (currSLBP.itemBaseProfiles[i].itemType == ItemBaseProfile.ItemType.food)
+            for (int i = 0; i < currSLBP.itemBaseProfiles.Length; i++)
             {
-                foodCateParentTrans.gameObject.SetActive(true);
+                GameObject newShopItemButton = null;
 
-                newShopItemButton = Instantiate(shopItemButtonPrefab, foodCateParentTrans);
+                Debug.Log(currSLBP);
+                Debug.Log(currSLBP.itemBaseProfiles[i]);
+                Debug.Log(currSLBP.itemBaseProfiles[i].itemType);
+
+                if (currSLBP.itemBaseProfiles[i].itemType == ItemBaseProfile.ItemType.food)
+                {
+                    foodCateParentTrans.gameObject.SetActive(true);
+
+                    newShopItemButton = Instantiate(shopItemButtonPrefab, foodCateParentTrans);
+                }
+                else if (currSLBP.itemBaseProfiles[i].itemType == ItemBaseProfile.ItemType.weapon)
+                {
+                    if (currSLBP.itemBaseProfiles[i].weaponType == ItemBaseProfile.WeaponType.sword)
+                    {
+                        swordCateParentTrans.gameObject.SetActive(true);
+
+                        newShopItemButton = Instantiate(shopItemButtonPrefab, swordCateParentTrans);
+                    }
+                    else if (currSLBP.itemBaseProfiles[i].weaponType == ItemBaseProfile.WeaponType.bow)
+                    {
+                        bowCateParentTrans.gameObject.SetActive(true);
+
+                        newShopItemButton = Instantiate(shopItemButtonPrefab, bowCateParentTrans);
+                    }
+                }
+
+                newShopItemButton.GetComponent<ShopItemButton>().storedItemBase = currSLBP.itemBaseProfiles[i];
+                newShopItemButton.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
             }
-            else if (currSLBP.itemBaseProfiles[i].itemType == ItemBaseProfile.ItemType.weapon)
+        }
+        else
+        {
+            for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
             {
-                if (currSLBP.itemBaseProfiles[i].weaponType == ItemBaseProfile.WeaponType.sword)
-                {
-                    swordCateParentTrans.gameObject.SetActive(true);
+                GameObject newShopItemButton = null;
 
-                    newShopItemButton = Instantiate(shopItemButtonPrefab, swordCateParentTrans);
-                }
-                else if (currSLBP.itemBaseProfiles[i].weaponType == ItemBaseProfile.WeaponType.bow)
+                if (InventoryManager.instance.inventory.slots[i].itemBase.itemType == ItemBaseProfile.ItemType.food)
                 {
-                    bowCateParentTrans.gameObject.SetActive(true);
+                    foodCateParentTrans.gameObject.SetActive(true);
 
-                    newShopItemButton = Instantiate(shopItemButtonPrefab, bowCateParentTrans);
+                    newShopItemButton = Instantiate(shopItemButtonPrefab, foodCateParentTrans);
                 }
+                else if (InventoryManager.instance.inventory.slots[i].itemBase.itemType == ItemBaseProfile.ItemType.weapon)
+                {
+                    if (InventoryManager.instance.inventory.slots[i].itemBase.weaponType == ItemBaseProfile.WeaponType.sword)
+                    {
+                        swordCateParentTrans.gameObject.SetActive(true);
+
+                        newShopItemButton = Instantiate(shopItemButtonPrefab, swordCateParentTrans);
+                    }
+                    else if (InventoryManager.instance.inventory.slots[i].itemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+                    {
+                        bowCateParentTrans.gameObject.SetActive(true);
+
+                        newShopItemButton = Instantiate(shopItemButtonPrefab, bowCateParentTrans);
+                    }
+                }
+
+                newShopItemButton.GetComponent<ShopItemButton>().storedItemBase = InventoryManager.instance.inventory.slots[i].itemBase;
+                newShopItemButton.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
             }
-
-            newShopItemButton.GetComponent<ShopItemButton>().storedItemBase = currSLBP.itemBaseProfiles[i];
-            newShopItemButton.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
         }
     }
 
@@ -115,6 +155,29 @@ public class ShopManager : MonoBehaviour
         newPreviewItem.layer = LayerMask.NameToLayer("PreviewItem");
 
         rightShopItemInformationGO.SetActive(true);
+    }
+
+
+    public void BuyOrSellItem(ItemBaseProfile itemBase, int amount)
+    {
+        if (ShopManager.instance.isBuying)
+        {
+            InventoryManager.instance.inventory.AddItem(itemBase, amount);
+
+            Debug.Log("Bought: " + itemBase.itemName);
+
+            GameManager.instance.playerMoney -= (itemBase.buyPrice * amount);
+        }
+        else
+        {
+            InventoryManager.instance.inventory.RemoveItem(itemBase, amount);
+
+            Debug.Log("Sold: " + itemBase.itemName);
+
+            GameManager.instance.playerMoney += (itemBase.sellingPrice * amount);
+        }
+
+        ShopManager.instance.DisplayShopItems();
     }
 
     public void ClearShopCategoryChilds(Transform categoryTrans)

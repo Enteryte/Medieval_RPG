@@ -73,6 +73,12 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
 
                     return;
                 }
+                else
+                {
+                    slots.Remove(slots[i]);
+
+                    return;
+                }
             }
         }
 

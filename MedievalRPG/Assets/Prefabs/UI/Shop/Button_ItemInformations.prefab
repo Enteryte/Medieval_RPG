@@ -619,6 +619,10 @@ MonoBehaviour:
   itemNameTxt: {fileID: 7505710489967537522}
   itemBuyPriceTxt: {fileID: 7505710489031966319}
   itemMindLvlTxt: {fileID: 7505710488275946790}
+  shopCursor: {fileID: 0}
+  isPressing: 0
+  timeToPress: 5
+  pressedTime: 0
 --- !u!114 &282048058623253001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,6 +643,38 @@ MonoBehaviour:
         - m_Target: {fileID: 7016939084203618234}
           m_TargetAssemblyTypeName: ShopItemButton, Assembly-CSharp
           m_MethodName: CloseRightShopItemInformations
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7016939084203618234}
+          m_TargetAssemblyTypeName: ShopItemButton, Assembly-CSharp
+          m_MethodName: EndedPressingButton
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7016939084203618234}
+          m_TargetAssemblyTypeName: ShopItemButton, Assembly-CSharp
+          m_MethodName: StartedPressingButton
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
