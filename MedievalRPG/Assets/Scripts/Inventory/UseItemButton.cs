@@ -29,6 +29,9 @@ public class UseItemButton : MonoBehaviour
             InventoryManager.instance.inventory.RemoveItem(InventoryManager.currIBP, 1);
         }
 
+        InventoryManager.currIBP = null;
+        InventoryManager.currIS = null;
+
         InventoryManager.instance.DisplayItemsOfCategory();
     }
 }

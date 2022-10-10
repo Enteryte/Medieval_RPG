@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class HowManyScreen : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class HowManyScreen : MonoBehaviour
     public TMP_Text buyOrSellTxt;
     public TMP_Text currAmountTxt;
 
+    public Button acceptBtn; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +25,14 @@ public class HowManyScreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (currAmount == 0)
+        {
+            acceptBtn.interactable = false;
+        }
+        else
+        {
+            acceptBtn.interactable = true;
+        }
     }
 
     public void AddAmount()
@@ -62,6 +72,10 @@ public class HowManyScreen : MonoBehaviour
         else if (currAmount == 0 && !ShopManager.instance.isBuying)
         {
             currAmount = currAmountInInv;
+        }
+        else if (currAmount == 0 && ShopManager.instance.isBuying)
+        {
+            currAmount = ((int)GameManager.instance.playerMoney / currItem.buyPrice);
         }
 
         currAmountTxt.text = currAmount.ToString();

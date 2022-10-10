@@ -161,7 +161,6 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-
     public void BuyOrSellItem(ItemBaseProfile itemBase, int amount)
     {
         if (ShopManager.instance.isBuying)
@@ -184,6 +183,8 @@ public class ShopManager : MonoBehaviour
 
             bOSMScreen.boughtOrSoldTxt.text = "Item verkauft";
         }
+
+        //rightShopItemInformationGO.SetActive(false);
 
         ShopManager.instance.DisplayShopItems();
 
