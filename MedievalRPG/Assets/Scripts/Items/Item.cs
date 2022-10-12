@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : MonoBehaviour, IInteractable
 {
     public ItemBaseProfile iBP;
+    public InteractableObjectCanvas iOCanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -16,5 +17,20 @@ public class Item : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public string GetInteractUIText()
+    {
+        return "Einsammeln";
+    }
+
+    public void Interact(Transform transform)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    InteractableObjectCanvas IInteractable.iOCanvas()
+    {
+        return this.iOCanvas;
     }
 }

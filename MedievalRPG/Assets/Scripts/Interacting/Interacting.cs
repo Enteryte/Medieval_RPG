@@ -15,4 +15,15 @@ public class Interacting : MonoBehaviour
     {
         
     }
+
+    public void FindTargets()
+    {
+        // WIP: Hier fehlt noch eine for-Schleife ( Siehe anderes Projekt ) + Transform muss durch die Transform des interagierbaren Objektes ersetzt werden.
+        if (transform.TryGetComponent(out IInteractable interactable))
+        {
+            interactable.Interact(transform);
+            interactable.iOCanvas().howToInteractTxt.text = interactable.GetInteractUIText();
+            interactable.iOCanvas().iOCanvas.SetActive(true);
+        }
+    }
 }
