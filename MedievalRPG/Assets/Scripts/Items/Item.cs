@@ -26,7 +26,7 @@ public class Item : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("INTERACTING");
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()
