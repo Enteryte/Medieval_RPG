@@ -109,6 +109,8 @@ public class Interacting : MonoBehaviour
         {
             Transform interactableObj = targetsInViewRadius2[i].transform;
 
+            Debug.Log(interactableObj.gameObject.name);
+
             Vector3 dirToObj = (interactableObj.position - transform.position).normalized;
             float distanceToObj = Vector3.Distance(transform.position, interactableObj.position);
 

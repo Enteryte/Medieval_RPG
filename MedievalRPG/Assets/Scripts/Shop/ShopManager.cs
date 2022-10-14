@@ -6,6 +6,7 @@ using TMPro;
 public class ShopManager : MonoBehaviour
 {
     public static ShopManager instance;
+    public GameObject shopScreen;
     public HowManyScreen hMScreen;
     public BoughtOrSoldMessageScreen bOSMScreen;
 

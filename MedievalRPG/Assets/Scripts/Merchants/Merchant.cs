@@ -10,7 +10,7 @@ public class Merchant : MonoBehaviour, IInteractable
     // Start is called before the first frame update
     void Start()
     {
-        
+        InstantiateIOCanvas();
     }
 
     // Update is called once per frame
@@ -37,7 +37,21 @@ public class Merchant : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
-        throw new System.NotImplementedException();
+        ShopManager.currMBP = mBP;
+
+        if (mBP.changesItems)
+        {
+            // WIP
+            Debug.Log("WIP!");
+        }
+        else
+        {
+            ShopManager.instance.currSLBP = mBP.shopListBaseProfile;
+        }
+
+        ShopManager.instance.DisplayShopItems();
+
+        ShopManager.instance.shopScreen.SetActive(true);
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()
