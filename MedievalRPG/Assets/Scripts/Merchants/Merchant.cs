@@ -19,6 +19,17 @@ public class Merchant : MonoBehaviour, IInteractable
         
     }
 
+    public void InstantiateIOCanvas()
+    {
+        GameObject newIOCanvas = Instantiate(Interacting.instance.interactCanvasPrefab, Interacting.instance.iOCSParentObj.transform);
+
+        newIOCanvas.GetComponent<InteractableObjectCanvas>().correspondingGO = this.gameObject;
+
+        iOCanvas = newIOCanvas.GetComponent<InteractableObjectCanvas>();
+
+        newIOCanvas.transform.SetAsFirstSibling();
+    }
+
     public string GetInteractUIText()
     {
         return "Sprechen";

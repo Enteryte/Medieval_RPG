@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Interacting : MonoBehaviour
 {
+    public static Interacting instance;
+
     public float viewRadius;
     public float viewRadius2;
 
@@ -16,7 +20,22 @@ public class Interacting : MonoBehaviour
     [HideInInspector] public float nearestDistance;
     [HideInInspector] public Transform nearestObjTrans;
 
-    [HideInInspector] List<Transform> tIVR;
+    [HideInInspector] public List<Transform> tIVR;
+
+    public float timeTillInteract = 5;
+    public float currClickedTime = 0;
+
+    public GameObject interactCanvasPrefab;
+    public GameObject iOCSParentObj;
+
+    public GameObject howToInteractGO;
+    public TMP_Text howToInteractTxt;
+    public Image keyToPressFillImg;
+
+    public void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -32,12 +51,30 @@ public class Interacting : MonoBehaviour
 
     public void FindTargets()
     {
-        for (int i = 0; i < tIVR.Count; i++)
+        if (tIVR.Count > 0)
         {
-            if (tIVR[i].TryGetComponent(out IInteractable interactable))
+            for (int i = 0; i < tIVR.Count; i++)
             {
-                interactable.iOCanvas().iOTextParentObj.SetActive(false);
-                interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
+                if (tIVR[i] != null)
+                {
+                    if (tIVR[i].TryGetComponent(out IInteractable interactable))
+                    {
+                        howToInteractGO.SetActive(false);
+                        interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
+
+                        tIVR.Remove(tIVR[i]);
+                    }
+                }
+                else
+                {
+                    currClickedTime = 0;
+
+                    keyToPressFillImg.fillAmount = 0;
+
+                    howToInteractGO.SetActive(false);
+
+                    tIVR.Remove(tIVR[i]);
+                }
             }
         }
 
@@ -94,17 +131,28 @@ public class Interacting : MonoBehaviour
         {
             if (nearestObjTrans.TryGetComponent(out IInteractable interactable))
             {
-                interactable.iOCanvas().iOTextParentObj.SetActive(true);
-                interactable.iOCanvas().howToInteractTxt.text = interactable.GetInteractUIText();
+                howToInteractGO.SetActive(true);
+                howToInteractTxt.text = interactable.GetInteractUIText();
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKey(KeyCode.E) && currClickedTime < timeTillInteract)
                 {
-                    interactable.Interact(nearestObjTrans);
+                    currClickedTime += Time.deltaTime;
+                    keyToPressFillImg.fillAmount += 1f / timeTillInteract * Time.deltaTime;
+
+                    if (currClickedTime >= timeTillInteract)
+                    {
+                        interactable.Interact(nearestObjTrans);
+                    }
+                }
+
+                if (Input.GetKeyUp(KeyCode.E))
+                {
+                    currClickedTime = 0;
+
+                    keyToPressFillImg.fillAmount = 0;
                 }
             }
         }
-
-        // WIP: Hier fehlt noch eine for-Schleife ( Siehe anderes Projekt ) + Transform muss durch die Transform des interagierbaren Objektes ersetzt werden.
     }
 
     public Vector3 DirFromAngles(float angleInDegrees, bool angleIsGlobal)

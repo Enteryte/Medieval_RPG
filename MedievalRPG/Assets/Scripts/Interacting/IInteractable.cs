@@ -4,6 +4,8 @@ using UnityEngine;
 
 public interface IInteractable
 {
+    void InstantiateIOCanvas();
+
     void Interact(Transform transform);
 
     string GetInteractUIText();

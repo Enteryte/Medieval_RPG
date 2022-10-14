@@ -5,11 +5,16 @@ using TMPro;
 using UnityEngine.UI;
 
 public class InteractableObjectCanvas : MonoBehaviour
-{
-    public TMP_Text howToInteractTxt;
-    public GameObject iOTextParentObj;
-    public GameObject iOBillboardParentObj;
+{ 
     public GameObject iOCanvas;
+
+    public GameObject iOBillboardParentObj;
+    //public GameObject iOTextParentObj;
+
+    //public TMP_Text howToInteractTxt;
+    //public Image keyToPressFillImg;
+
+    public GameObject correspondingGO;
 
     public void Awake()
     {
@@ -25,6 +30,6 @@ public class InteractableObjectCanvas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(Camera.main.transform.position);
+        this.gameObject.transform.position = Camera.main.WorldToScreenPoint(correspondingGO.transform.position);
     }
 }
