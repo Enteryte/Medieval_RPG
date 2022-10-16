@@ -33,7 +33,7 @@ public class ItemBaseProfile : ScriptableObject
     public float previewSpawnPositionZ;
 
     [Header("Inventory Values")]
-    [Tooltip("Indicates how often the item is currently in the inventory.")] [Min(0)] public int amountInInventory;
+    //[Tooltip("Indicates how often the item is currently in the inventory.")] [Min(0)] public int amountInInventory;
     [Tooltip("Determines whether an item in the inventory is stackable.")] [Min(0)] public bool stackable;
 
     #region NeededForMission Values
@@ -121,10 +121,10 @@ public class ItemBaseProfile : ScriptableObject
                 iBP.sellingPrice = iBP.buyPrice;
             }
 
-            if (iBP.amountInInventory < 0)
-            {
-                iBP.amountInInventory = 0;
-            }
+            //if (iBP.amountInInventory < 0)
+            //{
+            //    iBP.amountInInventory = 0;
+            //}
 
             EditorUtility.SetDirty(target);
         }

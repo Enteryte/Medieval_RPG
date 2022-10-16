@@ -20,6 +20,11 @@ public class EquipmentSlot : MonoBehaviour
 
     public ClickCursor clickCursor;
 
+    public void Awake()
+    {
+        clickCursor = ClickCursor.instance;
+    }
+
     public void Start()
     {
         ChangeEquippedItem();
