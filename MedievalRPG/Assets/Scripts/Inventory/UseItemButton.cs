@@ -17,8 +17,19 @@ public class UseItemButton : MonoBehaviour
         {
             // WIP: --> An dieser Stelle soll der Spieler geheilt werden.
         }
-
-        Debug.Log(InventoryManager.currIS.itemBase.name);
+        else if (InventoryManager.currIBP.itemType == ItemBaseProfile.ItemType.weapon)
+        {
+            if (InventoryManager.currIBP.weaponType == ItemBaseProfile.WeaponType.sword)
+            {
+                EquippingManager.instance.leftWeaponES.newItemToEquip = InventoryManager.currIBP;
+                EquippingManager.instance.leftWeaponES.ChangeEquippedItem();
+            }
+            else if (InventoryManager.currIBP.weaponType == ItemBaseProfile.WeaponType.bow)
+            {
+                EquippingManager.instance.bowES.newItemToEquip = InventoryManager.currIBP;
+                EquippingManager.instance.bowES.ChangeEquippedItem();
+            }
+        }
 
         if (InventoryManager.currIS.itemAmount - 1 > 0)
         {

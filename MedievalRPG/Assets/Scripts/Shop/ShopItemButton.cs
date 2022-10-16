@@ -14,7 +14,7 @@ public class ShopItemButton : MonoBehaviour
     public TMP_Text itemBuyPriceTxt;
     public TMP_Text itemMindLvlTxt;
 
-    public ShopCursor shopCursor;
+    public ClickCursor clickCursor;
 
     [HideInInspector] public bool isPressing = false;
     public float timeToPress = 1f;
@@ -24,7 +24,7 @@ public class ShopItemButton : MonoBehaviour
 
     public void Awake()
     {
-        shopCursor = ShopCursor.instance;
+        clickCursor = ClickCursor.instance;
     }
 
     public void Start()
@@ -64,7 +64,7 @@ public class ShopItemButton : MonoBehaviour
         if (isPressing)
         {
             pressedTime += Time.deltaTime;
-            shopCursor.cursorImg.fillAmount += 1.0f/timeToPress * Time.deltaTime;
+            clickCursor.cursorImg.fillAmount += 1.0f/timeToPress * Time.deltaTime;
 
             if (pressedTime >= timeToPress)
             {
@@ -79,7 +79,7 @@ public class ShopItemButton : MonoBehaviour
                     ShopManager.instance.BuyOrSellItem(storedItemBase, 1);
                 }
 
-                shopCursor.cursorImg.fillAmount = 0;
+                clickCursor.cursorImg.fillAmount = 0;
                 pressedTime = 0;
             }
         }
@@ -159,7 +159,7 @@ public class ShopItemButton : MonoBehaviour
     {
         isPressing = false;
 
-        shopCursor.cursorImg.fillAmount = 0;
+        clickCursor.cursorImg.fillAmount = 0;
         pressedTime = 0;
     }
 
@@ -171,7 +171,7 @@ public class ShopItemButton : MonoBehaviour
 
             isPressing = false;
 
-            shopCursor.cursorImg.fillAmount = 0;
+            clickCursor.cursorImg.fillAmount = 0;
             pressedTime = 0;
         }
     }

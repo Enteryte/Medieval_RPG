@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopCursor : MonoBehaviour
+public class ClickCursor : MonoBehaviour
 {
-    public static ShopCursor instance;
+    public static ClickCursor instance;
 
     public Image cursorImg;
 

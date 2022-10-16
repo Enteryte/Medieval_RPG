@@ -38,8 +38,6 @@ public class InventorySlotButton : MonoBehaviour
 
     public void DisplayAllItemInformationsOnClick()
     {
-        Debug.Log(this.gameObject.name);
-
         if (storedItemBase.isNew)
         {
             storedItemBase.isNew = false;
@@ -56,7 +54,7 @@ public class InventorySlotButton : MonoBehaviour
 
         if (!storedItemBase.neededForMissions)
         {
-            if (storedItemBase.itemType == ItemBaseProfile.ItemType.food)
+            if (storedItemBase.itemType == ItemBaseProfile.ItemType.food || storedItemBase.itemType == ItemBaseProfile.ItemType.weapon)
             {
                 InventoryManager.instance.useItemButton.SetActive(true);
             }
