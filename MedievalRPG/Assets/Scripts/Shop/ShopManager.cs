@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using StarterAssets;
 
 public class ShopManager : MonoBehaviour
 {
     public static ShopManager instance;
+
     public GameObject shopScreen;
+    public GameObject mainShopScreen;
     public HowManyScreen hMScreen;
     public BoughtOrSoldMessageScreen bOSMScreen;
 
@@ -39,16 +42,43 @@ public class ShopManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            DisplayShopItems();
+            if (mainShopScreen.activeSelf)
+            {
+                mainShopScreen.SetActive(false);
+            }
+            else if (shopScreen.activeSelf)
+            {
+                shopScreen.SetActive(false);
+
+                GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+            }
         }
+    }
+
+    public void OpenBuyScreen()
+    {
+        isBuying = true;
+
+        DisplayShopItems();
+
+        mainShopScreen.SetActive(true);
+    }
+
+    public void OpenSellScreen()
+    {
+        isBuying = false;
+
+        DisplayShopItems();
+
+        mainShopScreen.SetActive(true);
     }
 
     public void DisplayShopItems()

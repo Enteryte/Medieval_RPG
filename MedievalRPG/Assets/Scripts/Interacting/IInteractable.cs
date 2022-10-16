@@ -10,5 +10,7 @@ public interface IInteractable
 
     string GetInteractUIText();
 
+    float GetTimeTillInteract();
+
     InteractableObjectCanvas iOCanvas();
 }

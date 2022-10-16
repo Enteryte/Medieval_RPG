@@ -38,6 +38,11 @@ public class Item : MonoBehaviour, IInteractable
         return "Einsammeln";
     }
 
+    public float GetTimeTillInteract()
+    {
+        return 1.5f;
+    }
+
     public void Interact(Transform transform)
     {
         InventoryManager.instance.inventory.AddItem(iBP, amountToGet);

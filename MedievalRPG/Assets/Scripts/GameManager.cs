@@ -1,6 +1,8 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,15 +15,15 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void FreezeCameraAndSetMouseVisibility(ThirdPersonController tPC, StarterAssetsInputs _input, bool isVisible)
     {
-        
-    }
+        _input.cursorInputForLook = isVisible;
+        _input.cursorLocked = isVisible;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        tPC.LockCameraPosition = !isVisible;
+
+        Cursor.visible = !isVisible;
+
+        _input.SetCursorState(_input.cursorLocked);
     }
 }

@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +36,11 @@ public class Merchant : MonoBehaviour, IInteractable
         return "Sprechen";
     }
 
+    public float GetTimeTillInteract()
+    {
+        return 0;
+    }
+
     public void Interact(Transform transform)
     {
         ShopManager.currMBP = mBP;
@@ -52,6 +58,8 @@ public class Merchant : MonoBehaviour, IInteractable
         ShopManager.instance.DisplayShopItems();
 
         ShopManager.instance.shopScreen.SetActive(true);
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()

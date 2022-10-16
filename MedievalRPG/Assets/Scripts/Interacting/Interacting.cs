@@ -22,7 +22,7 @@ public class Interacting : MonoBehaviour
 
     [HideInInspector] public List<Transform> tIVR;
 
-    public float timeTillInteract = 5;
+    public static float timeTillInteract = 0;
     public float currClickedTime = 0;
 
     public GameObject interactCanvasPrefab;
@@ -109,8 +109,6 @@ public class Interacting : MonoBehaviour
         {
             Transform interactableObj = targetsInViewRadius2[i].transform;
 
-            Debug.Log(interactableObj.gameObject.name);
-
             Vector3 dirToObj = (interactableObj.position - transform.position).normalized;
             float distanceToObj = Vector3.Distance(transform.position, interactableObj.position);
 
@@ -136,22 +134,38 @@ public class Interacting : MonoBehaviour
                 howToInteractGO.SetActive(true);
                 howToInteractTxt.text = interactable.GetInteractUIText();
 
-                if (Input.GetKey(KeyCode.E) && currClickedTime < timeTillInteract)
-                {
-                    currClickedTime += Time.deltaTime;
-                    keyToPressFillImg.fillAmount += 1f / timeTillInteract * Time.deltaTime;
+                timeTillInteract = interactable.GetTimeTillInteract();
 
-                    if (currClickedTime >= timeTillInteract)
+                if (timeTillInteract > 0)
+                {
+                    if (Input.GetKey(KeyCode.E) && currClickedTime < timeTillInteract)
                     {
-                        interactable.Interact(nearestObjTrans);
+                        currClickedTime += Time.deltaTime;
+                        keyToPressFillImg.fillAmount += 1f / timeTillInteract * Time.deltaTime;
+
+                        if (currClickedTime >= timeTillInteract)
+                        {
+                            interactable.Interact(nearestObjTrans);
+                        }
+                    }
+
+                    if (Input.GetKeyUp(KeyCode.E))
+                    {
+                        currClickedTime = 0;
+
+                        keyToPressFillImg.fillAmount = 0;
                     }
                 }
-
-                if (Input.GetKeyUp(KeyCode.E))
+                else
                 {
-                    currClickedTime = 0;
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        interactable.Interact(nearestObjTrans);
 
-                    keyToPressFillImg.fillAmount = 0;
+                        currClickedTime = 0;
+
+                        keyToPressFillImg.fillAmount = 0;
+                    }
                 }
             }
         }
