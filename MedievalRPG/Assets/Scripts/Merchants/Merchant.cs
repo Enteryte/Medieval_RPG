@@ -6,7 +6,7 @@ using UnityEngine;
 public class Merchant : MonoBehaviour, IInteractable
 {
     public MerchantBaseProfile mBP;
-    public InteractableObjectCanvas iOCanvas;
+    [HideInInspector] public InteractableObjectCanvas iOCanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +60,13 @@ public class Merchant : MonoBehaviour, IInteractable
         ShopManager.instance.shopScreen.SetActive(true);
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+        for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)
+        {
+            Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
+        }
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()

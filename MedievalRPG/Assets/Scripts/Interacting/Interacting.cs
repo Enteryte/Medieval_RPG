@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -95,7 +96,7 @@ public class Interacting : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToObj, distanceToObj, obstacleMask))
                 {
-                    if (interactableObj.TryGetComponent(out IInteractable interactable))
+                    if (interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf)
                     {
                         interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
                     }
@@ -129,9 +130,13 @@ public class Interacting : MonoBehaviour
 
         if (nearestObjTrans != null)
         {
-            if (nearestObjTrans.TryGetComponent(out IInteractable interactable))
+            if (nearestObjTrans.TryGetComponent(out IInteractable interactable) && !ThirdPersonController.instance._animator.GetBool("Jump"))
             {
-                howToInteractGO.SetActive(true);
+                if (!ShopManager.instance.shopScreen.activeSelf)
+                {
+                    howToInteractGO.SetActive(true);
+                }
+
                 howToInteractTxt.text = interactable.GetInteractUIText();
 
                 timeTillInteract = interactable.GetTimeTillInteract();

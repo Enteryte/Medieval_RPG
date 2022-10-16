@@ -7,6 +7,8 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance;
 
+    public GameObject inventoryScreen;
+
     public InventoryBaseProfile inventory;
 
     public GameObject inventorySlotPrefab;
@@ -29,6 +31,8 @@ public class InventoryManager : MonoBehaviour
 
     public static ItemBaseProfile currIBP;
     public static InventorySlot currIS;
+
+    public List<InventoryCategoryButton> allInvCategoryButton;
 
     public void Awake()
     {

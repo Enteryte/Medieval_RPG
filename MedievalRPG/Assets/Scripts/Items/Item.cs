@@ -6,7 +6,7 @@ public class Item : MonoBehaviour, IInteractable
 {
     public ItemBaseProfile iBP;
 
-    public InteractableObjectCanvas iOCanvas;
+    [HideInInspector] public InteractableObjectCanvas iOCanvas;
 
     public int amountToGet = 1;
 

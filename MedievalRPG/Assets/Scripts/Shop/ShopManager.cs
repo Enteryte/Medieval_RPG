@@ -53,6 +53,10 @@ public class ShopManager : MonoBehaviour
             if (mainShopScreen.activeSelf)
             {
                 mainShopScreen.SetActive(false);
+
+                rightShopItemInformationGO.SetActive(false);
+
+                bOSMScreen.gameObject.SetActive(false);
             }
             else if (shopScreen.activeSelf)
             {
@@ -92,10 +96,6 @@ public class ShopManager : MonoBehaviour
             for (int i = 0; i < currSLBP.itemBaseProfiles.Length; i++)
             {
                 GameObject newShopItemButton = null;
-
-                Debug.Log(currSLBP);
-                Debug.Log(currSLBP.itemBaseProfiles[i]);
-                Debug.Log(currSLBP.itemBaseProfiles[i].itemType);
 
                 if (currSLBP.itemBaseProfiles[i].itemType == ItemBaseProfile.ItemType.food)
                 {

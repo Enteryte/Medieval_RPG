@@ -16,6 +16,10 @@ public class InteractableObjectCanvas : MonoBehaviour
 
     public GameObject correspondingGO;
 
+    [HideInInspector] private GameObject doorChildGO;
+
+    private bool isADoor = false;
+
     public void Awake()
     {
         
@@ -25,11 +29,25 @@ public class InteractableObjectCanvas : MonoBehaviour
     void Start()
     {
         iOCanvas = this.gameObject;
+
+        if (correspondingGO.GetComponent<Door>() != null)
+        {
+            isADoor = true;
+
+            doorChildGO = correspondingGO.transform.GetChild(0).gameObject;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.gameObject.transform.position = Camera.main.WorldToScreenPoint(correspondingGO.transform.position);
+        if (!isADoor)
+        {
+            this.gameObject.transform.position = Camera.main.WorldToScreenPoint(correspondingGO.transform.position);
+        }
+        else
+        {
+            this.gameObject.transform.position = Camera.main.WorldToScreenPoint(doorChildGO.transform.position);
+        }
     }
 }
