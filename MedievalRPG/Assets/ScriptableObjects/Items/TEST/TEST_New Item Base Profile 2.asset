@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Test Food Item
   itemDescription: This is a test for a food item.
-  itemType: 2
+  itemType: 1
   minLvlToUse: 0
   neededForMissions: 0
   isNew: 0
@@ -23,11 +23,14 @@ MonoBehaviour:
   buyPrice: 10
   sellingPrice: 8
   previewSpawnPositionZ: 2
-  amountInInventory: 0
-  stackable: 0
+  stackable: 1
   missionsWhereItsNeeded:
   - {fileID: 0}
   - {fileID: 0}
   foodHealValue: 10
+  timeTillValueIsHealed: 0
   weaponType: 1
+  isTwoHand: 0
   normalDamage: 0
+  potionType: 0
+  potionBuffValue: 0

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using System.Collections;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using Cinemachine;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -109,8 +111,27 @@ namespace StarterAssets
         private CharacterController _controller;
         [HideInInspector] public StarterAssetsInputs _input;
         private GameObject _mainCamera;
+        public CinemachineVirtualCamera _normalVCamera;
+        public CinemachineVirtualCamera _bowAimingVCamera;
+        public CinemachineVirtualCamera _bowAimingZoomVCamera;
 
         private const float _threshold = 0.01f;
+
+        [Header("Stamina")]
+        public float runStaminaReduceValue;
+        public float rollStaminaReduceValue;
+        public float jumpStaminaReduceValue;
+        public float normalAttackStaminaReduceValue;
+        public float heavyAttackStaminaReduceValue;
+
+        [Header("Attacking")]
+        public int attackClicks = 0;
+
+        [Header("Roll")]
+        [SerializeField] AnimationCurve rollCurve;
+        bool isRolling = false;
+        float rollTimer;
+        public CharacterController characterController;
 
         private bool _hasAnimator;
 
@@ -155,6 +176,9 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            Keyframe roll_lastFrame = rollCurve[rollCurve.length - 1];
+            rollTimer = roll_lastFrame.time;
         }
 
         private void Update()
@@ -165,7 +189,96 @@ namespace StarterAssets
             {
                 JumpAndGravity();
                 GroundedCheck();
-                Move();
+
+                if (!_animator.GetBool("Roll")/* && !_animator.GetBool("HeavyAttack") && attackClicks == 0*/)
+                {
+                    Move();
+                }
+
+                if (_animator.GetBool("Grounded"))
+                {
+                    if (!_animator.GetBool("Bow_Aim"))
+                    {
+                        if (Input.GetKeyDown(KeyCode.Mouse0) && attackClicks < 3)
+                        {
+                            if (attackClicks > 0 && PlayerValueManager.instance.currStamina - (normalAttackStaminaReduceValue * attackClicks) > 0
+                                || attackClicks == 0 && PlayerValueManager.instance.currStamina - normalAttackStaminaReduceValue > 0)
+                            {
+                                attackClicks += 1;
+                                _animator.SetInteger("AttackClicks", attackClicks);
+                            }
+                        }
+
+                        if (Input.GetKeyDown(KeyCode.Mouse1) && _animator.GetBool("Bow"))
+                        {
+                            _animator.SetBool("Bow_Aim", true);
+                            HandleBowAimingCameras(_bowAimingVCamera, _normalVCamera, _bowAimingZoomVCamera);
+                        }
+                        else if (Input.GetKeyDown(KeyCode.Mouse1) && !_animator.GetBool("Bow") && PlayerValueManager.instance.currStamina - heavyAttackStaminaReduceValue > 0)
+                        {
+                            _animator.SetBool("HeavyAttack", true);
+                        }
+
+                        if (_animator.GetBool("Grounded"))
+                        {
+                            if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
+                            {
+                                StartCoroutine(Roll());
+                            }
+                        }
+
+                        //if (_animator.GetBool("Roll"))
+                        //{
+                        //    this.gameObject.transform.forward += new Vector3(1, 0, 1);
+                        //}
+                    }
+                    else
+                    {
+                        if (Input.GetKeyDown(KeyCode.Mouse0) && PlayerValueManager.instance.currStamina - normalAttackStaminaReduceValue > 0)
+                        {
+                            _animator.SetBool("Bow_Shoot", true);
+                        }
+
+                        if (Input.GetKeyDown(KeyCode.Mouse1))
+                        {
+                            _animator.SetBool("Bow_Aim", false);
+                            HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
+                        }
+
+                        if (Input.GetKeyDown(KeyCode.Mouse2))
+                        {
+                            if (_bowAimingZoomVCamera.Priority == 12)
+                            {
+                                HandleBowAimingCameras(_bowAimingVCamera, _bowAimingZoomVCamera, _normalVCamera);
+                            }
+                            else
+                            {
+                                HandleBowAimingCameras(_bowAimingZoomVCamera, _bowAimingVCamera, _normalVCamera);
+                            }
+                        }
+
+                        if (/*_animator.GetBool("Grounded") && */!_animator.GetBool("Bow_Shoot"))
+                        {
+                            //if (Input.GetKeyDown(KeyCode.LeftShift) && !isRolling)
+                            //{
+                            //    HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
+                            //    _animator.SetBool("Bow_Aim", false);
+                            //    StartCoroutine(Roll());
+                            //}
+
+                            if (_animator.GetBool("Grounded") && !isRolling)
+                            {
+                                if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
+                                {
+                                    HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
+                                    _animator.SetBool("Bow_Aim", false);
+
+                                    StartCoroutine(Roll());
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -181,6 +294,35 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        }
+
+        IEnumerator Roll()
+        {
+            isRolling = true;
+
+            PlayerValueManager.instance.RemoveStamina(rollStaminaReduceValue);
+
+            _animator.SetBool("Roll", true);
+
+            float timer = 0;
+
+            while (timer < rollTimer)
+            {
+                float speed = rollCurve.Evaluate(timer);
+
+                Vector3 dir = ((transform.forward * speed) * 2);
+                characterController.Move(dir * Time.deltaTime);
+
+                timer += Time.deltaTime;
+
+                yield return null;
+            }
+
+            _animator.SetBool("Roll", false);
+
+            yield return new WaitForSeconds(0.4f);
+
+            isRolling = false;
         }
 
         private void GroundedCheck()
@@ -222,13 +364,27 @@ namespace StarterAssets
         private void Move()
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            float targetSpeed;
+
+            if (!_animator.GetBool("Bow_Aim") && PlayerValueManager.instance.currStamina - runStaminaReduceValue > 0)
+            {
+                targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+
+                if (_input.sprint && _input.move != Vector2.zero)
+                {
+                    PlayerValueManager.instance.RemoveStamina(runStaminaReduceValue);
+                }
+            }
+            else
+            {
+                targetSpeed = MoveSpeed;
+            }
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+            if (_input.move == Vector2.zero || attackClicks > 0 || _animator.GetBool("HeavyAttack")) targetSpeed = 0.0f;
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
@@ -272,8 +428,13 @@ namespace StarterAssets
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
 
-
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+
+            if (attackClicks > 0 || _animator.GetBool("HeavyAttack"))
+            {
+                targetDirection = Vector3.zero;
+                _verticalVelocity = 0;
+            }
 
             // move the player
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
@@ -289,7 +450,7 @@ namespace StarterAssets
 
         private void JumpAndGravity()
         {
-            if (Grounded)
+            if (Grounded && !_animator.GetBool("Roll") && !_animator.GetBool("HeavyAttack") && attackClicks == 0)
             {
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
@@ -308,7 +469,7 @@ namespace StarterAssets
                 }
 
                 // Jump
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                if (_input.jump && _jumpTimeoutDelta <= 0.0f && PlayerValueManager.instance.currStamina - jumpStaminaReduceValue > 0)
                 {
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
@@ -318,6 +479,8 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDJump, true);
                     }
+
+                    PlayerValueManager.instance.RemoveStamina(jumpStaminaReduceValue);
                 }
 
                 // jump timeout
@@ -395,6 +558,51 @@ namespace StarterAssets
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
             }
+        }
+
+        public void CheckAttackClicks(int currAttackNumber)
+        {
+            if (attackClicks <= currAttackNumber)
+            {
+                attackClicks = 0;
+                _animator.SetInteger("AttackClicks", attackClicks);
+            }
+        }
+
+        public void ReduceStaminaWhenStartingAttack()
+        {
+            //if (!_animator.GetBool("Bow_Shoot"))
+            //{
+            //    _speed = 0;
+            //    _animationBlend = 0;
+            //    _animator.SetFloat(_animIDSpeed, 0);
+            //}
+
+            if (_animator.GetBool("HeavyAttack") && attackClicks == 0)
+            {
+                PlayerValueManager.instance.RemoveStamina(heavyAttackStaminaReduceValue);
+            }
+            else
+            {
+                PlayerValueManager.instance.RemoveStamina(normalAttackStaminaReduceValue);
+            }
+        }
+
+        public void ResetBowShootingBool()
+        {
+            _animator.SetBool("Bow_Shoot", false);
+        }
+
+        public void ResetHeavyAttackBool()
+        {
+            _animator.SetBool("HeavyAttack", false);
+        }
+
+        public void HandleBowAimingCameras(CinemachineVirtualCamera newMainCam, CinemachineVirtualCamera newNotMainCam, CinemachineVirtualCamera newNotMainCam2)
+        {
+            newMainCam.Priority = 12;
+            newNotMainCam.Priority = 11;
+            newNotMainCam2.Priority = 10;
         }
     }
 }

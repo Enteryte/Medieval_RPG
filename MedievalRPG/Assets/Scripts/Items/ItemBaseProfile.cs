@@ -14,7 +14,9 @@ public class ItemBaseProfile : ScriptableObject
     {
         none,
         food,
-        weapon
+        potion,
+        weapon,
+        bookOrNote
     }
 
     [Tooltip("The type of the item.")] public ItemType itemType;
@@ -43,6 +45,7 @@ public class ItemBaseProfile : ScriptableObject
 
     #region FoodItem Values
     [HideInInspector] public float foodHealValue;
+    [HideInInspector] public float timeTillValueIsHealed;
     #endregion
 
     #region WeaponItem Values
@@ -50,11 +53,32 @@ public class ItemBaseProfile : ScriptableObject
     {
         none,
         sword,
-        bow
+        shield,
+        bow,
+        halberd,
+        axe,
+        torch,
+        stone
     }
 
     [HideInInspector] [Tooltip("The type of the weapon.")] public WeaponType weaponType;
+
+    [HideInInspector] public bool isTwoHand = false;
     [HideInInspector] [Tooltip("The normal damage value of the weapon.")] [Min(0)] public float normalDamage;
+    #endregion
+
+    #region PotionItem Values
+    public enum PotionType
+    {
+        none,
+        healing,
+        stamina,
+        speed,
+        strength
+    }
+
+    [HideInInspector] [Tooltip("The type of the potion.")] public PotionType potionType;
+    [HideInInspector] [Tooltip("The normal damage value of the weapon.")] [Min(0)] public float potionBuffValue;
     #endregion
 
     [CustomEditor(typeof(ItemBaseProfile))]
@@ -94,10 +118,8 @@ public class ItemBaseProfile : ScriptableObject
 
                 iBP.foodHealValue = EditorGUILayout.FloatField("Heal Value", iBP.foodHealValue);
 
-                if (iBP.foodHealValue < 0)
-                {
-                    iBP.foodHealValue = 0;
-                }
+                CheckIfItemValueIsZero(iBP.foodHealValue);
+                CheckIfItemValueIsZero(iBP.timeTillValueIsHealed);
 
                 iBP.stackable = true;
             }
@@ -106,27 +128,49 @@ public class ItemBaseProfile : ScriptableObject
                 EditorGUILayout.LabelField("Weapon Values", EditorStyles.boldLabel);
 
                 iBP.weaponType = (ItemBaseProfile.WeaponType)EditorGUILayout.EnumPopup("Weapon Type", iBP.weaponType);
+                iBP.isTwoHand = EditorGUILayout.Toggle("Two-Hand-Weapon", iBP.isTwoHand);
                 iBP.normalDamage = EditorGUILayout.FloatField("Normal Damage", iBP.normalDamage);
 
-                if (iBP.normalDamage < 0)
-                {
-                    iBP.normalDamage = 0;
-                }
+                CheckIfItemValueIsZero(iBP.normalDamage);
 
                 iBP.stackable = false;
             }
+            else if (iBP.itemType == ItemType.potion)
+            {
+                EditorGUILayout.LabelField("Potion Values", EditorStyles.boldLabel);
+
+                iBP.potionType = (ItemBaseProfile.PotionType)EditorGUILayout.EnumPopup("Potion Type", iBP.potionType);
+                iBP.potionBuffValue = EditorGUILayout.FloatField("Buff Value", iBP.potionBuffValue);
+
+                CheckIfItemValueIsZero(iBP.potionBuffValue);
+
+                iBP.stackable = true;
+
+                if (iBP.potionType == PotionType.none)
+                {
+                    EditorGUILayout.Space();
+
+                    EditorGUILayout.HelpBox("PotionType: You need to set the type of the potion.", MessageType.Warning);
+                }
+            }
+
+            CheckIfItemValueIsZero(iBP.buyPrice);
+            CheckIfItemValueIsZero(iBP.sellingPrice);
 
             if (iBP.sellingPrice > iBP.buyPrice)
             {
                 iBP.sellingPrice = iBP.buyPrice;
             }
 
-            //if (iBP.amountInInventory < 0)
-            //{
-            //    iBP.amountInInventory = 0;
-            //}
-
             EditorUtility.SetDirty(target);
+        }
+
+        public void CheckIfItemValueIsZero(float valueToCheck)
+        {
+            if (valueToCheck < 0)
+            {
+                valueToCheck = 0;
+            }
         }
     }
 }

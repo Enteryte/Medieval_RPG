@@ -33,6 +33,7 @@ public class Interacting : MonoBehaviour
     public TMP_Text howToInteractTxt;
     public Image keyToPressFillImg;
 
+
     public void Awake()
     {
         instance = this;
@@ -103,7 +104,10 @@ public class Interacting : MonoBehaviour
                 }
             }
 
-            tIVR.Add(interactableObj);
+            if (!tIVR.Contains(interactableObj))
+            {
+                tIVR.Add(interactableObj);
+            }
         }
 
         for (int i = 0; i < targetsInViewRadius2.Length; i++)
@@ -171,6 +175,15 @@ public class Interacting : MonoBehaviour
 
                         keyToPressFillImg.fillAmount = 0;
                     }
+                }
+            }
+            else if (nearestObjTrans.TryGetComponent(out Enemy enemy))
+            {
+                Debug.Log("ENEMY");
+
+                if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
                 }
             }
         }

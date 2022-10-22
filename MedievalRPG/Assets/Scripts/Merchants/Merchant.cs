@@ -8,6 +8,12 @@ public class Merchant : MonoBehaviour, IInteractable
     public MerchantBaseProfile mBP;
     [HideInInspector] public InteractableObjectCanvas iOCanvas;
 
+    public float maxMoneyMerchantCanSpend;
+    public float currMoneyMerchantSpend = 0;
+
+    public float timeTillMoneyResets;
+    [HideInInspector] public float currPassedTime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +23,48 @@ public class Merchant : MonoBehaviour, IInteractable
     // Update is called once per frame
     void Update()
     {
-        
+        if (currMoneyMerchantSpend > 0)
+        {
+            currPassedTime += Time.deltaTime;
+
+            if (currPassedTime >= timeTillMoneyResets)
+            {
+                ResetMerchantSpendableMoney();
+            }
+        }
+    }
+
+    public void ResetMerchantSpendableMoney()
+    {
+        currMoneyMerchantSpend = 0;
+        currPassedTime = 0;
+
+        Debug.Log("RESET");
+    }
+
+    public void AddSpendableMoney(float moneyToAdd)
+    {
+        currMoneyMerchantSpend -= moneyToAdd;
+
+        if (currMoneyMerchantSpend <= 0)
+        {
+            currPassedTime = 0;
+
+            if (currMoneyMerchantSpend < 0)
+            {
+                currMoneyMerchantSpend = 0;
+            }
+        }
+    }
+
+    public void RemoveSpendableMoney(float moneyToRemove)
+    {
+        currMoneyMerchantSpend += moneyToRemove;
+
+        if (currMoneyMerchantSpend > maxMoneyMerchantCanSpend)
+        {
+            Debug.Log("SPENDED MONEY IS TO HIGH!");
+        }
     }
 
     public void InstantiateIOCanvas()

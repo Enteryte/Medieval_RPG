@@ -119,8 +119,11 @@ public class ShopManager : MonoBehaviour
                     }
                 }
 
-                newShopItemButton.GetComponent<ShopItemButton>().storedItemBase = currSLBP.itemBaseProfiles[i];
-                newShopItemButton.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
+                if (newShopItemButton != null)
+                {
+                    newShopItemButton.GetComponent<ShopItemButton>().storedItemBase = currSLBP.itemBaseProfiles[i];
+                    newShopItemButton.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
+                }
             }
         }
         else
@@ -151,8 +154,11 @@ public class ShopManager : MonoBehaviour
                     }
                 }
 
-                newShopItemButton.GetComponent<ShopItemButton>().storedItemBase = InventoryManager.instance.inventory.slots[i].itemBase;
-                newShopItemButton.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
+                if (newShopItemButton != null)
+                {
+                    newShopItemButton.GetComponent<ShopItemButton>().storedItemBase = InventoryManager.instance.inventory.slots[i].itemBase;
+                    newShopItemButton.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
+                }
             }
         }
     }
@@ -200,7 +206,7 @@ public class ShopManager : MonoBehaviour
 
             Debug.Log("Bought: " + itemBase.itemName);
 
-            GameManager.instance.playerMoney -= (itemBase.buyPrice * amount);
+            PlayerValueManager.instance.money -= (itemBase.buyPrice * amount);
 
             bOSMScreen.boughtOrSoldTxt.text = "Item erworben";
         }
@@ -210,7 +216,7 @@ public class ShopManager : MonoBehaviour
 
             Debug.Log("Sold: " + itemBase.itemName);
 
-            GameManager.instance.playerMoney += (itemBase.sellingPrice * amount);
+            PlayerValueManager.instance.money += (itemBase.sellingPrice * amount);
 
             bOSMScreen.boughtOrSoldTxt.text = "Item verkauft";
         }

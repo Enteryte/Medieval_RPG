@@ -86,7 +86,7 @@ public class ShopItemButton : MonoBehaviour
 
         if (ShopManager.instance.isBuying)
         {
-            if (GameManager.instance.playerMoney >= storedItemBase.buyPrice)
+            if (PlayerValueManager.instance.money >= storedItemBase.buyPrice)
             {
                 btnComp.interactable = true;
             }
@@ -144,7 +144,7 @@ public class ShopItemButton : MonoBehaviour
     {
         if (ShopManager.instance.isBuying)
         {
-            if (GameManager.instance.playerMoney >= storedItemBase.buyPrice)
+            if (PlayerValueManager.instance.money >= storedItemBase.buyPrice)
             {
                 isPressing = true;
             }

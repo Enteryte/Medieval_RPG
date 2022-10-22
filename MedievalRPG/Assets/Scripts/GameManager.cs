@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject playerGO;
 
-    public int playerMoney = 0;
+    public ItemBaseProfile iBPOfEscapeRope;
+
+    public bool playedTheGameThrough = false; // Soll true sein, sobald der Spieler das Spiel zum ersten Mal durchgespielt hat.
 
     public void Awake()
     {

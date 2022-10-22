@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HowManyScreen : MonoBehaviour
 {
     public static ItemBaseProfile currItem;
-    public int currAmountInInv = 0;
+    public int currAmountInInv;
 
     public int currAmount = 0;
 
@@ -50,7 +50,7 @@ public class HowManyScreen : MonoBehaviour
         }
         else
         {
-            if (currItem.buyPrice * (currAmount + 1) <= GameManager.instance.playerMoney)
+            if (currItem.buyPrice * (currAmount + 1) <= PlayerValueManager.instance.money)
             {
                 currAmount += 1;
             }
@@ -71,11 +71,14 @@ public class HowManyScreen : MonoBehaviour
         }
         else if (currAmount == 0 && !ShopManager.instance.isBuying)
         {
+            //float weight = (InventoryManager.instance.currInvWeight + ((currAmountInInv * currItem.itemWeight) 
+            //    * (currItem.sellingPrice * GameManager.instance.coinWeightValue)));
+
             currAmount = currAmountInInv;
         }
         else if (currAmount == 0 && ShopManager.instance.isBuying)
         {
-            currAmount = ((int)GameManager.instance.playerMoney / currItem.buyPrice);
+            currAmount = ((int)PlayerValueManager.instance.money / currItem.buyPrice);          
         }
 
         currAmountTxt.text = currAmount.ToString();

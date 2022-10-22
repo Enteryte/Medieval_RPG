@@ -34,6 +34,9 @@ public class InventoryManager : MonoBehaviour
 
     public List<InventoryCategoryButton> allInvCategoryButton;
 
+    public float maxInvWeight;
+    public float currInvWeight;
+
     public void Awake()
     {
         instance = this;
@@ -104,5 +107,15 @@ public class InventoryManager : MonoBehaviour
         {
             rightInventoryScreen.gameObject.SetActive(true);
         }
+    }
+
+    public void AddInvWeight(float weightToAdd)
+    {
+        currInvWeight += weightToAdd;
+    }
+
+    public void RemoveInvWeight(float weightToRemove)
+    {
+        currInvWeight -= weightToRemove;
     }
 }
