@@ -22,7 +22,7 @@ public class InteractableObjectCanvas : MonoBehaviour
 
     public void Awake()
     {
-        
+
     }
 
     // Start is called before the first frame update

@@ -97,7 +97,7 @@ public class Interacting : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToObj, distanceToObj, obstacleMask))
                 {
-                    if (interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf)
+                    if (interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf)
                     {
                         interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
                     }
@@ -136,7 +136,7 @@ public class Interacting : MonoBehaviour
         {
             if (nearestObjTrans.TryGetComponent(out IInteractable interactable) && !ThirdPersonController.instance._animator.GetBool("Jump"))
             {
-                if (!ShopManager.instance.shopScreen.activeSelf)
+                if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf)
                 {
                     howToInteractGO.SetActive(true);
                 }
