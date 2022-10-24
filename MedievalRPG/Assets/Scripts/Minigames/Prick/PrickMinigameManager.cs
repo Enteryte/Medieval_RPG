@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using StarterAssets;
 
 public class PrickMinigameManager : MonoBehaviour
 {
     public static PrickMinigameManager instance;
+
+    public Camera prickCamera;
 
     public Animator prickCardAnimator;
 
@@ -17,11 +20,18 @@ public class PrickMinigameManager : MonoBehaviour
 
     public TMP_Text playerPointsTxt;
     public TMP_Text enemyPointsTxt;
+    public TMP_Text playerMoneyTxt;
 
     public AnimationClip endRoundAnim;
     public AnimationClip startNewMatchAnim;
 
     public bool playerStartedRound = false;
+
+    public float winMoneyAmount;
+
+    public Button startNewMatchBtn;
+
+    public GameObject prickUI;
 
     [Header("Cards")]
     public List<PrickCardBase> allCards;
@@ -31,6 +41,7 @@ public class PrickMinigameManager : MonoBehaviour
 
     [Header("Player")]
     public AnimationClip layPlayerCardAnim;
+    public AnimationClip playerLayCardSecondAnim;
     public GameObject layedPlayerCardObj;
     public GameObject layerPlayerCardObjMiddle;
 
@@ -40,12 +51,33 @@ public class PrickMinigameManager : MonoBehaviour
 
     [Header("Enemy")]
     public AnimationClip layEnemyCardAnim;
+    public AnimationClip enemyLayCardFirstAnim;
     public GameObject layedEnemyCardObj;
     public GameObject layerEnemyCardObjMiddle;
 
     public PrickCardBase layedEnemyCB;
 
     public GameObject[] enemyCardGOs;
+
+    public void OnEnable()
+    {
+        playerPoints = 0;
+        enemyPoints = 0;
+
+        playerMoneyTxt.text = PlayerValueManager.instance.money.ToString();
+
+        playerPointsTxt.text = playerPoints.ToString();
+        enemyPointsTxt.text = enemyPoints.ToString();
+
+        if (PlayerValueManager.instance.money >= winMoneyAmount)
+        {
+            startNewMatchBtn.interactable = true;
+        }
+        else
+        {
+            startNewMatchBtn.interactable = false;
+        }
+    }
 
     public void Awake()
     {
@@ -54,7 +86,29 @@ public class PrickMinigameManager : MonoBehaviour
 
     public void Start()
     {
-        StartNewMatch();
+        startNewMatchBtn.onClick.AddListener(StartNewMatch);
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && startNewMatchBtn.GetComponent<Button>().interactable && prickEnemy.currentPlayableCards.Count == 0)
+        {
+            prickUI.SetActive(false);
+            prickCamera.enabled = false;
+
+            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+
+            this.enabled = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && PlayerValueManager.instance.money == 0)
+        {
+            prickUI.SetActive(false);
+            prickCamera.enabled = false;
+
+            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+
+            this.enabled = false;
+        }
     }
 
     public void DisablePrickAnimator()
@@ -143,9 +197,24 @@ public class PrickMinigameManager : MonoBehaviour
             enemyPoints += 1;
         }
  
-
         playerPointsTxt.text = playerPoints.ToString();
         enemyPointsTxt.text = enemyPoints.ToString();
+
+        if (prickEnemy.currentPlayableCards.Count == 0)
+        {
+            if (playerPoints > enemyPoints)
+            {
+                PlayerValueManager.instance.money += winMoneyAmount;
+            }
+            else if (playerPoints < enemyPoints)
+            {
+                PlayerValueManager.instance.money -= winMoneyAmount;
+            }
+
+            playerMoneyTxt.text = PlayerValueManager.instance.money.ToString();
+
+            startNewMatchBtn.interactable = true;
+        }
 
         //layedEnemyCB = null;
         //layedPlayerCB = null;
@@ -158,9 +227,23 @@ public class PrickMinigameManager : MonoBehaviour
         layedEnemyCB = null;
         layedPlayerCB = null;
 
-        for (int i = 0; i < playerCardGOs.Length; i++)
+        if (!playerStartedRound)
         {
-            playerCardGOs[i].GetComponent<Button>().interactable = true;
+            for (int i = 0; i < playerCardGOs.Length; i++)
+            {
+                playerCardGOs[i].GetComponent<Button>().interactable = true;
+            }
+
+            playerStartedRound = true;
+        }
+        else
+        {
+            if (prickEnemy.currentPlayableCards.Count > 0)
+            {
+                playerStartedRound = false;
+
+                prickEnemy.StartRound();
+            }
         }
     }
 
@@ -175,14 +258,26 @@ public class PrickMinigameManager : MonoBehaviour
     {
         for (int i = 0; i < PrickMinigameManager.instance.playerCardGOs.Length; i++)
         {
-            PrickMinigameManager.instance.playerCardGOs[i].GetComponent<Button>().interactable = false;
+            playerCardGOs[i].GetComponent<Button>().interactable = false;
+            playerCardGOs[i].GetComponent<LayoutElement>().ignoreLayout = false;
         }
 
         allUnusedCards.Clear();
 
         currGivenCardNumber = 0;
 
-        allUnusedCards = allCards;
+        playerPoints = 0;
+        enemyPoints = 0;
+
+        playerPointsTxt.text = playerPoints.ToString();
+        enemyPointsTxt.text = enemyPoints.ToString();
+
+        for (int i = 0; i < allCards.Count; i++)
+        {
+            allUnusedCards.Add(allCards[i]);
+        }
+
+        startNewMatchBtn.interactable = false;
 
         prickCardAnimator.enabled = true;
         prickCardAnimator.Play(startNewMatchAnim.name);
@@ -207,18 +302,21 @@ public class PrickMinigameManager : MonoBehaviour
 
         if (currGivenCardNumber >= 9)
         {
-            for (int i = 0; i < PrickMinigameManager.instance.playerCardGOs.Length; i++)
-            {
-                PrickMinigameManager.instance.playerCardGOs[i].GetComponent<Button>().interactable = true;
-            }
+            //if (playerStartedRound)
+            //{
+            //    for (int i = 0; i < PrickMinigameManager.instance.playerCardGOs.Length; i++)
+            //    {
+            //        PrickMinigameManager.instance.playerCardGOs[i].GetComponent<Button>().interactable = true;
+            //    }
+            //}
 
             prickCardAnimator.enabled = false;
 
             playerStartedRound = !playerStartedRound;
 
-            if (playerStartedRound)
+            if (!playerStartedRound)
             {
-
+                prickEnemy.StartRound();
             }
         }
 

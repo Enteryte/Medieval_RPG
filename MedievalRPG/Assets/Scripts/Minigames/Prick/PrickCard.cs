@@ -142,6 +142,14 @@ public class PrickCard : MonoBehaviour
         PrickMinigameManager.instance.layerPlayerCardObjMiddle.GetComponent<PrickCard>().cardBack.GetComponent<Image>().sprite = pCB.cardSprite;
 
         PrickMinigameManager.instance.prickCardAnimator.enabled = true;
-        PrickMinigameManager.instance.prickCardAnimator.Play(PrickMinigameManager.instance.layPlayerCardAnim.name);
+
+        if (PrickMinigameManager.instance.playerStartedRound)
+        {
+            PrickMinigameManager.instance.prickCardAnimator.Play(PrickMinigameManager.instance.layPlayerCardAnim.name);
+        }
+        else
+        {
+            PrickMinigameManager.instance.prickCardAnimator.Play(PrickMinigameManager.instance.playerLayCardSecondAnim.name);
+        }
     }
 }
