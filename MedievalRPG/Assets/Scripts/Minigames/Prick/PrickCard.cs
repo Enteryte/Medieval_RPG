@@ -123,6 +123,11 @@ public class PrickCard : MonoBehaviour
 
     public void LayCardDown()
     {
+        for (int i = 0; i < PrickMinigameManager.instance.playerCardGOs.Length; i++)
+        {
+            PrickMinigameManager.instance.playerCardGOs[i].GetComponent<Button>().interactable = false;
+        }
+
         PrickMinigameManager.instance.layedPlayerCB = pCB;
 
         emptyCard.SetActive(false);
