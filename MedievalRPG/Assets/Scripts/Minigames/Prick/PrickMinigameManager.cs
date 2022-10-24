@@ -249,7 +249,14 @@ public class PrickMinigameManager : MonoBehaviour
 
     IEnumerator StartEnemyCardPick()
     {
-        yield return new WaitForSeconds(Random.Range(1, 2.5f));
+        if (prickEnemy.currentPlayableCards.Count > 1)
+        {
+            yield return new WaitForSeconds(Random.Range(1f, 2.5f));
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.3f);
+        }
 
         prickEnemy.PlayCard();
     }

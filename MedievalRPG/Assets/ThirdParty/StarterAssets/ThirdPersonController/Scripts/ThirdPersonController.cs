@@ -133,6 +133,10 @@ namespace StarterAssets
         float rollTimer;
         public CharacterController characterController;
 
+        [Header("Slowed Roll")]
+        [SerializeField] AnimationCurve slowedRollCurve;
+        float slowedRollTimer;
+
         private bool _hasAnimator;
 
         private bool IsCurrentDeviceMouse
@@ -179,10 +183,15 @@ namespace StarterAssets
 
             Keyframe roll_lastFrame = rollCurve[rollCurve.length - 1];
             rollTimer = roll_lastFrame.time;
+
+            Keyframe slowedRoll_lastFrame = slowedRollCurve[slowedRollCurve.length - 1];
+            slowedRollTimer = slowedRoll_lastFrame.time;
         }
 
         private void Update()
         {
+            //Debug.Log(_animator.speed);
+
             _hasAnimator = TryGetComponent(out _animator);
 
             if (!ShopManager.instance.shopScreen.activeSelf && !InventoryManager.instance.inventoryScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf
@@ -224,7 +233,16 @@ namespace StarterAssets
                         {
                             if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
                             {
-                                StartCoroutine(Roll());
+                                if (DebuffManager.instance.slowPlayerDebuff)
+                                {
+                                    _animator.speed = 1;
+
+                                    StartCoroutine(SlowedRoll());
+                                }
+                                else
+                                {
+                                    StartCoroutine(Roll());
+                                }
                             }
                         }
 
@@ -274,7 +292,17 @@ namespace StarterAssets
                                     HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
                                     _animator.SetBool("Bow_Aim", false);
 
-                                    StartCoroutine(Roll());
+                                    if (DebuffManager.instance.slowPlayerDebuff)
+                                    {
+                                        //DebuffManager.instance.slowPlayerDebuff = false;
+                                        _animator.speed = 1;
+
+                                        StartCoroutine(SlowedRoll());
+                                    }
+                                    else
+                                    {
+                                        StartCoroutine(Roll());
+                                    }
                                 }
                             }
                         }
@@ -311,7 +339,17 @@ namespace StarterAssets
             {
                 float speed = rollCurve.Evaluate(timer);
 
-                Vector3 dir = ((transform.forward * speed) * 2);
+                Vector3 dir = Vector3.zero;
+
+                //if (DebuffManager.instance.slowPlayerDebuff)
+                //{
+                //    dir = ((transform.forward * (speed - DebuffManager.instance.slowedFightSpeed) * 2));
+                //}
+                //else
+                //{
+                    dir = ((transform.forward * speed * 2));
+                //}
+
                 characterController.Move(dir * Time.deltaTime);
 
                 timer += Time.deltaTime;
@@ -320,6 +358,50 @@ namespace StarterAssets
             }
 
             _animator.SetBool("Roll", false);
+
+            yield return new WaitForSeconds(0.4f);
+
+            isRolling = false;
+        }
+
+        IEnumerator SlowedRoll()
+        {
+            isRolling = true;
+
+            PlayerValueManager.instance.RemoveStamina(rollStaminaReduceValue);
+
+            _animator.SetBool("Roll", true);
+
+            float timer = 0;
+
+            while (timer < slowedRollTimer)
+            {
+                float speed = slowedRollCurve.Evaluate(timer);
+
+                Vector3 dir = Vector3.zero;
+
+                //if (DebuffManager.instance.slowPlayerDebuff)
+                //{
+                //    dir = ((transform.forward * (speed - DebuffManager.instance.slowedFightSpeed) * 2));
+                //}
+                //else
+                //{
+                dir = ((transform.forward * /*((*/speed * 2/*) / 2)*/));
+                //}
+
+                characterController.Move(dir * Time.deltaTime);
+
+                timer += Time.deltaTime;
+
+                yield return null;
+            }
+
+            _animator.SetBool("Roll", false);
+
+            if (DebuffManager.instance.slowPlayerDebuff)
+            {
+                _animator.speed = 0.5f;
+            }
 
             yield return new WaitForSeconds(0.4f);
 
@@ -367,9 +449,16 @@ namespace StarterAssets
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed;
 
-            if (!_animator.GetBool("Bow_Aim") && PlayerValueManager.instance.currStamina - runStaminaReduceValue > 0)
+            if (!_animator.GetBool("Bow_Aim") && PlayerValueManager.instance.currStamina - runStaminaReduceValue > 0 && !DebuffManager.instance.slowPlayerDebuff)
             {
-                targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+                //if (DebuffManager.instance.slowPlayerDebuff)
+                //{
+                //    targetSpeed = _input.sprint ? DebuffManager.instance.slowedSprintSpeed : DebuffManager.instance.slowedMoveSpeed;
+                //}
+                //else
+                //{
+                    targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+                //}
 
                 if (_input.sprint && _input.move != Vector2.zero)
                 {
@@ -378,7 +467,14 @@ namespace StarterAssets
             }
             else
             {
-                targetSpeed = MoveSpeed;
+                //if (DebuffManager.instance.slowPlayerDebuff)
+                //{
+                //    targetSpeed = DebuffManager.instance.slowedMoveSpeed;
+                //}
+                //else
+                //{
+                    targetSpeed = MoveSpeed;
+                //}
             }
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon

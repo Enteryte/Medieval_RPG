@@ -13,7 +13,7 @@ public class PrickCardBase : ScriptableObject
         cross = 4,
         spades = 1,
         heart = 2,
-        diamonds = 3
+        diamond = 3
     }
 
     public CardColor cardColor = CardColor.none;

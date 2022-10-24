@@ -33,6 +33,9 @@ public class PlayerValueManager : MonoBehaviour
 
         staminaSlider.maxValue = normalStamina;
         staminaSlider.value = currStamina;
+
+        healthSlider.maxValue = normalHP;
+        healthSlider.value = currHP;
     }
 
     // Start is called before the first frame update
@@ -44,18 +47,38 @@ public class PlayerValueManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currStamina < normalStamina && currWaitingTime < timeTillRefillStamina)
+        if (!DebuffManager.instance.lowerStaminaDebuff)
         {
-            currWaitingTime += Time.deltaTime;
-        }
-        else if (currWaitingTime >= timeTillRefillStamina)
-        {
-            staminaSlider.value += Mathf.Lerp(currStamina, normalStamina, Time.deltaTime * 1f);
-            currStamina = staminaSlider.value;
-
-            if (currStamina >= normalStamina)
+            if (currStamina < normalStamina && currWaitingTime < timeTillRefillStamina)
             {
-                currWaitingTime = 0;
+                currWaitingTime += Time.deltaTime;
+            }
+            else if (currWaitingTime >= timeTillRefillStamina)
+            {
+                staminaSlider.value += Mathf.Lerp(currStamina, normalStamina, Time.deltaTime * 1f);
+                currStamina = staminaSlider.value;
+
+                if (currStamina >= normalStamina)
+                {
+                    currWaitingTime = 0;
+                }
+            }
+        }
+        else
+        {
+            if (currStamina < DebuffManager.instance.loweredMaxStamina && currWaitingTime < timeTillRefillStamina)
+            {
+                currWaitingTime += Time.deltaTime;
+            }
+            else if (currWaitingTime >= timeTillRefillStamina)
+            {
+                staminaSlider.value += Mathf.Lerp(currStamina, DebuffManager.instance.loweredMaxStamina, Time.deltaTime * 1f);
+                currStamina = staminaSlider.value;
+
+                if (currStamina >= DebuffManager.instance.loweredMaxStamina)
+                {
+                    currWaitingTime = 0;
+                }
             }
         }
     }
