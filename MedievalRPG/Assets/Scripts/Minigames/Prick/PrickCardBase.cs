@@ -10,10 +10,10 @@ public class PrickCardBase : ScriptableObject
     public enum CardColor
     {
         none,
-        cross,
-        spades,
-        heart,
-        diamonds
+        cross = 4,
+        spades = 1,
+        heart = 2,
+        diamond = 3
     }
 
     public CardColor cardColor = CardColor.none;

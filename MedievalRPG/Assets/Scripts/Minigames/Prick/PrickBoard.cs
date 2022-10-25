@@ -28,8 +28,8 @@ public class PrickBoard : MonoBehaviour, IInteractable
     public void Interact(Transform transform)
     {
         prickManagerTrans.GetComponent<PrickMinigameManager>().enabled = true;
-        //gTCManagerTrans.GetComponent<GuessTheCardMinigameManager>().gTCUI.SetActive(true);
-        //gTCManagerTrans.GetComponent<GuessTheCardMinigameManager>().gTCCamera.enabled = true;
+        prickManagerTrans.GetComponent<PrickMinigameManager>().prickUI.SetActive(true);
+        prickManagerTrans.GetComponent<PrickMinigameManager>().prickCamera.enabled = true;
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
 

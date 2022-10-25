@@ -123,6 +123,11 @@ public class PrickCard : MonoBehaviour
 
     public void LayCardDown()
     {
+        for (int i = 0; i < PrickMinigameManager.instance.playerCardGOs.Length; i++)
+        {
+            PrickMinigameManager.instance.playerCardGOs[i].GetComponent<Button>().interactable = false;
+        }
+
         PrickMinigameManager.instance.layedPlayerCB = pCB;
 
         emptyCard.SetActive(false);
@@ -137,6 +142,14 @@ public class PrickCard : MonoBehaviour
         PrickMinigameManager.instance.layerPlayerCardObjMiddle.GetComponent<PrickCard>().cardBack.GetComponent<Image>().sprite = pCB.cardSprite;
 
         PrickMinigameManager.instance.prickCardAnimator.enabled = true;
-        PrickMinigameManager.instance.prickCardAnimator.Play(PrickMinigameManager.instance.layPlayerCardAnim.name);
+
+        if (PrickMinigameManager.instance.playerStartedRound)
+        {
+            PrickMinigameManager.instance.prickCardAnimator.Play(PrickMinigameManager.instance.layPlayerCardAnim.name);
+        }
+        else
+        {
+            PrickMinigameManager.instance.prickCardAnimator.Play(PrickMinigameManager.instance.playerLayCardSecondAnim.name);
+        }
     }
 }
