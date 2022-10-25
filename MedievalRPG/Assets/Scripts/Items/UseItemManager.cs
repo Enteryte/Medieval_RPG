@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +8,21 @@ public class UseItemManager : MonoBehaviour
 {
     public static UseItemManager instance;
 
+    public ThirdPersonController tPC;
     public PlayerValueManager pVM;
 
     public ItemBaseProfile test;
 
     public bool ateFood = false;
+    public bool hasStrengthBuff = false;
+    public bool hasSpeedBuff = false;
+
+    public float higherStrengthValue;
+    public float higherSpeedValue;
 
     public Coroutine foodHealingCoro;
+    public Coroutine strengthBuffCoro;
+    public Coroutine speedBuffCoro;
 
     public void Awake()
     {
@@ -22,10 +31,10 @@ public class UseItemManager : MonoBehaviour
 
     public void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.N))
-        //{
-        //    UseFoodItem(test);
-        //}
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            UseSpeedPotion(test);
+        }
 
         //if (Input.GetKeyDown(KeyCode.B))
         //{
@@ -83,12 +92,22 @@ public class UseItemManager : MonoBehaviour
 
     public void UseSpeedPotion(ItemBaseProfile iBP)
     {
+        if (!hasSpeedBuff)
+        {
+            hasSpeedBuff = true;
 
+            speedBuffCoro = StartCoroutine(TimeTillSpeedBuffIsOver(iBP));
+        }
     }
 
     public void UseStrengthPotion(ItemBaseProfile iBP)
     {
+        if (!hasStrengthBuff)
+        {
+            hasStrengthBuff = true;
 
+            strengthBuffCoro = StartCoroutine(TimeTillStrengthBuffIsOver(iBP));
+        }
     }
 
     IEnumerator TimeTillFoodHealed(ItemBaseProfile iBP) // ! -> Könnte sein, dass es auch weiterheilt, wenn der Spieler Damage bekommt. Ggf. sobald er DMG bekommt -> Coroutine abbrechen und Heilung beenden.
@@ -122,5 +141,29 @@ public class UseItemManager : MonoBehaviour
         ateFood = false;
 
         foodHealingCoro = null;
+    }
+
+    IEnumerator TimeTillStrengthBuffIsOver(ItemBaseProfile iBP)
+    {
+        higherStrengthValue = PlayerValueManager.instance.normalStrength + iBP.potionBuffValue;
+
+        yield return new WaitForSecondsRealtime(10);
+
+        hasStrengthBuff = false;
+
+        strengthBuffCoro = null;
+    }
+
+    IEnumerator TimeTillSpeedBuffIsOver(ItemBaseProfile iBP)
+    {
+        tPC._animator.speed = 1.5f;
+
+        yield return new WaitForSecondsRealtime(10);
+
+        tPC._animator.speed = 1f;
+
+        hasSpeedBuff = false;
+
+        speedBuffCoro = null;
     }
 }

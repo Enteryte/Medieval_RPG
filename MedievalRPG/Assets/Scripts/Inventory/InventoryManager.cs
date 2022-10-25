@@ -34,6 +34,10 @@ public class InventoryManager : MonoBehaviour
 
     public List<InventoryCategoryButton> allInvCategoryButton;
 
+    public GameObject draggableInvSlotPrefab;
+    public Transform draggableInvSlotParent;
+
+    [Header("Weight")]
     public float maxInvWeight;
     public float currInvWeight;
 

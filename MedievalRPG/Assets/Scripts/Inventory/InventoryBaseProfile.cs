@@ -43,6 +43,9 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
                 if (slots[i].itemBase.stackable)
                 {
                     slots[i].AddAmount(amount);
+
+                    UpdateHotbarItems(item);
+
                     return;
                 }
             }
@@ -71,11 +74,15 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
                         slots.Remove(slots[i]);
                     }
 
+                    UpdateHotbarItems(item);
+
                     return;
                 }
                 else
                 {
                     slots.Remove(slots[i]);
+
+                    UpdateHotbarItems(item);
 
                     return;
                 }
@@ -102,6 +109,42 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
     public void OnBeforeSerialize()
     {
 
+    }
+
+    public void UpdateHotbarItems(ItemBaseProfile usedItemBP)
+    {
+        for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
+        {
+            bool containsItem = false;
+
+            if (HotbarManager.instance.allHotbarSlotBtn[i].iBP != null && HotbarManager.instance.allHotbarSlotBtn[i].iBP == usedItemBP)
+            {
+                for (int y = 0; y < slots.Count; y++)
+                {
+                    if (slots[y].itemBase == usedItemBP)
+                    {
+                        containsItem = true;
+
+                        break;
+                    }
+                }
+
+                if (containsItem)
+                {
+                    HotbarManager.instance.allHotbarSlotBtn[i].SetItemAmountInInv();
+
+                    HotbarManager.instance.allHotbarSlotBtn[i].itemSpriteImg.sprite = HotbarManager.instance.allHotbarSlotBtn[i].iBP.itemSprite;
+                    HotbarManager.instance.allHotbarSlotBtn[i].itemAmountTxt.text = HotbarManager.instance.allHotbarSlotBtn[i].itemAmountInInv.ToString();
+
+                    HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = HotbarManager.instance.allHotbarSlotBtn[i].iBP.itemSprite;
+                    HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn.itemAmountTxt.text = HotbarManager.instance.allHotbarSlotBtn[i].itemAmountInInv.ToString();
+                }
+                else
+                {
+                    HotbarManager.instance.allHotbarSlotBtn[i].RemoveStoredItem();
+                }
+            }
+        }
     }
 }
 
