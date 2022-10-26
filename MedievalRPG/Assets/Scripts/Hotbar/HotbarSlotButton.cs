@@ -18,11 +18,6 @@ public class HotbarSlotButton : MonoBehaviour
 
     [HideInInspector] public bool isOverButton = false;
 
-    public void Start()
-    {
-
-    }
-
     public void ChangeHotbarSlotItem(ItemBaseProfile newItemBP)
     {
         var oldIBP = iBP;

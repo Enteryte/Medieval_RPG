@@ -33,7 +33,6 @@ public class Interacting : MonoBehaviour
     public TMP_Text howToInteractTxt;
     public Image keyToPressFillImg;
 
-
     public void Awake()
     {
         instance = this;

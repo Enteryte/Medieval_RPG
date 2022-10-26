@@ -2,71 +2,52 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Merchant : MonoBehaviour, IInteractable
+[RequireComponent(typeof(Collider), typeof(NavMeshAgent))]
+public class NPC : MonoBehaviour, IInteractable
 {
-    public MerchantBaseProfile mBP;
     public NPCBaseProfile nPCBP;
+
     [HideInInspector] public InteractableObjectCanvas iOCanvas;
 
-    //public float maxMoneyMerchantCanSpend;
-    //public float currMoneyMerchantSpend = 0;
+    public Animator animator;
 
-    //public float timeTillMoneyResets;
-    //[HideInInspector] public float currPassedTime;
+    public List<CutsceneProfile> possibleNormalDialogues;
 
-    // Start is called before the first frame update
+    public NPCWaypoint firstWaypoint;
+    public NPCWaypoint currWaypoint;
+
+    public NavMeshAgent navMeshAgent;
+
+    public GameObject iOCanvasLookAtObj;
+
+    public bool isInDialogue = false;
+
     void Start()
     {
         InstantiateIOCanvas();
+
+        if (firstWaypoint != null)
+        {
+            SetNewWaypoint(firstWaypoint);
+        }
+
+        GameManager.instance.allVillageNPCs.Add(this);
     }
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    if (currMoneyMerchantSpend > 0)
-    //    {
-    //        currPassedTime += Time.deltaTime;
+    public void Update()
+    {
+        if (currWaypoint != null)
+        {
+            navMeshAgent.SetDestination(currWaypoint.transform.position);
+        }
+    }
 
-    //        if (currPassedTime >= timeTillMoneyResets)
-    //        {
-    //            ResetMerchantSpendableMoney();
-    //        }
-    //    }
-    //}
-
-    //public void ResetMerchantSpendableMoney()
-    //{
-    //    currMoneyMerchantSpend = 0;
-    //    currPassedTime = 0;
-
-    //    Debug.Log("RESET");
-    //}
-
-    //public void AddSpendableMoney(float moneyToAdd)
-    //{
-    //    currMoneyMerchantSpend -= moneyToAdd;
-
-    //    if (currMoneyMerchantSpend <= 0)
-    //    {
-    //        currPassedTime = 0;
-
-    //        if (currMoneyMerchantSpend < 0)
-    //        {
-    //            currMoneyMerchantSpend = 0;
-    //        }
-    //    }
-    //}
-
-    //public void RemoveSpendableMoney(float moneyToRemove)
-    //{
-    //    currMoneyMerchantSpend += moneyToRemove;
-
-    //    if (currMoneyMerchantSpend > maxMoneyMerchantCanSpend)
-    //    {
-    //        Debug.Log("SPENDED MONEY IS TO HIGH!");
-    //    }
-    //}
+    public void SetNewWaypoint(NPCWaypoint newWaypoint)
+    {
+        currWaypoint = newWaypoint;
+    }
 
     public void InstantiateIOCanvas()
     {
@@ -91,21 +72,15 @@ public class Merchant : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
-        ShopManager.currMBP = mBP;
+        CutsceneManager.instance.currCP = possibleNormalDialogues[Random.Range(0, possibleNormalDialogues.Count)];
+        CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+        CutsceneManager.instance.playableDirector.Play();
 
-        if (mBP.changesItems)
-        {
-            // WIP
-            Debug.Log("WIP!");
-        }
-        else
-        {
-            ShopManager.instance.currSLBP = mBP.shopListBaseProfile;
-        }
+        navMeshAgent.isStopped = true;
+        animator.SetBool("IsStanding", true);
+        transform.LookAt(GameManager.instance.playerGO.transform);
 
-        ShopManager.instance.DisplayShopItems();
-
-        ShopManager.instance.shopScreen.SetActive(true);
+        isInDialogue = true;
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
 

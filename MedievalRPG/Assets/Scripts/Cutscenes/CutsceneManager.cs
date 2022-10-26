@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -83,5 +84,22 @@ public class CutsceneManager : MonoBehaviour
     public void SkipCutscene(float timeTillWhereToSkip)
     {
         playableDirector.time = timeTillWhereToSkip;
+    }
+
+    public void ResetNPCAfterDialogue()
+    {
+        for (int i = 0; i < GameManager.instance.allVillageNPCs.Count; i++)
+        {
+            if (GameManager.instance.allVillageNPCs[i].isInDialogue)
+            {
+                GameManager.instance.allVillageNPCs[i].isInDialogue = false;
+
+                GameManager.instance.allVillageNPCs[i].navMeshAgent.isStopped = false;
+                GameManager.instance.allVillageNPCs[i].animator.SetBool("IsStanding", false);
+                GameManager.instance.allVillageNPCs[i].transform.LookAt(null);                
+            }
+        }
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 }
