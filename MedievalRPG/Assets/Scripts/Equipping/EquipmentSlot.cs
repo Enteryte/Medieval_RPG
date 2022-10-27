@@ -67,6 +67,13 @@ public class EquipmentSlot : MonoBehaviour
         if (currEquippedItem != null)
         {
             InventoryManager.instance.inventory.AddItem(currEquippedItem, 1);
+
+            InventoryManager.instance.RemoveHoldingWeight(currEquippedItem.weight);
+        }
+
+        if (newItemToEquip != null)
+        {
+            InventoryManager.instance.AddHoldingWeight(newItemToEquip.weight);
         }
 
         currEquippedItem = newItemToEquip;

@@ -33,7 +33,7 @@ public class UseItemManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            UseSpeedPotion(test);
+            UseBookOrNote(test);
         }
 
         //if (Input.GetKeyDown(KeyCode.B))
@@ -55,6 +55,58 @@ public class UseItemManager : MonoBehaviour
         //        currWaitingTime = 0;
         //    }
         //}
+    }
+
+    public void UseBookOrNote(ItemBaseProfile iBP)
+    {
+        if (MissionManager.instance.allCurrAcceptedMissions.Count > 1)
+        {
+            for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
+            {
+                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 1)
+                {
+                    for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
+                    {
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.read
+                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.noteOrBookToReadIBP == iBP)
+                        {
+                            MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                        }
+                    }
+                }
+                else
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.read
+                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.noteOrBookToReadIBP == iBP)
+                    {
+                        MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (MissionManager.instance.allCurrAcceptedMissions[0].allMissionTasks.Length > 1)
+            {
+                for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[0].allMissionTasks.Length; y++)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions[0].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.read
+                        && MissionManager.instance.allCurrAcceptedMissions[0].allMissionTasks[y].mTB.noteOrBookToReadIBP == iBP)
+                    {
+                        MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[0], MissionManager.instance.allCurrAcceptedMissions[0].allMissionTasks[y].mTB);
+                    }
+                }
+            }
+            else
+            {
+                if (MissionManager.instance.allCurrAcceptedMissions[0].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.read
+                        && MissionManager.instance.allCurrAcceptedMissions[0].allMissionTasks[0].mTB.noteOrBookToReadIBP == iBP)
+                {
+                    MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[0], MissionManager.instance.allCurrAcceptedMissions[0].allMissionTasks[0].mTB);
+                }
+            }
+        }
+
     }
 
     public void UseEscapeRope()

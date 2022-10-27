@@ -30,6 +30,10 @@ public class MissionBaseProfile : ScriptableObject
     public MissionBaseProfile nextMissionToTrigger;
     public CutsceneProfile cutsceneToTrigger;
 
+    [Header("Side mission")] // If it's a side mission.
+    public MissionBaseProfile missionAfterItsActive; // Mission after which THIS mission gets activted.
+    public bool isActive = false;
+
     [Header("Change Environment")]
     public bool changeEnvironment = false;
 

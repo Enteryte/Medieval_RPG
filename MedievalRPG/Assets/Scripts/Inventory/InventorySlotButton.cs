@@ -91,22 +91,28 @@ public class InventorySlotButton : MonoBehaviour
 
     public void InstantiateDraggableCopy()
     {
-        HotbarManager.currDraggedIBP = storedItemBase;
+        if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon)
+        {
+            HotbarManager.currDraggedIBP = storedItemBase;
 
-        GameObject newDraggableSlot = Instantiate(InventoryManager.instance.draggableInvSlotPrefab, Input.mousePosition, Quaternion.identity, InventoryManager.instance.draggableInvSlotParent);
+            GameObject newDraggableSlot = Instantiate(InventoryManager.instance.draggableInvSlotPrefab, Input.mousePosition, Quaternion.identity, InventoryManager.instance.draggableInvSlotParent);
 
-        newDraggableSlot.GetComponent<DraggableInventorySlot>().SetInformations();
+            newDraggableSlot.GetComponent<DraggableInventorySlot>().SetInformations();
 
-        newDraggableSlot.GetComponent<DraggableInventorySlot>().iBPImg.color = newDraggableSlot.GetComponent<DraggableInventorySlot>().cantBeSetColor;
+            newDraggableSlot.GetComponent<DraggableInventorySlot>().iBPImg.color = newDraggableSlot.GetComponent<DraggableInventorySlot>().cantBeSetColor;
 
-        HotbarManager.instance.currDraggableInventorySlotObj = newDraggableSlot;
+            HotbarManager.instance.currDraggableInventorySlotObj = newDraggableSlot;
+        }
     }
 
     public void OnClickAndLeaveSlot()
     {
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon)
         {
-            InstantiateDraggableCopy();
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                InstantiateDraggableCopy();
+            }
         }
     }
 }

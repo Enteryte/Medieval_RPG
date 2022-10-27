@@ -37,7 +37,7 @@ public class DebuffManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Bleeding();
+            SlowPlayer();
         }
     }
 
@@ -47,7 +47,7 @@ public class DebuffManager : MonoBehaviour
 
         slowPlayerDebuff = true;
 
-        tPC._animator.speed = 0.5f;
+        ThirdPersonController.instance.MoveSpeed = 0.7f;
 
         slowPlayerCoro = StartCoroutine(TimeTillSlowDebuffIsOver());
     }
@@ -110,7 +110,12 @@ public class DebuffManager : MonoBehaviour
             yield return null;
         }
 
-        tPC._animator.speed = 1;
+        if (InventoryManager.instance.currHoldingWeight <= InventoryManager.instance.maxHoldingWeight)
+        {
+            tPC._animator.speed = 1;
+
+            ThirdPersonController.instance.MoveSpeed = ThirdPersonController.instance.normalMoveSpeed;
+        }
 
         slowPlayerDebuff = false;
 

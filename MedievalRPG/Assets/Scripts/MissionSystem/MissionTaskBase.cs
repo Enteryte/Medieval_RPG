@@ -43,6 +43,10 @@ public class MissionTaskBase : ScriptableObject
     [HideInInspector] public CutsceneProfile dialogAfterKilledFirstEnemy;
     #endregion
 
+    #region Read Task Values
+    [HideInInspector] public ItemBaseProfile noteOrBookToReadIBP;
+    #endregion
+
     #region GoTo Task Values
     [HideInInspector] public GameObject missionTriggerBoxToGoTo;
     #endregion
@@ -117,6 +121,16 @@ public class MissionTaskBase : ScriptableObject
                 var property3 = serializedObject.FindProperty("dialogAfterKilledFirstEnemy");
                 serializedObject.Update();
                 EditorGUILayout.PropertyField(property3, true);
+                serializedObject.ApplyModifiedProperties();
+            }
+            else if (mTB.missionTaskType == MissionTaskType.read)
+            {
+                EditorGUILayout.LabelField("Read-Task-Values", EditorStyles.boldLabel);
+
+                var serializedObject = new SerializedObject(target);
+                var property = serializedObject.FindProperty("noteOrBookToReadIBP");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property, true);
                 serializedObject.ApplyModifiedProperties();
             }
             else if (mTB.missionTaskType == MissionTaskType.go_To)

@@ -14,6 +14,7 @@ public class NPC : MonoBehaviour, IInteractable
     public Animator animator;
 
     public List<CutsceneProfile> possibleNormalDialogues;
+    public List<MissionBaseProfile> allSideMissionsWithNPC;
 
     public NPCWaypoint firstWaypoint;
     public NPCWaypoint currWaypoint;
@@ -76,8 +77,13 @@ public class NPC : MonoBehaviour, IInteractable
         CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
         CutsceneManager.instance.playableDirector.Play();
 
-        navMeshAgent.isStopped = true;
-        animator.SetBool("IsStanding", true);
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.isStopped = true;
+
+            animator.SetBool("IsStanding", true);
+        }
+
         transform.LookAt(GameManager.instance.playerGO.transform);
 
         isInDialogue = true;

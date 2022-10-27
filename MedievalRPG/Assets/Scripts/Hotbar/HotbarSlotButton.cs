@@ -24,6 +24,16 @@ public class HotbarSlotButton : MonoBehaviour
 
         iBP = newItemBP;
 
+        if (oldIBP != null)
+        {
+            InventoryManager.instance.RemoveHoldingWeight(oldIBP.weight);
+        }
+
+        if (newItemBP != null)
+        {
+            InventoryManager.instance.AddHoldingWeight(newItemBP.weight);
+        }
+
         for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
         {
             if (HotbarManager.instance.allHotbarSlotBtn[i].iBP != null && HotbarManager.instance.allHotbarSlotBtn[i].iBP == newItemBP && HotbarManager.instance.allHotbarSlotBtn[i] != this)

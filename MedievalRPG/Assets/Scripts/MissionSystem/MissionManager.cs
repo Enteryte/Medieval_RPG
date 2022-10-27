@@ -18,6 +18,17 @@ public class MissionManager : MonoBehaviour
         instance = this;
     }
 
+    public void Start()
+    {
+        if (allCurrOpenNotAcceptedMissions.Count > 0)
+        {
+            for (int i = 0; i < allCurrOpenNotAcceptedMissions.Count; i++)
+            {
+                AddOpenMission(allCurrOpenNotAcceptedMissions[i]);
+            }
+        }
+    }
+
     public void AddMission(MissionBaseProfile missionToAdd)
     {
         allCurrAcceptedMissions.Add(missionToAdd);
@@ -25,6 +36,20 @@ public class MissionManager : MonoBehaviour
         if (allCurrOpenNotAcceptedMissions.Contains(missionToAdd))
         {
             allCurrOpenNotAcceptedMissions.Remove(missionToAdd);
+
+            if (missionToAdd.missionType == MissionBaseProfile.MissionType.side)
+            {
+                Debug.Log("JKS");
+
+                for (int i = 0; i < Blackboard.instance.allBlackboardMB.Length; i++)
+                {
+                    if (Blackboard.instance.allBlackboardMB[i].storedMissionBP == missionToAdd)
+                    {
+                        Blackboard.instance.allBlackboardMB[i].SetStoredMission(null);
+                        Blackboard.instance.allBlackboardMB[i].gameObject.SetActive(false);
+                    }
+                }
+            }
         }
     }
 
@@ -32,6 +57,47 @@ public class MissionManager : MonoBehaviour
     {
         allCurrAcceptedMissions.Remove(missionToRemove);
     }
+
+    public void AddOpenMission(MissionBaseProfile missionToAdd)
+    {
+        if (!allCurrOpenNotAcceptedMissions.Contains(missionToAdd))
+        {
+            allCurrOpenNotAcceptedMissions.Add(missionToAdd);
+        }
+
+        if (missionToAdd.missionType == MissionBaseProfile.MissionType.side)
+        {
+            for (int i = 0; i < Blackboard.instance.allBlackboardMB.Length; i++)
+            {
+                if (Blackboard.instance.allBlackboardMB[i].storedMissionBP == null)
+                {
+                    Blackboard.instance.allBlackboardMB[i].SetStoredMission(missionToAdd);
+                    Blackboard.instance.allBlackboardMB[i].gameObject.SetActive(true);
+
+                    return;
+                }
+            }
+        }
+    }
+
+    //public void RemoveOpenMission(BlackboardMissionButton blackboardMB, MissionBaseProfile missionToRemove)
+    //{
+    //    allCurrOpenNotAcceptedMissions.Remove(missionToAdd);
+
+    //    if (missionToAdd.missionType == MissionBaseProfile.MissionType.side)
+    //    {
+    //        for (int i = 0; i < Blackboard.instance.allBlackboardMB.Length; i++)
+    //        {
+    //            if (Blackboard.instance.allBlackboardMB[i].storedMissionBP == null)
+    //            {
+    //                Blackboard.instance.allBlackboardMB[i].SetStoredMission(missionToAdd);
+    //                Blackboard.instance.allBlackboardMB[i].gameObject.SetActive(true);
+
+    //                return;
+    //            }
+    //        }
+    //    }
+    //}
 
     public void CheckMissionTaskProgress(MissionBaseProfile mBP, MissionTaskBase missionTaskToCheck)
     {
@@ -107,6 +173,11 @@ public class MissionManager : MonoBehaviour
         {
             ChangeEnvironmentAfterMission(missionToComplete);
         }
+
+        if (missionToComplete.missionAfterItsActive != null)
+        {
+            CheckSideMissions(missionToComplete.missionAfterItsActive);
+        }
     }
 
     public void ChangeEnvironmentAfterMission(MissionBaseProfile mission)
@@ -123,5 +194,27 @@ public class MissionManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void CheckSideMissions(MissionBaseProfile missionToCheckFor)
+    {
+        missionToCheckFor.isActive = true;
+
+        AddOpenMission(missionToCheckFor);
+
+        //for (int i = 0; i < GameManager.instance.allVillageNPCs.Count; i++)
+        //{
+        //    for (int y = 0; y < GameManager.instance.allVillageNPCs[i].allSideMissionsWithNPC.Count; y++)
+        //    {
+        //        if (GameManager.instance.allVillageNPCs[i].allSideMissionsWithNPC[y].missionAfterItsActive == missionToCheckFor)
+        //        {
+        //            GameManager.instance.allVillageNPCs[i].allSideMissionsWithNPC[y].isActive = true;
+
+        //            AddOpenMission(GameManager.instance.allVillageNPCs[i].allSideMissionsWithNPC[y]);
+
+        //            Debug.Log("NHJS");
+        //        }
+        //    }
+        //}
     }
 }

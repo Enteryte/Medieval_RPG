@@ -218,6 +218,17 @@ public class ShopManager : MonoBehaviour
 
             PlayerValueManager.instance.money += (itemBase.sellingPrice * amount);
 
+            //if (EquippingManager.instance.bowES.currEquippedItem == itemBase)
+            //{
+            //    EquippingManager.instance.bowES.newItemToEquip = null;
+            //    EquippingManager.instance.bowES.ChangeEquippedItem();
+            //}
+            //else if (EquippingManager.instance.leftWeaponES.currEquippedItem == itemBase)
+            //{
+            //    EquippingManager.instance.bowES.newItemToEquip = null;
+            //    EquippingManager.instance.bowES.ChangeEquippedItem();
+            //}
+
             bOSMScreen.boughtOrSoldTxt.text = "Item verkauft";
         }
 
