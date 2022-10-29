@@ -9,6 +9,8 @@ public class Merchant : MonoBehaviour, IInteractable
     public NPCBaseProfile nPCBP;
     [HideInInspector] public InteractableObjectCanvas iOCanvas;
 
+    public GameObject iOCanvasLookAtObj;
+
     //public float maxMoneyMerchantCanSpend;
     //public float currMoneyMerchantSpend = 0;
 

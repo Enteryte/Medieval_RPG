@@ -44,6 +44,12 @@ public class InteractableObjectCanvas : MonoBehaviour
 
             iOCanvasLookAtObj = correspondingGO.GetComponent<NPC>().iOCanvasLookAtObj;
         }
+        else if (correspondingGO.GetComponent<Merchant>() != null)
+        {
+            isANPC = true;
+
+            iOCanvasLookAtObj = correspondingGO.GetComponent<Merchant>().iOCanvasLookAtObj;
+        }
     }
 
     // Update is called once per frame
