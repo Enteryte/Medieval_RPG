@@ -137,6 +137,8 @@ namespace StarterAssets
         public AnimationClip rollAnim;
         bool rollStopMoving = false;
 
+        public Transform currSeatTrans;
+
         private bool _hasAnimator;
 
         private bool IsCurrentDeviceMouse
@@ -195,7 +197,7 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
 
             if (!ShopManager.instance.shopScreen.activeSelf && !InventoryManager.instance.inventoryScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf
-                && !PrickMinigameManager.instance.prickUI.activeSelf)
+                && !PrickMinigameManager.instance.prickUI.activeSelf && currSeatTrans == null)
             {
                 JumpAndGravity();
                 GroundedCheck();
@@ -768,6 +770,12 @@ namespace StarterAssets
             newMainCam.Priority = 12;
             newNotMainCam.Priority = 11;
             newNotMainCam2.Priority = 10;
+        }
+
+        public void SetPlayerToSeatPos()
+        {
+            GameManager.instance.playerGO.transform.position = new Vector3(currSeatTrans.GetComponent<SeatingObject>().iOCanvasLookAtSitPlaceObj.transform.position.x, GameManager.instance.playerGO.transform.position.y,
+                currSeatTrans.GetComponent<SeatingObject>().iOCanvasLookAtSitPlaceObj.transform.position.z);
         }
     }
 }

@@ -36,7 +36,12 @@ namespace StarterAssets
 
 		public void OnJump(InputValue value)
 		{
-			JumpInput(value.isPressed);
+            if (!ShopManager.instance.shopScreen.activeSelf && !InventoryManager.instance.inventoryScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf
+                && !PrickMinigameManager.instance.prickUI.activeSelf && ThirdPersonController.instance.currSeatTrans == null 
+                && PlayerValueManager.instance.currStamina - ThirdPersonController.instance.jumpStaminaReduceValue > 0)
+            {
+                JumpInput(value.isPressed);
+            }
 		}
 
 		public void OnSprint(InputValue value)

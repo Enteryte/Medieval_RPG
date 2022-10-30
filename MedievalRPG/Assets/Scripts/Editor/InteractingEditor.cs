@@ -12,6 +12,7 @@ public class InteractingEditor : Editor
 
         DrawFieldOfView(interacting, interacting.viewRadius, interacting.viewAngle, Color.red);
         DrawFieldOfView(interacting, interacting.viewRadius2, interacting.viewAngle2, Color.blue);
+        DrawFieldOfView(interacting, interacting.viewRadius3, interacting.viewAngle3, Color.black);
     }
 
     public void DrawFieldOfView(Interacting interacting, float viewRadius, float viewAngle, Color wireColor)
