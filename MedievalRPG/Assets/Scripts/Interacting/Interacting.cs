@@ -100,7 +100,8 @@ public class Interacting : MonoBehaviour
                 if (!Physics.Raycast(transform.position, dirToObj, distanceToObj, obstacleMask))
                 {
                     if (interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf
-                        && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf && ThirdPersonController.instance.currSeatTrans == null)
+                        && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf && ThirdPersonController.instance.currSeatTrans == null
+                        && !Blackboard.instance.blackboardCam.enabled)
                     {
                         interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
                     }
@@ -143,7 +144,8 @@ public class Interacting : MonoBehaviour
                 {
                     if (nearestObjTrans.TryGetComponent(out SeatingObject seatObj) && Vector3.Distance(seatObj.iOCanvasLookAtSitPlaceObj.transform.position, this.gameObject.transform.position) < 0.7f)
                     {
-                        if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf)
+                        if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                            && !Blackboard.instance.blackboardCam.enabled)
                         {
                             howToInteractGO.SetActive(true);
 
@@ -154,7 +156,8 @@ public class Interacting : MonoBehaviour
                     }
                     else if (!nearestObjTrans.TryGetComponent(out SeatingObject seatObj2))
                     {
-                        if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf)
+                        if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                            && !Blackboard.instance.blackboardCam.enabled)
                         {
                             howToInteractGO.SetActive(true);
 

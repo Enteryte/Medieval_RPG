@@ -37,7 +37,7 @@ public class DebuffManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            SlowPlayer();
+            Bleeding();
         }
     }
 

@@ -197,7 +197,7 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
 
             if (!ShopManager.instance.shopScreen.activeSelf && !InventoryManager.instance.inventoryScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf
-                && !PrickMinigameManager.instance.prickUI.activeSelf && currSeatTrans == null)
+                && !PrickMinigameManager.instance.prickUI.activeSelf && currSeatTrans == null && !Blackboard.instance.blackboardCam.enabled)
             {
                 JumpAndGravity();
                 GroundedCheck();
@@ -223,6 +223,11 @@ namespace StarterAssets
 
                                 attackClicks += 1;
                                 _animator.SetInteger("AttackClicks", attackClicks);
+
+                                if (_animator.GetLayerWeight(1) != 0.5f)
+                                {
+                                    _animator.SetLayerWeight(1, 0.5f);
+                                }
                             }
                         }
 
@@ -239,9 +244,14 @@ namespace StarterAssets
                             //}
 
                             _animator.SetBool("HeavyAttack", true);
+
+                            //if (_animator.GetLayerWeight(1) != 0.5f)
+                            //{
+                            //    _animator.SetLayerWeight(1, 0.5f);
+                            //}
                         }
 
-                        if (_animator.GetBool("Grounded"))
+                        if (_animator.GetBool("Grounded") && attackClicks == 0)
                         {
                             if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
                             {
@@ -302,7 +312,7 @@ namespace StarterAssets
                             //    StartCoroutine(Roll());
                             //}
 
-                            if (_animator.GetBool("Grounded") && !isRolling)
+                            if (_animator.GetBool("Grounded") && !isRolling && attackClicks == 0)
                             {
                                 if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
                                 {
@@ -717,6 +727,11 @@ namespace StarterAssets
                     {
                         _animator.speed = 1f;
                     }
+
+                    if (_animator.GetLayerWeight(1) != 0)
+                    {
+                        _animator.SetLayerWeight(1, 0f);
+                    }
                 }
             }
         }
@@ -763,6 +778,11 @@ namespace StarterAssets
             {
                 _animator.speed = 1f;
             }
+
+            if (_animator.GetLayerWeight(1) != 0)
+            {
+                _animator.SetLayerWeight(1, 0f);
+            }
         }
 
         public void HandleBowAimingCameras(CinemachineVirtualCamera newMainCam, CinemachineVirtualCamera newNotMainCam, CinemachineVirtualCamera newNotMainCam2)
@@ -776,6 +796,18 @@ namespace StarterAssets
         {
             GameManager.instance.playerGO.transform.position = new Vector3(currSeatTrans.GetComponent<SeatingObject>().iOCanvasLookAtSitPlaceObj.transform.position.x, GameManager.instance.playerGO.transform.position.y,
                 currSeatTrans.GetComponent<SeatingObject>().iOCanvasLookAtSitPlaceObj.transform.position.z);
+        }
+
+        public void SetAnimatorLayerBlending() // Only used in Animation Events
+        {
+            //if (_animator.GetLayerWeight(1) != 0.5f)
+            //{
+            //    _animator.SetLayerWeight(1, 0.5f);
+            //}
+            if (_animator.GetLayerWeight(1) != 0)
+            {
+                _animator.SetLayerWeight(1, 0f);
+            }
         }
     }
 }

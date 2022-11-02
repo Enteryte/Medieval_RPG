@@ -39,24 +39,24 @@ public class ShopManager : MonoBehaviour
         instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (mainShopScreen.activeSelf)
+            if (hMScreen.gameObject.activeSelf)
+            {
+                hMScreen.gameObject.SetActive(false);
+            }
+            else if (mainShopScreen.activeSelf)
             {
                 mainShopScreen.SetActive(false);
 
                 rightShopItemInformationGO.SetActive(false);
 
                 bOSMScreen.gameObject.SetActive(false);
+
+                hMScreen.gameObject.SetActive(false);
             }
             else if (shopScreen.activeSelf)
             {

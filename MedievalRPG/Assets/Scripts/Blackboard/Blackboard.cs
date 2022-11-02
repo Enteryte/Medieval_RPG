@@ -9,7 +9,7 @@ public class Blackboard : MonoBehaviour, IInteractable
 
     [HideInInspector] public InteractableObjectCanvas iOCanvas;
 
-    public GameObject blackboardUI;
+    public Camera blackboardCam;
     public BlackboardMissionButton[] allBlackboardMB;
 
     public void Awake()
@@ -24,13 +24,13 @@ public class Blackboard : MonoBehaviour, IInteractable
 
     public void Update()
     {
-        if (blackboardUI.activeSelf)
+        if (blackboardCam.enabled)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
-                blackboardUI.SetActive(false);
+                blackboardCam.enabled = false;
             }
         }
     }
@@ -85,7 +85,7 @@ public class Blackboard : MonoBehaviour, IInteractable
             Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
         }
 
-        blackboardUI.SetActive(true);
+        blackboardCam.enabled = true;
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()
