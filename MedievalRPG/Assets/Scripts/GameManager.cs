@@ -67,6 +67,11 @@ public class GameManager : MonoBehaviour
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
     }
 
+    public void DisplayGetBeerUI()
+    {
+        TavernKeeper.instance.OpenGetBeerScreen();
+    }
+
     public void FreezeCameraAndSetMouseVisibility(ThirdPersonController tPC, StarterAssetsInputs _input, bool isVisible)
     {
         _input.cursorInputForLook = isVisible;
