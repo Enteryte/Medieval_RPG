@@ -7770,7 +7770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
       propertyPath: m_Name
-      value: Armature:TestNPC/TestVillager_Standing (2)
+      value: Armature:TestTavernKeeper
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
       propertyPath: m_Layer
@@ -37737,31 +37737,6 @@ NavMeshAgent:
   m_BaseOffset: -0.09
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2027394051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2027394049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234dc60cf3330f3489cfdb2c92efd1a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nPCBP: {fileID: 11400000, guid: da9f0fe2f34d8b84594b8dae512ee007, type: 2}
-  iOCanvas: {fileID: 0}
-  animator: {fileID: 2027394053}
-  possibleNormalDialogues:
-  - {fileID: 11400000, guid: 112d8fb0db3fdd7458b53b471c8e79c0, type: 2}
-  allSideMissionsWithNPC:
-  - {fileID: 11400000, guid: e1367f8c7639a83498a306560c06f41e, type: 2}
-  - {fileID: 11400000, guid: e4413fc48b522914ab2ab0f01a478a93, type: 2}
-  firstWaypoint: {fileID: 0}
-  currWaypoint: {fileID: 0}
-  navMeshAgent: {fileID: 0}
-  iOCanvasLookAtObj: {fileID: 559310876}
-  isInDialogue: 0
 --- !u!136 &2027394052
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -37776,16 +37751,26 @@ CapsuleCollider:
   m_Height: 1.7788796
   m_Direction: 1
   m_Center: {x: -0.0038045049, y: 0.9072952, z: 2.933291e-11}
---- !u!95 &2027394053 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
-  m_PrefabInstance: {fileID: 339872096}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2027394054 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
   m_PrefabInstance: {fileID: 339872096}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2027394055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2027394049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da1486d71abdd2f4c89c8e1ee341b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDrunkBeer: 4
+  currBeerCount: 0
+  timeTillNotDrunk: 25
 --- !u!1 &2033886704
 GameObject:
   m_ObjectHideFlags: 0
