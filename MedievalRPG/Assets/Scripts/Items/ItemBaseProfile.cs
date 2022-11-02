@@ -10,6 +10,8 @@ public class ItemBaseProfile : ScriptableObject
     [Tooltip("The name of the item.")] public string itemName;
     [Tooltip("The description of the item.")] [TextArea] public string itemDescription;
 
+    public float weight;
+
     public enum ItemType
     {
         none,

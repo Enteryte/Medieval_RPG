@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using StarterAssets;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -34,8 +35,12 @@ public class InventoryManager : MonoBehaviour
 
     public List<InventoryCategoryButton> allInvCategoryButton;
 
-    public float maxInvWeight;
-    public float currInvWeight;
+    public GameObject draggableInvSlotPrefab;
+    public Transform draggableInvSlotParent;
+
+    [Header("Weight")]
+    public float maxHoldingWeight;
+    public float currHoldingWeight; // Equipment + Hotbar Weight
 
     public void Awake()
     {
@@ -109,13 +114,36 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void AddInvWeight(float weightToAdd)
+    public void AddHoldingWeight(float weightToAdd)
     {
-        currInvWeight += weightToAdd;
+        currHoldingWeight += weightToAdd;
+
+        CheckHoldingWeight();
     }
 
-    public void RemoveInvWeight(float weightToRemove)
+    public void RemoveHoldingWeight(float weightToRemove)
     {
-        currInvWeight -= weightToRemove;
+        currHoldingWeight -= weightToRemove;
+
+        CheckHoldingWeight();
+    }
+
+    public void CheckHoldingWeight()
+    {
+        if (currHoldingWeight > maxHoldingWeight && ThirdPersonController.instance.MoveSpeed == ThirdPersonController.instance.normalMoveSpeed)
+        {
+            //ThirdPersonController.instance._animator.speed = 0.65f;
+
+            ThirdPersonController.instance.MoveSpeed = 0.7f;
+        }
+        else if(currHoldingWeight <= maxHoldingWeight && ThirdPersonController.instance.MoveSpeed != ThirdPersonController.instance.normalMoveSpeed)
+        {
+            if (!DebuffManager.instance.slowPlayerDebuff)
+            {
+                ThirdPersonController.instance._animator.speed = 1;
+            }
+
+            ThirdPersonController.instance.MoveSpeed = ThirdPersonController.instance.normalMoveSpeed;
+        }
     }
 }

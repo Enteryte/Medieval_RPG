@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class CutsceneManager : MonoBehaviour
 
     public float timeToPressToSkipCS = 3;
     public float pressedTime = 0;
+
+    public GameObject decisionBtnPrefab;
+    public Transform decisionBtnParentTrans;
 
     public void Awake()
     {
@@ -83,5 +87,38 @@ public class CutsceneManager : MonoBehaviour
     public void SkipCutscene(float timeTillWhereToSkip)
     {
         playableDirector.time = timeTillWhereToSkip;
+    }
+
+    public void DisplayDecisions()
+    {
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+        for (int i = 0; i < currCP.allDecisions.Length; i++)
+        {
+            var newDecisionButton = Instantiate(decisionBtnPrefab, decisionBtnParentTrans);
+
+            newDecisionButton.GetComponent<CutsceneDecisionButton>().SetAndDisplayDecision(currCP.allDecisions[i]);
+        }
+    }
+
+    public void ResetNPCAfterDialogue()
+    {
+        for (int i = 0; i < GameManager.instance.allVillageNPCs.Count; i++)
+        {
+            if (GameManager.instance.allVillageNPCs[i].isInDialogue)
+            {
+                GameManager.instance.allVillageNPCs[i].isInDialogue = false;
+
+                if (GameManager.instance.allVillageNPCs[i].navMeshAgent != null)
+                {
+                    GameManager.instance.allVillageNPCs[i].navMeshAgent.isStopped = false;
+                    GameManager.instance.allVillageNPCs[i].animator.SetBool("IsStanding", false);
+                }
+
+                GameManager.instance.allVillageNPCs[i].transform.LookAt(null);                
+            }
+        }
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 }

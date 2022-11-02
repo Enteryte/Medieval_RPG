@@ -49,6 +49,8 @@ public class Item : MonoBehaviour, IInteractable
 
         MessageManager.instance.CreateCollectedMessage(iBP);
 
+        CheckIfNeededForMission();
+
         Destroy(iOCanvas.gameObject);
         Destroy(this.gameObject);
     }
@@ -56,5 +58,39 @@ public class Item : MonoBehaviour, IInteractable
     InteractableObjectCanvas IInteractable.iOCanvas()
     {
         return this.iOCanvas;
+    }
+
+    public void CheckIfNeededForMission()
+    {
+        for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
+        {
+            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 1)
+            {
+                for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
+                    {
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.itemToCollectBase == iBP)
+                        {
+                            MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.howManyAlreadyCollected += amountToGet;
+
+                            MissionManager.instance.CheckMissionTaskProgress(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.itemToCollectBase == iBP)
+                    {
+                        MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.howManyAlreadyCollected += amountToGet;
+
+                        MissionManager.instance.CheckMissionTaskProgress(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                    }
+                }
+            }
+        }
     }
 }

@@ -88,4 +88,31 @@ public class InventorySlotButton : MonoBehaviour
             InventoryManager.instance.DisplayItemsOfCategory();
         }
     }
+
+    public void InstantiateDraggableCopy()
+    {
+        if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon)
+        {
+            HotbarManager.currDraggedIBP = storedItemBase;
+
+            GameObject newDraggableSlot = Instantiate(InventoryManager.instance.draggableInvSlotPrefab, Input.mousePosition, Quaternion.identity, InventoryManager.instance.draggableInvSlotParent);
+
+            newDraggableSlot.GetComponent<DraggableInventorySlot>().SetInformations();
+
+            newDraggableSlot.GetComponent<DraggableInventorySlot>().iBPImg.color = newDraggableSlot.GetComponent<DraggableInventorySlot>().cantBeSetColor;
+
+            HotbarManager.instance.currDraggableInventorySlotObj = newDraggableSlot;
+        }
+    }
+
+    public void OnClickAndLeaveSlot()
+    {
+        if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon)
+        {
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                InstantiateDraggableCopy();
+            }
+        }
+    }
 }

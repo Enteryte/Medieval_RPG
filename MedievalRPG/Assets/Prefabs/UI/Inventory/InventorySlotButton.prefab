@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2178543699684202513}
   - component: {fileID: 2178543699684202514}
   - component: {fileID: 6791683945154790856}
+  - component: {fileID: 3646421885373119383}
   m_Layer: 5
   m_Name: InventorySlotButton
   m_TagString: Untagged
@@ -30,6 +31,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2178543699949258720}
   - {fileID: 2178543698421585537}
@@ -138,6 +140,39 @@ MonoBehaviour:
   storedItemBase: {fileID: 0}
   itemNameTxt: {fileID: 2178543699949258727}
   itemIsNewSymbolGO: {fileID: 2178543698421585538}
+  invSlot:
+    itemID: 0
+    itemBase: {fileID: 0}
+    itemAmount: 0
+--- !u!114 &3646421885373119383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2178543699684202524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6791683945154790856}
+          m_TargetAssemblyTypeName: InventorySlotButton, Assembly-CSharp
+          m_MethodName: OnClickAndLeaveSlot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2178543699949258721
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,6 +201,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2178543699684202515}
   m_RootOrder: 0
@@ -369,13 +405,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abd44e245873c0f4abe8a8e884ec3788, type: 3}
---- !u!1 &2178543698421585538 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2065568064957096395, guid: abd44e245873c0f4abe8a8e884ec3788, type: 3}
-  m_PrefabInstance: {fileID: 185178398039816009}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2178543698421585537 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2065568064957096392, guid: abd44e245873c0f4abe8a8e884ec3788, type: 3}
+  m_PrefabInstance: {fileID: 185178398039816009}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2178543698421585538 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2065568064957096395, guid: abd44e245873c0f4abe8a8e884ec3788, type: 3}
   m_PrefabInstance: {fileID: 185178398039816009}
   m_PrefabAsset: {fileID: 0}

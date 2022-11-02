@@ -11,9 +11,11 @@ public class Interacting : MonoBehaviour
 
     public float viewRadius;
     public float viewRadius2;
+    public float viewRadius3; // Only for sitting
 
     [Range(0, 360)] public float viewAngle;
     [Range(0, 360)] public float viewAngle2;
+    [Range(0, 360)] public float viewAngle3; // Only for sitting
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -32,7 +34,6 @@ public class Interacting : MonoBehaviour
     public GameObject howToInteractGO;
     public TMP_Text howToInteractTxt;
     public Image keyToPressFillImg;
-
 
     public void Awake()
     {
@@ -84,6 +85,7 @@ public class Interacting : MonoBehaviour
 
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
         Collider[] targetsInViewRadius2 = Physics.OverlapSphere(transform.position, viewRadius2, targetMask);
+        Collider[] targetsInViewRadius3 = Physics.OverlapSphere(transform.position, viewRadius3, targetMask);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
@@ -97,8 +99,9 @@ public class Interacting : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToObj, distanceToObj, obstacleMask))
                 {
-                    if (interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf 
-                        && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf)
+                    if (interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf
+                        && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf && ThirdPersonController.instance.currSeatTrans == null
+                        && !Blackboard.instance.blackboardCam.enabled)
                     {
                         interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
                     }
@@ -133,62 +136,128 @@ public class Interacting : MonoBehaviour
             }
         }
 
-        if (nearestObjTrans != null)
+        if (ThirdPersonController.instance.currSeatTrans == null)
         {
-            if (nearestObjTrans.TryGetComponent(out IInteractable interactable) && !ThirdPersonController.instance._animator.GetBool("Jump"))
+            if (nearestObjTrans != null)
             {
-                if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf)
+                if (nearestObjTrans.TryGetComponent(out IInteractable interactable) && !ThirdPersonController.instance._animator.GetBool("Jump"))
                 {
-                    howToInteractGO.SetActive(true);
-                }
-
-                howToInteractTxt.text = interactable.GetInteractUIText();
-
-                timeTillInteract = interactable.GetTimeTillInteract();
-
-                if (timeTillInteract > 0)
-                {
-                    if (Input.GetKey(KeyCode.E) && currClickedTime < timeTillInteract)
+                    if (nearestObjTrans.TryGetComponent(out SeatingObject seatObj) && Vector3.Distance(seatObj.iOCanvasLookAtSitPlaceObj.transform.position, this.gameObject.transform.position) < 0.7f)
                     {
-                        currClickedTime += Time.deltaTime;
-                        keyToPressFillImg.fillAmount += 1f / timeTillInteract * Time.deltaTime;
-
-                        if (currClickedTime >= timeTillInteract)
+                        if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                            && !Blackboard.instance.blackboardCam.enabled)
                         {
-                            interactable.Interact(nearestObjTrans);
+                            howToInteractGO.SetActive(true);
+
+                            howToInteractTxt.text = interactable.GetInteractUIText();
+
+                            timeTillInteract = interactable.GetTimeTillInteract();
+                        }
+                    }
+                    else if (!nearestObjTrans.TryGetComponent(out SeatingObject seatObj2))
+                    {
+                        if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                            && !Blackboard.instance.blackboardCam.enabled)
+                        {
+                            howToInteractGO.SetActive(true);
+
+                            howToInteractTxt.text = interactable.GetInteractUIText();
+
+                            timeTillInteract = interactable.GetTimeTillInteract();
                         }
                     }
 
-                    if (Input.GetKeyUp(KeyCode.E))
+                    if (howToInteractGO.activeSelf)
                     {
-                        currClickedTime = 0;
+                        if (timeTillInteract > 0)
+                        {
+                            if (Input.GetKey(KeyCode.E) && currClickedTime < timeTillInteract)
+                            {
+                                currClickedTime += Time.deltaTime;
+                                keyToPressFillImg.fillAmount += 1f / timeTillInteract * Time.deltaTime;
 
-                        keyToPressFillImg.fillAmount = 0;
+                                if (currClickedTime >= timeTillInteract && ThirdPersonController.instance.currSeatTrans == null)
+                                {
+                                    interactable.Interact(nearestObjTrans);
+                                }
+                            }
+
+                            if (Input.GetKeyUp(KeyCode.E))
+                            {
+                                currClickedTime = 0;
+
+                                keyToPressFillImg.fillAmount = 0;
+                            }
+                        }
+                        else
+                        {
+                            if (Input.GetKeyDown(KeyCode.E))
+                            {
+                                interactable.Interact(nearestObjTrans);
+
+                                currClickedTime = 0;
+
+                                keyToPressFillImg.fillAmount = 0;
+                            }
+                        }
                     }
                 }
-                else
+                else if (nearestObjTrans.TryGetComponent(out Enemy enemy))
                 {
-                    if (Input.GetKeyDown(KeyCode.E))
+                    Debug.Log("ENEMY");
+
+                    if (Input.GetKeyDown(KeyCode.Q))
                     {
-                        interactable.Interact(nearestObjTrans);
-
-                        currClickedTime = 0;
-
-                        keyToPressFillImg.fillAmount = 0;
+                        FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
                     }
-                }
-            }
-            else if (nearestObjTrans.TryGetComponent(out Enemy enemy))
-            {
-                Debug.Log("ENEMY");
-
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
                 }
             }
         }
-    }
+        else
+        {
+            howToInteractGO.SetActive(true);
+
+            howToInteractTxt.text = "Aufstehen";
+
+            timeTillInteract = ThirdPersonController.instance.currSeatTrans.GetComponent<SeatingObject>().GetTimeTillInteract();
+
+            if (timeTillInteract > 0)
+            {
+                if (Input.GetKey(KeyCode.E) && currClickedTime < timeTillInteract)
+                {
+                    currClickedTime += Time.deltaTime;
+                    keyToPressFillImg.fillAmount += 1f / timeTillInteract * Time.deltaTime;
+
+                    if (currClickedTime >= timeTillInteract)
+                    {
+                        ThirdPersonController.instance.currSeatTrans.GetComponent<SeatingObject>().Interact(ThirdPersonController.instance.currSeatTrans);
+
+                        currClickedTime = 0;
+
+                        keyToPressFillImg.fillAmount = 0;
+                    }
+                }
+
+                if (Input.GetKeyUp(KeyCode.E))
+                {
+                    currClickedTime = 0;
+
+                    keyToPressFillImg.fillAmount = 0;
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    ThirdPersonController.instance.currSeatTrans.GetComponent<SeatingObject>().Interact(ThirdPersonController.instance.currSeatTrans);
+
+                    currClickedTime = 0;
+
+                    keyToPressFillImg.fillAmount = 0;
+                }
+            }
+        }
+    }          
 
     public Vector3 DirFromAngles(float angleInDegrees, bool angleIsGlobal)
     {

@@ -6,13 +6,16 @@ using UnityEngine;
 public class Merchant : MonoBehaviour, IInteractable
 {
     public MerchantBaseProfile mBP;
+    public NPCBaseProfile nPCBP;
     [HideInInspector] public InteractableObjectCanvas iOCanvas;
 
-    public float maxMoneyMerchantCanSpend;
-    public float currMoneyMerchantSpend = 0;
+    public GameObject iOCanvasLookAtObj;
 
-    public float timeTillMoneyResets;
-    [HideInInspector] public float currPassedTime;
+    //public float maxMoneyMerchantCanSpend;
+    //public float currMoneyMerchantSpend = 0;
+
+    //public float timeTillMoneyResets;
+    //[HideInInspector] public float currPassedTime;
 
     // Start is called before the first frame update
     void Start()
@@ -20,52 +23,52 @@ public class Merchant : MonoBehaviour, IInteractable
         InstantiateIOCanvas();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (currMoneyMerchantSpend > 0)
-        {
-            currPassedTime += Time.deltaTime;
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    if (currMoneyMerchantSpend > 0)
+    //    {
+    //        currPassedTime += Time.deltaTime;
 
-            if (currPassedTime >= timeTillMoneyResets)
-            {
-                ResetMerchantSpendableMoney();
-            }
-        }
-    }
+    //        if (currPassedTime >= timeTillMoneyResets)
+    //        {
+    //            ResetMerchantSpendableMoney();
+    //        }
+    //    }
+    //}
 
-    public void ResetMerchantSpendableMoney()
-    {
-        currMoneyMerchantSpend = 0;
-        currPassedTime = 0;
+    //public void ResetMerchantSpendableMoney()
+    //{
+    //    currMoneyMerchantSpend = 0;
+    //    currPassedTime = 0;
 
-        Debug.Log("RESET");
-    }
+    //    Debug.Log("RESET");
+    //}
 
-    public void AddSpendableMoney(float moneyToAdd)
-    {
-        currMoneyMerchantSpend -= moneyToAdd;
+    //public void AddSpendableMoney(float moneyToAdd)
+    //{
+    //    currMoneyMerchantSpend -= moneyToAdd;
 
-        if (currMoneyMerchantSpend <= 0)
-        {
-            currPassedTime = 0;
+    //    if (currMoneyMerchantSpend <= 0)
+    //    {
+    //        currPassedTime = 0;
 
-            if (currMoneyMerchantSpend < 0)
-            {
-                currMoneyMerchantSpend = 0;
-            }
-        }
-    }
+    //        if (currMoneyMerchantSpend < 0)
+    //        {
+    //            currMoneyMerchantSpend = 0;
+    //        }
+    //    }
+    //}
 
-    public void RemoveSpendableMoney(float moneyToRemove)
-    {
-        currMoneyMerchantSpend += moneyToRemove;
+    //public void RemoveSpendableMoney(float moneyToRemove)
+    //{
+    //    currMoneyMerchantSpend += moneyToRemove;
 
-        if (currMoneyMerchantSpend > maxMoneyMerchantCanSpend)
-        {
-            Debug.Log("SPENDED MONEY IS TO HIGH!");
-        }
-    }
+    //    if (currMoneyMerchantSpend > maxMoneyMerchantCanSpend)
+    //    {
+    //        Debug.Log("SPENDED MONEY IS TO HIGH!");
+    //    }
+    //}
 
     public void InstantiateIOCanvas()
     {
@@ -114,10 +117,42 @@ public class Merchant : MonoBehaviour, IInteractable
         {
             Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
         }
+
+        CheckIfNeededForMission();
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()
     {
         return this.iOCanvas;
+    }
+
+    public void CheckIfNeededForMission()
+    {
+        for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
+        {
+            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 1)
+            {
+                for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                    {
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP)
+                        {
+                            MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
+                    {
+                        MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                    }
+                }
+            }
+        }
     }
 }

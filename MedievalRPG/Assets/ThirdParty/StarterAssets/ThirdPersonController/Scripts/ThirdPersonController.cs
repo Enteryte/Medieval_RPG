@@ -20,6 +20,7 @@ namespace StarterAssets
 
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
+        public float normalMoveSpeed = 2;
         public float MoveSpeed = 2.0f;
 
         [Tooltip("Sprint speed of the character in m/s")]
@@ -39,6 +40,7 @@ namespace StarterAssets
         [Space(10)]
         [Tooltip("The height the player can jump")]
         public float JumpHeight = 1.2f;
+        public float JumpHeightWithWeight = 0.8f; 
 
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
@@ -128,14 +130,14 @@ namespace StarterAssets
         public int attackClicks = 0;
 
         [Header("Roll")]
-        [SerializeField] AnimationCurve rollCurve;
+        //[SerializeField] AnimationCurve rollCurve;
         bool isRolling = false;
         float rollTimer;
         public CharacterController characterController;
+        public AnimationClip rollAnim;
+        bool rollStopMoving = false;
 
-        [Header("Slowed Roll")]
-        [SerializeField] AnimationCurve slowedRollCurve;
-        float slowedRollTimer;
+        public Transform currSeatTrans;
 
         private bool _hasAnimator;
 
@@ -181,11 +183,11 @@ namespace StarterAssets
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
 
-            Keyframe roll_lastFrame = rollCurve[rollCurve.length - 1];
-            rollTimer = roll_lastFrame.time;
+            //Keyframe roll_lastFrame = rollCurve[rollCurve.length - 1];
+            //rollTimer = roll_lastFrame.time;
 
-            Keyframe slowedRoll_lastFrame = slowedRollCurve[slowedRollCurve.length - 1];
-            slowedRollTimer = slowedRoll_lastFrame.time;
+            //Keyframe slowedRoll_lastFrame = slowedRollCurve[slowedRollCurve.length - 1];
+            //slowedRollTimer = slowedRoll_lastFrame.time;
         }
 
         private void Update()
@@ -195,7 +197,7 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
 
             if (!ShopManager.instance.shopScreen.activeSelf && !InventoryManager.instance.inventoryScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf
-                && !PrickMinigameManager.instance.prickUI.activeSelf)
+                && !PrickMinigameManager.instance.prickUI.activeSelf && currSeatTrans == null && !Blackboard.instance.blackboardCam.enabled)
             {
                 JumpAndGravity();
                 GroundedCheck();
@@ -214,8 +216,18 @@ namespace StarterAssets
                             if (attackClicks > 0 && PlayerValueManager.instance.currStamina - (normalAttackStaminaReduceValue * attackClicks) > 0
                                 || attackClicks == 0 && PlayerValueManager.instance.currStamina - normalAttackStaminaReduceValue > 0)
                             {
+                                //if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+                                //{
+                                //    _animator.speed = 0.6f;
+                                //}
+
                                 attackClicks += 1;
                                 _animator.SetInteger("AttackClicks", attackClicks);
+
+                                if (_animator.GetLayerWeight(1) != 0.5f)
+                                {
+                                    _animator.SetLayerWeight(1, 0.5f);
+                                }
                             }
                         }
 
@@ -226,23 +238,33 @@ namespace StarterAssets
                         }
                         else if (Input.GetKeyDown(KeyCode.Mouse1) && !_animator.GetBool("Bow") && PlayerValueManager.instance.currStamina - heavyAttackStaminaReduceValue > 0)
                         {
+                            //if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+                            //{
+                            //    _animator.speed = 0.6f;
+                            //}
+
                             _animator.SetBool("HeavyAttack", true);
+
+                            //if (_animator.GetLayerWeight(1) != 0.5f)
+                            //{
+                            //    _animator.SetLayerWeight(1, 0.5f);
+                            //}
                         }
 
-                        if (_animator.GetBool("Grounded"))
+                        if (_animator.GetBool("Grounded") && attackClicks == 0)
                         {
                             if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
                             {
-                                if (DebuffManager.instance.slowPlayerDebuff)
-                                {
-                                    _animator.speed = 1;
+                                //if (DebuffManager.instance.slowPlayerDebuff)
+                                //{
+                                //    _animator.speed = 1;
 
-                                    StartCoroutine(SlowedRoll());
-                                }
-                                else
-                                {
+                                //    StartCoroutine(SlowedRoll());
+                                //}
+                                //else
+                                //{
                                     StartCoroutine(Roll());
-                                }
+                                //}
                             }
                         }
 
@@ -255,6 +277,11 @@ namespace StarterAssets
                     {
                         if (Input.GetKeyDown(KeyCode.Mouse0) && PlayerValueManager.instance.currStamina - normalAttackStaminaReduceValue > 0)
                         {
+                            if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+                            {
+                                _animator.speed = 0.6f;
+                            }
+
                             _animator.SetBool("Bow_Shoot", true);
                         }
 
@@ -285,24 +312,24 @@ namespace StarterAssets
                             //    StartCoroutine(Roll());
                             //}
 
-                            if (_animator.GetBool("Grounded") && !isRolling)
+                            if (_animator.GetBool("Grounded") && !isRolling && attackClicks == 0)
                             {
                                 if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
                                 {
                                     HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
                                     _animator.SetBool("Bow_Aim", false);
 
-                                    if (DebuffManager.instance.slowPlayerDebuff)
-                                    {
-                                        //DebuffManager.instance.slowPlayerDebuff = false;
-                                        _animator.speed = 1;
+                                    //if (DebuffManager.instance.slowPlayerDebuff)
+                                    //{
+                                    //    //DebuffManager.instance.slowPlayerDebuff = false;
+                                    //    _animator.speed = 1;
 
-                                        StartCoroutine(SlowedRoll());
-                                    }
-                                    else
-                                    {
+                                    //    StartCoroutine(SlowedRoll());
+                                    //}
+                                    //else
+                                    //{
                                         StartCoroutine(Roll());
-                                    }
+                                    //}
                                 }
                             }
                         }
@@ -325,9 +352,19 @@ namespace StarterAssets
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         }
 
+        public void StopMovingWhileRolling()
+        {
+            rollStopMoving = false;
+        }
+
         IEnumerator Roll()
         {
             isRolling = true;
+
+            if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+            {
+                _animator.speed = 0.6f;
+            }
 
             PlayerValueManager.instance.RemoveStamina(rollStaminaReduceValue);
 
@@ -335,9 +372,11 @@ namespace StarterAssets
 
             float timer = 0;
 
-            while (timer < rollTimer)
+            rollStopMoving = true;
+
+            while (rollStopMoving)
             {
-                float speed = rollCurve.Evaluate(timer);
+                float speed = _animator.speed * 2;
 
                 Vector3 dir = Vector3.zero;
 
@@ -361,52 +400,54 @@ namespace StarterAssets
 
             yield return new WaitForSeconds(0.4f);
 
-            isRolling = false;
-        }
-
-        IEnumerator SlowedRoll()
-        {
-            isRolling = true;
-
-            PlayerValueManager.instance.RemoveStamina(rollStaminaReduceValue);
-
-            _animator.SetBool("Roll", true);
-
-            float timer = 0;
-
-            while (timer < slowedRollTimer)
-            {
-                float speed = slowedRollCurve.Evaluate(timer);
-
-                Vector3 dir = Vector3.zero;
-
-                //if (DebuffManager.instance.slowPlayerDebuff)
-                //{
-                //    dir = ((transform.forward * (speed - DebuffManager.instance.slowedFightSpeed) * 2));
-                //}
-                //else
-                //{
-                dir = ((transform.forward * /*((*/speed * 2/*) / 2)*/));
-                //}
-
-                characterController.Move(dir * Time.deltaTime);
-
-                timer += Time.deltaTime;
-
-                yield return null;
-            }
-
-            _animator.SetBool("Roll", false);
-
-            if (DebuffManager.instance.slowPlayerDebuff)
-            {
-                _animator.speed = 0.5f;
-            }
-
-            yield return new WaitForSeconds(0.4f);
+            _animator.speed = 1f;
 
             isRolling = false;
         }
+
+        //IEnumerator SlowedRoll()
+        //{
+        //    isRolling = true;
+
+        //    PlayerValueManager.instance.RemoveStamina(rollStaminaReduceValue);
+
+        //    _animator.SetBool("Roll", true);
+
+        //    float timer = 0;
+
+        //    while (timer < slowedRollTimer)
+        //    {
+        //        float speed = rollAnim.length;
+
+        //        Vector3 dir = Vector3.zero;
+
+        //        //if (DebuffManager.instance.slowPlayerDebuff)
+        //        //{
+        //        //    dir = ((transform.forward * (speed - DebuffManager.instance.slowedFightSpeed) * 2));
+        //        //}
+        //        //else
+        //        //{
+        //        dir = ((transform.forward * /*((*/speed * 2/*) / 2)*/));
+        //        //}
+
+        //        characterController.Move(dir * Time.deltaTime);
+
+        //        timer += Time.deltaTime;
+
+        //        yield return null;
+        //    }
+
+        //    _animator.SetBool("Roll", false);
+
+        //    if (DebuffManager.instance.slowPlayerDebuff)
+        //    {
+        //        _animator.speed = 0.5f;
+        //    }
+
+        //    yield return new WaitForSeconds(0.4f);
+
+        //    isRolling = false;
+        //}
 
         private void GroundedCheck()
         {
@@ -449,7 +490,8 @@ namespace StarterAssets
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed;
 
-            if (!_animator.GetBool("Bow_Aim") && PlayerValueManager.instance.currStamina - runStaminaReduceValue > 0 && !DebuffManager.instance.slowPlayerDebuff)
+            if (!_animator.GetBool("Bow_Aim") && PlayerValueManager.instance.currStamina - runStaminaReduceValue > 0 && !DebuffManager.instance.slowPlayerDebuff
+                && InventoryManager.instance.currHoldingWeight <= InventoryManager.instance.maxHoldingWeight)
             {
                 //if (DebuffManager.instance.slowPlayerDebuff)
                 //{
@@ -541,7 +583,15 @@ namespace StarterAssets
             if (_hasAnimator)
             {
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+
+                if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+                {
+                    _animator.SetFloat(_animIDMotionSpeed, 2);
+                }
+                else
+                {
+                    _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                }
             }
         }
 
@@ -569,7 +619,14 @@ namespace StarterAssets
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f && PlayerValueManager.instance.currStamina - jumpStaminaReduceValue > 0)
                 {
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
-                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                    if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+                    {
+                        _verticalVelocity = Mathf.Sqrt(JumpHeightWithWeight * -2f * Gravity);
+                    }
+                    else
+                    {
+                        _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                    }
 
                     // update animator if using character
                     if (_hasAnimator)
@@ -663,6 +720,19 @@ namespace StarterAssets
             {
                 attackClicks = 0;
                 _animator.SetInteger("AttackClicks", attackClicks);
+
+                if (!_animator.GetBool("HeavyAttack"))
+                {
+                    if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+                    {
+                        _animator.speed = 1f;
+                    }
+
+                    if (_animator.GetLayerWeight(1) != 0)
+                    {
+                        _animator.SetLayerWeight(1, 0f);
+                    }
+                }
             }
         }
 
@@ -674,6 +744,11 @@ namespace StarterAssets
             //    _animationBlend = 0;
             //    _animator.SetFloat(_animIDSpeed, 0);
             //}
+
+            if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+            {
+                _animator.speed = 0.6f;
+            }
 
             if (_animator.GetBool("HeavyAttack") && attackClicks == 0)
             {
@@ -688,11 +763,26 @@ namespace StarterAssets
         public void ResetBowShootingBool()
         {
             _animator.SetBool("Bow_Shoot", false);
+
+            if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+            {
+                _animator.speed = 1f;
+            }
         }
 
         public void ResetHeavyAttackBool()
         {
             _animator.SetBool("HeavyAttack", false);
+
+            if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+            {
+                _animator.speed = 1f;
+            }
+
+            if (_animator.GetLayerWeight(1) != 0)
+            {
+                _animator.SetLayerWeight(1, 0f);
+            }
         }
 
         public void HandleBowAimingCameras(CinemachineVirtualCamera newMainCam, CinemachineVirtualCamera newNotMainCam, CinemachineVirtualCamera newNotMainCam2)
@@ -700,6 +790,24 @@ namespace StarterAssets
             newMainCam.Priority = 12;
             newNotMainCam.Priority = 11;
             newNotMainCam2.Priority = 10;
+        }
+
+        public void SetPlayerToSeatPos()
+        {
+            GameManager.instance.playerGO.transform.position = new Vector3(currSeatTrans.GetComponent<SeatingObject>().iOCanvasLookAtSitPlaceObj.transform.position.x, GameManager.instance.playerGO.transform.position.y,
+                currSeatTrans.GetComponent<SeatingObject>().iOCanvasLookAtSitPlaceObj.transform.position.z);
+        }
+
+        public void SetAnimatorLayerBlending() // Only used in Animation Events
+        {
+            //if (_animator.GetLayerWeight(1) != 0.5f)
+            //{
+            //    _animator.SetLayerWeight(1, 0.5f);
+            //}
+            if (_animator.GetLayerWeight(1) != 0)
+            {
+                _animator.SetLayerWeight(1, 0f);
+            }
         }
     }
 }

@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     public bool playedTheGameThrough = false; // Soll true sein, sobald der Spieler das Spiel zum ersten Mal durchgespielt hat.
 
+    public List<NPC> allVillageNPCs;
+
     public void Awake()
     {
         instance = this;
