@@ -10,12 +10,15 @@ public class NPCWaypoint : MonoBehaviour
 
     public bool stayForSpecificTime = false;
     public float stayingTime;
+    [Min(0)] public int standingAnimNumber = 0;
 
     public IEnumerator StartStayingForSpecificTime()
     {
         float currStayingTime = 0;
 
         correspondingNPCObj.GetComponent<NPC>().navMeshAgent.isStopped = true;
+
+        correspondingNPCObj.GetComponent<NPC>().animator.SetInteger("StandingAnimNumber", standingAnimNumber);
 
         correspondingNPCObj.GetComponent<NPC>().animator.SetBool("IsStanding", true);
 
