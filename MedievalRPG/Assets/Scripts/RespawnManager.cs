@@ -7,8 +7,9 @@ public class RespawnManager : MonoBehaviour
 {
     public static RespawnManager instance;
 
-    public Transform playerDeathSpawnTrans;
+    public Transform playerDeathSpawnTrans; // After player died.
     public Transform usedEscapeRopeSpawnTrans; // Pos infront of dungeon entrance.
+    public Transform playerGotTooDrunkSpawnTrans; // After player drank too much beer and fainted.
 
     public void Awake()
     {

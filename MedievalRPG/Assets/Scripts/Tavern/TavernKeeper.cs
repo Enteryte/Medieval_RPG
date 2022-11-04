@@ -1,10 +1,19 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TavernKeeper : MonoBehaviour
+public class TavernKeeper : MonoBehaviour, IInteractable
 {
     public static TavernKeeper instance;
+
+    public NPCBaseProfile nPCBP;
+
+    [HideInInspector] public InteractableObjectCanvas iOCanvas;
+
+    public GameObject iOCanvasLookAtObj;
+
+    public Animator animator;
 
     public int maxDrunkBeer = 5;
     public int currBeerCount = 0;
@@ -12,6 +21,13 @@ public class TavernKeeper : MonoBehaviour
     public float timeTillNotDrunk = 25;
 
     public Coroutine beereDebuffCoro;
+
+    public int beerBuyPrice;
+
+    public CutsceneProfile normalTalkCP;
+
+    [Header("Get Beer UI")]
+    public GameObject getBeerScreen;
 
     public void Awake()
     {
@@ -21,7 +37,7 @@ public class TavernKeeper : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        InstantiateIOCanvas();
     }
 
     // Update is called once per frame
@@ -29,12 +45,16 @@ public class TavernKeeper : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            DrinkBeer();
+            BuyAndDrinkBeer();
         }
     }
 
-    public void DrinkBeer()
+    public void BuyAndDrinkBeer()
     {
+        getBeerScreen.SetActive(false);
+
+        PlayerValueManager.instance.money -= beerBuyPrice;
+
         currBeerCount += 1;
 
         if (beereDebuffCoro != null)
@@ -91,6 +111,15 @@ public class TavernKeeper : MonoBehaviour
         }
 
         beereDebuffCoro = StartCoroutine(ResetBeerDebuff());
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+    }
+
+    public void DontBuyBeer()
+    {
+        getBeerScreen.SetActive(false);
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 
     public IEnumerator ResetBeerDebuff()
@@ -117,5 +146,101 @@ public class TavernKeeper : MonoBehaviour
         beereDebuffCoro = null;
 
         currBeerCount = 0;
+
+        RespawnManager.instance.RespawnPlayer(RespawnManager.instance.playerGotTooDrunkSpawnTrans);
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
+
+    public void OpenGetBeerScreen()
+    {
+        getBeerScreen.SetActive(true);
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+    }
+
+    public void InstantiateIOCanvas()
+    {
+        GameObject newIOCanvas = Instantiate(Interacting.instance.interactCanvasPrefab, Interacting.instance.iOCSParentObj.transform);
+
+        newIOCanvas.GetComponent<InteractableObjectCanvas>().correspondingGO = this.gameObject;
+
+        iOCanvas = newIOCanvas.GetComponent<InteractableObjectCanvas>();
+
+        newIOCanvas.transform.SetAsFirstSibling();
+    }
+
+    public string GetInteractUIText()
+    {
+        return "Sprechen";
+    }
+
+    public float GetTimeTillInteract()
+    {
+        return 0;
+    }
+
+    public void Interact(Transform transform)
+    {
+        CutsceneManager.instance.currCP = normalTalkCP;
+        CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+        CutsceneManager.instance.playableDirector.Play();
+
+        //if (navMeshAgent != null)
+        //{
+        //    navMeshAgent.isStopped = true;
+
+        //    animator.SetBool("IsStanding", true);
+        //}
+
+        transform.LookAt(GameManager.instance.playerGO.transform);
+
+        //isInDialogue = true;
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+        for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)
+        {
+            Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
+        }
+
+        //CheckIfNeededForMission();
+    }
+
+    InteractableObjectCanvas IInteractable.iOCanvas()
+    {
+        return this.iOCanvas;
+    }
+
+    //public void CheckIfNeededForMission()
+    //{
+    //    for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
+    //    {
+    //        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 1)
+    //        {
+    //            for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
+    //            {
+    //                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+    //                {
+    //                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP)
+    //                    {
+    //                        MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+    //            {
+    //                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
+    //                {
+    //                    MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 }

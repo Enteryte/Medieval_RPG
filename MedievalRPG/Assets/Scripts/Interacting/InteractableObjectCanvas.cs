@@ -26,11 +26,6 @@ public class InteractableObjectCanvas : MonoBehaviour
 
     //public static int seatPlaceNumber = 0;
 
-    public void Awake()
-    {
-
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -42,11 +37,18 @@ public class InteractableObjectCanvas : MonoBehaviour
 
             doorChildGO = correspondingGO.transform.GetChild(0).gameObject;
         }
-        else if (correspondingGO.GetComponent<NPC>() != null)
+        else if (correspondingGO.GetComponent<NPC>() != null || correspondingGO.GetComponent<TavernKeeper>() != null)
         {
             isANPC = true;
 
-            iOCanvasLookAtObj = correspondingGO.GetComponent<NPC>().iOCanvasLookAtObj;
+            if (correspondingGO.GetComponent<NPC>() != null)
+            {
+                iOCanvasLookAtObj = correspondingGO.GetComponent<NPC>().iOCanvasLookAtObj;
+            }
+            else
+            {
+                iOCanvasLookAtObj = correspondingGO.GetComponent<TavernKeeper>().iOCanvasLookAtObj;
+            }
         }
         else if (correspondingGO.GetComponent<Merchant>() != null)
         {
