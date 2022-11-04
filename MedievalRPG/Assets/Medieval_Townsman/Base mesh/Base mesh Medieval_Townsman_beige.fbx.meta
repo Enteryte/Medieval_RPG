@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 68f365cb6d3889e45bf34c62e13b3e62
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 21300
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
@@ -52,6 +52,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -81,21 +82,27 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -257,22 +264,6 @@ ModelImporter:
         modified: 0
     - boneName: hand_r
       humanName: RightHand
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: ball_l
-      humanName: LeftToes
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: ball_r
-      humanName: RightToes
       limit:
         min: {x: 0, y: 0, z: 0}
         max: {x: 0, y: 0, z: 0}
@@ -528,68 +519,63 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Base mesh Medieval_Townsman(Clone)
+    - name: Base mesh Medieval_Townsman_beige(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Medieval_townsman
-      parentName: Base mesh Medieval_Townsman(Clone)
+      parentName: Base mesh Medieval_Townsman_beige(Clone)
       position: {x: -0, y: 0.09451882, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 15.80696, y: 15.80696, z: 15.80696}
-    - name: Jaw15
-      parentName: Medieval_townsman
-      position: {x: 0.000000024962596, y: 0.10128219, z: 0.0049136095}
-      rotation: {x: 0.050712142, y: -0, z: -0, w: 0.9987133}
-      scale: {x: 0.046031397, y: 0.044193752, z: 0.05737761}
-    - name: mandible
-      parentName: Jaw15
-      position: {x: -0.00000061125877, y: -2.8925054, z: -0.05930019}
-      rotation: {x: -0.039121184, y: 0, z: -0, w: 0.9992345}
-      scale: {x: 1.4206941, y: 1.4766777, z: 1.1421429}
-    - name: maxilla
-      parentName: Jaw15
-      position: {x: -0.00000039458274, y: -1.7151791, z: -0.07705263}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Hat_Cape1
+    - name: Accessories1
       parentName: Medieval_townsman
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Hat_1
-      parentName: Hat_Cape1
+    - name: Bag_1
+      parentName: Accessories1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Hat_2
-      parentName: Hat_Cape1
+    - name: Bag_2
+      parentName: Accessories1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Hat_feather
-      parentName: Hat_Cape1
-      position: {x: -0.00002297574, y: 0.00028960686, z: -0.00252879}
-      rotation: {x: -0.028089633, y: 0.00086091633, z: 0.0012291301, w: 0.9996043}
-      scale: {x: 1.4116424, y: 1.4116424, z: 1.4116424}
-    - name: Hat_low
-      parentName: Hat_Cape1
+    - name: Belt_1
+      parentName: Accessories1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Hood
-      parentName: Hat_Cape1
+    - name: Belt_2
+      parentName: Accessories1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Cape
-      parentName: Hat_Cape1
+    - name: Belt_torso
+      parentName: Accessories1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Hood_brooch
-      parentName: Hat_Cape1
+    - name: Boots
+      parentName: Accessories1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Gloves
+      parentName: Accessories1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rope_leg
+      parentName: Accessories1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Sack
+      parentName: Accessories1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
@@ -618,17 +604,17 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Pants9
-      parentName: Dress1
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
     - name: Jacket_belts
       parentName: Dress1
       position: {x: 0.000115519455, y: 0.00030611808, z: -0.00020621893}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Jacket_label
+      parentName: Dress1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Pants9
       parentName: Dress1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
@@ -643,58 +629,63 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Accessories1
+    - name: Hat_Cape1
       parentName: Medieval_townsman
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Gloves
-      parentName: Accessories1
+    - name: Cape
+      parentName: Hat_Cape1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Sack
-      parentName: Accessories1
+    - name: Hat_1
+      parentName: Hat_Cape1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Belt_torso
-      parentName: Accessories1
+    - name: Hat_2
+      parentName: Hat_Cape1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Rope_leg
-      parentName: Accessories1
+    - name: Hat_feather
+      parentName: Hat_Cape1
+      position: {x: -0.00002297574, y: 0.00028960686, z: -0.00252879}
+      rotation: {x: -0.028089633, y: 0.00086091633, z: 0.0012291301, w: 0.9996043}
+      scale: {x: 1.4116424, y: 1.4116424, z: 1.4116424}
+    - name: Hat_low
+      parentName: Hat_Cape1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Boots
-      parentName: Accessories1
+    - name: Hood
+      parentName: Hat_Cape1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Bag_1
-      parentName: Accessories1
+    - name: Hood_brooch
+      parentName: Hat_Cape1
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Bag_2
-      parentName: Accessories1
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Belt_1
-      parentName: Accessories1
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Belt_2
-      parentName: Accessories1
-      position: {x: -0, y: 0, z: 0}
+    - name: Jaw15
+      parentName: Medieval_townsman
+      position: {x: 0.000000024962596, y: 0.10128219, z: 0.0049136095}
+      rotation: {x: 0.050712142, y: -0, z: -0, w: 0.9987133}
+      scale: {x: 0.046031397, y: 0.044193752, z: 0.05737761}
+    - name: mandible
+      parentName: Jaw15
+      position: {x: -0.00000061125877, y: -2.8925054, z: -0.05930019}
+      rotation: {x: -0.039121184, y: 0, z: -0, w: 0.9992345}
+      scale: {x: 1.4206941, y: 1.4766777, z: 1.1421429}
+    - name: maxilla
+      parentName: Jaw15
+      position: {x: -0.00000039458274, y: -1.7151791, z: -0.07705263}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: root
-      parentName: Base mesh Medieval_Townsman(Clone)
+      parentName: Base mesh Medieval_Townsman_beige(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
       scale: {x: 1, y: 1, z: 1}
@@ -776,7 +767,7 @@ ModelImporter:
     - name: index_01_l
       parentName: hand_l
       position: {x: -0.09751893, y: 0.012077223, z: -0.024319388}
-      rotation: {x: 0.11170792, y: -0.04568984, z: -0.11787508, w: 0.985667}
+      rotation: {x: 0.1117079, y: -0.045689836, z: -0.11787506, w: 0.9856669}
       scale: {x: 1, y: 1, z: 1}
     - name: index_02_l
       parentName: index_01_l
@@ -791,7 +782,7 @@ ModelImporter:
     - name: middle_01_l
       parentName: hand_l
       position: {x: -0.09672656, y: 0.0066487384, z: 0.001236408}
-      rotation: {x: -0.006514037, y: 0.02349402, z: -0.13929814, w: 0.9899503}
+      rotation: {x: -0.0065140375, y: 0.023494022, z: -0.13929816, w: 0.98995036}
       scale: {x: 1, y: 1, z: 1}
     - name: middle_02_l
       parentName: middle_01_l
@@ -806,7 +797,7 @@ ModelImporter:
     - name: pinky_01_l
       parentName: hand_l
       position: {x: -0.08166822, y: 0.009923747, z: 0.045622572}
-      rotation: {x: -0.08227574, y: 0.06127073, z: -0.10048909, w: 0.9896355}
+      rotation: {x: -0.08227575, y: 0.061270732, z: -0.100489095, w: 0.9896356}
       scale: {x: 1, y: 1, z: 1}
     - name: pinky_02_l
       parentName: pinky_01_l
@@ -881,7 +872,7 @@ ModelImporter:
     - name: index_01_r
       parentName: hand_r
       position: {x: 0.10040485, y: -0.015606086, z: 0.021659838}
-      rotation: {x: 0.103789076, y: -0.040452402, z: -0.122603446, w: 0.9861845}
+      rotation: {x: 0.10378908, y: -0.040452402, z: -0.12260345, w: 0.9861845}
       scale: {x: 1, y: 1, z: 1}
     - name: index_02_r
       parentName: index_01_r
@@ -896,7 +887,7 @@ ModelImporter:
     - name: middle_01_r
       parentName: hand_r
       position: {x: 0.098612405, y: -0.011286201, z: -0.0020726922}
-      rotation: {x: 0.023933008, y: 0.031361926, z: -0.16495655, w: 0.9855115}
+      rotation: {x: 0.02393301, y: 0.03136193, z: -0.16495657, w: 0.98551154}
       scale: {x: 1, y: 1, z: 1}
     - name: middle_02_r
       parentName: middle_01_r
@@ -1050,6 +1041,8 @@ ModelImporter:
   animationType: 3
   humanoidOversampling: 1
   avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
