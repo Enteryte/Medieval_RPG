@@ -47,6 +47,11 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void SetNewWaypoint(NPCWaypoint newWaypoint)
     {
+        transform.LookAt(newWaypoint.transform);
+
+        //var targetRotation = Quaternion.LookRotation(newWaypoint.transform.position - transform.position);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 50 * Time.deltaTime);
+
         currWaypoint = newWaypoint;
     }
 
