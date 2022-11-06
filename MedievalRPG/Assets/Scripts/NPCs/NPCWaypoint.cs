@@ -33,7 +33,7 @@ public class NPCWaypoint : MonoBehaviour
 
         correspondingNPCObj.GetComponent<NPC>().animator.SetBool("IsStanding", false);
 
-        correspondingNPCObj.GetComponent<NPC>().SetNewWaypoint(nextWaypoint.GetComponent<NPCWaypoint>());
+        StartCoroutine(correspondingNPCObj.GetComponent<NPC>().SetNewWaypoint(nextWaypoint.GetComponent<NPCWaypoint>()));
     }
 
     public void OnTriggerEnter(Collider other)
@@ -48,7 +48,7 @@ public class NPCWaypoint : MonoBehaviour
             }
             else
             {
-                correspondingNPCObj.GetComponent<NPC>().SetNewWaypoint(nextWaypoint.GetComponent<NPCWaypoint>());
+                correspondingNPCObj.GetComponent<NPC>().SetNewWaypointWithoutStopping(nextWaypoint.GetComponent<NPCWaypoint>());
             }
         }
     }

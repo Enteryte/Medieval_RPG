@@ -31,7 +31,7 @@ public class NPC : MonoBehaviour, IInteractable
 
         if (firstWaypoint != null)
         {
-            SetNewWaypoint(firstWaypoint);
+            SetNewWaypointWithoutStopping(firstWaypoint);
         }
 
         GameManager.instance.allVillageNPCs.Add(this);
@@ -42,15 +42,43 @@ public class NPC : MonoBehaviour, IInteractable
         if (currWaypoint != null)
         {
             navMeshAgent.SetDestination(currWaypoint.transform.position);
+
+            //if (Vector3.Distance(transform.position, currWaypoint.transform.position) <= 1f)
+            //{
+            //    transform.LookAt(currWaypoint.transform);
+            //}
         }
     }
 
-    public void SetNewWaypoint(NPCWaypoint newWaypoint)
+    public IEnumerator SetNewWaypoint(NPCWaypoint newWaypoint)
+    {
+        //transform.LookAt(newWaypoint.transform);
+
+        animator.SetBool("IsStanding", true);
+
+        while (Quaternion.Angle(transform.rotation, Quaternion.LookRotation(newWaypoint.transform.position - transform.position)) > 4f)
+        {
+            Debug.Log(Quaternion.Angle(transform.rotation, Quaternion.LookRotation(newWaypoint.transform.position - transform.position)));
+
+            var targetRotation = Quaternion.LookRotation(newWaypoint.transform.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5 * Time.deltaTime);
+
+            if (Quaternion.Angle(transform.rotation, Quaternion.LookRotation(newWaypoint.transform.position - transform.position)) <= 4f)
+            {
+                currWaypoint = newWaypoint;
+            }
+
+            yield return null;
+        }
+
+        animator.SetBool("IsStanding", false);
+
+        Debug.Log("GHNJMKMK");
+    }
+
+    public void SetNewWaypointWithoutStopping(NPCWaypoint newWaypoint)
     {
         transform.LookAt(newWaypoint.transform);
-
-        //var targetRotation = Quaternion.LookRotation(newWaypoint.transform.position - transform.position);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 50 * Time.deltaTime);
 
         currWaypoint = newWaypoint;
     }
