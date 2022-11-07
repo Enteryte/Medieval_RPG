@@ -58,8 +58,6 @@ public class NPC : MonoBehaviour, IInteractable
 
         while (Quaternion.Angle(transform.rotation, Quaternion.LookRotation(newWaypoint.transform.position - transform.position)) > 4f)
         {
-            Debug.Log(Quaternion.Angle(transform.rotation, Quaternion.LookRotation(newWaypoint.transform.position - transform.position)));
-
             var targetRotation = Quaternion.LookRotation(newWaypoint.transform.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5 * Time.deltaTime);
 
@@ -72,8 +70,6 @@ public class NPC : MonoBehaviour, IInteractable
         }
 
         animator.SetBool("IsStanding", false);
-
-        Debug.Log("GHNJMKMK");
     }
 
     public void SetNewWaypointWithoutStopping(NPCWaypoint newWaypoint)

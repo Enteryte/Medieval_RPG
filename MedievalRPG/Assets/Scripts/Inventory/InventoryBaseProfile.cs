@@ -44,7 +44,7 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
                 {
                     slots[i].AddAmount(amount);
 
-                    UpdateHotbarItems(item);
+                    //UpdateHotbarItems(item);
 
                     return;
                 }
@@ -74,7 +74,7 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
                         slots.Remove(slots[i]);
                     }
 
-                    UpdateHotbarItems(item);
+                    UpdateHotbarItems(item, true, amount);
 
                     return;
                 }
@@ -82,7 +82,7 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
                 {
                     slots.Remove(slots[i]);
 
-                    UpdateHotbarItems(item);
+                    UpdateHotbarItems(item, true, amount);
 
                     return;
                 }
@@ -111,7 +111,7 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
 
     }
 
-    public void UpdateHotbarItems(ItemBaseProfile usedItemBP)
+    public void UpdateHotbarItems(ItemBaseProfile usedItemBP, bool reduceAmount, int amountToReduce)
     {
         for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
         {
@@ -131,13 +131,35 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
 
                 if (containsItem)
                 {
-                    HotbarManager.instance.allHotbarSlotBtn[i].SetItemAmountInInv();
+                    if (reduceAmount)
+                    {
+                        if (HotbarManager.instance.allHotbarSlotBtn[i].itemAmount > InventoryManager.currIS.itemAmount)
+                        {
+                            if (InventoryManager.currIS != null)
+                            {
+                                HotbarManager.instance.allHotbarSlotBtn[i].itemAmount = InventoryManager.currIS.itemAmount;
+                            }
+                            else
+                            {
+                                HotbarManager.instance.allHotbarSlotBtn[i].itemAmount -= amountToReduce;
+                            }
 
-                    HotbarManager.instance.allHotbarSlotBtn[i].itemSpriteImg.sprite = HotbarManager.instance.allHotbarSlotBtn[i].iBP.itemSprite;
-                    HotbarManager.instance.allHotbarSlotBtn[i].itemAmountTxt.text = HotbarManager.instance.allHotbarSlotBtn[i].itemAmountInInv.ToString();
+                            InventoryManager.instance.RemoveHoldingWeight(HotbarManager.instance.allHotbarSlotBtn[i].iBP.weight, amountToReduce);
+                        }
 
-                    HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = HotbarManager.instance.allHotbarSlotBtn[i].iBP.itemSprite;
-                    HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn.itemAmountTxt.text = HotbarManager.instance.allHotbarSlotBtn[i].itemAmountInInv.ToString();
+                        HotbarManager.instance.allHotbarSlotBtn[i].itemSpriteImg.sprite = HotbarManager.instance.allHotbarSlotBtn[i].iBP.itemSprite;
+                        HotbarManager.instance.allHotbarSlotBtn[i].itemAmountTxt.text = HotbarManager.instance.allHotbarSlotBtn[i].itemAmount.ToString();
+
+                        HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = HotbarManager.instance.allHotbarSlotBtn[i].iBP.itemSprite;
+                        HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn.itemAmountTxt.text = HotbarManager.instance.allHotbarSlotBtn[i].itemAmount.ToString();
+
+                        if (HotbarManager.instance.allHotbarSlotBtn[i].itemAmount <= 0)
+                        {
+                            HotbarManager.instance.allHotbarSlotBtn[i].RemoveStoredItem();
+                        }
+
+                        Debug.Log("REDUCE");
+                    }
                 }
                 else
                 {

@@ -64,17 +64,17 @@ public class EquipmentSlot : MonoBehaviour
 
     public void ChangeEquippedItem()
     {
-        if (currEquippedItem != null)
-        {
-            InventoryManager.instance.inventory.AddItem(currEquippedItem, 1);
+        //if (currEquippedItem != null)
+        //{
+        //    InventoryManager.instance.inventory.AddItem(currEquippedItem, 1);
 
-            InventoryManager.instance.RemoveHoldingWeight(currEquippedItem.weight);
-        }
+        //    InventoryManager.instance.RemoveHoldingWeight(currEquippedItem.weight);
+        //}
 
-        if (newItemToEquip != null)
-        {
-            InventoryManager.instance.AddHoldingWeight(newItemToEquip.weight);
-        }
+        //if (newItemToEquip != null)
+        //{
+        //    InventoryManager.instance.AddHoldingWeight(newItemToEquip.weight);
+        //}
 
         currEquippedItem = newItemToEquip;
 

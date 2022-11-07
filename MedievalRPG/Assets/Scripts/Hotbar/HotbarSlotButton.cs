@@ -7,7 +7,7 @@ using TMPro;
 public class HotbarSlotButton : MonoBehaviour
 {
     public ItemBaseProfile iBP;
-    public int itemAmountInInv;
+    public int itemAmount;
 
     public Image itemSpriteImg;
     public TMP_Text itemAmountTxt;
@@ -18,27 +18,30 @@ public class HotbarSlotButton : MonoBehaviour
 
     [HideInInspector] public bool isOverButton = false;
 
-    public void ChangeHotbarSlotItem(ItemBaseProfile newItemBP)
+    public void ChangeHotbarSlotItem(ItemBaseProfile newItemBP, int newAmount)
     {
         var oldIBP = iBP;
 
         iBP = newItemBP;
 
-        if (oldIBP != null)
+        if (!HotbarManager.instance.startedOnHSB)
         {
-            InventoryManager.instance.RemoveHoldingWeight(oldIBP.weight);
-        }
+            if (oldIBP != null)
+            {
+                InventoryManager.instance.RemoveHoldingWeight(oldIBP.weight, itemAmount);
+            }
 
-        if (newItemBP != null)
-        {
-            InventoryManager.instance.AddHoldingWeight(newItemBP.weight);
+            if (newItemBP != null)
+            {
+                InventoryManager.instance.AddHoldingWeight(newItemBP.weight, HotbarManager.instance.hbHMScreen.currDisplayedAmount);
+            }
         }
 
         for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
         {
             if (HotbarManager.instance.allHotbarSlotBtn[i].iBP != null && HotbarManager.instance.allHotbarSlotBtn[i].iBP == newItemBP && HotbarManager.instance.allHotbarSlotBtn[i] != this)
             {
-                HotbarManager.instance.allHotbarSlotBtn[i].ChangeHotbarSlotItem(oldIBP);
+                HotbarManager.instance.allHotbarSlotBtn[i].ChangeHotbarSlotItem(oldIBP, itemAmount);
 
                 break;
             }
@@ -46,25 +49,34 @@ public class HotbarSlotButton : MonoBehaviour
 
         if (iBP != null)
         {
-            SetItemAmountInInv();
+            //SetItemAmountInInv();
+
+            if (HotbarManager.instance.startedOnHSB)
+            {
+                itemAmount = newAmount;
+
+                HotbarManager.instance.startedOnHSB = false;
+            }
+            else
+            {
+                itemAmount = newAmount;
+            }
 
             itemSpriteImg.sprite = iBP.itemSprite;
-            itemAmountTxt.text = itemAmountInInv.ToString();
+            itemAmountTxt.text = itemAmount.ToString();
 
             correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = iBP.itemSprite;
-            correspondingMainScreenHotbarSlotBtn.itemAmountTxt.text = itemAmountInInv.ToString();
+            correspondingMainScreenHotbarSlotBtn.itemAmountTxt.text = itemAmount.ToString();
         }
         else
         {
-            itemAmountInInv = 0;
+            itemAmount = 0;
 
             itemSpriteImg.sprite = null;
-            itemAmountTxt.text = itemAmountInInv.ToString();
+            itemAmountTxt.text = itemAmount.ToString();
 
             correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = null;
-            correspondingMainScreenHotbarSlotBtn.itemAmountTxt.text = itemAmountInInv.ToString();
-
-            Debug.Log("IS NULL");
+            correspondingMainScreenHotbarSlotBtn.itemAmountTxt.text = itemAmount.ToString();
         }
 
         HotbarManager.currHSB = null;
@@ -73,22 +85,24 @@ public class HotbarSlotButton : MonoBehaviour
         HotbarManager.instance.currDraggableInventorySlotObj = null;
     }
 
-    public void SetItemAmountInInv()
-    {
-        for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
-        {
-            if (InventoryManager.instance.inventory.slots[i].itemBase == iBP)
-            {
-                itemAmountInInv = InventoryManager.instance.inventory.slots[i].itemAmount;
+    //public void SetItemAmountInInv()
+    //{
+    //    for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
+    //    {
+    //        if (InventoryManager.instance.inventory.slots[i].itemBase == iBP)
+    //        {
+    //            itemAmount = InventoryManager.instance.inventory.slots[i].itemAmount;
 
-                return;
-            }
-        }
-    }
+    //            return;
+    //        }
+    //    }
+    //}
 
     public void RemoveStoredItem()
     {
-        ChangeHotbarSlotItem(null);
+        HotbarManager.instance.startedOnHSB = false;
+
+        ChangeHotbarSlotItem(null, 0);
     }
 
     public void OnHoverOverSlotStart()
@@ -112,7 +126,10 @@ public class HotbarSlotButton : MonoBehaviour
     {
         isOverButton = false;
 
-        HotbarManager.currHSB = null;
+        if (!HotbarManager.instance.hbHMScreen.gameObject.activeSelf)
+        {
+            HotbarManager.currHSB = null;
+        }
 
         if (HotbarManager.instance.currDraggableInventorySlotObj != null)
         {
@@ -136,6 +153,10 @@ public class HotbarSlotButton : MonoBehaviour
             HotbarManager.instance.currDraggableInventorySlotObj = newDraggableSlot;
 
             HotbarManager.instance.draggedHotbarItem = true;
+            HotbarManager.instance.startedOnHSB = true;
+
+            HotbarManager.instance.currAmount = itemAmount;
+            newDraggableSlot.GetComponent<DraggableInventorySlot>().iBPAmountTxt.text = itemAmount.ToString();
 
             HotbarManager.lastDraggedStoredItemHS = this.gameObject;
         }
