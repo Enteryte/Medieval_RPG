@@ -95,6 +95,8 @@ public class InventorySlotButton : MonoBehaviour
         {
             HotbarManager.currDraggedIBP = storedItemBase;
 
+            HotbarManager.instance.startedOnHSB = false;
+
             GameObject newDraggableSlot = Instantiate(InventoryManager.instance.draggableInvSlotPrefab, Input.mousePosition, Quaternion.identity, InventoryManager.instance.draggableInvSlotParent);
 
             newDraggableSlot.GetComponent<DraggableInventorySlot>().SetInformations();
@@ -109,7 +111,7 @@ public class InventorySlotButton : MonoBehaviour
     {
         if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon)
         {
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetKey(KeyCode.Mouse0) && HotbarManager.instance.currDraggableInventorySlotObj == null && !HotbarManager.instance.startedOnHSB)
             {
                 InstantiateDraggableCopy();
             }

@@ -40,8 +40,6 @@ public class NPCWaypoint : MonoBehaviour
     {
         if (other.gameObject == correspondingNPCObj && correspondingNPCObj.GetComponent<NPC>().currWaypoint == this)
         {
-            Debug.Log("HNJKMS");
-
             if (stayForSpecificTime)
             {
                 StartCoroutine(StartStayingForSpecificTime());

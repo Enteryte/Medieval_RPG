@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class DestroyableObject : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject destroyedObjPrefab;
+
+    public void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            DestroyObject();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DestroyObject()
     {
-        
+        var destroyedObjVersion = Instantiate(destroyedObjPrefab, this.gameObject.transform.position, this.gameObject.transform.rotation);
+
+        Destroy(this.gameObject);
     }
 }

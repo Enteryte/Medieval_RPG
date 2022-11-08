@@ -35,7 +35,7 @@ public class UseItemButton : MonoBehaviour
         {
             InventoryManager.currIS.RemoveAmount(1);
 
-            InventoryManager.instance.inventory.UpdateHotbarItems(InventoryManager.currIBP);
+            InventoryManager.instance.inventory.UpdateHotbarItems(InventoryManager.currIBP, true, 1);
         }
         else
         {

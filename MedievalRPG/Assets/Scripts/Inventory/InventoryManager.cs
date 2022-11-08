@@ -114,16 +114,16 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void AddHoldingWeight(float weightToAdd)
+    public void AddHoldingWeight(float weightToAdd, int howOften)
     {
-        currHoldingWeight += weightToAdd;
+        currHoldingWeight += weightToAdd * howOften;
 
         CheckHoldingWeight();
     }
 
-    public void RemoveHoldingWeight(float weightToRemove)
+    public void RemoveHoldingWeight(float weightToRemove, int howOften)
     {
-        currHoldingWeight -= weightToRemove;
+        currHoldingWeight -= weightToRemove * howOften;
 
         CheckHoldingWeight();
     }

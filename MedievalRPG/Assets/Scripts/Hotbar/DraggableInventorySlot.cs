@@ -16,7 +16,16 @@ public class DraggableInventorySlot : MonoBehaviour
     {
         iBPImg.sprite = HotbarManager.currDraggedIBP.itemSprite;
 
-        SetItemAmountText();
+        //if (HotbarManager.instance.startedOnHSB)
+        //{
+        //    iBPAmountTxt.text = "99";
+        //}
+        if (!HotbarManager.instance.startedOnHSB)
+        {
+            SetItemAmountText();
+        }
+
+        HotbarHowManyScreen.currIBP = HotbarManager.currDraggedIBP;
     }
 
     public void Update()
@@ -33,6 +42,7 @@ public class DraggableInventorySlot : MonoBehaviour
 
                     HotbarManager.lastDraggedStoredItemHS = null;
                     HotbarManager.instance.draggedHotbarItem = false;
+                    HotbarManager.instance.startedOnHSB = false;
 
                     HotbarManager.instance.currDraggableInventorySlotObj = null;
 
@@ -48,7 +58,26 @@ public class DraggableInventorySlot : MonoBehaviour
             }
             else
             {
-                HotbarManager.currHSB.ChangeHotbarSlotItem(HotbarManager.currDraggedIBP);
+                if (HotbarManager.instance.startedOnHSB)
+                {
+                    HotbarManager.instance.hbHMScreen.currDisplayedAmount = HotbarManager.currHSB.itemAmount;
+
+                    Debug.Log(HotbarManager.currHSB.itemAmount);
+                    HotbarManager.currHSB.ChangeHotbarSlotItem(HotbarManager.currDraggedIBP, int.Parse(iBPAmountTxt.text));
+                }
+                else
+                {
+                    HotbarManager.instance.hbHMScreen.currDisplayedAmount = 1;
+
+                    if (int.Parse(iBPAmountTxt.text) > 1)
+                    {
+                        HotbarManager.instance.OpenHowManyHotbarScreen();
+                    }
+                    else
+                    {
+                        HotbarManager.currHSB.ChangeHotbarSlotItem(HotbarManager.currDraggedIBP, 1);
+                    }
+                }
 
                 Destroy(this.gameObject);
             }
