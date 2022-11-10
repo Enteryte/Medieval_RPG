@@ -31,6 +31,8 @@ public class Blackboard : MonoBehaviour, IInteractable
                 GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
                 blackboardCam.enabled = false;
+
+                ThirdPersonController.instance.canMove = true;
             }
         }
     }
@@ -86,6 +88,8 @@ public class Blackboard : MonoBehaviour, IInteractable
         }
 
         blackboardCam.enabled = true;
+
+        ThirdPersonController.instance.canMove = false;
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()

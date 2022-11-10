@@ -20,11 +20,14 @@ public class MissionManager : MonoBehaviour
 
     public void Start()
     {
-        if (allCurrOpenNotAcceptedMissions.Count > 0)
+        if (Blackboard.instance != null)
         {
-            for (int i = 0; i < allCurrOpenNotAcceptedMissions.Count; i++)
+            if (allCurrOpenNotAcceptedMissions.Count > 0)
             {
-                AddOpenMission(allCurrOpenNotAcceptedMissions[i]);
+                for (int i = 0; i < allCurrOpenNotAcceptedMissions.Count; i++)
+                {
+                    AddOpenMission(allCurrOpenNotAcceptedMissions[i]);
+                }
             }
         }
     }

@@ -109,13 +109,15 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
         private PlayerInput _playerInput;
 #endif
-        [HideInInspector] public Animator _animator;
+        /*[HideInInspector] */public Animator _animator;
         private CharacterController _controller;
         [HideInInspector] public StarterAssetsInputs _input;
         private GameObject _mainCamera;
         public CinemachineVirtualCamera _normalVCamera;
         public CinemachineVirtualCamera _bowAimingVCamera;
         public CinemachineVirtualCamera _bowAimingZoomVCamera;
+
+        public bool canMove = true;
 
         private const float _threshold = 0.01f;
 
@@ -155,6 +157,8 @@ namespace StarterAssets
 
         private void Awake()
         {
+            _hasAnimator = true;
+
             // get a reference to our main camera
             if (_mainCamera == null)
             {
@@ -167,8 +171,8 @@ namespace StarterAssets
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-            
-            _hasAnimator = TryGetComponent(out _animator);
+
+            //_hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -194,10 +198,9 @@ namespace StarterAssets
         {
             //Debug.Log(_animator.speed);
 
-            _hasAnimator = TryGetComponent(out _animator);
+            //_hasAnimator = TryGetComponent(out _animator);
 
-            if (!ShopManager.instance.shopScreen.activeSelf && !InventoryManager.instance.inventoryScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf
-                && !PrickMinigameManager.instance.prickUI.activeSelf && currSeatTrans == null && !Blackboard.instance.blackboardCam.enabled)
+            if (canMove && currSeatTrans == null)
             {
                 JumpAndGravity();
                 GroundedCheck();

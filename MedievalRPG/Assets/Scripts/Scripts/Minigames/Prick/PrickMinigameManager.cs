@@ -96,6 +96,8 @@ public class PrickMinigameManager : MonoBehaviour
             prickUI.SetActive(false);
             prickCamera.enabled = false;
 
+            ThirdPersonController.instance.canMove = true;
+
             GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
             this.enabled = false;
@@ -104,6 +106,8 @@ public class PrickMinigameManager : MonoBehaviour
         {
             prickUI.SetActive(false);
             prickCamera.enabled = false;
+
+            ThirdPersonController.instance.canMove = true;
 
             GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 

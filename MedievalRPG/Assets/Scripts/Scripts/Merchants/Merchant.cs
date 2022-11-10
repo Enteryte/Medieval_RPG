@@ -107,6 +107,7 @@ public class Merchant : MonoBehaviour, IInteractable
 
         ShopManager.instance.DisplayShopItems();
 
+        ThirdPersonController.instance.canMove = false;
         ShopManager.instance.shopScreen.SetActive(true);
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);

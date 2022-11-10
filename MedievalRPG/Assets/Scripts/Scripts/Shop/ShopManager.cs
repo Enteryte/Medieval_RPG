@@ -42,7 +42,7 @@ public class ShopManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && shopScreen != null && shopScreen.activeSelf)
         {
             if (hMScreen.gameObject.activeSelf)
             {
@@ -61,6 +61,8 @@ public class ShopManager : MonoBehaviour
             else if (shopScreen.activeSelf)
             {
                 shopScreen.SetActive(false);
+
+                ThirdPersonController.instance.canMove = true;
 
                 GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
             }

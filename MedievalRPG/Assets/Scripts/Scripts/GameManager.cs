@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     public void OpenInventory()
     {
         InventoryManager.instance.inventoryScreen.SetActive(!InventoryManager.instance.inventoryScreen.activeSelf);
+
+        ThirdPersonController.instance.canMove = !InventoryManager.instance.inventoryScreen.activeSelf;
         //InventoryManager.instance.DisplayItemsOfCategory();
 
         for (int i = 0; i < InventoryManager.instance.allInvCategoryButton.Count; i++)

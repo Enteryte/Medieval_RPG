@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,6 +46,8 @@ public class Item : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
+        GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", false);
+
         InventoryManager.instance.inventory.AddItem(iBP, amountToGet);
 
         MessageManager.instance.CreateCollectedMessage(iBP);
