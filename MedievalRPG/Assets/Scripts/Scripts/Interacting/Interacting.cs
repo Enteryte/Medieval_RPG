@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.UI;
 
 public class Interacting : MonoBehaviour
@@ -37,6 +38,7 @@ public class Interacting : MonoBehaviour
 
     [Header("Animation Rigging")]
     public Transform rightHandRigTargetTrans;
+    public TwoBoneIKConstraint rightHandParentRig;
 
     public void Awake()
     {
@@ -177,6 +179,7 @@ public class Interacting : MonoBehaviour
                             if (Input.GetKeyDown(KeyCode.E) && nearestObjTrans.GetComponent<Item>() != null)
                             {
                                 rightHandRigTargetTrans.position = nearestObjTrans.position;
+                                rightHandParentRig.weight = 0;
 
                                 GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", true);
                             }
@@ -189,6 +192,8 @@ public class Interacting : MonoBehaviour
                                 if (currClickedTime >= timeTillInteract && ThirdPersonController.instance.currSeatTrans == null)
                                 {
                                     interactable.Interact(nearestObjTrans);
+
+                                    Interacting.instance.rightHandParentRig.weight = 0;
                                 }
                             }
 
@@ -203,6 +208,8 @@ public class Interacting : MonoBehaviour
                                     //rightHandRigTargetTrans.position = nearestObjTrans.position;
 
                                     GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", false);
+
+                                    rightHandParentRig.weight = 0;
                                 }
                             }
                         }
@@ -215,6 +222,8 @@ public class Interacting : MonoBehaviour
                                 currClickedTime = 0;
 
                                 keyToPressFillImg.fillAmount = 0;
+
+                                rightHandParentRig.weight = 0;
                             }
                         }
                     }

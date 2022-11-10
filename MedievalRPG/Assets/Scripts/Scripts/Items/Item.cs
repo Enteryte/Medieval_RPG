@@ -2,6 +2,7 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class Item : MonoBehaviour, IInteractable
 {
@@ -53,6 +54,8 @@ public class Item : MonoBehaviour, IInteractable
         MessageManager.instance.CreateCollectedMessage(iBP);
 
         CheckIfNeededForMission();
+
+        Interacting.instance.rightHandParentRig.weight = 0;
 
         Destroy(iOCanvas.gameObject);
         Destroy(this.gameObject);
