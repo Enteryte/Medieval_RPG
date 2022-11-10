@@ -42,7 +42,8 @@ public class Item : MonoBehaviour, IInteractable
 
     public float GetTimeTillInteract()
     {
-        return 1.5f;
+        //return 1.5f;
+        return Interacting.instance.grabItemAnim.length;
     }
 
     public void Interact(Transform transform)
@@ -56,6 +57,9 @@ public class Item : MonoBehaviour, IInteractable
         CheckIfNeededForMission();
 
         Interacting.instance.rightHandParentRig.weight = 0;
+        Interacting.instance.headRig.weight = 0;
+
+        ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
 
         Destroy(iOCanvas.gameObject);
         Destroy(this.gameObject);

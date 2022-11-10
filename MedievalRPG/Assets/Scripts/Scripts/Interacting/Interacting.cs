@@ -36,9 +36,14 @@ public class Interacting : MonoBehaviour
     public TMP_Text howToInteractTxt;
     public Image keyToPressFillImg;
 
+    public AnimationClip grabItemAnim;
+
     [Header("Animation Rigging")]
     public Transform rightHandRigTargetTrans;
     public TwoBoneIKConstraint rightHandParentRig;
+    public MultiAimConstraint headRig;
+    public GameObject playerHeadObj;
+    public GameObject playerHandObj;
 
     public void Awake()
     {
@@ -55,6 +60,14 @@ public class Interacting : MonoBehaviour
     void Update()
     {
         FindTargets();
+
+        Debug.Log(Vector3.Distance(playerHeadObj.transform.position, playerHandObj.transform.position));
+
+        if (ThirdPersonController.instance._animator.GetBool("GrabGroundItem") == true && ThirdPersonController.instance._animator.GetLayerWeight(1) < 1
+            && Vector3.Distance(playerHeadObj.transform.position, playerHandObj.transform.position) > 1)
+        { 
+            ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
+        }
     }
 
     public void FindTargets()
@@ -180,6 +193,9 @@ public class Interacting : MonoBehaviour
                             {
                                 rightHandRigTargetTrans.position = nearestObjTrans.position;
                                 rightHandParentRig.weight = 0;
+                                headRig.weight = 0;
+
+                                ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
 
                                 GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", true);
                             }
@@ -194,6 +210,9 @@ public class Interacting : MonoBehaviour
                                     interactable.Interact(nearestObjTrans);
 
                                     Interacting.instance.rightHandParentRig.weight = 0;
+                                    headRig.weight = 0;
+
+                                    ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
                                 }
                             }
 
@@ -210,6 +229,9 @@ public class Interacting : MonoBehaviour
                                     GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", false);
 
                                     rightHandParentRig.weight = 0;
+                                    headRig.weight = 0;
+
+                                    ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
                                 }
                             }
                         }
@@ -224,6 +246,9 @@ public class Interacting : MonoBehaviour
                                 keyToPressFillImg.fillAmount = 0;
 
                                 rightHandParentRig.weight = 0;
+                                headRig.weight = 0;
+
+                                ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
                             }
                         }
                     }
