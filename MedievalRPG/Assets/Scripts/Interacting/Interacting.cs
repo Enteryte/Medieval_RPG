@@ -35,6 +35,9 @@ public class Interacting : MonoBehaviour
     public TMP_Text howToInteractTxt;
     public Image keyToPressFillImg;
 
+    [Header("Animation Rigging")]
+    public Transform rightHandRigTargetTrans;
+
     public void Awake()
     {
         instance = this;
@@ -171,6 +174,13 @@ public class Interacting : MonoBehaviour
                     {
                         if (timeTillInteract > 0)
                         {
+                            if (Input.GetKeyDown(KeyCode.E) && nearestObjTrans.GetComponent<Item>() != null)
+                            {
+                                rightHandRigTargetTrans.position = nearestObjTrans.position;
+
+                                GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", true);
+                            }
+
                             if (Input.GetKey(KeyCode.E) && currClickedTime < timeTillInteract)
                             {
                                 currClickedTime += Time.deltaTime;
@@ -187,6 +197,13 @@ public class Interacting : MonoBehaviour
                                 currClickedTime = 0;
 
                                 keyToPressFillImg.fillAmount = 0;
+
+                                if (nearestObjTrans.GetComponent<Item>() != null)
+                                {
+                                    //rightHandRigTargetTrans.position = nearestObjTrans.position;
+
+                                    GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", false);
+                                }
                             }
                         }
                         else

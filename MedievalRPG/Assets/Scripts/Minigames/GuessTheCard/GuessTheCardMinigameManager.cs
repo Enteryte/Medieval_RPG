@@ -43,6 +43,8 @@ public class GuessTheCardMinigameManager : MonoBehaviour
     {
         gTCUI.SetActive(true);
 
+        ThirdPersonController.instance.canMove = false;
+
         for (int i = 0; i < cardGameObjects.Length; i++)
         {
             cardGameObjects[i].transform.localPosition = new Vector3(cardGameObjects[i].transform.localPosition.x, cardGameObjects[i].transform.localPosition.y, -58);
@@ -64,6 +66,8 @@ public class GuessTheCardMinigameManager : MonoBehaviour
             gTCUI.SetActive(false);
             gTCCamera.enabled = false;
 
+            ThirdPersonController.instance.canMove = true;
+
             GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
             this.enabled = false;
@@ -72,6 +76,8 @@ public class GuessTheCardMinigameManager : MonoBehaviour
         {
             gTCUI.SetActive(false);
             gTCCamera.enabled = false;
+
+            ThirdPersonController.instance.canMove = true;
 
             GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 

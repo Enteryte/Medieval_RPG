@@ -31,6 +31,8 @@ public class PrickBoard : MonoBehaviour, IInteractable
         prickManagerTrans.GetComponent<PrickMinigameManager>().prickUI.SetActive(true);
         prickManagerTrans.GetComponent<PrickMinigameManager>().prickCamera.enabled = true;
 
+        ThirdPersonController.instance.canMove = false;
+
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
 
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
