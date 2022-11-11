@@ -12,6 +12,8 @@ public class Item : MonoBehaviour, IInteractable
 
     public int amountToGet = 1;
 
+    public Transform whereToGrabItemTrans;
+
     // Start is called before the first frame update
     void Start()
     {

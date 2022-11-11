@@ -61,12 +61,23 @@ public class Interacting : MonoBehaviour
     {
         FindTargets();
 
-        Debug.Log(Vector3.Distance(playerHeadObj.transform.position, playerHandObj.transform.position));
+        //Debug.Log(Vector3.Distance(playerHeadObj.transform.position, playerHandObj.transform.position));
 
-        if (ThirdPersonController.instance._animator.GetBool("GrabGroundItem") == true && ThirdPersonController.instance._animator.GetLayerWeight(1) < 1
+        if (ThirdPersonController.instance._animator.GetBool("GrabItem") == true && ThirdPersonController.instance._animator.GetLayerWeight(1) < 1
             && Vector3.Distance(playerHeadObj.transform.position, playerHandObj.transform.position) > 1)
         { 
-            ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
+            //if (nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans != null && GameManager.instance.playerGO.transform.position.y - nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans.position.y < 0)
+            //{
+            //    ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
+            //}
+            //else if (nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans == null && GameManager.instance.playerGO.transform.position.y - nearestObjTrans.position.y < 0)
+            //{
+                ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
+            //}
+
+            //Debug.Log(GameManager.instance.playerGO.transform.position.y);
+            //Debug.Log(nearestObjTrans.position.y);
+            //Debug.Log(GameManager.instance.playerGO.transform.position.y - nearestObjTrans.position.y);
         }
     }
 
@@ -141,16 +152,19 @@ public class Interacting : MonoBehaviour
 
             if (Vector3.Angle(transform.forward, dirToObj) < viewAngle2 / 2 && !Physics.Raycast(transform.position, dirToObj, distanceToObj, obstacleMask))
             {
-                if (Vector3.Distance(interactableObj.position, transform.position) > nearestDistance || nearestObjTrans == null)
-                {
-                    nearestDistance = Vector3.Distance(interactableObj.position, transform.position);
-                    nearestObjTrans = interactableObj;
-                }
+                //if (!Input.anyKey)
+                //{
+                    if (Vector3.Distance(interactableObj.position, transform.position) > nearestDistance || nearestObjTrans == null)
+                    {
+                        nearestDistance = Vector3.Distance(interactableObj.position, transform.position);
+                        nearestObjTrans = interactableObj;
+                    }
 
-                if (!tIVR.Contains(interactableObj))
-                {
-                    tIVR.Add(interactableObj);
-                }
+                    if (!tIVR.Contains(interactableObj))
+                    {
+                        tIVR.Add(interactableObj);
+                    }
+                //}
             }
         }
 
@@ -191,7 +205,15 @@ public class Interacting : MonoBehaviour
                         {
                             if (Input.GetKeyDown(KeyCode.E) && nearestObjTrans.GetComponent<Item>() != null)
                             {
-                                rightHandRigTargetTrans.position = nearestObjTrans.position;
+                                if (nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans != null)
+                                {
+                                    rightHandRigTargetTrans.position = nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans.position;
+                                }
+                                else
+                                {
+                                    rightHandRigTargetTrans.position = nearestObjTrans.position;
+                                }
+
                                 rightHandParentRig.weight = 0;
                                 headRig.weight = 0;
 
@@ -262,24 +284,53 @@ public class Interacting : MonoBehaviour
                         FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
                     }
                 }
+
+                if (rightHandParentRig.weight != 0)
+                {
+                    rightHandParentRig.weight = 0;
+                    headRig.weight = 0;
+                }
             }
         }
         else
         {
-            howToInteractGO.SetActive(true);
+            var currAnimInfo = ThirdPersonController.instance._animator.GetCurrentAnimatorClipInfo(0);
 
-            howToInteractTxt.text = "Aufstehen";
-
-            timeTillInteract = ThirdPersonController.instance.currSeatTrans.GetComponent<SeatingObject>().GetTimeTillInteract();
-
-            if (timeTillInteract > 0)
+            if (currAnimInfo[0].clip.name == "Sitting Idle")
             {
-                if (Input.GetKey(KeyCode.E) && currClickedTime < timeTillInteract)
-                {
-                    currClickedTime += Time.deltaTime;
-                    keyToPressFillImg.fillAmount += 1f / timeTillInteract * Time.deltaTime;
+                howToInteractGO.SetActive(true);
 
-                    if (currClickedTime >= timeTillInteract)
+                howToInteractTxt.text = "Aufstehen";
+
+                timeTillInteract = ThirdPersonController.instance.currSeatTrans.GetComponent<SeatingObject>().GetTimeTillInteract();
+
+                if (timeTillInteract > 0)
+                {
+                    if (Input.GetKey(KeyCode.E) && currClickedTime < timeTillInteract)
+                    {
+                        currClickedTime += Time.deltaTime;
+                        keyToPressFillImg.fillAmount += 1f / timeTillInteract * Time.deltaTime;
+
+                        if (currClickedTime >= timeTillInteract)
+                        {
+                            ThirdPersonController.instance.currSeatTrans.GetComponent<SeatingObject>().Interact(ThirdPersonController.instance.currSeatTrans);
+
+                            currClickedTime = 0;
+
+                            keyToPressFillImg.fillAmount = 0;
+                        }
+                    }
+
+                    if (Input.GetKeyUp(KeyCode.E))
+                    {
+                        currClickedTime = 0;
+
+                        keyToPressFillImg.fillAmount = 0;
+                    }
+                }
+                else
+                {
+                    if (Input.GetKeyDown(KeyCode.E))
                     {
                         ThirdPersonController.instance.currSeatTrans.GetComponent<SeatingObject>().Interact(ThirdPersonController.instance.currSeatTrans);
 
@@ -288,25 +339,13 @@ public class Interacting : MonoBehaviour
                         keyToPressFillImg.fillAmount = 0;
                     }
                 }
-
-                if (Input.GetKeyUp(KeyCode.E))
-                {
-                    currClickedTime = 0;
-
-                    keyToPressFillImg.fillAmount = 0;
-                }
             }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    ThirdPersonController.instance.currSeatTrans.GetComponent<SeatingObject>().Interact(ThirdPersonController.instance.currSeatTrans);
+        }
 
-                    currClickedTime = 0;
-
-                    keyToPressFillImg.fillAmount = 0;
-                }
-            }
+        if (rightHandParentRig.weight != 0)
+        {
+            rightHandParentRig.weight = 0;
+            headRig.weight = 0;
         }
     }          
 
