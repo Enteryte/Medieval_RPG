@@ -84,7 +84,7 @@ public class EquipmentSlot : MonoBehaviour
                 {
                     EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(false);
 
-                    return;
+                    break;
                 }
             }
         }
@@ -95,9 +95,9 @@ public class EquipmentSlot : MonoBehaviour
             {
                 if (EquippingManager.instance.weaponParentObj.transform.GetChild(i).GetComponent<Item>().iBP.itemPrefab == newItemToEquip.itemPrefab)
                 {
-                    EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(false);
+                    EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
 
-                    return;
+                    break;
                 }
             }
         }
