@@ -6,6 +6,8 @@ public class EquippingManager : MonoBehaviour
 {
     public static EquippingManager instance;
 
+    public GameObject weaponParentObj;
+
     public EquipmentSlot leftWeaponES;
     public EquipmentSlot bowES;
 
