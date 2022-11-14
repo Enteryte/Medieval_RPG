@@ -2,6 +2,7 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class Item : MonoBehaviour, IInteractable
 {
@@ -10,6 +11,8 @@ public class Item : MonoBehaviour, IInteractable
     [HideInInspector] public InteractableObjectCanvas iOCanvas;
 
     public int amountToGet = 1;
+
+    public Transform whereToGrabItemTrans;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +44,8 @@ public class Item : MonoBehaviour, IInteractable
 
     public float GetTimeTillInteract()
     {
-        return 1.5f;
+        //return 1.5f;
+        return Interacting.instance.grabItemAnim.length;
     }
 
     public void Interact(Transform transform)
@@ -53,6 +57,11 @@ public class Item : MonoBehaviour, IInteractable
         MessageManager.instance.CreateCollectedMessage(iBP);
 
         CheckIfNeededForMission();
+
+        Interacting.instance.rightHandParentRig.weight = 0;
+        Interacting.instance.headRig.weight = 0;
+
+        ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
 
         Destroy(iOCanvas.gameObject);
         Destroy(this.gameObject);

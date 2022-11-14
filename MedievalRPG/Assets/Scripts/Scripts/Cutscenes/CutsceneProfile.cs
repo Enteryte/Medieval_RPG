@@ -10,6 +10,7 @@ public class CutsceneProfile : ScriptableObject
     public TimelineAsset cutscene;
 
     public bool isNotADialogue = false;
+    public bool cantBeSkipped = false;
 
     public float timeTillWhereToSkip;
 
@@ -20,6 +21,17 @@ public class CutsceneProfile : ScriptableObject
 
     /*[HideInInspector] */
     public CutsceneDecision[] allDecisions;
+
+    [Header("Optional Dialog-Parts")]
+    public MissionTaskBase mBTToCheck;
+    public CutsceneProfile cutsceneToChangeTo;
+
+    [Header("For Completing Tasks Or Missions")]
+    public MissionBaseProfile missionToComplete;
+    public MissionTaskBase missionTaskToComplete;
+
+    [Header("After Cutscene")]
+    public MissionBaseProfile missionToPlayAfter;
 
     //[CustomEditor(typeof(CutsceneProfile))]
     //public class CutsceneProfileEditor : Editor

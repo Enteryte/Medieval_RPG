@@ -64,17 +64,43 @@ public class EquipmentSlot : MonoBehaviour
 
     public void ChangeEquippedItem()
     {
-        //if (currEquippedItem != null)
-        //{
-        //    InventoryManager.instance.inventory.AddItem(currEquippedItem, 1);
+        if (currEquippedItem != null)
+        {
+            InventoryManager.instance.inventory.AddItem(currEquippedItem, 1);
 
-        //    InventoryManager.instance.RemoveHoldingWeight(currEquippedItem.weight);
-        //}
+            InventoryManager.instance.RemoveHoldingWeight(currEquippedItem.weight, 1);
+        }
 
-        //if (newItemToEquip != null)
-        //{
-        //    InventoryManager.instance.AddHoldingWeight(newItemToEquip.weight);
-        //}
+        if (newItemToEquip != null)
+        {
+            InventoryManager.instance.AddHoldingWeight(newItemToEquip.weight, 1);
+        }
+
+        if (currEquippedItem != null && EquippingManager.instance.weaponParentObj != null)
+        {
+            for (int i = 0; i < EquippingManager.instance.weaponParentObj.transform.childCount; i++)
+            {
+                if (EquippingManager.instance.weaponParentObj.transform.GetChild(i).GetComponent<Item>().iBP.itemPrefab == currEquippedItem.itemPrefab)
+                {
+                    EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(false);
+
+                    break;
+                }
+            }
+        }
+
+        if (newItemToEquip != null && EquippingManager.instance.weaponParentObj != null)
+        {
+            for (int i = 0; i < EquippingManager.instance.weaponParentObj.transform.childCount; i++)
+            {
+                if (EquippingManager.instance.weaponParentObj.transform.GetChild(i).GetComponent<Item>().iBP.itemPrefab == newItemToEquip.itemPrefab)
+                {
+                    EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
+
+                    break;
+                }
+            }
+        }
 
         currEquippedItem = newItemToEquip;
 

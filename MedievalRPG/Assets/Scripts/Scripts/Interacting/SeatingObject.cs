@@ -39,10 +39,10 @@ public class SeatingObject : MonoBehaviour, IInteractable
 
         //while (GameManager.instance.playerGO.transform.rotation.y != 270)
         //{
-            var rot = GameManager.instance.playerGO.transform.eulerAngles;
-            rot.y = rotationY;
+        var rot = GameManager.instance.playerGO.transform.eulerAngles;
+        rot.y = rotationY;
 
-            GameManager.instance.playerGO.transform.eulerAngles = rot;
+        GameManager.instance.playerGO.transform.eulerAngles = rot;
 
         if (rotationY == 0 || rotationY == 180)
         {
@@ -54,6 +54,10 @@ public class SeatingObject : MonoBehaviour, IInteractable
             GameManager.instance.playerGO.transform.position = new Vector3(GameManager.instance.playerGO.transform.position.x, GameManager.instance.playerGO.transform.position.y,
                 iOCanvasLookAtSitPlaceObj.transform.position.z);
         }
+
+        Interacting.instance.currClickedTime = 0;
+
+        Interacting.instance.keyToPressFillImg.fillAmount = 0;
 
         //time = time + Time.deltaTime;
 
