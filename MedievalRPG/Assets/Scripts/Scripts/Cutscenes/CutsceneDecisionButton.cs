@@ -37,6 +37,11 @@ public class CutsceneDecisionButton : MonoBehaviour
             InventoryManager.instance.inventory.AddItem(storedDecision.itemToGet, storedDecision.amountToGet);
         }
 
+        if (!storedDecision.cutsceneToPlay.playCutsceneMoreThanOnce)
+        {
+            storedDecision.cutsceneToPlay.alreadyPlayedCutscene = true;
+        }
+
         for (int i = 0; i < CutsceneManager.instance.decisionBtnParentTrans.childCount; i++)
         {
             Destroy(CutsceneManager.instance.decisionBtnParentTrans.GetChild(i).gameObject);

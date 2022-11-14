@@ -60,6 +60,8 @@ public class ShopManager : MonoBehaviour
             }
             else if (shopScreen.activeSelf)
             {
+                CheckIfNeededForCutscene();
+
                 shopScreen.SetActive(false);
 
                 ThirdPersonController.instance.canMove = true;
@@ -250,5 +252,18 @@ public class ShopManager : MonoBehaviour
         }
 
         categoryTrans.gameObject.SetActive(false);
+    }
+
+    public void CheckIfNeededForCutscene()
+    {
+        if (CutsceneManager.instance.currCP.playNewCutsceneAfterDeactivatedObj)
+        {
+            if (CutsceneManager.instance.currCP.gameObjectToDeactivateName == shopScreen.name)
+            {
+                CutsceneManager.instance.currCP = CutsceneManager.instance.currCP.cutsceneToPlayAfter;
+                CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+                CutsceneManager.instance.playableDirector.Play();
+            }
+        }
     }
 }
