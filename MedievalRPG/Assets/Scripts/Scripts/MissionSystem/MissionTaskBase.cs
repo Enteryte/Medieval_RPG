@@ -19,8 +19,14 @@ public class MissionTaskBase : ScriptableObject
 
     public MissionTaskType missionTaskType = MissionTaskType.none;
 
+    public bool completeAfterInteracted = true;
+
     public bool missionTaskCompleted = false;
     public CutsceneProfile dialogToTrigger;
+
+    [Header("When Completed Mission Task")]
+    public float moneyReward;
+    public ItemReward[] itemRewards;
 
     #region TalkTo Task Values
     [HideInInspector] public NPCBaseProfile nPCToTalkToBaseProfile;

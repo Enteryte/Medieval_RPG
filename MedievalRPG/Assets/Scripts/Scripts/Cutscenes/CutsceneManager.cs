@@ -35,7 +35,7 @@ public class CutsceneManager : MonoBehaviour
     {
         if (playableDirector.playableAsset != null)
         {
-            if (Input.GetKey(KeyCode.Escape) && currCP.isNotADialogue)
+            if (Input.GetKey(KeyCode.Escape) && currCP.isNotADialogue && currCP.cantBeSkipped)
             {
                 if (!GameManager.instance.playedTheGameThrough)
                 {
@@ -54,7 +54,7 @@ public class CutsceneManager : MonoBehaviour
                 }   
             }
 
-            if (Input.GetKeyDown(KeyCode.Return) && !currCP.isNotADialogue)
+            if (Input.GetKeyDown(KeyCode.Return) && !currCP.isNotADialogue && currCP.cantBeSkipped)
             {
                 SkipSentenceInDialogue();
             }
@@ -121,4 +121,34 @@ public class CutsceneManager : MonoBehaviour
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
+
+    #region TimelineSignals: Optional
+    public void CheckIfPlayerWasAlreadyAtThava()
+    {
+        Debug.Log(currCP);
+
+        if (currCP.mBTToCheck != null && !currCP.mBTToCheck.missionTaskCompleted)
+        {
+            //playableDirector.Stop();
+            currCP = currCP.cutsceneToChangeTo;
+
+            //Debug.Log(currCP);
+            //Debug.Log(currCP.cutsceneToChangeTo);
+            playableDirector.playableAsset = currCP.cutscene;
+            playableDirector.Play();
+        }
+    }
+
+    public void CompleteMissionOrMissionTask()
+    {
+        if (currCP.missionToComplete != null)
+        {
+            MissionManager.instance.CompleteMissionTask(currCP.missionToComplete, currCP.missionTaskToComplete);
+        }
+        else if (currCP.missionToComplete != null)
+        {
+            MissionManager.instance.CompleteMission(currCP.missionToComplete);
+        }
+    }
+    #endregion
 }

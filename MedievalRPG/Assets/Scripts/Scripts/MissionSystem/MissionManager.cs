@@ -124,6 +124,16 @@ public class MissionManager : MonoBehaviour
     {
         missionTaskToComplete.missionTaskCompleted = true;
 
+        if (missionTaskToComplete.moneyReward > 0)
+        {
+            PlayerValueManager.instance.money += missionTaskToComplete.moneyReward;
+        }
+
+        for (int i = 0; i < missionTaskToComplete.itemRewards.Length; i++)
+        {
+            InventoryManager.instance.inventory.AddItem(missionTaskToComplete.itemRewards[i].iBP, missionTaskToComplete.itemRewards[i].howManyToGet);
+        }
+
         if (missionTaskToComplete.dialogToTrigger != null)
         {
             CutsceneManager.instance.currCP = missionTaskToComplete.dialogToTrigger;
@@ -219,5 +229,10 @@ public class MissionManager : MonoBehaviour
         //        }
         //    }
         //}
+    }
+
+    public void StartMissionAfterCutscene()
+    {
+       AddMission(CutsceneManager.instance.currCP.missionToPlayAfter);
     }
 }
