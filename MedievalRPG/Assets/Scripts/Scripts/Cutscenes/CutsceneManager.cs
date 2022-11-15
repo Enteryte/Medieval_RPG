@@ -160,7 +160,7 @@ public class CutsceneManager : MonoBehaviour
 
     public void CompleteMissionOrMissionTask()
     {
-        if (currCP.missionToComplete != null)
+        if (currCP.missionTaskToComplete != null)
         {
             MissionManager.instance.CompleteMissionTask(currCP.missionToComplete, currCP.missionTaskToComplete);
         }

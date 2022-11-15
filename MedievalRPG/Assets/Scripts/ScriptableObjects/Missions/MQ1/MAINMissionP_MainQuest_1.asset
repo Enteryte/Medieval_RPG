@@ -13,18 +13,27 @@ MonoBehaviour:
   m_Name: MAINMissionP_MainQuest_1
   m_EditorClassIdentifier: 
   missionType: 1
-  missionName: Hauptquest
+  missionName: Hauptquest 1
   missionDescription: 
   allMissionTasks:
   - taskName: 
     taskDescription: Bringe das Fleisch zum Wirten bevor es schlecht wird.
     mTB: {fileID: 11400000, guid: 3cf46aaf5a35347429fedf059bf9a733, type: 2}
   - taskName: 
+    taskDescription: Bitte den Schmied deine Waffen zu reparieren.
+    mTB: {fileID: 11400000, guid: 6543e78eb76a1f4439b242ad1e880caf, type: 2}
+  - taskName: 
+    taskDescription: "Verkaufe das Fell an den H\xE4ndler."
+    mTB: {fileID: 11400000, guid: 00943305a07f5834d99500053eff80f9, type: 2}
+  - taskName: 
     taskDescription: "Gehe zur Kr\xE4uterhexe Thava um deine Wunden zu heilen."
     mTB: {fileID: 11400000, guid: d38da284e8e4e854c80e2bf7946164ef, type: 2}
   - taskName: 
-    taskDescription: Bitte den Schmied deine Waffen zu reparieren
-    mTB: {fileID: 11400000, guid: 6543e78eb76a1f4439b242ad1e880caf, type: 2}
+    taskDescription: "Frage im Dorf nach dem H\xE4ndler."
+    mTB: {fileID: 11400000, guid: 395e7f5a02706214bb199df52f6a0da5, type: 2}
+  - taskName: 
+    taskDescription: "Frage im Dorf nach dem H\xE4ndler."
+    mTB: {fileID: 11400000, guid: 7ddf38633d1546743b1cec7fc88e6591, type: 2}
   missionCompleted: 0
   moneyReward: 0
   itemRewards: []
