@@ -124,10 +124,28 @@ public class MissionManager : MonoBehaviour
     {
         missionTaskToComplete.missionTaskCompleted = true;
 
-        if (missionTaskToComplete.dialogToTrigger != null)
+        if (missionTaskToComplete.moneyReward > 0)
         {
-            CutsceneManager.instance.currCP = missionTaskToComplete.dialogToTrigger;
-            CutsceneManager.instance.playableDirector.playableAsset = missionTaskToComplete.dialogToTrigger.cutscene;
+            PlayerValueManager.instance.money += missionTaskToComplete.moneyReward;
+        }
+
+        for (int i = 0; i < missionTaskToComplete.itemRewards.Length; i++)
+        {
+            InventoryManager.instance.inventory.AddItem(missionTaskToComplete.itemRewards[i].iBP, missionTaskToComplete.itemRewards[i].howManyToGet);
+        }
+
+        if (missionTaskToComplete.missionTaskToActivate != null)
+        {
+            missionTaskToComplete.canBeDisplayed = false;
+
+            missionTaskToComplete.missionTaskToActivate.canBeDisplayed = true;
+
+            // WIP: Animation dazu fehlt noch + HUD-Missionsanzeige muss noch geupdated werden.
+        }
+        else if (missionTaskToComplete.cutsceneToTrigger != null)
+        {
+            CutsceneManager.instance.currCP = missionTaskToComplete.cutsceneToTrigger;
+            CutsceneManager.instance.playableDirector.playableAsset = missionTaskToComplete.cutsceneToTrigger.cutscene;
             CutsceneManager.instance.playableDirector.Play();
         }
 
@@ -220,4 +238,14 @@ public class MissionManager : MonoBehaviour
         //    }
         //}
     }
+
+    public void StartMissionAfterCutscene()
+    {
+       AddMission(CutsceneManager.instance.currCP.missionToPlayAfter);
+    }
+
+    //public void AddMissionTaskToActiveMissionAfterCutscene()
+    //{
+    //    AddMission(CutsceneManager.instance.currCP.missionToPlayAfter);
+    //}
 }

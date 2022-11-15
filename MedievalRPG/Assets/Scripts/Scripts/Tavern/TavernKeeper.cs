@@ -29,6 +29,10 @@ public class TavernKeeper : MonoBehaviour, IInteractable
     [Header("Get Beer UI")]
     public GameObject getBeerScreen;
 
+    [Header("Missions")]
+    public List<MissionBaseProfile> allCorrMissions;
+    public MissionTaskBase currCorrTask;
+
     public void Awake()
     {
         instance = this;
@@ -182,31 +186,42 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
-        CutsceneManager.instance.currCP = normalTalkCP;
-        CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
-        CutsceneManager.instance.playableDirector.Play();
+        var neededForMission = CheckIfNeededForMission();
 
-        //if (navMeshAgent != null)
-        //{
-        //    navMeshAgent.isStopped = true;
-
-        //    animator.SetBool("IsStanding", true);
-        //}
-
-        transform.LookAt(GameManager.instance.playerGO.transform);
-
-        //isInDialogue = true;
-
-        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
-
-        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
-
-        for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)
+        if (neededForMission)
         {
-            Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
+            CutsceneManager.instance.currCP = currCorrTask.dialogToPlayAfterInteracted;
+            CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+            CutsceneManager.instance.playableDirector.Play();
         }
+        else if (!neededForMission)
+        {
+            CutsceneManager.instance.currCP = normalTalkCP;
+            CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+            CutsceneManager.instance.playableDirector.Play();
 
-        //CheckIfNeededForMission();
+            //if (navMeshAgent != null)
+            //{
+            //    navMeshAgent.isStopped = true;
+
+            //    animator.SetBool("IsStanding", true);
+            //}
+
+            transform.LookAt(GameManager.instance.playerGO.transform);
+
+            //isInDialogue = true;
+
+            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+            ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+            for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)
+            {
+                Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
+            }
+
+            //CheckIfNeededForMission();
+        }
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()
@@ -214,33 +229,49 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         return this.iOCanvas;
     }
 
-    //public void CheckIfNeededForMission()
-    //{
-    //    for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
-    //    {
-    //        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 1)
-    //        {
-    //            for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
-    //            {
-    //                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
-    //                {
-    //                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP)
-    //                    {
-    //                        MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
-    //            {
-    //                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
-    //                {
-    //                    MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
+    public bool CheckIfNeededForMission()
+    {
+        for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
+        {
+            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 1)
+            {
+                for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                    {
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP)
+                        {
+                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.completeAfterInteracted)
+                            {
+                                MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                            }
+
+                            currCorrTask = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
+
+                            return true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
+                    {
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.completeAfterInteracted)
+                        {
+                            MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                        }
+
+                        currCorrTask = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
+
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }

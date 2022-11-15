@@ -10,6 +10,10 @@ public class CutsceneProfile : ScriptableObject
     public TimelineAsset cutscene;
 
     public bool isNotADialogue = false;
+    public bool cantBeSkipped = false;
+
+    public bool playCutsceneMoreThanOnce = true;
+    public bool alreadyPlayedCutscene = false;
 
     public float timeTillWhereToSkip;
 
@@ -20,6 +24,20 @@ public class CutsceneProfile : ScriptableObject
 
     /*[HideInInspector] */
     public CutsceneDecision[] allDecisions;
+
+    [Header("Optional Dialog-Parts")]
+    public MissionTaskBase mBTToCheck;
+    public CutsceneProfile cutsceneToChangeTo;
+
+    [Header("For Completing Tasks Or Missions")]
+    public MissionBaseProfile missionToComplete;
+    public MissionTaskBase missionTaskToComplete;
+
+    [Header("After Cutscene")]
+    public MissionBaseProfile missionToPlayAfter;
+    public bool playNewCutsceneAfterDeactivatedObj = false;
+    public string gameObjectToDeactivateName;
+    public CutsceneProfile cutsceneToPlayAfter;
 
     //[CustomEditor(typeof(CutsceneProfile))]
     //public class CutsceneProfileEditor : Editor
@@ -52,6 +70,8 @@ public class CutsceneProfile : ScriptableObject
 public class CutsceneDecision
 {
     public string decisionText;
+
+    public bool needsToBeClicked = true;
 
     public CutsceneProfile cutsceneToPlay;
     public MissionBaseProfile missionToActivate;
