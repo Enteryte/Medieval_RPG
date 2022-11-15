@@ -12,6 +12,9 @@ public class CutsceneProfile : ScriptableObject
     public bool isNotADialogue = false;
     public bool cantBeSkipped = false;
 
+    public bool playCutsceneMoreThanOnce = true;
+    public bool alreadyPlayedCutscene = false;
+
     public float timeTillWhereToSkip;
 
     public List<float> timesWhenNewSentenceStarts;
@@ -32,6 +35,9 @@ public class CutsceneProfile : ScriptableObject
 
     [Header("After Cutscene")]
     public MissionBaseProfile missionToPlayAfter;
+    public bool playNewCutsceneAfterDeactivatedObj = false;
+    public string gameObjectToDeactivateName;
+    public CutsceneProfile cutsceneToPlayAfter;
 
     //[CustomEditor(typeof(CutsceneProfile))]
     //public class CutsceneProfileEditor : Editor
@@ -64,6 +70,8 @@ public class CutsceneProfile : ScriptableObject
 public class CutsceneDecision
 {
     public string decisionText;
+
+    public bool needsToBeClicked = true;
 
     public CutsceneProfile cutsceneToPlay;
     public MissionBaseProfile missionToActivate;

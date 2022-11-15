@@ -9,6 +9,7 @@ public class CutsceneManager : MonoBehaviour
 {
     public static CutsceneManager instance;
 
+    public GameObject cutsceneCam;
     public PlayableDirector playableDirector;
 
     public CutsceneProfile currCP;
@@ -95,9 +96,27 @@ public class CutsceneManager : MonoBehaviour
 
         for (int i = 0; i < currCP.allDecisions.Length; i++)
         {
-            var newDecisionButton = Instantiate(decisionBtnPrefab, decisionBtnParentTrans);
+            if (currCP.allDecisions[i].cutsceneToPlay.playCutsceneMoreThanOnce)
+            {
+                var newDecisionButton = Instantiate(decisionBtnPrefab, decisionBtnParentTrans);
 
-            newDecisionButton.GetComponent<CutsceneDecisionButton>().SetAndDisplayDecision(currCP.allDecisions[i]);
+                newDecisionButton.GetComponent<CutsceneDecisionButton>().SetAndDisplayDecision(currCP.allDecisions[i]);
+            }
+            else if (!currCP.allDecisions[i].cutsceneToPlay.alreadyPlayedCutscene)
+            {
+                var newDecisionButton = Instantiate(decisionBtnPrefab, decisionBtnParentTrans);
+
+                newDecisionButton.GetComponent<CutsceneDecisionButton>().SetAndDisplayDecision(currCP.allDecisions[i]);
+            }
+        }
+
+        if (!decisionBtnParentTrans.GetChild(0).gameObject.GetComponent<CutsceneDecisionButton>().storedDecision.needsToBeClicked)
+        {
+            Destroy(decisionBtnParentTrans.GetChild(0).gameObject);
+
+            cutsceneCam.SetActive(false);
+
+            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
         }
     }
 

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df470a69912d4064e86f315fcc6c32cc, type: 3}
+  m_Name: MAINCutsceneP_0_GameStart_MissionDialog_Task4_Decision3
+  m_EditorClassIdentifier: 
+  cutscene: {fileID: 11400000, guid: bbd4c0f132b7c3a45b6d9cff8b0a4eda, type: 2}
+  isNotADialogue: 0
+  cantBeSkipped: 0
+  playCutsceneMoreThanOnce: 0
+  alreadyPlayedCutscene: 0
+  timeTillWhereToSkip: 0
+  timesWhenNewSentenceStarts: []
+  hasDecisions: 1
+  allDecisions:
+  - decisionText: Annehmen
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: 356ed1865bf4bb64baffab69431a6d14, type: 2}
+    missionToActivate: {fileID: 0}
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  - decisionText: Ablehnen
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: b43689f21f5976c4080b0f43475e1d8f, type: 2}
+    missionToActivate: {fileID: 0}
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  mBTToCheck: {fileID: 0}
+  cutsceneToChangeTo: {fileID: 0}
+  missionToComplete: {fileID: 0}
+  missionTaskToComplete: {fileID: 0}
+  missionToPlayAfter: {fileID: 0}
+  playNewCutsceneAfterDeactivatedObj: 0
+  gameObjectToDeactivateName: 
+  cutsceneToPlayAfter: {fileID: 0}

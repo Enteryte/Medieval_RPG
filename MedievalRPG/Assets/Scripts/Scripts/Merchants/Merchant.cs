@@ -11,6 +11,10 @@ public class Merchant : MonoBehaviour, IInteractable
 
     public GameObject iOCanvasLookAtObj;
 
+    [Header("Missions")]
+    public List<MissionBaseProfile> allCorrMissions;
+    public MissionTaskBase currCorrTask;
+
     //public float maxMoneyMerchantCanSpend;
     //public float currMoneyMerchantSpend = 0;
 
@@ -93,33 +97,44 @@ public class Merchant : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
-        ShopManager.currMBP = mBP;
+        var neededForMission = CheckIfNeededForMission();
 
-        if (mBP.changesItems)
+        if (neededForMission)
         {
-            // WIP
-            Debug.Log("WIP!");
+            CutsceneManager.instance.currCP = currCorrTask.dialogToPlayAfterInteracted;
+            CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+            CutsceneManager.instance.playableDirector.Play();
         }
         else
         {
-            ShopManager.instance.currSLBP = mBP.shopListBaseProfile;
+            ShopManager.currMBP = mBP;
+
+            if (mBP.changesItems)
+            {
+                // WIP
+                Debug.Log("WIP!");
+            }
+            else
+            {
+                ShopManager.instance.currSLBP = mBP.shopListBaseProfile;
+            }
+
+            ShopManager.instance.DisplayShopItems();
+
+            ThirdPersonController.instance.canMove = false;
+            ShopManager.instance.shopScreen.SetActive(true);
+
+            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+            ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+            for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)
+            {
+                Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
+            }
+
+            //CheckIfNeededForMission();
         }
-
-        ShopManager.instance.DisplayShopItems();
-
-        ThirdPersonController.instance.canMove = false;
-        ShopManager.instance.shopScreen.SetActive(true);
-
-        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
-
-        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
-
-        for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)
-        {
-            Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
-        }
-
-        CheckIfNeededForMission();
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()
@@ -127,7 +142,7 @@ public class Merchant : MonoBehaviour, IInteractable
         return this.iOCanvas;
     }
 
-    public void CheckIfNeededForMission()
+    public bool CheckIfNeededForMission()
     {
         for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
         {
@@ -139,7 +154,14 @@ public class Merchant : MonoBehaviour, IInteractable
                     {
                         if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP)
                         {
-                            MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.completeAfterInteracted)
+                            {
+                                MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                            }
+
+                            currCorrTask = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
+
+                            return true;
                         }
                     }
                 }
@@ -150,10 +172,49 @@ public class Merchant : MonoBehaviour, IInteractable
                 {
                     if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
                     {
-                        MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.completeAfterInteracted)
+                        {
+                            MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                        }
+
+                        currCorrTask = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
+
+                        return true;
                     }
                 }
             }
         }
+
+        return false;
     }
+
+    //public void CheckIfNeededForMission()
+    //{
+    //    for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
+    //    {
+    //        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 1)
+    //        {
+    //            for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
+    //            {
+    //                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+    //                {
+    //                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP)
+    //                    {
+    //                        MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+    //            {
+    //                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
+    //                {
+    //                    MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 }
