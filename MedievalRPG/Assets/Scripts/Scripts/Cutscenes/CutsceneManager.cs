@@ -158,6 +158,57 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
+    public void CheckIfPlayerCompletedSideQuestOfBlacksmith()
+    {
+        if (currCP.mBTToCheck != null && currCP.mBTToCheck.missionTaskCompleted)
+        {
+            //playableDirector.Stop();
+            currCP = currCP.cutsceneToChangeTo;
+
+            //Debug.Log(currCP);
+            //Debug.Log(currCP.cutsceneToChangeTo);
+            playableDirector.playableAsset = currCP.cutscene;
+            playableDirector.Play();
+        }
+    }
+
+    public void CheckIfPlayerHasGotDamage()
+    {
+        if (PlayerValueManager.instance.currHP == PlayerValueManager.instance.normalHP)
+        {
+            //playableDirector.Stop();
+            currCP = currCP.cutsceneToChangeTo;
+
+            //Debug.Log(currCP);
+            //Debug.Log(currCP.cutsceneToChangeTo);
+            playableDirector.playableAsset = currCP.cutscene;
+            playableDirector.Play();
+        }
+    }
+
+    public void ActivateTask()
+    {
+        currCP.missionTaskToActivate.canBeDisplayed = true;
+
+        if (UIManager.missionToDisplay != null && UIManager.missionToDisplay == currCP.corresspondingMission)
+        {
+            Debug.Log("HJNK");
+            var taskNumber = 0;
+
+            for (int i = 0; i < currCP.corresspondingMission.allMissionTasks.Length; i++)
+            {
+                if (currCP.corresspondingMission.allMissionTasks[i].mTB == currCP.missionTaskToActivate)
+                {
+                    taskNumber = i;
+
+                    break;
+                }
+            }
+
+            UIManager.instance.UpdateAndAddMissionDisplayTasks(currCP.missionTaskToActivate, currCP.corresspondingMission.allMissionTasks[taskNumber].taskDescription, true);
+        }
+    }
+
     public void CompleteMissionOrMissionTask()
     {
         if (currCP.missionTaskToComplete != null)

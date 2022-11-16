@@ -54,6 +54,13 @@ public class MissionManager : MonoBehaviour
                 }
             }
         }
+
+        if (UIManager.missionToDisplay == null && missionToAdd.missionType == MissionBaseProfile.MissionType.main)
+        {
+            UIManager.missionToDisplay = missionToAdd;
+
+            UIManager.instance.CreateMissionDisplay();
+        }
     }
 
     public void RemoveMission(MissionBaseProfile missionToRemove)
@@ -139,6 +146,22 @@ public class MissionManager : MonoBehaviour
             missionTaskToComplete.canBeDisplayed = false;
 
             missionTaskToComplete.missionTaskToActivate.canBeDisplayed = true;
+
+            if (UIManager.missionToDisplay != null && UIManager.missionToDisplay == mBP)
+            {
+                var numb = 0;
+
+                for (int i = 0; i < mBP.allMissionTasks.Length; i++)
+                {
+                    if (mBP.allMissionTasks[i].mTB == missionTaskToComplete.missionTaskToActivate)
+                    {
+                        numb = i;
+                    }
+                }
+
+                Debug.Log("HJNK");
+                UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb].taskDescription);
+            }
 
             // WIP: Animation dazu fehlt noch + HUD-Missionsanzeige muss noch geupdated werden.
         }
