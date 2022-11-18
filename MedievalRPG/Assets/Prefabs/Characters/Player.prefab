@@ -4687,6 +4687,7 @@ GameObject:
   - component: {fileID: 2787393079251699134}
   - component: {fileID: 2787393079251699133}
   - component: {fileID: 2787393079251699139}
+  - component: {fileID: 4320871776080816139}
   m_Layer: 13
   m_Name: Base_mesh
   m_TagString: Untagged
@@ -4843,7 +4844,12 @@ MonoBehaviour:
   howToInteractGO: {fileID: 0}
   howToInteractTxt: {fileID: 0}
   keyToPressFillImg: {fileID: 0}
+  grabItemAnim: {fileID: 0}
   rightHandRigTargetTrans: {fileID: 2787393079737190824}
+  rightHandParentRig: {fileID: 0}
+  headRig: {fileID: 0}
+  playerHeadObj: {fileID: 0}
+  playerHandObj: {fileID: 0}
 --- !u!114 &2787393079251699135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5039,6 +5045,18 @@ MonoBehaviour:
   - m_Rig: {fileID: 2787393080258412623}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &4320871776080816139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2787393079994485993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e8966df026f5e47852356d10560400, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2787393079994485995
 GameObject:
   m_ObjectHideFlags: 0

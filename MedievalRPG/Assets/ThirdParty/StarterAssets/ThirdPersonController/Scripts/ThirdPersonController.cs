@@ -226,7 +226,7 @@ namespace StarterAssets
 
                                 attackClicks += 1;
                                 _animator.SetInteger("AttackClicks", attackClicks);
-
+                                
                                 if (_animator.GetLayerWeight(1) != 0.5f)
                                 {
                                     _animator.SetLayerWeight(1, 0.5f);
