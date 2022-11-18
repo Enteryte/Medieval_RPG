@@ -193,7 +193,7 @@ public class CutsceneManager : MonoBehaviour
         if (UIManager.missionToDisplay != null && UIManager.missionToDisplay == currCP.corresspondingMission)
         {
             Debug.Log("HJNK");
-            var taskNumber = 0;
+            var taskNumber = -1;
 
             for (int i = 0; i < currCP.corresspondingMission.allMissionTasks.Length; i++)
             {
@@ -201,11 +201,21 @@ public class CutsceneManager : MonoBehaviour
                 {
                     taskNumber = i;
 
+                    Debug.Log(currCP.missionTaskToActivate);
+                    Debug.Log(currCP);
+
                     break;
                 }
             }
 
-            UIManager.instance.UpdateAndAddMissionDisplayTasks(currCP.missionTaskToActivate, currCP.corresspondingMission.allMissionTasks[taskNumber].taskDescription, true);
+            //if (currCP.missionTaskToActivate != null)
+            //{
+                UIManager.instance.UpdateAndAddMissionDisplayTasks(currCP.missionTaskToActivate, currCP.corresspondingMission.allMissionTasks[taskNumber].taskDescription, true);
+            //}
+            //else
+            //{
+            //    UIManager.instance.UpdateAndAddMissionDisplayTasks(currCP.missionTaskToActivate, currCP.corresspondingMission.allMissionTasks[taskNumber].taskDescription, false);
+            //}
         }
     }
 

@@ -10,6 +10,7 @@ public class UIAnimationHandler : MonoBehaviour
     public Animator missionDisplayAnimator;
     public string gONameToAnim = "Empty:MissionTaskHUDDisplay";
     public string newGONameToAnim = "Empty:MissionTaskHUDDisplay_NEW";
+    public string goNameToAnim2 = "Empty:MissionTaskHUDDisplay2";
 
     public AnimationClip updateMissionTaskAnim;
     public AnimationClip addMissionTaskAnim;

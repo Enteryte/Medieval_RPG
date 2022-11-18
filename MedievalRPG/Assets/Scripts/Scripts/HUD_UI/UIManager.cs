@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour
 
                 newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = missionToDisplay.allMissionTasks[i].mTB;
                 newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(missionToDisplay.allMissionTasks[i].taskDescription);
+
+                //newMissionTaskObj.SetActive(true);
             }
         }
 
@@ -41,6 +43,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateMissionDisplayTasks(MissionTaskBase finishedMissionTask, MissionTaskBase newMissionBase, string newMissionTaskDescription)
     {
+        Debug.Log("HERE");
+
         for (int i = 0; i < missionTaskObjParentObj.transform.childCount; i++)
         {
             if (missionTaskObjParentObj.transform.GetChild(i).gameObject.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase == finishedMissionTask)
@@ -51,7 +55,7 @@ public class UIManager : MonoBehaviour
 
                 MissionTaskDisplayParent.missionTaskObjNumber = i;
 
-                UpdateAndAddMissionDisplayTasks(newMissionBase, newMissionTaskDescription, false);
+                //UpdateAndAddMissionDisplayTasks(newMissionBase, newMissionTaskDescription, false);
 
                 //var siblingNumb = missionTaskObjParentObj.transform.GetChild(i).GetSiblingIndex();
 
@@ -75,11 +79,16 @@ public class UIManager : MonoBehaviour
         newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = newMissionBase;
         newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(taskDescrption);
 
+        if (!newMissionBase.isActiveAtStart)
+        {
+            newMissionTaskObj.SetActive(false);
+        }
+
         newMissionTaskObj.name = UIAnimationHandler.instance.newGONameToAnim;
 
         if (addedTask)
         {
-            newMissionTaskObj.SetActive(false);
+            newMissionTaskObj.name = UIAnimationHandler.instance.goNameToAnim2;
         }
 
         newInstMissionTaskObj = newMissionTaskObj;
@@ -88,5 +97,7 @@ public class UIManager : MonoBehaviour
         {
             UIAnimationHandler.instance.AnimateAddedMissionTask();
         }
+
+        //newInstMissionTaskObj = null;
     }
 }
