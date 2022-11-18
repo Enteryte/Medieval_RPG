@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
 
         for (int i = 0; i < missionToDisplay.allMissionTasks.Length; i++)
         {
-            if (missionToDisplay.allMissionTasks[i].mTB.canBeDisplayed)
+            if (missionToDisplay.allMissionTasks[i].mTB.canBeDisplayed && !missionToDisplay.allMissionTasks[i].mTB.missionTaskCompleted)
             {
                 var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
 
@@ -41,63 +41,51 @@ public class UIManager : MonoBehaviour
         //missionTaskObjParentObj.GetComponent<GridLayoutGroup>().enabled = false;
     }
 
-    public void UpdateMissionDisplayTasks(MissionTaskBase finishedMissionTask, MissionTaskBase newMissionBase, string newMissionTaskDescription)
+    public void UpdateMissionDisplayTasks(MissionTaskBase finishedMissionTask, MissionTaskBase newMissionBase, MissionTask newMissionTask, string newMissionTaskDescription, bool hasNewTaskToActivate)
     {
-        Debug.Log("HERE");
+        if (hasNewTaskToActivate)
+        {
+            var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
+
+            newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = newMissionBase;
+            newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(newMissionTask.taskDescription);
+
+            newMissionTaskObj.name = UIAnimationHandler.instance.newGONameToAnim;
+        }
 
         for (int i = 0; i < missionTaskObjParentObj.transform.childCount; i++)
         {
             if (missionTaskObjParentObj.transform.GetChild(i).gameObject.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase == finishedMissionTask)
             {
-                Debug.Log(finishedMissionTask);
-
-                //missionTaskObjParentObj.transform.GetChild(i).gameObject.name = UIAnimationHandler.instance.gONameToAnim;
-
                 MissionTaskDisplayParent.missionTaskObjNumber = i;
 
-                //UpdateAndAddMissionDisplayTasks(newMissionBase, newMissionTaskDescription, false);
-
-                //var siblingNumb = missionTaskObjParentObj.transform.GetChild(i).GetSiblingIndex();
-
-                //if (newInstMissionTaskObj != null)
-                //{
-                //    newInstMissionTaskObj.transform.position = missionTaskObjParentObj.transform.GetChild(i).gameObject.transform.position;
-                //    //    newInstMissionTaskObj.transform.SetSiblingIndex(siblingNumb);
-
-                //    //    newInstMissionTaskObj = null;
-                //}
-
-                UIAnimationHandler.instance.AnimateUpdatedMissionTask(missionTaskObjParentObj.transform.GetChild(i).gameObject);
+                if (hasNewTaskToActivate)
+                {
+                    UIAnimationHandler.instance.AnimateUpdatedMissionTask(missionTaskObjParentObj.transform.GetChild(i).gameObject);
+                }
+                else
+                {
+                    UIAnimationHandler.instance.AnimateCompletedMissionTask(missionTaskObjParentObj.transform.GetChild(i).gameObject);
+                }
             }
         }
     }
 
-    public void UpdateAndAddMissionDisplayTasks(MissionTaskBase newMissionBase, string taskDescrption, bool addedTask)
+    public void AddAndUpdateMissionDisplayTasks(MissionTaskBase newMissionBase, string taskDescrption)
     {
         var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
 
         newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = newMissionBase;
         newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(taskDescrption);
 
-        if (!newMissionBase.isActiveAtStart)
-        {
-            newMissionTaskObj.SetActive(false);
-        }
+        Debug.Log(newMissionTaskObj);
 
-        newMissionTaskObj.name = UIAnimationHandler.instance.newGONameToAnim;
+        newMissionTaskObj.name = UIAnimationHandler.instance.goNameToAnim2;
 
-        if (addedTask)
-        {
-            newMissionTaskObj.name = UIAnimationHandler.instance.goNameToAnim2;
-        }
+        newMissionTaskObj.SetActive(false);
 
         newInstMissionTaskObj = newMissionTaskObj;
 
-        if (addedTask)
-        {
-            UIAnimationHandler.instance.AnimateAddedMissionTask();
-        }
-
-        //newInstMissionTaskObj = null;
+        UIAnimationHandler.instance.AnimateAddedMissionTask();
     }
 }

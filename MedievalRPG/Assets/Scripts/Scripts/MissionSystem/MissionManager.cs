@@ -61,11 +61,19 @@ public class MissionManager : MonoBehaviour
 
             UIManager.instance.CreateMissionDisplay();
         }
+
+        UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.addedMissionString;
+        UIAnimationHandler.instance.addedMissionTxt.text = missionToAdd.missionName;
+        UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
     }
 
     public void RemoveMission(MissionBaseProfile missionToRemove)
     {
         allCurrAcceptedMissions.Remove(missionToRemove);
+
+        UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.completedMissionString;
+        UIAnimationHandler.instance.addedMissionTxt.text = missionToRemove.missionName;
+        UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
     }
 
     public void AddOpenMission(MissionBaseProfile missionToAdd)
@@ -141,10 +149,10 @@ public class MissionManager : MonoBehaviour
             InventoryManager.instance.inventory.AddItem(missionTaskToComplete.itemRewards[i].iBP, missionTaskToComplete.itemRewards[i].howManyToGet);
         }
 
-        if (missionTaskToComplete.missionTaskToActivate != null)
-        {
-            missionTaskToComplete.canBeDisplayed = false;
+        missionTaskToComplete.canBeDisplayed = false;
 
+        if (missionTaskToComplete.missionTaskToActivate != null)
+        { 
             missionTaskToComplete.missionTaskToActivate.canBeDisplayed = true;
 
             if (UIManager.missionToDisplay != null && UIManager.missionToDisplay == mBP)
@@ -159,13 +167,35 @@ public class MissionManager : MonoBehaviour
                     }
                 }
 
-                Debug.Log("HJNK");
-                UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb].taskDescription);
-            }
+                if (UIManager.missionToDisplay != mBP)
+                {
+                    UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.updatedMissionString;
+                    UIAnimationHandler.instance.addedMissionTxt.text = mBP.missionName;
+                    UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+                }
+                else
+                {
+                    UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb], mBP.allMissionTasks[numb].taskDescription, true);
+                }
+            }           
 
             // WIP: Animation dazu fehlt noch + HUD-Missionsanzeige muss noch geupdated werden.
         }
-        else if (missionTaskToComplete.cutsceneToTrigger != null)
+        else
+        {
+            if (UIManager.missionToDisplay != mBP)
+            {
+                UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.updatedMissionString;
+                UIAnimationHandler.instance.addedMissionTxt.text = mBP.missionName;
+                UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+            }
+            else
+            {
+                UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, null, null, null, false);
+            }
+        }
+
+        if (missionTaskToComplete.cutsceneToTrigger != null && missionTaskToComplete.missionTaskToActivate == null)
         {
             CutsceneManager.instance.currCP = missionTaskToComplete.cutsceneToTrigger;
             CutsceneManager.instance.playableDirector.playableAsset = missionTaskToComplete.cutsceneToTrigger.cutscene;
