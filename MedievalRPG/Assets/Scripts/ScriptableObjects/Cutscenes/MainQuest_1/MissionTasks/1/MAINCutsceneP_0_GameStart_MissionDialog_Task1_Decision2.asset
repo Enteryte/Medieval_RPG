@@ -15,22 +15,31 @@ MonoBehaviour:
   cutscene: {fileID: 11400000, guid: 6883dc73c50f6234588d03872c8f17cd, type: 2}
   isNotADialogue: 0
   cantBeSkipped: 0
+  playCutsceneMoreThanOnce: 1
+  alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
   timesWhenNewSentenceStarts: []
   hasDecisions: 1
   allDecisions:
   - decisionText: "Sonstige Hilfe f\xFCr den Schmied"
+    needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: f8670a47f5804174282610fbebf69d16, type: 2}
     missionToActivate: {fileID: 0}
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Sonstige Hilfe im Dorf
+    needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: be09fd50b02ef1c4ba317b37976ef386, type: 2}
     missionToActivate: {fileID: 0}
     itemToGet: {fileID: 0}
     amountToGet: 0
   mBTToCheck: {fileID: 0}
   cutsceneToChangeTo: {fileID: 0}
-  missionToComplete: {fileID: 0}
-  missionTaskToComplete: {fileID: 0}
+  missionToComplete: {fileID: 11400000, guid: 20f04baf9e97643478db0914dc437491, type: 2}
+  missionTaskToComplete: {fileID: 11400000, guid: 3cf46aaf5a35347429fedf059bf9a733, type: 2}
   missionToPlayAfter: {fileID: 0}
+  playNewCutsceneAfterDeactivatedObj: 0
+  gameObjectToDeactivateName: 
+  cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

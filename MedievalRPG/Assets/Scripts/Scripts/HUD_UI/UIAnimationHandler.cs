@@ -9,6 +9,8 @@ public class UIAnimationHandler : MonoBehaviour
 
     [Header("Displayed Mission")]
     public Animator missionDisplayAnimator;
+    public TMP_Text displayedMissionNameTxt;
+
     public string gONameToAnim = "Empty:MissionTaskHUDDisplay";
     public string newGONameToAnim = "Empty:MissionTaskHUDDisplay_NEW";
     public string goNameToAnim2 = "Empty:MissionTaskHUDDisplay2";
@@ -16,9 +18,11 @@ public class UIAnimationHandler : MonoBehaviour
     public AnimationClip completeMissionTaskAnim;
     public AnimationClip updateMissionTaskAnim;
     public AnimationClip addMissionTaskAnim;
+    public AnimationClip addMissionToDisplayAnim;
 
     [Header("New Mission Message")]
     public Animator addedMissionAnimator;
+
     public string addedMissionString = "Neue Quest";
 
     public TMP_Text howChangedMissionTxt;
@@ -60,6 +64,13 @@ public class UIAnimationHandler : MonoBehaviour
         missionDisplayAnimator.Rebind();
 
         missionDisplayAnimator.Play(addMissionTaskAnim.name);
+    }
+
+    public void AnimateAddMissionToDisplay()
+    {
+        missionDisplayAnimator.Rebind();
+
+        missionDisplayAnimator.Play(addMissionToDisplayAnim.name);
     }
 
     public void AnimateAddedNewMissionMessage()

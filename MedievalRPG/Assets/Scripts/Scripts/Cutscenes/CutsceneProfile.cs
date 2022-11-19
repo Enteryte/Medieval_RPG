@@ -9,6 +9,8 @@ public class CutsceneProfile : ScriptableObject
 {
     public TimelineAsset cutscene;
 
+    public bool isNightCutscene = false;
+
     public bool isNotADialogue = false;
     public bool cantBeSkipped = false;
 

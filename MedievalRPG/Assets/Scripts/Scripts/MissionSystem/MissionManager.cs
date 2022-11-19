@@ -57,6 +57,7 @@ public class MissionManager : MonoBehaviour
 
         if (UIManager.missionToDisplay == null && missionToAdd.missionType == MissionBaseProfile.MissionType.main)
         {
+            Debug.Log("000000000000000000000000000000");
             UIManager.missionToDisplay = missionToAdd;
 
             UIManager.instance.CreateMissionDisplay();
@@ -177,7 +178,25 @@ public class MissionManager : MonoBehaviour
                 {
                     UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb], mBP.allMissionTasks[numb].taskDescription, true);
                 }
-            }           
+
+                if (missionTaskToComplete.missionTaskToActivate.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                {
+                    if (missionTaskToComplete.missionTaskToActivate.talkToAllNPCs)
+                    {
+                        for (int i = 0; i < GameManager.instance.allVillageNPCs.Count; i++)
+                        {
+
+                        }
+                    }
+                }
+            }
+
+            //if (missionTaskToComplete.cutsceneToTrigger != null && missionTaskToComplete.cutsceneToTrigger.isNightCutscene)
+            //{
+            //    CutsceneManager.instance.currCP = missionTaskToComplete.cutsceneToTrigger;
+            //    CutsceneManager.instance.playableDirector.playableAsset = missionTaskToComplete.cutsceneToTrigger.cutscene;
+            //    CutsceneManager.instance.playableDirector.Play();
+            //}
 
             // WIP: Animation dazu fehlt noch + HUD-Missionsanzeige muss noch geupdated werden.
         }
@@ -224,9 +243,20 @@ public class MissionManager : MonoBehaviour
 
         missionToComplete.missionCompleted = true;
 
+        for (int i = 0; i < missionToComplete.allMissionTasks.Length; i++)
+        {
+            missionToComplete.allMissionTasks[i].mTB.missionTaskCompleted = true;
+        }
+
+        if (UIManager.missionToDisplay == missionToComplete)
+        {
+            UIManager.missionToDisplay = null;           
+        }
+
         if (missionToComplete.nextMissionToTrigger != null)
         {
-            allCurrAcceptedMissions.Add(missionToComplete.nextMissionToTrigger);
+            AddMission(missionToComplete.nextMissionToTrigger);
+            //allCurrAcceptedMissions.Add(missionToComplete.nextMissionToTrigger);
         }
 
         if (missionToComplete.cutsceneToTrigger != null)

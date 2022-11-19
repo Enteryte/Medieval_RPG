@@ -23,6 +23,7 @@ public class MissionTaskBase : ScriptableObject
 
     public bool missionTaskCompleted = false;
     public CutsceneProfile cutsceneToTrigger;
+    public CutsceneProfile cutsceneToTriggerOnce;
 
     [Header("When Completed Mission Task")]
     public float moneyReward;
@@ -40,9 +41,14 @@ public class MissionTaskBase : ScriptableObject
     #region TalkTo Task Values
     [HideInInspector] public NPCBaseProfile nPCToTalkToBaseProfile;
     [HideInInspector] public CutsceneProfile dialogToPlayAfterInteracted;
+    [HideInInspector] public CutsceneProfile dialogToPlayAfterPressedButton;
 
-    [HideInInspector] public bool talkToAllNPCs = false;
-    [HideInInspector] public CutsceneProfile[] possibleDialoguesToAdd;
+    [Header("(Talk-Mission-Values)")]
+    public bool talkToAllNPCs = false;
+    public CutsceneProfile[] possibleDialoguesToAdd;
+
+    public NPCBaseProfile mainNPC;
+    public CutsceneProfile dialogueToAdd;
     #endregion
 
     #region Collect Task Values
@@ -67,6 +73,7 @@ public class MissionTaskBase : ScriptableObject
 
     #region GoTo Task Values
     [HideInInspector] public GameObject missionTriggerBoxToGoTo;
+    [HideInInspector] public CutsceneProfile cutsceneWhenInteractedWDoor;
     #endregion
 
     [CustomEditor(typeof(MissionTaskBase))]
@@ -94,6 +101,16 @@ public class MissionTaskBase : ScriptableObject
                 serializedObject.Update();
                 EditorGUILayout.PropertyField(property2, true);
                 serializedObject.ApplyModifiedProperties();
+
+                var property3 = serializedObject.FindProperty("dialogToPlayAfterPressedButton");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property3, true);
+                serializedObject.ApplyModifiedProperties();
+
+                //var property4 = serializedObject.FindProperty("possibleDialoguesToAdd");
+                //serializedObject.Update();
+                //EditorGUILayout.PropertyField(property4, true);
+                //serializedObject.ApplyModifiedProperties();
             }
             else if (mTB.missionTaskType == MissionTaskType.collect)
             {
@@ -160,6 +177,11 @@ public class MissionTaskBase : ScriptableObject
                 serializedObject.Update();
                 EditorGUILayout.PropertyField(property, true);
                 serializedObject.ApplyModifiedProperties();
+
+                //var property2 = serializedObject.FindProperty("cutsceneWhenInteractedWDoor");
+                //serializedObject.Update();
+                //EditorGUILayout.PropertyField(property2, true);
+                //serializedObject.ApplyModifiedProperties();
             }
 
             EditorUtility.SetDirty(target);

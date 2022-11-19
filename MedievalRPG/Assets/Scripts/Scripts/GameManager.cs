@@ -16,9 +16,16 @@ public class GameManager : MonoBehaviour
 
     public List<NPC> allVillageNPCs;
 
+    public BeerScreenMissionButton bSMButton;
+
+    public bool isNight = false; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
+    public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
+
     public void Awake()
     {
         instance = this;
+
+        BeerScreenMissionButton.instance = bSMButton;
     }
 
     public void Update()
@@ -26,6 +33,16 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I) && !ShopManager.instance.shopScreen.activeSelf)
         {
             OpenInventory();
+        }
+
+        // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
+        if (isNight && correspondingCutsceneProfilAtNight != null)
+        {
+            CutsceneManager.instance.currCP = correspondingCutsceneProfilAtNight;
+            CutsceneManager.instance.playableDirector.playableAsset = correspondingCutsceneProfilAtNight.cutscene;
+            CutsceneManager.instance.playableDirector.Play();
+
+            correspondingCutsceneProfilAtNight = null;
         }
     }
 

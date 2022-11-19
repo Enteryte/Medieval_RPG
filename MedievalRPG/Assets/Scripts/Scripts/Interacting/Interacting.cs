@@ -259,7 +259,7 @@ public class Interacting : MonoBehaviour
                         }
                         else
                         {
-                            if (Input.GetKeyDown(KeyCode.E))
+                            if (Input.GetKeyDown(KeyCode.E) && interactable != null && nearestObjTrans != null)
                             {
                                 interactable.Interact(nearestObjTrans);
 

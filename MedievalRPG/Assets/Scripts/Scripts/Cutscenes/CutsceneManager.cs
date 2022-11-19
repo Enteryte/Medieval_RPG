@@ -138,6 +138,7 @@ public class CutsceneManager : MonoBehaviour
             }
         }
 
+        ThirdPersonController.instance.canMove = true;
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 
@@ -221,6 +222,21 @@ public class CutsceneManager : MonoBehaviour
         {
             MissionManager.instance.CompleteMission(currCP.missionToComplete);
         }
+    }
+
+    public void OpenBeerScreen()
+    {
+        Debug.Log("HJN33333333333333333333333KL");
+
+        BeerScreenMissionButton.instance.gameObject.SetActive(TavernKeeper.instance.CheckIfNeededForMission());
+        TavernKeeper.instance.getBeerScreen.SetActive(true);
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+        ThirdPersonController.instance.canMove = false;
+        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+        BeerScreenMissionButton.instance.currStoredMissionTaskBase = null;
     }
     #endregion
 }
