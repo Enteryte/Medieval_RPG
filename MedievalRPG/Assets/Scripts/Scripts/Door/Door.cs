@@ -140,7 +140,7 @@ public class Door : MonoBehaviour, IInteractable
         {
             for (int i = 0; i < correspondingMissions.Length; i++)
             {
-                if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMissions[i]) && !correspondingMissionTasks[i].missionTaskCompleted)
+                if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMissions[i]) && !correspondingMissionTasks[i].missionTaskCompleted && correspondingMissionTasks[i].canBeDisplayed)
                 {
                     if (correspondingMissionTasks[i].completeAfterInteracted)
                     {

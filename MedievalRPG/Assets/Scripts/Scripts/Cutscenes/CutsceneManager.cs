@@ -238,5 +238,19 @@ public class CutsceneManager : MonoBehaviour
 
         BeerScreenMissionButton.instance.currStoredMissionTaskBase = null;
     }
+
+    public void CheckExamineTaskProgress()
+    {
+        currCP.missionTaskToComplete.howManyAlreadyExamined += 1;
+
+        MissionManager.instance.CheckMissionTaskProgress(currCP.corresspondingMission, currCP.missionTaskToComplete);
+    }
+
+    public void CheckCollectTaskProgress()
+    {
+        currCP.missionTaskToComplete.howManyAlreadyCollected += 1;
+
+        MissionManager.instance.CheckMissionTaskProgress(currCP.corresspondingMission, currCP.missionTaskToComplete);
+    }
     #endregion
 }

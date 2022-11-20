@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public List<NPC> allVillageNPCs;
 
     public BeerScreenMissionButton bSMButton;
+    public GameObject readBookOrNoteScreen;
+    public static ItemBaseProfile currBookOrNote;
 
     public bool isNight = false; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
     public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
@@ -33,6 +35,34 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I) && !ShopManager.instance.shopScreen.activeSelf)
         {
             OpenInventory();
+        }
+
+        if (readBookOrNoteScreen.activeSelf)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                readBookOrNoteScreen.SetActive(false);
+
+                if (!currBookOrNote.hasBeenRead && currBookOrNote.cutsceneToPlayAfterCloseReadScreen != null)
+                {
+                    if (currBookOrNote.corresspondingMissionTask != null && currBookOrNote.corresspondingMissionTask.canBeDisplayed)
+                    {
+                        CutsceneManager.instance.currCP = currBookOrNote.cutsceneToPlayAfterCloseReadScreen;
+                        CutsceneManager.instance.playableDirector.playableAsset = currBookOrNote.cutsceneToPlayAfterCloseReadScreen.cutscene;
+                        CutsceneManager.instance.playableDirector.Play();
+
+                        currBookOrNote.hasBeenRead = true;
+                    }
+                    else if (currBookOrNote.corresspondingMissionTask == null)
+                    {
+                        CutsceneManager.instance.currCP = currBookOrNote.cutsceneToPlayAfterCloseReadScreen;
+                        CutsceneManager.instance.playableDirector.playableAsset = currBookOrNote.cutsceneToPlayAfterCloseReadScreen.cutscene;
+                        CutsceneManager.instance.playableDirector.Play();
+
+                        currBookOrNote.hasBeenRead = true;
+                    }
+                }
+            }
         }
 
         // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )

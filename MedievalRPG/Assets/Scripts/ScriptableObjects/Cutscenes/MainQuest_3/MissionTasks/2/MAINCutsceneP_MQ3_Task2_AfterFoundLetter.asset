@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MAINCutsceneP_MQ3_Task2_AfterFoundLetter
   m_EditorClassIdentifier: 
   cutscene: {fileID: 11400000, guid: bca7487b69e68bb4694fa6c78b8d5f30, type: 2}
+  isNightCutscene: 0
   isNotADialogue: 0
   cantBeSkipped: 0
   playCutsceneMoreThanOnce: 1
@@ -24,8 +25,10 @@ MonoBehaviour:
   mBTToCheck: {fileID: 0}
   cutsceneToChangeTo: {fileID: 0}
   missionToComplete: {fileID: 0}
-  missionTaskToComplete: {fileID: 0}
+  missionTaskToComplete: {fileID: 11400000, guid: 327fcb3eaedd7f047b8d6d6ce9dc2a70, type: 2}
   missionToPlayAfter: {fileID: 0}
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 11400000, guid: 8f962719be8510f4d88577c610b2356c, type: 2}
+  missionTaskToActivate: {fileID: 0}

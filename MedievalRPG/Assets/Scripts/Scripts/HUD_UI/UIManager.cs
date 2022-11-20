@@ -33,6 +33,11 @@ public class UIManager : MonoBehaviour
 
         missionTaskObjParentObj.GetComponent<GridLayoutGroup>().enabled = true;
 
+        for (int i = 0; i < missionTaskObjParentObj.transform.childCount; i++)
+        {
+            Destroy(missionTaskObjParentObj.transform.GetChild(i).gameObject);
+        }
+
         var childNumber = 1;
 
         for (int i = 0; i < missionToDisplay.allMissionTasks.Length; i++)

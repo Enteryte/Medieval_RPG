@@ -7,4 +7,10 @@ public class EnemyBaseProfile : ScriptableObject
 {
     public float normalHealth;
     public float normalDamage;
+
+    [Header("Possible Loot")]
+    public ItemBaseProfile[] possibleLootItems;
+
+    public int minLootMoney;
+    public int maxLootMoney;
 }

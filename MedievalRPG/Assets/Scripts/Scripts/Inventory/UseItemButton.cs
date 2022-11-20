@@ -30,21 +30,29 @@ public class UseItemButton : MonoBehaviour
                 EquippingManager.instance.bowES.ChangeEquippedItem();
             }
         }
-
-        if (InventoryManager.currIS.itemAmount - 1 > 0)
+        else if (InventoryManager.currIBP.itemType == ItemBaseProfile.ItemType.bookOrNote)
         {
-            InventoryManager.currIS.RemoveAmount(1);
-
-            InventoryManager.instance.inventory.UpdateHotbarItems(InventoryManager.currIBP, true, 1);
-        }
-        else
-        {
-            InventoryManager.instance.inventory.RemoveItem(InventoryManager.currIBP, 1);
+            GameManager.instance.readBookOrNoteScreen.SetActive(true);
+            GameManager.currBookOrNote = InventoryManager.currIBP;
         }
 
-        InventoryManager.currIBP = null;
-        InventoryManager.currIS = null;
+        if (InventoryManager.currIBP.itemType != ItemBaseProfile.ItemType.bookOrNote)
+        {
+            if (InventoryManager.currIS.itemAmount - 1 > 0)
+            {
+                InventoryManager.currIS.RemoveAmount(1);
 
-        InventoryManager.instance.DisplayItemsOfCategory();
+                InventoryManager.instance.inventory.UpdateHotbarItems(InventoryManager.currIBP, true, 1);
+            }
+            else
+            {
+                InventoryManager.instance.inventory.RemoveItem(InventoryManager.currIBP, 1);
+            }
+
+            InventoryManager.currIBP = null;
+            InventoryManager.currIS = null;
+
+            InventoryManager.instance.DisplayItemsOfCategory();
+        }
     }
 }
