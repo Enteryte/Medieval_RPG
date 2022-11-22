@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MAINCutsceneP_MQ2_Task4_AfterInteractedWithSymon_OPTIONAL
   m_EditorClassIdentifier: 
   cutscene: {fileID: 11400000, guid: 2cd12d2709069794287b89fac58b3f3e, type: 2}
+  isNightCutscene: 0
   isNotADialogue: 0
   cantBeSkipped: 0
   playCutsceneMoreThanOnce: 1
@@ -23,9 +24,11 @@ MonoBehaviour:
   allDecisions: []
   mBTToCheck: {fileID: 0}
   cutsceneToChangeTo: {fileID: 0}
-  missionToComplete: {fileID: 0}
+  missionToComplete: {fileID: 11400000, guid: 991c52767c8884245a8405ef256c1c3d, type: 2}
   missionTaskToComplete: {fileID: 0}
   missionToPlayAfter: {fileID: 0}
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

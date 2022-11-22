@@ -14,7 +14,8 @@ public class MissionTaskBase : ScriptableObject
         collect,
         kill,
         read,
-        go_To
+        go_To,
+        examine
     }
 
     public MissionTaskType missionTaskType = MissionTaskType.none;
@@ -23,6 +24,7 @@ public class MissionTaskBase : ScriptableObject
 
     public bool missionTaskCompleted = false;
     public CutsceneProfile cutsceneToTrigger;
+    public CutsceneProfile cutsceneToTriggerOnce;
 
     [Header("When Completed Mission Task")]
     public float moneyReward;
@@ -40,13 +42,19 @@ public class MissionTaskBase : ScriptableObject
     #region TalkTo Task Values
     [HideInInspector] public NPCBaseProfile nPCToTalkToBaseProfile;
     [HideInInspector] public CutsceneProfile dialogToPlayAfterInteracted;
+    [HideInInspector] public CutsceneProfile dialogToPlayAfterPressedButton;
 
-    [HideInInspector] public bool talkToAllNPCs = false;
-    [HideInInspector] public CutsceneProfile[] possibleDialoguesToAdd;
+    [Header("(Talk-Mission-Values)")]
+    public bool talkToAllNPCs = false;
+    public CutsceneProfile[] possibleDialoguesToAdd;
+
+    public NPCBaseProfile mainNPC;
+    public CutsceneProfile dialogueToAdd;
     #endregion
 
     #region Collect Task Values
     [HideInInspector] public ItemBaseProfile itemToCollectBase;
+    [HideInInspector] public ItemBaseProfile itemToCollectBase2;
     [HideInInspector] public int howManyToCollect;
     [HideInInspector] public int howManyAlreadyCollected;
     [HideInInspector] public CutsceneProfile dialogAfterSeenFirstItem;
@@ -67,6 +75,16 @@ public class MissionTaskBase : ScriptableObject
 
     #region GoTo Task Values
     [HideInInspector] public GameObject missionTriggerBoxToGoTo;
+    [HideInInspector] public CutsceneProfile cutsceneWhenInteractedWDoor;
+    #endregion
+
+    #region Examine Task Values
+    [HideInInspector] public ItemBaseProfile iBPOfItemToExamine;
+    [HideInInspector] public ItemBaseProfile iBPOfItemToExamine2;
+    [HideInInspector] public EnemyBaseProfile eBPToExamine;
+
+    [HideInInspector] public int howManyToExamine;
+    [HideInInspector] public int howManyAlreadyExamined;
     #endregion
 
     [CustomEditor(typeof(MissionTaskBase))]
@@ -94,6 +112,16 @@ public class MissionTaskBase : ScriptableObject
                 serializedObject.Update();
                 EditorGUILayout.PropertyField(property2, true);
                 serializedObject.ApplyModifiedProperties();
+
+                var property3 = serializedObject.FindProperty("dialogToPlayAfterPressedButton");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property3, true);
+                serializedObject.ApplyModifiedProperties();
+
+                //var property4 = serializedObject.FindProperty("possibleDialoguesToAdd");
+                //serializedObject.Update();
+                //EditorGUILayout.PropertyField(property4, true);
+                //serializedObject.ApplyModifiedProperties();
             }
             else if (mTB.missionTaskType == MissionTaskType.collect)
             {
@@ -103,6 +131,11 @@ public class MissionTaskBase : ScriptableObject
                 var property = serializedObject.FindProperty("itemToCollectBase");
                 serializedObject.Update();
                 EditorGUILayout.PropertyField(property, true);
+                serializedObject.ApplyModifiedProperties();
+
+                var property4 = serializedObject.FindProperty("itemToCollectBase2");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property4, true);
                 serializedObject.ApplyModifiedProperties();
 
                 mTB.howManyToCollect = EditorGUILayout.IntField("How Many To Collect", mTB.howManyToCollect);
@@ -160,6 +193,34 @@ public class MissionTaskBase : ScriptableObject
                 serializedObject.Update();
                 EditorGUILayout.PropertyField(property, true);
                 serializedObject.ApplyModifiedProperties();
+
+                //var property2 = serializedObject.FindProperty("cutsceneWhenInteractedWDoor");
+                //serializedObject.Update();
+                //EditorGUILayout.PropertyField(property2, true);
+                //serializedObject.ApplyModifiedProperties();
+            }
+            else if (mTB.missionTaskType == MissionTaskType.examine)
+            {
+                EditorGUILayout.LabelField("Examine-Task-Values", EditorStyles.boldLabel);
+
+                var serializedObject = new SerializedObject(target);
+                var property = serializedObject.FindProperty("iBPOfItemToExamine");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property, true);
+                serializedObject.ApplyModifiedProperties();
+
+                var property2 = serializedObject.FindProperty("eBPToExamine");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property2, true);
+                serializedObject.ApplyModifiedProperties();
+
+                var property3 = serializedObject.FindProperty("eBPToExamine2");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property3, true);
+                serializedObject.ApplyModifiedProperties();
+
+                mTB.howManyToExamine = EditorGUILayout.IntField("How Many To Examine", mTB.howManyToExamine);
+                mTB.howManyAlreadyExamined = EditorGUILayout.IntField("How Many Already Examined", mTB.howManyAlreadyExamined);
             }
 
             EditorUtility.SetDirty(target);

@@ -54,7 +54,8 @@ public class InventorySlotButton : MonoBehaviour
 
         if (!storedItemBase.neededForMissions)
         {
-            if (storedItemBase.itemType == ItemBaseProfile.ItemType.food || storedItemBase.itemType == ItemBaseProfile.ItemType.weapon)
+            if (storedItemBase.itemType == ItemBaseProfile.ItemType.food || storedItemBase.itemType == ItemBaseProfile.ItemType.weapon 
+                || storedItemBase.itemType == ItemBaseProfile.ItemType.bookOrNote)
             {
                 InventoryManager.instance.useItemButton.SetActive(true);
             }

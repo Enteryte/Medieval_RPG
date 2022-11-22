@@ -16,6 +16,7 @@ MonoBehaviour:
   completeAfterInteracted: 0
   missionTaskCompleted: 0
   cutsceneToTrigger: {fileID: 11400000, guid: 01712026df5d4bf48b6a83824f025a37, type: 2}
+  cutsceneToTriggerOnce: {fileID: 0}
   moneyReward: 0
   itemRewards: []
   canNormallyBeDisplayed: 1
@@ -24,8 +25,11 @@ MonoBehaviour:
   isActiveAtStart: 1
   nPCToTalkToBaseProfile: {fileID: 0}
   dialogToPlayAfterInteracted: {fileID: 0}
+  dialogToPlayAfterPressedButton: {fileID: 0}
   talkToAllNPCs: 0
   possibleDialoguesToAdd: []
+  mainNPC: {fileID: 0}
+  dialogueToAdd: {fileID: 0}
   itemToCollectBase: {fileID: 0}
   howManyToCollect: 0
   howManyAlreadyCollected: 0
@@ -38,3 +42,4 @@ MonoBehaviour:
   dialogAfterKilledFirstEnemy: {fileID: 0}
   noteOrBookToReadIBP: {fileID: 0}
   missionTriggerBoxToGoTo: {fileID: 0}
+  cutsceneWhenInteractedWDoor: {fileID: 11400000, guid: 01712026df5d4bf48b6a83824f025a37, type: 2}

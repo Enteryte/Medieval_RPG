@@ -138,6 +138,7 @@ public class CutsceneManager : MonoBehaviour
             }
         }
 
+        ThirdPersonController.instance.canMove = true;
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 
@@ -186,13 +187,12 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
-    public void ActivateTask()
+    public void ActivateNewTask()
     {
         currCP.missionTaskToActivate.canBeDisplayed = true;
 
         if (UIManager.missionToDisplay != null && UIManager.missionToDisplay == currCP.corresspondingMission)
         {
-            Debug.Log("HJNK");
             var taskNumber = -1;
 
             for (int i = 0; i < currCP.corresspondingMission.allMissionTasks.Length; i++)
@@ -208,14 +208,7 @@ public class CutsceneManager : MonoBehaviour
                 }
             }
 
-            //if (currCP.missionTaskToActivate != null)
-            //{
-                UIManager.instance.UpdateAndAddMissionDisplayTasks(currCP.missionTaskToActivate, currCP.corresspondingMission.allMissionTasks[taskNumber].taskDescription, true);
-            //}
-            //else
-            //{
-            //    UIManager.instance.UpdateAndAddMissionDisplayTasks(currCP.missionTaskToActivate, currCP.corresspondingMission.allMissionTasks[taskNumber].taskDescription, false);
-            //}
+            UIManager.instance.AddAndUpdateMissionDisplayTasks(currCP.missionTaskToActivate, currCP.corresspondingMission.allMissionTasks[taskNumber].taskDescription);
         }
     }
 
@@ -229,6 +222,35 @@ public class CutsceneManager : MonoBehaviour
         {
             MissionManager.instance.CompleteMission(currCP.missionToComplete);
         }
+    }
+
+    public void OpenBeerScreen()
+    {
+        Debug.Log("HJN33333333333333333333333KL");
+
+        BeerScreenMissionButton.instance.gameObject.SetActive(TavernKeeper.instance.CheckIfNeededForMission());
+        TavernKeeper.instance.getBeerScreen.SetActive(true);
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+        ThirdPersonController.instance.canMove = false;
+        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+        BeerScreenMissionButton.instance.currStoredMissionTaskBase = null;
+    }
+
+    public void CheckExamineTaskProgress()
+    {
+        currCP.missionTaskToComplete.howManyAlreadyExamined += 1;
+
+        MissionManager.instance.CheckMissionTaskProgress(currCP.corresspondingMission, currCP.missionTaskToComplete);
+    }
+
+    public void CheckCollectTaskProgress()
+    {
+        currCP.missionTaskToComplete.howManyAlreadyCollected += 1;
+
+        MissionManager.instance.CheckMissionTaskProgress(currCP.corresspondingMission, currCP.missionTaskToComplete);
     }
     #endregion
 }
