@@ -39,6 +39,9 @@ public class CutsceneProfile : ScriptableObject
     public string gameObjectToDeactivateName;
     public CutsceneProfile cutsceneToPlayAfter;
 
+    public MissionBaseProfile corresspondingMission;
+    public MissionTaskBase missionTaskToActivate;
+
     //[CustomEditor(typeof(CutsceneProfile))]
     //public class CutsceneProfileEditor : Editor
     //{

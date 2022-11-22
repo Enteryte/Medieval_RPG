@@ -54,6 +54,13 @@ public class MissionManager : MonoBehaviour
                 }
             }
         }
+
+        if (UIManager.missionToDisplay == null && missionToAdd.missionType == MissionBaseProfile.MissionType.main)
+        {
+            UIManager.missionToDisplay = missionToAdd;
+
+            UIManager.instance.CreateMissionDisplay();
+        }
     }
 
     public void RemoveMission(MissionBaseProfile missionToRemove)
@@ -134,10 +141,34 @@ public class MissionManager : MonoBehaviour
             InventoryManager.instance.inventory.AddItem(missionTaskToComplete.itemRewards[i].iBP, missionTaskToComplete.itemRewards[i].howManyToGet);
         }
 
-        if (missionTaskToComplete.dialogToTrigger != null)
+        if (missionTaskToComplete.missionTaskToActivate != null)
         {
-            CutsceneManager.instance.currCP = missionTaskToComplete.dialogToTrigger;
-            CutsceneManager.instance.playableDirector.playableAsset = missionTaskToComplete.dialogToTrigger.cutscene;
+            missionTaskToComplete.canBeDisplayed = false;
+
+            missionTaskToComplete.missionTaskToActivate.canBeDisplayed = true;
+
+            if (UIManager.missionToDisplay != null && UIManager.missionToDisplay == mBP)
+            {
+                var numb = 0;
+
+                for (int i = 0; i < mBP.allMissionTasks.Length; i++)
+                {
+                    if (mBP.allMissionTasks[i].mTB == missionTaskToComplete.missionTaskToActivate)
+                    {
+                        numb = i;
+                    }
+                }
+
+                Debug.Log("HJNK");
+                UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb].taskDescription);
+            }
+
+            // WIP: Animation dazu fehlt noch + HUD-Missionsanzeige muss noch geupdated werden.
+        }
+        else if (missionTaskToComplete.cutsceneToTrigger != null)
+        {
+            CutsceneManager.instance.currCP = missionTaskToComplete.cutsceneToTrigger;
+            CutsceneManager.instance.playableDirector.playableAsset = missionTaskToComplete.cutsceneToTrigger.cutscene;
             CutsceneManager.instance.playableDirector.Play();
         }
 
@@ -235,4 +266,9 @@ public class MissionManager : MonoBehaviour
     {
        AddMission(CutsceneManager.instance.currCP.missionToPlayAfter);
     }
+
+    //public void AddMissionTaskToActiveMissionAfterCutscene()
+    //{
+    //    AddMission(CutsceneManager.instance.currCP.missionToPlayAfter);
+    //}
 }

@@ -22,15 +22,27 @@ public class MissionTaskBase : ScriptableObject
     public bool completeAfterInteracted = true;
 
     public bool missionTaskCompleted = false;
-    public CutsceneProfile dialogToTrigger;
+    public CutsceneProfile cutsceneToTrigger;
 
     [Header("When Completed Mission Task")]
     public float moneyReward;
     public ItemReward[] itemRewards;
 
+    [Header("Can be displayed")]
+    public bool canNormallyBeDisplayed = true;
+    public bool canBeDisplayed = true;
+
+    public MissionTaskBase missionTaskToActivate;
+
+    [Header("Animations")]
+    public bool isActiveAtStart = true;
+
     #region TalkTo Task Values
     [HideInInspector] public NPCBaseProfile nPCToTalkToBaseProfile;
     [HideInInspector] public CutsceneProfile dialogToPlayAfterInteracted;
+
+    [HideInInspector] public bool talkToAllNPCs = false;
+    [HideInInspector] public CutsceneProfile[] possibleDialoguesToAdd;
     #endregion
 
     #region Collect Task Values

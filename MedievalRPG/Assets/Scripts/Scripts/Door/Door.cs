@@ -17,6 +17,9 @@ public class Door : MonoBehaviour, IInteractable
 
     public Coroutine animationCoroutine;
 
+    public MissionBaseProfile correspondingMission;
+    public MissionTaskBase correspondingMissionTask;
+
     public void Awake()
     {
         startRotation = transform.rotation.eulerAngles;
@@ -133,13 +136,27 @@ public class Door : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
-        if (isOpen)
+        if (correspondingMission != null && MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMission) && !correspondingMissionTask.missionTaskCompleted)
         {
-            CloseDoor();
+            if (correspondingMissionTask.completeAfterInteracted)
+            {
+                correspondingMissionTask.missionTaskCompleted = true;
+            }
+
+            CutsceneManager.instance.currCP = correspondingMissionTask.cutsceneToTrigger;
+            CutsceneManager.instance.playableDirector.playableAsset = correspondingMissionTask.cutsceneToTrigger.cutscene;
+            CutsceneManager.instance.playableDirector.Play();
         }
         else
         {
-            OpenDoor(GameManager.instance.playerGO.transform.position);
+            if (isOpen)
+            {
+                CloseDoor();
+            }
+            else
+            {
+                OpenDoor(GameManager.instance.playerGO.transform.position);
+            }
         }
     }
 
