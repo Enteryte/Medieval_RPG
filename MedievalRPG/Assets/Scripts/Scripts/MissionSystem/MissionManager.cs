@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MissionManager : MonoBehaviour
 {
@@ -337,6 +338,15 @@ public class MissionManager : MonoBehaviour
         {
             CheckSideMissions(missionToComplete.missionAfterItsActive);
         }
+
+        //UIManager.instance.missionTaskObjParentObj.gameObject.transform.parent.gameObject.SetActive(true);
+
+        //UIManager.instance.missionTaskObjParentObj.GetComponent<GridLayoutGroup>().enabled = true;
+
+        //for (int i = 0; i < UIManager.instance.missionTaskObjParentObj.transform.childCount; i++)
+        //{
+        //    Destroy(UIManager.instance.missionTaskObjParentObj.transform.GetChild(i).gameObject);
+        //}
     }
 
     public void ChangeEnvironmentAfterMission(MissionBaseProfile mission)
