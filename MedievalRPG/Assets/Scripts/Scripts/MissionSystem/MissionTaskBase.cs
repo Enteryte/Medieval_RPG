@@ -35,6 +35,7 @@ public class MissionTaskBase : ScriptableObject
     public bool canBeDisplayed = true;
 
     public MissionTaskBase missionTaskToActivate;
+    public MissionTaskBase missionTaskToActivate2;
 
     [Header("Animations")]
     public bool isActiveAtStart = true;

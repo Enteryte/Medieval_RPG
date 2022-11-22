@@ -232,7 +232,16 @@ public class MissionManager : MonoBehaviour
                 }
                 else
                 {
-                    UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb], mBP.allMissionTasks[numb].taskDescription, true);
+                    if (missionTaskToComplete.missionTaskToActivate2 != null)
+                    {
+                        UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb], missionTaskToComplete.missionTaskToActivate2,
+                            mBP.allMissionTasks[numb + 2], mBP.allMissionTasks[numb].taskDescription, true);
+                    }
+                    else
+                    {
+                        UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb], null, null,
+                            mBP.allMissionTasks[numb].taskDescription, true);
+                    }
                 }
 
                 //if (missionTaskToComplete.missionTaskToActivate.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
@@ -266,7 +275,7 @@ public class MissionManager : MonoBehaviour
             }
             else
             {
-                UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, null, null, null, false);
+                UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, null, null, null, null, null, false);
             }
         }
 
