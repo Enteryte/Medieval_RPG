@@ -34,6 +34,9 @@ public class MissionTaskBase : ScriptableObject
 
     public MissionTaskBase missionTaskToActivate;
 
+    [Header("Animations")]
+    public bool isActiveAtStart = true;
+
     #region TalkTo Task Values
     [HideInInspector] public NPCBaseProfile nPCToTalkToBaseProfile;
     [HideInInspector] public CutsceneProfile dialogToPlayAfterInteracted;
