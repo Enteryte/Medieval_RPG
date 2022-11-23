@@ -212,7 +212,7 @@ namespace StarterAssets
 
                 if (_animator.GetBool("Grounded"))
                 {
-                    if (!_animator.GetBool("Bow_Aim"))
+                    /*if (!_animator.GetBool("Bow_Aim"))
                     {
                         if (Input.GetKeyDown(KeyCode.Mouse0) && attackClicks < 3)
                         {
@@ -306,7 +306,7 @@ namespace StarterAssets
                             }
                         }
 
-                        if (/*_animator.GetBool("Grounded") && */!_animator.GetBool("Bow_Shoot"))
+                        if (_animator.GetBool("Grounded") && !_animator.GetBool("Bow_Shoot"))
                         {
                             //if (Input.GetKeyDown(KeyCode.LeftShift) && !isRolling)
                             //{
@@ -336,7 +336,7 @@ namespace StarterAssets
                                 }
                             }
                         }
-                    }
+                    }*/
                 }
             }
         }
