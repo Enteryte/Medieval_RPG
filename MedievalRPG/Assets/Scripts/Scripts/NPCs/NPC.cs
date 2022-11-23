@@ -136,6 +136,11 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void CheckIfNeededForMission()
     {
+        for (int i = 0; i < UIManager.instance.npcMissionButtonParentObjTrans.childCount; i++)
+        {
+            Destroy(UIManager.instance.npcMissionButtonParentObjTrans.GetChild(i).gameObject);
+        }
+
         for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
         {
             if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 1)
@@ -148,16 +153,38 @@ public class NPC : MonoBehaviour, IInteractable
                         {
                             MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
                         }
+                        else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.talkToAllNPCs)
+                        {
+                            var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
+
+                            newNPCMissionButton.GetComponent<NPCMissionButton>().storedMT = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y];
+                            newNPCMissionButton.GetComponent<NPCMissionButton>().storedMTB = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
+
+                            UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+                        }
                     }
                 }
             }
             else
             {
-                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 0)
                 {
-                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB != null &&
+                    MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
                     {
-                        MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
+                        {
+                            MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                        }
+                        else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.talkToAllNPCs)
+                        {
+                            var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
+
+                            newNPCMissionButton.GetComponent<NPCMissionButton>().storedMT = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0];
+                            newNPCMissionButton.GetComponent<NPCMissionButton>().storedMTB = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
+
+                            UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+                        }
                     }
                 }
             }

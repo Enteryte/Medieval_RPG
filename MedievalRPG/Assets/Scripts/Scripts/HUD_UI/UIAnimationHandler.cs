@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UIAnimationHandler : MonoBehaviour
 {
@@ -8,12 +9,32 @@ public class UIAnimationHandler : MonoBehaviour
 
     [Header("Displayed Mission")]
     public Animator missionDisplayAnimator;
+    public TMP_Text displayedMissionNameTxt;
+
     public string gONameToAnim = "Empty:MissionTaskHUDDisplay";
     public string newGONameToAnim = "Empty:MissionTaskHUDDisplay_NEW";
     public string goNameToAnim2 = "Empty:MissionTaskHUDDisplay2";
 
+    public AnimationClip completeMissionTaskAnim;
     public AnimationClip updateMissionTaskAnim;
     public AnimationClip addMissionTaskAnim;
+    public AnimationClip addMissionToDisplayAnim;
+
+    [Header("New Mission Message")]
+    public Animator addedMissionAnimator;
+
+    public string addedMissionString = "Neue Quest";
+
+    public TMP_Text howChangedMissionTxt;
+    public TMP_Text addedMissionTxt;
+
+    public AnimationClip addedNewMissionMessageAnim;
+
+    [Header("Updated Mission Message")]
+    public string updatedMissionString = "Quest aktualisiert";
+
+    [Header("Completed Mission Message")]
+    public string completedMissionString = "Quest abgeschlossen";
 
     public void Awake()
     {
@@ -25,16 +46,37 @@ public class UIAnimationHandler : MonoBehaviour
         missionTaskHolderObj.name = gONameToAnim;
 
         missionDisplayAnimator.Rebind();
-        //missionDisplayAnimator.enabled = true;
+
         missionDisplayAnimator.Play(updateMissionTaskAnim.name);
+    }
+
+    public void AnimateCompletedMissionTask(GameObject missionTaskHolderObj)
+    {
+        missionTaskHolderObj.name = gONameToAnim;
+
+        missionDisplayAnimator.Rebind();
+
+        missionDisplayAnimator.Play(completeMissionTaskAnim.name);
     }
 
     public void AnimateAddedMissionTask(/*GameObject missionTaskHolderObj*/)
     {
-        //missionTaskHolderObj.name = gONameToAnim;
-
         missionDisplayAnimator.Rebind();
-        //missionDisplayAnimator.enabled = true;
+
         missionDisplayAnimator.Play(addMissionTaskAnim.name);
+    }
+
+    public void AnimateAddMissionToDisplay()
+    {
+        missionDisplayAnimator.Rebind();
+
+        missionDisplayAnimator.Play(addMissionToDisplayAnim.name);
+    }
+
+    public void AnimateAddedNewMissionMessage()
+    {
+        addedMissionAnimator.Rebind();
+
+        addedMissionAnimator.Play(addedNewMissionMessageAnim.name);
     }
 }

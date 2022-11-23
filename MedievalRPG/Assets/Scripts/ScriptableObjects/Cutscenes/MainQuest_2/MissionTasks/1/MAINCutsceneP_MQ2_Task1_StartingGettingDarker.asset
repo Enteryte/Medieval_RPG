@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df470a69912d4064e86f315fcc6c32cc, type: 3}
-  m_Name: MAINCutsceneP_MQ2_Task3_AfterMissionCompleted
+  m_Name: MAINCutsceneP_MQ2_Task1_StartingGettingDarker
   m_EditorClassIdentifier: 
-  cutscene: {fileID: 11400000, guid: fb1b8df9de2852f4a9fed4d05e5e5188, type: 2}
+  cutscene: {fileID: 11400000, guid: 41384373afc8e3e47a11987a6350a9b7, type: 2}
+  isNightCutscene: 0
   isNotADialogue: 0
   cantBeSkipped: 0
   playCutsceneMoreThanOnce: 1
@@ -23,9 +24,11 @@ MonoBehaviour:
   allDecisions: []
   mBTToCheck: {fileID: 0}
   cutsceneToChangeTo: {fileID: 0}
-  missionToComplete: {fileID: 0}
-  missionTaskToComplete: {fileID: 0}
+  missionToComplete: {fileID: 11400000, guid: 20f04baf9e97643478db0914dc437491, type: 2}
+  missionTaskToComplete: {fileID: 11400000, guid: 7ddf38633d1546743b1cec7fc88e6591, type: 2}
   missionToPlayAfter: {fileID: 0}
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

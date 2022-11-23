@@ -13,18 +13,23 @@ MonoBehaviour:
   m_Name: MAINMissionP_MainQuest_2_Task1_GoTo
   m_EditorClassIdentifier: 
   missionTaskType: 5
-  completeAfterInteracted: 1
-  missionTaskCompleted: 0
+  completeAfterInteracted: 0
+  missionTaskCompleted: 1
   cutsceneToTrigger: {fileID: 0}
+  cutsceneToTriggerOnce: {fileID: 0}
   moneyReward: 0
   itemRewards: []
   canNormallyBeDisplayed: 1
-  canBeDisplayed: 1
-  missionTaskToActivate: {fileID: 0}
+  canBeDisplayed: 0
+  missionTaskToActivate: {fileID: 11400000, guid: 4546e9e769a7bb44ca63c0e75cf46685, type: 2}
+  isActiveAtStart: 1
   nPCToTalkToBaseProfile: {fileID: 0}
   dialogToPlayAfterInteracted: {fileID: 0}
+  dialogToPlayAfterPressedButton: {fileID: 0}
   talkToAllNPCs: 0
   possibleDialoguesToAdd: []
+  mainNPC: {fileID: 0}
+  dialogueToAdd: {fileID: 0}
   itemToCollectBase: {fileID: 0}
   howManyToCollect: 0
   howManyAlreadyCollected: 0
@@ -37,3 +42,8 @@ MonoBehaviour:
   dialogAfterKilledFirstEnemy: {fileID: 0}
   noteOrBookToReadIBP: {fileID: 0}
   missionTriggerBoxToGoTo: {fileID: 0}
+  cutsceneWhenInteractedWDoor: {fileID: 0}
+  iBPOfItemToExamine: {fileID: 0}
+  eBPToExamine: {fileID: 0}
+  howManyToExamine: 0
+  howManyAlreadyExamined: 0

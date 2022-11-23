@@ -15,6 +15,8 @@ public class Merchant : MonoBehaviour, IInteractable
     public List<MissionBaseProfile> allCorrMissions;
     public MissionTaskBase currCorrTask;
 
+    [HideInInspector] public bool neededForMission = false;
+
     //public float maxMoneyMerchantCanSpend;
     //public float currMoneyMerchantSpend = 0;
 
@@ -97,16 +99,12 @@ public class Merchant : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
-        var neededForMission = CheckIfNeededForMission();
+        neededForMission = CheckIfNeededForMission();
 
-        if (neededForMission)
-        {
-            CutsceneManager.instance.currCP = currCorrTask.dialogToPlayAfterInteracted;
-            CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
-            CutsceneManager.instance.playableDirector.Play();
-        }
-        else
-        {
+        //else
+        //{
+            ShopManager.instance.currMerchant = this;
+
             ShopManager.currMBP = mBP;
 
             if (mBP.changesItems)
@@ -119,22 +117,28 @@ public class Merchant : MonoBehaviour, IInteractable
                 ShopManager.instance.currSLBP = mBP.shopListBaseProfile;
             }
 
+            ShopManager.instance.DisplayMainScreenButtons();
             ShopManager.instance.DisplayShopItems();
 
             ThirdPersonController.instance.canMove = false;
             ShopManager.instance.shopScreen.SetActive(true);
 
-            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
-
-            ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+        ThirdPersonController.instance.canMove = false;
+        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
 
             for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)
             {
                 Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
             }
 
-            //CheckIfNeededForMission();
+        if (neededForMission)
+        {
+            CutsceneManager.instance.currCP = currCorrTask.dialogToPlayAfterInteracted;
+            CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+            CutsceneManager.instance.playableDirector.Play();
         }
+        //CheckIfNeededForMission();
+        //}
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()
@@ -168,18 +172,21 @@ public class Merchant : MonoBehaviour, IInteractable
             }
             else
             {
-                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 0)
                 {
-                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
                     {
-                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.completeAfterInteracted)
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
                         {
-                            MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.completeAfterInteracted)
+                            {
+                                MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                            }
+
+                            currCorrTask = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
+
+                            return true;
                         }
-
-                        currCorrTask = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
-
-                        return true;
                     }
                 }
             }
