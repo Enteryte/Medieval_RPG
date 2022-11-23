@@ -103,39 +103,40 @@ public class Merchant : MonoBehaviour, IInteractable
 
         //else
         //{
-            ShopManager.instance.currMerchant = this;
+        ShopManager.instance.currMerchant = this;
 
-            ShopManager.currMBP = mBP;
+        ShopManager.currMBP = mBP;
 
-            if (mBP.changesItems)
-            {
-                // WIP
-                Debug.Log("WIP!");
-            }
-            else
-            {
-                ShopManager.instance.currSLBP = mBP.shopListBaseProfile;
-            }
+        if (mBP.changesItems)
+        {
+            // WIP
+            Debug.Log("WIP!");
+        }
+        else
+        {
+            ShopManager.instance.currSLBP = mBP.shopListBaseProfile;
+        }
 
-            ShopManager.instance.DisplayMainScreenButtons();
-            ShopManager.instance.DisplayShopItems();
+        ShopManager.instance.DisplayMainScreenButtons();
+        ShopManager.instance.DisplayShopItems();
 
-            ThirdPersonController.instance.canMove = false;
-            ShopManager.instance.shopScreen.SetActive(true);
+        ThirdPersonController.instance.canMove = false;
+        ShopManager.instance.shopScreen.SetActive(true);
 
         ThirdPersonController.instance.canMove = false;
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
 
-            for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)
-            {
-                Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
-            }
+        for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)
+        {
+            Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
+        }
 
         if (neededForMission)
         {
-            CutsceneManager.instance.currCP = currCorrTask.dialogToPlayAfterInteracted;
-            CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
-            CutsceneManager.instance.playableDirector.Play();
+            StartCoroutine(CutsceneManager.instance.StartCutsceneFadeIn(currCorrTask.dialogToPlayAfterInteracted));
+            //CutsceneManager.instance.currCP = currCorrTask.dialogToPlayAfterInteracted;
+            //CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+            //CutsceneManager.instance.playableDirector.Play();
         }
         //CheckIfNeededForMission();
         //}

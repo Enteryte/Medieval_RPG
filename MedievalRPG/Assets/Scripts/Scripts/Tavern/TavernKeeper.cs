@@ -2,6 +2,8 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class TavernKeeper : MonoBehaviour, IInteractable
 {
@@ -25,6 +27,8 @@ public class TavernKeeper : MonoBehaviour, IInteractable
     public int beerBuyPrice;
 
     public CutsceneProfile normalTalkCP;
+
+    public PlayableAsset idleTimeline;
 
     [Header("Get Beer UI")]
     public GameObject getBeerScreen;
@@ -198,20 +202,24 @@ public class TavernKeeper : MonoBehaviour, IInteractable
     {
         var neededForMission = CheckIfNeededForMission();
 
+        Interacting.instance.currInteractedObjTrans = this.transform;
+
         if (neededForMission)
         {
             if (currCorrTask.dialogToPlayAfterInteracted != null)
             {
-                CutsceneManager.instance.currCP = currCorrTask.dialogToPlayAfterInteracted;
-                CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+                StartCoroutine(CutsceneManager.instance.StartCutsceneFadeIn(currCorrTask.dialogToPlayAfterInteracted));
+                //CutsceneManager.instance.currCP = currCorrTask.dialogToPlayAfterInteracted;
+                //CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
             }
             else
             {
-                CutsceneManager.instance.currCP = normalTalkCP;
-                CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+                StartCoroutine(CutsceneManager.instance.StartCutsceneFadeIn(normalTalkCP));
+                //CutsceneManager.instance.currCP = normalTalkCP;
+                //CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
             }
             
-            CutsceneManager.instance.playableDirector.Play();
+            //CutsceneManager.instance.playableDirector.Play();
 
             BeerScreenMissionButton.instance.gameObject.SetActive(true);
         }
@@ -231,7 +239,7 @@ public class TavernKeeper : MonoBehaviour, IInteractable
             //}
         }
 
-        transform.LookAt(GameManager.instance.playerGO.transform);
+        ////////transform.LookAt(GameManager.instance.playerGO.transform);
 
         //isInDialogue = true;
 

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public GameObject playerGOParent;
     public GameObject playerGO;
 
     public ItemBaseProfile iBPOfEscapeRope;

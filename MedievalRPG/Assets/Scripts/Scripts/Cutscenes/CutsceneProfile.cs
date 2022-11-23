@@ -9,6 +9,8 @@ public class CutsceneProfile : ScriptableObject
 {
     public TimelineAsset cutscene;
 
+    public bool fadeIn = true;
+
     public bool isNightCutscene = false;
 
     public bool isNotADialogue = false;
@@ -20,6 +22,9 @@ public class CutsceneProfile : ScriptableObject
     public float timeTillWhereToSkip;
 
     public List<float> timesWhenNewSentenceStarts;
+
+    [Header("Change Transform At Start")]
+    public bool changeParentTrans = false;
 
     [Header("Decisions")]
     public bool hasDecisions = false;
