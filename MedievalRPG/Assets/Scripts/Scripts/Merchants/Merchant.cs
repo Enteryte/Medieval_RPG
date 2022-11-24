@@ -2,6 +2,7 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Merchant : MonoBehaviour, IInteractable
 {
@@ -16,6 +17,13 @@ public class Merchant : MonoBehaviour, IInteractable
     public MissionTaskBase currCorrTask;
 
     [HideInInspector] public bool neededForMission = false;
+
+    [Header("Cutscene Values")]
+    public bool isLookingNPC = false;
+    public GameObject normalMerchantObj;
+    public Transform whereToSetPlayerTrans;
+
+    public PlayableAsset idleTimeline;
 
     //public float maxMoneyMerchantCanSpend;
     //public float currMoneyMerchantSpend = 0;
@@ -100,6 +108,9 @@ public class Merchant : MonoBehaviour, IInteractable
     public void Interact(Transform transform)
     {
         neededForMission = CheckIfNeededForMission();
+
+        whereToSetPlayerTrans.gameObject.SetActive(true);
+        Interacting.instance.currInteractedObjTrans = this.transform;
 
         //else
         //{

@@ -105,13 +105,27 @@ public class CutsceneManager : MonoBehaviour
 
     public void ChangeCutsceneCamParentToCurrInteractObj()
     {
-        cutsceneCam.transform.parent = Interacting.instance.currInteractedObjTrans;
+        if (Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<Merchant>() == null)
+        {
+            cutsceneCam.transform.parent = Interacting.instance.currInteractedObjTrans;
+        }
+        else
+        {
+            cutsceneCam.transform.parent = Interacting.instance.currInteractedObjTrans.GetComponent<Merchant>().whereToSetPlayerTrans;
+        }
     }
 
     public void ChangePlayerParentToCurrInteractObj()
     {
-        GameManager.instance.playerGO.transform.parent = Interacting.instance.currInteractedObjTrans;
-
+        if (Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<Merchant>() == null)
+        {
+            GameManager.instance.playerGO.transform.parent = Interacting.instance.currInteractedObjTrans;
+        }
+        else
+        {
+            GameManager.instance.playerGO.transform.parent = Interacting.instance.currInteractedObjTrans.GetComponent<Merchant>().whereToSetPlayerTrans;
+        }
+        
         //GameManager.instance.playerGOParent.transform.localPosition = playerGOCutscenePos;
     }
 
@@ -381,6 +395,11 @@ public class CutsceneManager : MonoBehaviour
         if (go.GetComponent<TavernKeeper>() != null)
         {
             playableDirector.playableAsset = go.GetComponent<TavernKeeper>().idleTimeline;
+            playableDirector.Play();
+        }
+        else if (go.GetComponent<Merchant>() != null)
+        {
+            playableDirector.playableAsset = go.GetComponent<Merchant>().idleTimeline;
             playableDirector.Play();
         }
     }

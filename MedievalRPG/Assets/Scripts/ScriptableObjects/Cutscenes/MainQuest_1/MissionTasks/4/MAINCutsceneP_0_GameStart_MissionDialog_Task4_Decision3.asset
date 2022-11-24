@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: MAINCutsceneP_0_GameStart_MissionDialog_Task4_Decision3
   m_EditorClassIdentifier: 
   cutscene: {fileID: 11400000, guid: bbd4c0f132b7c3a45b6d9cff8b0a4eda, type: 2}
+  fadeIn: 1
+  isNightCutscene: 0
   isNotADialogue: 0
   cantBeSkipped: 0
   playCutsceneMoreThanOnce: 0
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
   timesWhenNewSentenceStarts: []
+  changeParentTrans: 0
   hasDecisions: 1
   allDecisions:
   - decisionText: Annehmen
@@ -41,3 +44,5 @@ MonoBehaviour:
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}
