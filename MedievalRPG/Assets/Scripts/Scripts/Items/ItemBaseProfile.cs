@@ -83,6 +83,12 @@ public class ItemBaseProfile : ScriptableObject
     [HideInInspector] [Tooltip("The normal damage value of the weapon.")] [Min(0)] public float potionBuffValue;
     #endregion
 
+    #region
+    public bool hasBeenRead = false;
+    [HideInInspector] public MissionTaskBase corresspondingMissionTask;
+    [HideInInspector] public CutsceneProfile cutsceneToPlayAfterCloseReadScreen;
+    #endregion
+
     [CustomEditor(typeof(ItemBaseProfile))]
     public class ItemBaseProfileEditor : Editor
     {
@@ -155,8 +161,21 @@ public class ItemBaseProfile : ScriptableObject
                     EditorGUILayout.HelpBox("PotionType: You need to set the type of the potion.", MessageType.Warning);
                 }
             }
+            else if (iBP.itemType == ItemType.bookOrNote)
+            {
+                var serializedObject = new SerializedObject(target);
+                var property = serializedObject.FindProperty("corresspondingMissionTask");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property, true);
+                serializedObject.ApplyModifiedProperties();
 
-            CheckIfItemValueIsZero(iBP.buyPrice);
+                var property2 = serializedObject.FindProperty("cutsceneToPlayAfterCloseReadScreen");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property2, true);
+                serializedObject.ApplyModifiedProperties();
+            }
+
+                CheckIfItemValueIsZero(iBP.buyPrice);
             CheckIfItemValueIsZero(iBP.sellingPrice);
 
             if (iBP.sellingPrice > iBP.buyPrice)

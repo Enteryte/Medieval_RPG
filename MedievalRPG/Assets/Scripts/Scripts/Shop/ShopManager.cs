@@ -13,6 +13,7 @@ public class ShopManager : MonoBehaviour
     public HowManyScreen hMScreen;
     public BoughtOrSoldMessageScreen bOSMScreen;
 
+    public Merchant currMerchant;
     public static MerchantBaseProfile currMBP;
     public ShopListBaseProfile currSLBP;
 
@@ -33,6 +34,15 @@ public class ShopManager : MonoBehaviour
     public TMP_Text itemCurrAmountInInvTxt;
 
     public bool isBuying = true;
+
+    [Header("Main Screen")]
+    public Transform mainScreenButtonParentTrans;
+
+    [Header("Button Prefabs")]
+    public GameObject buyButtonPrefab;
+    public GameObject sellButtonPrefab;
+    public GameObject missionButtonPrefab;
+    public GameObject closeMainShopScreenButtonPrefab;
 
     public void Awake()
     {
@@ -69,6 +79,27 @@ public class ShopManager : MonoBehaviour
                 GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
             }
         }
+    }
+
+    public void DisplayMainScreenButtons()
+    {
+        for (int i = 0; i < mainScreenButtonParentTrans.childCount; i++)
+        {
+            Destroy(mainScreenButtonParentTrans.GetChild(i).gameObject);
+        }
+
+        //Debug.Log(currMerchant);
+        //Debug.Log(currMerchant.currCorrTask);
+
+        Instantiate(buyButtonPrefab, mainScreenButtonParentTrans);
+        Instantiate(sellButtonPrefab, mainScreenButtonParentTrans);
+
+        if (currMerchant.neededForMission && !currMerchant.currCorrTask.missionTaskCompleted)
+        {
+            var shopMissionButton = Instantiate(missionButtonPrefab, mainScreenButtonParentTrans);
+        }
+
+        Instantiate(closeMainShopScreenButtonPrefab, mainScreenButtonParentTrans);
     }
 
     public void OpenBuyScreen()

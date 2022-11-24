@@ -15,6 +15,8 @@ MonoBehaviour:
   cutscene: {fileID: 11400000, guid: 32201b0b6f7ee644b979aa01d07cd561, type: 2}
   isNotADialogue: 0
   cantBeSkipped: 0
+  playCutsceneMoreThanOnce: 1
+  alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
   timesWhenNewSentenceStarts: []
   hasDecisions: 0
@@ -23,4 +25,9 @@ MonoBehaviour:
   cutsceneToChangeTo: {fileID: 0}
   missionToComplete: {fileID: 0}
   missionTaskToComplete: {fileID: 0}
-  missionToPlayAfter: {fileID: 11400000, guid: 6b2961095d4a10b448251695f11337ab, type: 2}
+  missionToPlayAfter: {fileID: 11400000, guid: 9ecc40a8ed2111f4399d0753e858e1f4, type: 2}
+  playNewCutsceneAfterDeactivatedObj: 0
+  gameObjectToDeactivateName: 
+  cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

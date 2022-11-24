@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MAINCutsceneP_MQ2_Task3_AfterInteractedWithTombstone
   m_EditorClassIdentifier: 
   cutscene: {fileID: 11400000, guid: 9b32b9f34a9fa984bb6d846e3d1b8789, type: 2}
+  isNightCutscene: 0
   isNotADialogue: 0
   cantBeSkipped: 0
   playCutsceneMoreThanOnce: 1
@@ -24,8 +25,10 @@ MonoBehaviour:
   mBTToCheck: {fileID: 0}
   cutsceneToChangeTo: {fileID: 0}
   missionToComplete: {fileID: 0}
-  missionTaskToComplete: {fileID: 0}
+  missionTaskToComplete: {fileID: 11400000, guid: 93bfe8af0fd5094459c4fb999ac42b74, type: 2}
   missionToPlayAfter: {fileID: 0}
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 11400000, guid: 991c52767c8884245a8405ef256c1c3d, type: 2}
+  missionTaskToActivate: {fileID: 0}

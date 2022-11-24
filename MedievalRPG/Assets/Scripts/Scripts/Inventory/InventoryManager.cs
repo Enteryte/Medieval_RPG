@@ -50,7 +50,10 @@ public class InventoryManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        for (int i = 0; i < inventory.database.items.Length; i++)
+        {
+            inventory.database.items[i].hasBeenRead = false;
+        }
     }
 
     // Update is called once per frame
