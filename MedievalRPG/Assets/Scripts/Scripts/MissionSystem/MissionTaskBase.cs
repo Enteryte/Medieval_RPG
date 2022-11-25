@@ -20,6 +20,8 @@ public class MissionTaskBase : ScriptableObject
 
     public MissionTaskType missionTaskType = MissionTaskType.none;
 
+    public string missionButtonDescription;
+
     public bool completeAfterInteracted = true;
 
     public bool missionTaskCompleted = false;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
 
 public class TavernKeeper : MonoBehaviour, IInteractable
 {
@@ -37,6 +38,13 @@ public class TavernKeeper : MonoBehaviour, IInteractable
     [Header("Missions")]
     public List<MissionBaseProfile> allCorrMissions;
     public MissionTaskBase currCorrTask;
+    public List<MissionTaskBase> allCurrCorrTasks;
+
+    public GameObject buyBeerButtonPrefab;
+    public GameObject missionButtonPrefab;
+    public GameObject dontBuyBeerButtonPrefab;
+    public Transform buttonParentTrans;
+    public static List<GameObject> allMissionTaskButton;
 
     public void Awake()
     {
@@ -170,8 +178,34 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         CutsceneManager.instance.cutsceneCam.SetActive(false);
     }
 
+    public void CreateTavernMissionTaskButton()
+    {
+        for (int i = 0; i < buttonParentTrans.childCount; i++)
+        {
+            Destroy(buttonParentTrans.GetChild(i).gameObject);
+        }
+
+        var tavernBuyBeerButton = Instantiate(buyBeerButtonPrefab, buttonParentTrans);
+
+        tavernBuyBeerButton.GetComponent<Button>().onClick.AddListener(BuyAndDrinkBeer);
+
+        for (int i = 0; i < allCurrCorrTasks.Count; i++)
+        {
+            var tavernMissionTaskButton = Instantiate(missionButtonPrefab, buttonParentTrans);
+
+            tavernMissionTaskButton.GetComponent<TavernMissionButton>().storedMissionTask = allCurrCorrTasks[i];
+            tavernMissionTaskButton.GetComponent<TavernMissionButton>().missionDescriptionTxt.text = allCurrCorrTasks[i].missionButtonDescription;
+        }
+
+        var tavernDontBuyBeerButton = Instantiate(dontBuyBeerButtonPrefab, buttonParentTrans);
+
+        tavernDontBuyBeerButton.GetComponent<Button>().onClick.AddListener(DontBuyBeer);
+    }
+
     public void OpenGetBeerScreen()
     {
+        CreateTavernMissionTaskButton();
+
         getBeerScreen.SetActive(true);
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
@@ -221,7 +255,7 @@ public class TavernKeeper : MonoBehaviour, IInteractable
             
             //CutsceneManager.instance.playableDirector.Play();
 
-            BeerScreenMissionButton.instance.gameObject.SetActive(true);
+            //BeerScreenMissionButton.instance.gameObject.SetActive(true);
         }
         else if (!neededForMission)
         {
@@ -229,7 +263,7 @@ public class TavernKeeper : MonoBehaviour, IInteractable
             CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
             CutsceneManager.instance.playableDirector.Play();
 
-            BeerScreenMissionButton.instance.gameObject.SetActive(false);
+            //BeerScreenMissionButton.instance.gameObject.SetActive(false);
 
             //if (navMeshAgent != null)
             //{
@@ -263,6 +297,8 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
     public bool CheckIfNeededForMission()
     {
+        allCurrCorrTasks.Clear();
+
         for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
         {
             if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 1)
@@ -280,9 +316,9 @@ public class TavernKeeper : MonoBehaviour, IInteractable
                             }
 
                             currCorrTask = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
-                            BeerScreenMissionButton.instance.currStoredMissionTaskBase = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
+                            //BeerScreenMissionButton.instance.currStoredMissionTaskBase = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
 
-                            return true;
+                            allCurrCorrTasks.Add(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
                         }
                         //else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.talkToAllNPCs)
                         //{
@@ -297,6 +333,15 @@ public class TavernKeeper : MonoBehaviour, IInteractable
                         //    return true;
                         //}
                     }
+                }
+
+                if (allCurrCorrTasks.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
             else
@@ -313,7 +358,9 @@ public class TavernKeeper : MonoBehaviour, IInteractable
                         }
 
                         currCorrTask = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
-                        BeerScreenMissionButton.instance.currStoredMissionTaskBase = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
+                        //BeerScreenMissionButton.instance.currStoredMissionTaskBase = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
+
+                        allCurrCorrTasks.Add(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
 
                         return true;
                     }

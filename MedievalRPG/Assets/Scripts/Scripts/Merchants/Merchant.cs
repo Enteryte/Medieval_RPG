@@ -15,6 +15,7 @@ public class Merchant : MonoBehaviour, IInteractable
     [Header("Missions")]
     public List<MissionBaseProfile> allCorrMissions;
     public MissionTaskBase currCorrTask;
+    public List<MissionTaskBase> allCurrCorrTasks;
 
     [HideInInspector] public bool neededForMission = false;
 
@@ -128,11 +129,11 @@ public class Merchant : MonoBehaviour, IInteractable
             ShopManager.instance.currSLBP = mBP.shopListBaseProfile;
         }
 
-        ShopManager.instance.DisplayMainScreenButtons();
+        //ShopManager.instance.DisplayMainScreenButtons();
         ShopManager.instance.DisplayShopItems();
 
         ThirdPersonController.instance.canMove = false;
-        ShopManager.instance.shopScreen.SetActive(true);
+        //ShopManager.instance.shopScreen.SetActive(true);
 
         ThirdPersonController.instance.canMove = false;
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
@@ -177,11 +178,10 @@ public class Merchant : MonoBehaviour, IInteractable
                             }
 
                             currCorrTask = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
-
-                            return true;
+                            allCurrCorrTasks.Add(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
                         }
                     }
-                }
+                }               
             }
             else
             {
@@ -198,15 +198,29 @@ public class Merchant : MonoBehaviour, IInteractable
                             }
 
                             currCorrTask = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
-
-                            return true;
+                            allCurrCorrTasks.Add(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
                         }
                     }
                 }
             }
         }
 
-        return false;
+        for (int i = 0; i < MissionManager.instance.allCurrOpenNotAcceptedMissions.Count; i++)
+        {
+            if (MissionManager.instance.allCurrOpenNotAcceptedMissions[i].nPCWhereToGetMissionFrom = nPCBP)
+            {
+                allCorrMissions.Add(MissionManager.instance.allCurrOpenNotAcceptedMissions[i]);
+            }
+        }
+
+        if (allCurrCorrTasks.Count > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     //public void CheckIfNeededForMission()

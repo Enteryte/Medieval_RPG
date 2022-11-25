@@ -363,7 +363,7 @@ public class CutsceneManager : MonoBehaviour
     {
         Debug.Log("HJN33333333333333333333333KL");
 
-        BeerScreenMissionButton.instance.gameObject.SetActive(TavernKeeper.instance.CheckIfNeededForMission());
+        //BeerScreenMissionButton.instance.gameObject.SetActive(TavernKeeper.instance.CheckIfNeededForMission());
         TavernKeeper.instance.getBeerScreen.SetActive(true);
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
@@ -371,7 +371,7 @@ public class CutsceneManager : MonoBehaviour
         ThirdPersonController.instance.canMove = false;
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
 
-        BeerScreenMissionButton.instance.currStoredMissionTaskBase = null;
+        //BeerScreenMissionButton.instance.currStoredMissionTaskBase = null;
     }
 
     public void CheckExamineTaskProgress()

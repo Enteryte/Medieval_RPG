@@ -13,20 +13,21 @@ MonoBehaviour:
   m_Name: MAINMissionP_MainQuest_1_Task2_Speak
   m_EditorClassIdentifier: 
   missionTaskType: 1
+  missionButtonDescription: 
   completeAfterInteracted: 0
-  missionTaskCompleted: 0
+  missionTaskCompleted: 1
   cutsceneToTrigger: {fileID: 0}
   cutsceneToTriggerOnce: {fileID: 0}
   moneyReward: 0
   itemRewards: []
   canNormallyBeDisplayed: 1
-  canBeDisplayed: 1
+  canBeDisplayed: 0
   missionTaskToActivate: {fileID: 0}
   missionTaskToActivate2: {fileID: 0}
   isActiveAtStart: 1
   nPCToTalkToBaseProfile: {fileID: 11400000, guid: 0a86d3156ee58374db01e7703532750d, type: 2}
   dialogToPlayAfterInteracted: {fileID: 11400000, guid: bb9dd0b5b8786d146a0d8c1ec8e3baf0, type: 2}
-  dialogToPlayAfterPressedButton: {fileID: 0}
+  dialogToPlayAfterPressedButton: {fileID: 11400000, guid: faf6c9d80c7574d47bae17c20ffaa505, type: 2}
   talkToAllNPCs: 0
   possibleDialoguesToAdd: []
   mainNPC: {fileID: 0}

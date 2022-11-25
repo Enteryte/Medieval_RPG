@@ -37,6 +37,7 @@ public class MissionManager : MonoBehaviour
         for (int i = 0; i < allMissions.Count; i++)
         {
             allMissions[i].missionCompleted = false;
+            allMissions[i].isActive = false;
 
             for (int y = 0; y < allMissions[i].allMissionTasks.Length; y++)
             {
@@ -79,6 +80,8 @@ public class MissionManager : MonoBehaviour
                     }
                 }
             }
+
+            missionToAdd.isActive = true;
         }
 
         if (UIManager.missionToDisplay == null && missionToAdd.missionType == MissionBaseProfile.MissionType.main)
