@@ -63,6 +63,7 @@ public class HotbarSlotButton : MonoBehaviour
             }
 
             itemSpriteImg.sprite = iBP.itemSprite;
+            itemSpriteImg.enabled = true;
             itemAmountTxt.text = itemAmount.ToString();
 
             correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = iBP.itemSprite;
@@ -73,6 +74,7 @@ public class HotbarSlotButton : MonoBehaviour
             itemAmount = 0;
 
             itemSpriteImg.sprite = null;
+            itemSpriteImg.enabled = false;
             itemAmountTxt.text = itemAmount.ToString();
 
             correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = null;

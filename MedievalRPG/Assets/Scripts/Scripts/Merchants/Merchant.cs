@@ -161,13 +161,17 @@ public class Merchant : MonoBehaviour, IInteractable
 
     public bool CheckIfNeededForMission()
     {
+        allCorrMissions.Clear();
+        allCurrCorrTasks.Clear();
+
         for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
         {
             if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 1)
             {
                 for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
                 {
-                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To
+                        && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.canBeDisplayed)
                     {
                         if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP 
                             && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskCompleted)
@@ -187,7 +191,8 @@ public class Merchant : MonoBehaviour, IInteractable
             {
                 if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 0)
                 {
-                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To
+                        && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.canBeDisplayed)
                     {
                         if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP
                             && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskCompleted)
@@ -207,9 +212,13 @@ public class Merchant : MonoBehaviour, IInteractable
 
         for (int i = 0; i < MissionManager.instance.allCurrOpenNotAcceptedMissions.Count; i++)
         {
-            if (MissionManager.instance.allCurrOpenNotAcceptedMissions[i].nPCWhereToGetMissionFrom = nPCBP)
+            if (MissionManager.instance.allCurrOpenNotAcceptedMissions[i].nPCWhereToGetMissionFrom == nPCBP
+                /*&& MissionManager.instance.allCurrOpenNotAcceptedMissions[i].isActive*/)
             {
                 allCorrMissions.Add(MissionManager.instance.allCurrOpenNotAcceptedMissions[i]);
+
+                Debug.Log(MissionManager.instance.allCurrOpenNotAcceptedMissions[i].nPCWhereToGetMissionFrom);
+                Debug.Log(nPCBP);
             }
         }
 

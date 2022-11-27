@@ -56,6 +56,8 @@ public class MissionManager : MonoBehaviour
 
                 allMissions[i].allMissionTasks[y].mTB.missionTaskCompleted = false;
             }
+
+            Debug.Log("NJMK");
         }
     }
 

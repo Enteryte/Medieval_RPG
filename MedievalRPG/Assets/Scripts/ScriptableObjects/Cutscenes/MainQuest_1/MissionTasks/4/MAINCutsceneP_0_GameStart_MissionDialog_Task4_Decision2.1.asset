@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: MAINCutsceneP_0_GameStart_MissionDialog_Task4_Decision2.1
   m_EditorClassIdentifier: 
   cutscene: {fileID: 11400000, guid: ef26d3e25befeb94887a7f8945adbd3d, type: 2}
+  fadeIn: 1
+  isNightCutscene: 0
   isNotADialogue: 0
   cantBeSkipped: 0
   playCutsceneMoreThanOnce: 1
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
   timesWhenNewSentenceStarts: []
+  changeParentTrans: 0
   hasDecisions: 0
   allDecisions:
   - decisionText: Heutiges Angebot
@@ -47,9 +50,11 @@ MonoBehaviour:
     amountToGet: 0
   mBTToCheck: {fileID: 0}
   cutsceneToChangeTo: {fileID: 0}
-  missionToComplete: {fileID: 0}
-  missionTaskToComplete: {fileID: 0}
+  missionToComplete: {fileID: 11400000, guid: 20f04baf9e97643478db0914dc437491, type: 2}
+  missionTaskToComplete: {fileID: 11400000, guid: d38da284e8e4e854c80e2bf7946164ef, type: 2}
   missionToPlayAfter: {fileID: 0}
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

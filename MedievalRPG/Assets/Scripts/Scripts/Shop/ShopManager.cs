@@ -123,7 +123,7 @@ public class ShopManager : MonoBehaviour
 
         shopScreen.SetActive(true);
 
-        Debug.Log("SCREEN");
+        //Debug.Log("SCREEN");
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
 
