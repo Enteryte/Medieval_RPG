@@ -45,6 +45,8 @@ public class MissionBaseProfile : ScriptableObject
 [System.Serializable]
 public class MissionTask
 {
+    public bool isOptional = false;
+
     public string taskName;
     public string taskDescription;
 

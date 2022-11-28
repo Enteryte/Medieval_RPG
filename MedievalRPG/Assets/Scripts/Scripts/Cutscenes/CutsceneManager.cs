@@ -403,5 +403,27 @@ public class CutsceneManager : MonoBehaviour
             playableDirector.Play();
         }
     }
+
+    public void CheckArgueMissionTask()
+    {
+        if (currCP.mBTToCheck.pointsToGainForWin > currCP.mBTToCheck.currGainedPoints)
+        {
+            currCP = currCP.cutsceneToChangeTo;
+
+            playableDirector.playableAsset = currCP.cutscene;
+            playableDirector.Play();
+        }
+    }
+
+    public void CloseCutsceneTimline()
+    {
+        cutsceneCam.SetActive(false);
+
+        GameManager.instance.playerGO.transform.parent = playerBaseMeshParentTrans;
+
+        ThirdPersonController.instance.canMove = true;
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+    }
     #endregion
 }

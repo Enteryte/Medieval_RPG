@@ -81,11 +81,14 @@ public class CutsceneDecision
 {
     public string decisionText;
 
+    public int arguePointsToGain;
+
     public bool needsToBeClicked = true;
 
     public CutsceneProfile cutsceneToPlay;
     public MissionBaseProfile missionToActivate;
 
+    [Header("Rewards")]
     public ItemBaseProfile itemToGet;
     public int amountToGet;
 }

@@ -14,7 +14,7 @@ public class CloseMSScreenButton : MonoBehaviour
 
     public void CloseScreen()
     {
-        ShopManager.instance.CheckIfNeededForCutscene();
+        //ShopManager.instance.CheckIfNeededForCutscene();
 
         ShopManager.instance.shopScreen.SetActive(false);
 

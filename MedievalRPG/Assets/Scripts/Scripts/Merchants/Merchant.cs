@@ -135,7 +135,7 @@ public class Merchant : MonoBehaviour, IInteractable
         ThirdPersonController.instance.canMove = false;
         //ShopManager.instance.shopScreen.SetActive(true);
 
-        ThirdPersonController.instance.canMove = false;
+        //ThirdPersonController.instance.canMove = false;
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
 
         for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)

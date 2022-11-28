@@ -42,6 +42,11 @@ public class CutsceneDecisionButton : MonoBehaviour
             storedDecision.cutsceneToPlay.alreadyPlayedCutscene = true;
         }
 
+        if (storedDecision.arguePointsToGain > 0)
+        {
+            storedDecision.cutsceneToPlay.mBTToCheck.currGainedPoints += storedDecision.arguePointsToGain;
+        }
+
         for (int i = 0; i < CutsceneManager.instance.decisionBtnParentTrans.childCount; i++)
         {
             Destroy(CutsceneManager.instance.decisionBtnParentTrans.GetChild(i).gameObject);

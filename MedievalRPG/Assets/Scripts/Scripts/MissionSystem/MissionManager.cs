@@ -53,6 +53,7 @@ public class MissionManager : MonoBehaviour
                 allMissions[i].allMissionTasks[y].mTB.howManyAlreadyCollected = 0;
                 allMissions[i].allMissionTasks[y].mTB.howManyAlreadyKilled = 0;
                 allMissions[i].allMissionTasks[y].mTB.howManyAlreadyExamined = 0;
+                allMissions[i].allMissionTasks[y].mTB.currGainedPoints = 0;
 
                 allMissions[i].allMissionTasks[y].mTB.missionTaskCompleted = false;
             }

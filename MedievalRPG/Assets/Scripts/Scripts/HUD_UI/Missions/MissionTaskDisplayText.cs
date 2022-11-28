@@ -8,8 +8,15 @@ public class MissionTaskDisplayText : MonoBehaviour
     public MissionTaskBase storedMissionTaskBase;
     public TMP_Text taskDescriptionTxt;
 
-    public void DisplayTaskDescription(string textToDisplay)
+    public void DisplayTaskDescription(string textToDisplay, bool isOptional)
     {
-        taskDescriptionTxt.text = textToDisplay;
+        if (isOptional)
+        {
+            taskDescriptionTxt.text = "(optional) " + textToDisplay;
+        }
+        else
+        {
+            taskDescriptionTxt.text = textToDisplay;
+        }
     }
 }
