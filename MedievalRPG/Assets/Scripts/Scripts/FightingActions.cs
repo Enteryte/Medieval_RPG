@@ -36,9 +36,6 @@ public class FightingActions : MonoBehaviour
     public void AttackedBool()
     {
         attackCount++;
-
-        if(attackCount >= 4)
-        { attackCount = 0; }
     }
 
     private void OnLightAttack()
