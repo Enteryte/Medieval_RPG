@@ -10,6 +10,7 @@ public class FightingActions : MonoBehaviour
     private DoDamage weaponScript;
     private Animator anim;
     private int attackCount = 0;
+    private bool holdBlock = false;
 
     void Start()
     {
@@ -64,17 +65,12 @@ public class FightingActions : MonoBehaviour
 
     private void OnBlockAim()
     {
-
+        holdBlock = !holdBlock;
+        anim.SetBool("HoldBlock", holdBlock);
     }
 
     private void OnZoomShoot()
     {
 
-    }
-
-
-    void Update()
-    {
-        
     }
 }
