@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 
 public class FightingActions : MonoBehaviour
 {
-    public GameObject equippedWeapon;
+    public GameObject equippedWeaponR;
+    public GameObject equippedWeaponL;
+
 
     private DoDamage weaponScript;
     private Animator anim;
@@ -25,7 +27,7 @@ public class FightingActions : MonoBehaviour
 
     public void GetWeapon()
     {
-        weaponScript = equippedWeapon.GetComponent<DoDamage>();
+        weaponScript = equippedWeaponR.GetComponent<DoDamage>();
     }
 
     public void EnableDisableWeapon()
@@ -40,30 +42,52 @@ public class FightingActions : MonoBehaviour
 
     private void OnLightAttack()
     {
-        if(equippedWeapon.CompareTag("SwordOnehanded"))
+        if(equippedWeaponR.CompareTag("SwordOnehanded"))
         {
             weaponScript.heavyAttack = false;
             weaponScript.lightAttack = true;
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("LightAttackSword");
         }
+        if (equippedWeaponR.CompareTag("Axe"))
+        {
+            weaponScript.heavyAttack = false;
+            weaponScript.lightAttack = true;
+            anim.SetTrigger("LightAttackAxe");
+        }
+        Debug.Log(attackCount);
     }
 
     private void OnHeavyAttackZoom()
     {
-        if (equippedWeapon.CompareTag("SwordOnehanded"))
+        if (equippedWeaponR.CompareTag("SwordOnehanded"))
         {
             weaponScript.lightAttack = false;
             weaponScript.heavyAttack = true;
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("HeavyAttackSword");
         }
+        if (equippedWeaponR.CompareTag("Axe"))
+        {
+            weaponScript.lightAttack = false;
+            weaponScript.heavyAttack = true;
+            anim.SetInteger("AttackCount", attackCount);
+            anim.SetTrigger("HeavyAttackAxe");
+        }
+        Debug.Log(attackCount);
     }
 
-    private void OnBlockAim()
+    private void OnBlockAimTorch()
     {
-        holdBlock = !holdBlock;
-        anim.SetBool("HoldBlock", holdBlock);
+        if(equippedWeaponL.CompareTag("Shield"))
+        {
+            holdBlock = !holdBlock;
+            anim.SetBool("HoldBlock", holdBlock);
+        }
+        if(equippedWeaponL.CompareTag("Torch"))
+        {
+            anim.SetTrigger("AttackTorch");
+        }
     }
 
     private void OnZoomShoot()
