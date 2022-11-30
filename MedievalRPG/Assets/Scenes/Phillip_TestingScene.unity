@@ -280,6 +280,7 @@ MonoBehaviour:
   mainShopScreen: {fileID: 0}
   hMScreen: {fileID: 0}
   bOSMScreen: {fileID: 0}
+  currMerchant: {fileID: 0}
   currSLBP: {fileID: 11400000, guid: 34d56bba52f83b141a019392c9eb4841, type: 2}
   foodCateParentTrans: {fileID: 0}
   swordCateParentTrans: {fileID: 0}
@@ -293,6 +294,11 @@ MonoBehaviour:
   itemBuySellPriceTxt: {fileID: 0}
   itemCurrAmountInInvTxt: {fileID: 0}
   isBuying: 1
+  mainScreenButtonParentTrans: {fileID: 0}
+  buyButtonPrefab: {fileID: 0}
+  sellButtonPrefab: {fileID: 0}
+  missionButtonPrefab: {fileID: 0}
+  closeMainShopScreenButtonPrefab: {fileID: 0}
 --- !u!4 &116986553
 Transform:
   m_ObjectHideFlags: 0
@@ -324,6 +330,10 @@ MonoBehaviour:
   iBPOfEscapeRope: {fileID: 0}
   playedTheGameThrough: 0
   allVillageNPCs: []
+  bSMButton: {fileID: 0}
+  readBookOrNoteScreen: {fileID: 0}
+  isNight: 0
+  correspondingCutsceneProfilAtNight: {fileID: 0}
 --- !u!114 &116986555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d7cb7a1b247884799ee121a5eb392d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponParentObj: {fileID: 0}
   leftWeaponES: {fileID: 0}
   bowES: {fileID: 0}
 --- !u!114 &116986557
@@ -540,6 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511c55bde41119e45835e7257c5c2f63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cutsceneCam: {fileID: 0}
   playableDirector: {fileID: 116986561}
   currCP: {fileID: 11400000, guid: 112d8fb0db3fdd7458b53b471c8e79c0, type: 2}
   timeToPressToSkipCS: 3
@@ -628,6 +640,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  objectsToExamine: []
+  itemsToActivateWithTasks: []
 --- !u!1 &202126332
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,6 +871,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2787393080001920831, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2787393080001920831, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4184873794122011332, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.41400003
@@ -881,13 +903,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -4
       objectReference: {fileID: 0}
+    - target: {fileID: 4320871776080816139, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
+      propertyPath: equippedWeapon
+      value: 
+      objectReference: {fileID: 580209663}
     - target: {fileID: 6183255971469515495, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6494079935579299925, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6525264991887101043, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
       propertyPath: m_LocalPosition.x
@@ -915,10 +941,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7591597024131258513, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8951297621180235477, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
+--- !u!1 &580209663 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8040110226185654848, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
+  m_PrefabInstance: {fileID: 580188683}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &944789465
 GameObject:
   m_ObjectHideFlags: 0
