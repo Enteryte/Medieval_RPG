@@ -21,5 +21,9 @@ public class SO_KI_Stats : ScriptableObject
     [Range(10f, 360f)]public float AttackRangeFOV = 10f;
     //How long it takes after an attack to attack again.
     public float AttackCoolDown;
+    //How long it takes leaving sight to return to original position.
+    public float AlertCoolDown;
+    //Value to determine how long it takes for the patroller to look for a new place.
+    public float Patience;
     
 }
