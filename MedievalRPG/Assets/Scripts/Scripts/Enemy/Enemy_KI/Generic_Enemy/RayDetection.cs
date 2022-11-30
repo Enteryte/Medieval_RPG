@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RayDetection : MonoBehaviour
 {
-    public float Range;
+    private float Range;
     public void Initialize(float _range)
     {
         Range = _range;
