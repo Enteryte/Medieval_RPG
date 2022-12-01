@@ -38,6 +38,8 @@ public class Interacting : MonoBehaviour
 
     public AnimationClip grabItemAnim;
 
+    public Transform currInteractedObjTrans;
+
     [Header("Animation Rigging")]
     public Transform rightHandRigTargetTrans;
     public TwoBoneIKConstraint rightHandParentRig;

@@ -94,12 +94,41 @@ public class ShopManager : MonoBehaviour
         Instantiate(buyButtonPrefab, mainScreenButtonParentTrans);
         Instantiate(sellButtonPrefab, mainScreenButtonParentTrans);
 
-        if (currMerchant.neededForMission && !currMerchant.currCorrTask.missionTaskCompleted)
+        if (currMerchant.neededForMission && currMerchant.neededForMission /*!currMerchant.currCorrTask.missionTaskCompleted*/)
         {
-            var shopMissionButton = Instantiate(missionButtonPrefab, mainScreenButtonParentTrans);
+            for (int i = 0; i < currMerchant.allCurrCorrTasks.Count; i++)
+            {
+                if (!currMerchant.allCurrCorrTasks[i].missionTaskCompleted)
+                {
+                    var shopMissionButton = Instantiate(missionButtonPrefab, mainScreenButtonParentTrans);
+
+                    shopMissionButton.GetComponent<ShopMissionButton>().storedMissionTask = currMerchant.allCurrCorrTasks[i];
+                    shopMissionButton.GetComponent<ShopMissionButton>().missionDescriptionTxt.text = currMerchant.allCurrCorrTasks[i].missionButtonDescription;
+                }
+            }
+
+            for (int i = 0; i < currMerchant.allCorrMissions.Count; i++)
+            {
+                if (!currMerchant.allCorrMissions[i].isActive)
+                {
+                    var shopMissionButton = Instantiate(missionButtonPrefab, mainScreenButtonParentTrans);
+
+                    shopMissionButton.GetComponent<ShopMissionButton>().storedMission = currMerchant.allCorrMissions[i];
+                    shopMissionButton.GetComponent<ShopMissionButton>().missionDescriptionTxt.text = currMerchant.allCorrMissions[i].missionDescription;
+                }
+            }
         }
 
         Instantiate(closeMainShopScreenButtonPrefab, mainScreenButtonParentTrans);
+
+        shopScreen.SetActive(true);
+
+        //Debug.Log("SCREEN");
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+        ThirdPersonController.instance.canMove = false;
+        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
     }
 
     public void OpenBuyScreen()

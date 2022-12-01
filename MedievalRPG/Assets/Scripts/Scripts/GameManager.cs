@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public GameObject playerGOParent;
     public GameObject playerGO;
 
     public ItemBaseProfile iBPOfEscapeRope;
@@ -16,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     public List<NPC> allVillageNPCs;
 
-    public BeerScreenMissionButton bSMButton;
+    //public BeerScreenMissionButton bSMButton;
     public GameObject readBookOrNoteScreen;
     public static ItemBaseProfile currBookOrNote;
 
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
-        BeerScreenMissionButton.instance = bSMButton;
+        //BeerScreenMissionButton.instance = bSMButton;
     }
 
     public void Update()

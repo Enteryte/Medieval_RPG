@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
 
 public class CutsceneManager : MonoBehaviour
 {
@@ -20,6 +21,12 @@ public class CutsceneManager : MonoBehaviour
     public GameObject decisionBtnPrefab;
     public Transform decisionBtnParentTrans;
 
+    public Image cutsceneBlackBackground;
+
+    public Vector3 playerGOCutscenePos;
+
+    public Transform playerBaseMeshParentTrans;
+
     public void Awake()
     {
         instance = this;
@@ -28,7 +35,7 @@ public class CutsceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -72,6 +79,113 @@ public class CutsceneManager : MonoBehaviour
         playableDirector.Play(currCP.cutscene);
     }
 
+    public void StartPlayCutsceneCouroutine(CutsceneProfile cutsceneProfile)
+    {
+        currCP = cutsceneProfile;
+
+        StartCoroutine(StartCutsceneFadeIn(cutsceneProfile));
+    }
+
+    public void SetAndPlayCutscene()
+    {
+        //if (currCP.changeParentTrans)
+        //{
+        //    GameManager.instance.playerGO.transform.parent = Interacting.instance.currInteractedObjTrans;
+        //    //cutsceneCam.transform.parent = Interacting.instance.currInteractedObjTrans;
+        //}
+
+        playableDirector.playableAsset = currCP.cutscene;
+        playableDirector.Play();
+    }
+
+    public void ChangeCutsceneCamParentToPlayer()
+    {
+        cutsceneCam.transform.parent = GameManager.instance.playerGO.transform;
+    }
+
+    public void ChangeCutsceneCamParentToCurrInteractObj()
+    {
+        if (Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<Merchant>() == null)
+        {
+            cutsceneCam.transform.parent = Interacting.instance.currInteractedObjTrans;
+        }
+        else
+        {
+            cutsceneCam.transform.parent = Interacting.instance.currInteractedObjTrans.GetComponent<Merchant>().whereToSetPlayerTrans;
+        }
+    }
+
+    public void ChangePlayerParentToCurrInteractObj()
+    {
+        if (Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<Merchant>() == null)
+        {
+            GameManager.instance.playerGO.transform.parent = Interacting.instance.currInteractedObjTrans;
+        }
+        else
+        {
+            GameManager.instance.playerGO.transform.parent = Interacting.instance.currInteractedObjTrans.GetComponent<Merchant>().whereToSetPlayerTrans;
+        }
+        
+        //GameManager.instance.playerGOParent.transform.localPosition = playerGOCutscenePos;
+    }
+
+    public void ChangePlayerParentToNull()
+    {
+        GameManager.instance.playerGO.transform.parent = Interacting.instance.currInteractedObjTrans;
+    }
+
+    public void ChangeCutsceneCamParentToNull()
+    {
+        cutsceneCam.transform.parent = null;
+    }
+
+    public IEnumerator StartCutsceneFadeIn(CutsceneProfile cutsceneProfile)
+    {
+        currCP = cutsceneProfile;
+
+        //if (cutsceneProfile.fadeIn)
+        //{
+        //    Debug.Log("FADE");
+
+        //    cutsceneBlackBackground.gameObject.SetActive(true);
+
+        //    var color = cutsceneBlackBackground.color;
+
+        //    while (cutsceneBlackBackground.color.a < 1)
+        //    {
+        //        color.a += Time.deltaTime;
+
+        //        cutsceneBlackBackground.color = color;
+
+        //        yield return null;
+
+        //        if (cutsceneBlackBackground.color.a >= 1)
+        //        {
+        //            Debug.Log("JJJ");
+        //        }
+        //    }
+
+        //    if (cutsceneBlackBackground.color.a >= 1)
+        //    {
+                Debug.Log(cutsceneBlackBackground.color.a);
+
+                playableDirector.playableAsset = currCP.cutscene;
+                playableDirector.Play();
+                SetAndPlayCutscene();
+
+        yield return null;
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.Log("FADE NOT");
+
+        //    yield return null;
+
+        //    SetAndPlayCutscene();
+        //}
+    }
+
     public void SkipSentenceInDialogue()
     {
         for (int i = 0; i < currCP.timesWhenNewSentenceStarts.Count; i++)
@@ -88,6 +202,27 @@ public class CutsceneManager : MonoBehaviour
     public void SkipCutscene(float timeTillWhereToSkip)
     {
         playableDirector.time = timeTillWhereToSkip;
+    }
+
+    public void BackgroundFadeIn()
+    {
+        cutsceneBlackBackground.GetComponent<Animator>().Play("BackgroundFadeIn");
+    }
+
+    public void BackgroundFadeOut()
+    {
+        cutsceneBlackBackground.GetComponent<Animator>().Play("BackgroundFadeOut");
+    }
+
+    public void CloseCutscene()
+    {
+        cutsceneCam.SetActive(false);
+
+        TavernKeeper.instance.getBeerScreen.SetActive(false);
+
+        GameManager.instance.playerGO.transform.parent = playerBaseMeshParentTrans;
+
+        ThirdPersonController.instance.canMove = true;
     }
 
     public void DisplayDecisions()
@@ -228,7 +363,7 @@ public class CutsceneManager : MonoBehaviour
     {
         Debug.Log("HJN33333333333333333333333KL");
 
-        BeerScreenMissionButton.instance.gameObject.SetActive(TavernKeeper.instance.CheckIfNeededForMission());
+        //BeerScreenMissionButton.instance.gameObject.SetActive(TavernKeeper.instance.CheckIfNeededForMission());
         TavernKeeper.instance.getBeerScreen.SetActive(true);
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
@@ -236,7 +371,7 @@ public class CutsceneManager : MonoBehaviour
         ThirdPersonController.instance.canMove = false;
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
 
-        BeerScreenMissionButton.instance.currStoredMissionTaskBase = null;
+        //BeerScreenMissionButton.instance.currStoredMissionTaskBase = null;
     }
 
     public void CheckExamineTaskProgress()
@@ -251,6 +386,44 @@ public class CutsceneManager : MonoBehaviour
         currCP.missionTaskToComplete.howManyAlreadyCollected += 1;
 
         MissionManager.instance.CheckMissionTaskProgress(currCP.corresspondingMission, currCP.missionTaskToComplete);
+    }
+
+    public void PlayIdleTimeline()
+    {
+        var go = Interacting.instance.currInteractedObjTrans.gameObject;
+
+        if (go.GetComponent<TavernKeeper>() != null)
+        {
+            playableDirector.playableAsset = go.GetComponent<TavernKeeper>().idleTimeline;
+            playableDirector.Play();
+        }
+        else if (go.GetComponent<Merchant>() != null)
+        {
+            playableDirector.playableAsset = go.GetComponent<Merchant>().idleTimeline;
+            playableDirector.Play();
+        }
+    }
+
+    public void CheckArgueMissionTask()
+    {
+        if (currCP.mBTToCheck.pointsToGainForWin > currCP.mBTToCheck.currGainedPoints)
+        {
+            currCP = currCP.cutsceneToChangeTo;
+
+            playableDirector.playableAsset = currCP.cutscene;
+            playableDirector.Play();
+        }
+    }
+
+    public void CloseCutsceneTimline()
+    {
+        cutsceneCam.SetActive(false);
+
+        GameManager.instance.playerGO.transform.parent = playerBaseMeshParentTrans;
+
+        ThirdPersonController.instance.canMove = true;
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
     #endregion
 }

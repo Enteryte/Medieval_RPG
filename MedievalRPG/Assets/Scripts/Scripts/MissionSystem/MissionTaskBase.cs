@@ -15,10 +15,15 @@ public class MissionTaskBase : ScriptableObject
         kill,
         read,
         go_To,
-        examine
+        examine,
+        argue
     }
 
     public MissionTaskType missionTaskType = MissionTaskType.none;
+
+    public bool isOptional = false;
+
+    public string missionButtonDescription;
 
     public bool completeAfterInteracted = true;
 
@@ -35,6 +40,7 @@ public class MissionTaskBase : ScriptableObject
     public bool canBeDisplayed = true;
 
     public MissionTaskBase missionTaskToActivate;
+    public MissionTaskBase missionTaskToActivate2;
 
     [Header("Animations")]
     public bool isActiveAtStart = true;
@@ -50,6 +56,10 @@ public class MissionTaskBase : ScriptableObject
 
     public NPCBaseProfile mainNPC;
     public CutsceneProfile dialogueToAdd;
+
+    [Header("If has to argue")]
+    public int pointsToGainForWin;
+    public int currGainedPoints;
     #endregion
 
     #region Collect Task Values

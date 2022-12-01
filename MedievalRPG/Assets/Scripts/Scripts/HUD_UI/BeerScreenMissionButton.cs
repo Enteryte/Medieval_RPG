@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BeerScreenMissionButton : MonoBehaviour
 {
-    public static BeerScreenMissionButton instance;
+    //public static BeerScreenMissionButton instance;
 
     public MissionTaskBase currStoredMissionTaskBase;
 
     public void Awake()
     {
-        instance = this;
+        //instance = this;
     }
 
     public void Update()

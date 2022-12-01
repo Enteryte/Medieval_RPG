@@ -47,7 +47,8 @@ public class UIManager : MonoBehaviour
                 var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
 
                 newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = missionToDisplay.allMissionTasks[i].mTB;
-                newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(missionToDisplay.allMissionTasks[i].taskDescription);
+
+                newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(missionToDisplay.allMissionTasks[i].taskDescription, missionToDisplay.allMissionTasks[i].isOptional);
 
                 newMissionTaskObj.name = UIAnimationHandler.instance.gONameToAnim + childNumber;
 
@@ -61,16 +62,27 @@ public class UIManager : MonoBehaviour
         //missionTaskObjParentObj.GetComponent<GridLayoutGroup>().enabled = false;
     }
 
-    public void UpdateMissionDisplayTasks(MissionTaskBase finishedMissionTask, MissionTaskBase newMissionBase, MissionTask newMissionTask, string newMissionTaskDescription, bool hasNewTaskToActivate)
+    public void UpdateMissionDisplayTasks(MissionTaskBase finishedMissionTask, MissionTaskBase newMissionTaskBase, MissionTask newMissionTask, 
+        MissionTaskBase newMissionTaskBase2, MissionTask newMissionTask2, string newMissionTaskDescription, bool hasNewTaskToActivate)
     {
         if (hasNewTaskToActivate)
         {
             var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
 
-            newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = newMissionBase;
-            newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(newMissionTask.taskDescription);
+            newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = newMissionTaskBase;
+            newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(newMissionTask.taskDescription, newMissionTask.isOptional);
 
             newMissionTaskObj.name = UIAnimationHandler.instance.newGONameToAnim;
+
+            if (newMissionTask2 != null)
+            {
+                var newMissionTaskObj2 = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
+
+                newMissionTaskObj2.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = newMissionTaskBase2;
+                newMissionTaskObj2.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(newMissionTask2.taskDescription, newMissionTask2.isOptional);
+
+                newMissionTaskObj.name = UIAnimationHandler.instance.newGONameToAnim + "2";
+            }
         }
 
         for (int i = 0; i < missionTaskObjParentObj.transform.childCount; i++)
@@ -96,7 +108,7 @@ public class UIManager : MonoBehaviour
         var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
 
         newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = newMissionBase;
-        newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(taskDescrption);
+        newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(taskDescrption, false);
 
         Debug.Log(newMissionTaskObj);
 

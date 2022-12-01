@@ -102,6 +102,8 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
+        Interacting.instance.currInteractedObjTrans = this.transform;
+
         CutsceneManager.instance.currCP = possibleNormalDialogues[Random.Range(0, possibleNormalDialogues.Count)];
         CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
         CutsceneManager.instance.playableDirector.Play();
@@ -117,9 +119,13 @@ public class NPC : MonoBehaviour, IInteractable
 
         isInDialogue = true;
 
-        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+        ThirdPersonController.instance.canMove = false;
+        //ShopManager.instance.shopScreen.SetActive(true);
 
+        //ThirdPersonController.instance.canMove = false;
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
 
         for (int i = 0; i < MessageManager.instance.collectedMessageParentObj.transform.childCount; i++)
         {
@@ -147,13 +153,27 @@ public class NPC : MonoBehaviour, IInteractable
             {
                 for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
                 {
-                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To
+                        && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskCompleted)
                     {
                         if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP)
                         {
-                            MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.completeAfterInteracted)
+                            {
+                                MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                            }
+
+                            UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(false);
+
+                            CutsceneManager.instance.currCP = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.dialogToPlayAfterInteracted;
+
+                            CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+                            CutsceneManager.instance.playableDirector.Play();
+
+                            break;
                         }
-                        else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.talkToAllNPCs)
+                        else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.talkToAllNPCs 
+                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.canBeDisplayed)
                         {
                             var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
@@ -170,13 +190,31 @@ public class NPC : MonoBehaviour, IInteractable
                 if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 0)
                 {
                     if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB != null &&
-                    MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                    MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To
+                    && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskCompleted)
                     {
                         if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
                         {
-                            MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.completeAfterInteracted)
+                            {
+                                MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                            }
+
+                            UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(false);
+
+                            Debug.Log(MissionManager.instance.allCurrAcceptedMissions[i]);
+                            Debug.Log(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0]);
+                            Debug.Log(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.dialogToPlayAfterInteracted);
+
+                            CutsceneManager.instance.currCP = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.dialogToPlayAfterInteracted;
+
+                            CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+                            CutsceneManager.instance.playableDirector.Play();
+
+                            break;
                         }
-                        else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.talkToAllNPCs)
+                        else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.talkToAllNPCs 
+                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.canBeDisplayed)
                         {
                             var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 

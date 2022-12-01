@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MissionManager : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class MissionManager : MonoBehaviour
         for (int i = 0; i < allMissions.Count; i++)
         {
             allMissions[i].missionCompleted = false;
+            allMissions[i].isActive = false;
 
             for (int y = 0; y < allMissions[i].allMissionTasks.Length; y++)
             {
@@ -51,9 +53,12 @@ public class MissionManager : MonoBehaviour
                 allMissions[i].allMissionTasks[y].mTB.howManyAlreadyCollected = 0;
                 allMissions[i].allMissionTasks[y].mTB.howManyAlreadyKilled = 0;
                 allMissions[i].allMissionTasks[y].mTB.howManyAlreadyExamined = 0;
+                allMissions[i].allMissionTasks[y].mTB.currGainedPoints = 0;
 
                 allMissions[i].allMissionTasks[y].mTB.missionTaskCompleted = false;
             }
+
+            Debug.Log("NJMK");
         }
     }
 
@@ -78,6 +83,8 @@ public class MissionManager : MonoBehaviour
                     }
                 }
             }
+
+            missionToAdd.isActive = true;
         }
 
         if (UIManager.missionToDisplay == null && missionToAdd.missionType == MissionBaseProfile.MissionType.main)
@@ -231,7 +238,16 @@ public class MissionManager : MonoBehaviour
                 }
                 else
                 {
-                    UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb], mBP.allMissionTasks[numb].taskDescription, true);
+                    if (missionTaskToComplete.missionTaskToActivate2 != null)
+                    {
+                        UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb], missionTaskToComplete.missionTaskToActivate2,
+                            mBP.allMissionTasks[numb + 2], mBP.allMissionTasks[numb].taskDescription, true);
+                    }
+                    else
+                    {
+                        UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb], null, null,
+                            mBP.allMissionTasks[numb].taskDescription, true);
+                    }
                 }
 
                 //if (missionTaskToComplete.missionTaskToActivate.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
@@ -265,7 +281,7 @@ public class MissionManager : MonoBehaviour
             }
             else
             {
-                UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, null, null, null, false);
+                UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, null, null, null, null, null, false);
             }
         }
 
@@ -337,6 +353,15 @@ public class MissionManager : MonoBehaviour
         {
             CheckSideMissions(missionToComplete.missionAfterItsActive);
         }
+
+        //UIManager.instance.missionTaskObjParentObj.gameObject.transform.parent.gameObject.SetActive(true);
+
+        //UIManager.instance.missionTaskObjParentObj.GetComponent<GridLayoutGroup>().enabled = true;
+
+        //for (int i = 0; i < UIManager.instance.missionTaskObjParentObj.transform.childCount; i++)
+        //{
+        //    Destroy(UIManager.instance.missionTaskObjParentObj.transform.GetChild(i).gameObject);
+        //}
     }
 
     public void ChangeEnvironmentAfterMission(MissionBaseProfile mission)
