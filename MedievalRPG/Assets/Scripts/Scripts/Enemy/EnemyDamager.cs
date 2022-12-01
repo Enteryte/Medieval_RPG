@@ -7,7 +7,7 @@ public class EnemyDamager : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(HasBeenDamagedAlready || !IsDamaging)
+        if(!IsDamaging)
             return;
         if (other.gameObject == GameManager.instance.playerGO)
             Attack();
@@ -17,7 +17,6 @@ public class EnemyDamager : MonoBehaviour
 
     private float Damage;
     private bool IsDamaging;
-    private bool HasBeenDamagedAlready;
 
     public void Init(float _damage)
     {
@@ -37,11 +36,6 @@ public class EnemyDamager : MonoBehaviour
     {
         //Do Damage to the Player Health here. The Debug is to be replaced with that.
         Debug.Log($"{Damage} launched");
-        HasBeenDamagedAlready = true;
-    }
-
-    public void ResetAttack()
-    {
-        HasBeenDamagedAlready = false;
+        IsDamaging = false;
     }
 }
