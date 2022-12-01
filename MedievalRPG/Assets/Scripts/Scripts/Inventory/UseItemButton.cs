@@ -26,8 +26,8 @@ public class UseItemButton : MonoBehaviour
             }
             else if (InventoryManager.currIBP.weaponType == ItemBaseProfile.WeaponType.bow)
             {
-                EquippingManager.instance.bowES.newItemToEquip = InventoryManager.currIBP;
-                EquippingManager.instance.bowES.ChangeEquippedItem();
+                EquippingManager.instance.rightWeaponES.newItemToEquip = InventoryManager.currIBP;
+                EquippingManager.instance.rightWeaponES.ChangeEquippedItem();
             }
         }
         else if (InventoryManager.currIBP.itemType == ItemBaseProfile.ItemType.bookOrNote)

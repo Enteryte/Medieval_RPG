@@ -10,7 +10,7 @@ public class EquippingManager : MonoBehaviour
     public GameObject rightWeaponParentObj;
 
     public EquipmentSlot leftWeaponES;
-    public EquipmentSlot bowES;
+    public EquipmentSlot rightWeaponES;
 
     public void Awake()
     {

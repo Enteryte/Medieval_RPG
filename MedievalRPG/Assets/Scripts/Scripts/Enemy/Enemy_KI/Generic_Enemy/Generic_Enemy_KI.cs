@@ -64,7 +64,6 @@ public class Generic_Enemy_KI : MonoBehaviour
         if (HasDied)
             return;
 
-
         IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
         //TODO: If IsSeeingPlayer went from Positive to negative, put the OnSightLost Event here.
         SightEvent(IsSeeingPlayer);

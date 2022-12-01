@@ -25,7 +25,7 @@ public class InventoryManager : MonoBehaviour
     public TMP_Text currItemAmountInInvTxt;
     public TMP_Text currItemSellPriceTxt;
 
-    public GameObject rightInventoryScreen;
+    //public GameObject rightInventoryScreen;
     public GameObject useItemButton;
 
     public Transform invItemPreviewCamTrans;
@@ -42,8 +42,10 @@ public class InventoryManager : MonoBehaviour
     public float maxHoldingWeight;
     public float currHoldingWeight; // Equipment + Hotbar Weight
 
+    public TMP_Text weightTxt;
+
     [Header("Current Clicked Button")]
-    public GameObject currClickedBtn;
+    public ClickableInventorySlot currClickedBtn;
     public Animator currClickedBtnAnimator;
 
     public TMP_Text whatToDoTxt;
@@ -68,6 +70,8 @@ public class InventoryManager : MonoBehaviour
         {
             inventory.database.items[i].hasBeenRead = false;
         }
+
+        InventoryManager.instance.weightTxt.text = InventoryManager.instance.currHoldingWeight + " / " + InventoryManager.instance.maxHoldingWeight;
     }
 
     // Update is called once per frame
@@ -93,10 +97,10 @@ public class InventoryManager : MonoBehaviour
                 {
                     GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventorySlotsParentObjTrans);
 
-                    newInventorySlot.GetComponent<InventorySlotButton>().storedItemBase = inventory.slots[i].itemBase;
-                    newInventorySlot.GetComponent<InventorySlotButton>().DisplayItemInformations();
+                    newInventorySlot.GetComponent<ClickableInventorySlot>().storedItemBase = inventory.slots[i].itemBase;
+                    newInventorySlot.GetComponent<ClickableInventorySlot>().DisplayAllItemInformationsOnClick();
 
-                    newInventorySlot.GetComponent<InventorySlotButton>().invSlot = inventory.slots[i];
+                    newInventorySlot.GetComponent<ClickableInventorySlot>().invSlot = inventory.slots[i];
 
                     if (currIBP == null)
                     {
@@ -110,25 +114,25 @@ public class InventoryManager : MonoBehaviour
                 {
                     GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventorySlotsParentObjTrans);
 
-                    newInventorySlot.GetComponent<InventorySlotButton>().storedItemBase = inventory.slots[i].itemBase;
-                    newInventorySlot.GetComponent<InventorySlotButton>().DisplayItemInformations();
+                    newInventorySlot.GetComponent<ClickableInventorySlot>().storedItemBase = inventory.slots[i].itemBase;
+                    newInventorySlot.GetComponent<ClickableInventorySlot>().DisplayAllItemInformationsOnClick();
 
                     if (currIBP == null)
                     {
-                        newInventorySlot.GetComponent<InventorySlotButton>().DisplayAllItemInformationsOnClick();
+                        newInventorySlot.GetComponent<ClickableInventorySlot>().DisplayAllItemInformationsOnClick();
                     }
                 }
             }
         }
 
-        if (currIBP == null)
-        {
-            rightInventoryScreen.gameObject.SetActive(false);
-        }
-        else
-        {
-            rightInventoryScreen.gameObject.SetActive(true);
-        }
+        //if (currIBP == null)
+        //{
+        //    rightInventoryScreen.gameObject.SetActive(false);
+        //}
+        //else
+        //{
+        //    rightInventoryScreen.gameObject.SetActive(true);
+        //}
     }
 
     public void AddHoldingWeight(float weightToAdd, int howOften)

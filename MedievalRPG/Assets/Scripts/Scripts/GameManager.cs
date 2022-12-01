@@ -90,9 +90,12 @@ public class GameManager : MonoBehaviour
             {
                 if (!InventoryManager.currIBP.neededForMissions)
                 {
-                    if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay == InventoryManager.currIBP.itemType)
+                    if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay != ItemBaseProfile.ItemType.none)
                     {
-                        InventoryManager.instance.allInvCategoryButton[i].ChangeCurrentInvItemCategory();
+                        if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay == InventoryManager.currIBP.itemType)
+                        {
+                            InventoryManager.instance.allInvCategoryButton[i].ChangeCurrentInvItemCategory();
+                        }
                     }
                 }
                 else

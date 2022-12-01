@@ -10,7 +10,14 @@ public class RayDetection : MonoBehaviour
     /// <summary>
     /// The function that Throws Rays out and checks if there is a player inside.
     /// </summary>
-    public bool Sight() =>  Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, Range) &&
-                     hit.transform.gameObject == GameManager.instance.playerGO;
+    public bool Sight()
+    {
+        var g = Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, Range) /*&&
+                     hit.transform.gameObject == GameManager.instance.playerGO*/;
+
+        Debug.Log(g);
+
+        return g;
+    }
 
 }

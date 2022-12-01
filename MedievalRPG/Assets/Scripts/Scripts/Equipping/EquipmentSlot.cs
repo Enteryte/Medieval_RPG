@@ -110,10 +110,10 @@ public class EquipmentSlot : MonoBehaviour
 
         //InventoryManager.instance.inventorySlotsParentObjTrans.GetChild(0).GetComponent<InventorySlotButton>().DisplayAllItemInformationsOnClick();
 
-        if (InventoryManager.instance.inventorySlotsParentObjTrans.childCount == 0)
-        {
-            InventoryManager.instance.rightInventoryScreen.SetActive(false);
-        }
+        //if (InventoryManager.instance.inventorySlotsParentObjTrans.childCount == 0)
+        //{
+        //    InventoryManager.instance.rightInventoryScreen.SetActive(false);
+        //}
 
         //InventoryManager.instance.DisplayItemsOfCategory();
 

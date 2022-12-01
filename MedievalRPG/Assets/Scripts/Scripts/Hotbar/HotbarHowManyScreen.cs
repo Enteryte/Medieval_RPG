@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class HotbarHowManyScreen : MonoBehaviour
 {
@@ -9,11 +10,34 @@ public class HotbarHowManyScreen : MonoBehaviour
     public int currMaxAmount = 1;
 
     public TMP_Text currAmountTxt;
+    public TMP_Text currMaxAmountTxt;
 
     public Color normalWeightColor;
     public Color tooMuchWeightColor;
 
     public static ItemBaseProfile currIBP;
+
+    public Slider howManyHBSlider;
+    public GameObject sliderHandle;
+
+    public void Update()
+    {
+        UpdateSliderValues();
+    }
+
+    public void SetStartValues(int maxAmount)
+    {
+        howManyHBSlider.maxValue = maxAmount;
+        howManyHBSlider.value = maxAmount;
+
+        currAmountTxt.text = maxAmount.ToString();
+        currMaxAmountTxt.text = maxAmount.ToString();
+    }
+
+    public void UpdateSliderValues()
+    {
+        currAmountTxt.text = howManyHBSlider.value.ToString();
+    }
 
     public void SetNewMaxAmount()
     {

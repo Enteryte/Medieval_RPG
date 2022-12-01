@@ -5,14 +5,20 @@ using UnityEngine.InputSystem;
 
 public class FightingActions : MonoBehaviour
 {
+    public static FightingActions instance;
+
     public GameObject equippedWeaponR;
     public GameObject equippedWeaponL;
-
 
     private DoDamage weaponScript;
     private Animator anim;
     private int attackCount = 0;
     private bool holdBlock = false;
+
+    public void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {

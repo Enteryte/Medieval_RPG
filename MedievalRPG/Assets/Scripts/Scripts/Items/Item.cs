@@ -95,9 +95,12 @@ public class Item : MonoBehaviour, IInteractable
 
             ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
 
-            CutsceneManager.instance.currCP = cutsceneToPlayAfterCollected;
-            CutsceneManager.instance.playableDirector.playableAsset = cutsceneToPlayAfterCollected.cutscene;
-            CutsceneManager.instance.playableDirector.Play();
+            if (cutsceneToPlayAfterCollected != null)
+            {
+                CutsceneManager.instance.currCP = cutsceneToPlayAfterCollected;
+                CutsceneManager.instance.playableDirector.playableAsset = cutsceneToPlayAfterCollected.cutscene;
+                CutsceneManager.instance.playableDirector.Play();
+            }
 
             Destroy(iOCanvas.gameObject);
             Destroy(this.gameObject);
