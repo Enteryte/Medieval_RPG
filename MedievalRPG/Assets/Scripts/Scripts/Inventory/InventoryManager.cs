@@ -42,6 +42,14 @@ public class InventoryManager : MonoBehaviour
     public float maxHoldingWeight;
     public float currHoldingWeight; // Equipment + Hotbar Weight
 
+    [Header("Current Clicked Button")]
+    public GameObject currClickedBtn;
+    public Animator currClickedBtnAnimator;
+
+    public TMP_Text whatToDoTxt;
+
+    public static ClickableInventorySlot currCIS;
+
     public void Awake()
     {
         instance = this;

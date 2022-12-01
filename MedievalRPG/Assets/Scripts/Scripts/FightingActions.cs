@@ -17,7 +17,7 @@ public class FightingActions : MonoBehaviour
     void Start()
     {
         anim = this.gameObject.GetComponent<Animator>();
-        GetWeapon(); //Nur für testzwecke, später löschen
+        //GetWeapon(); //Nur für testzwecke, später löschen
     }
 
     public void ResetBool()
@@ -42,6 +42,11 @@ public class FightingActions : MonoBehaviour
 
     private void OnLightAttack()
     {
+        if (equippedWeaponR == null)
+        {
+            return;
+        }
+
         if(equippedWeaponR.CompareTag("SwordOnehanded"))
         {
             weaponScript.heavyAttack = false;
@@ -60,6 +65,11 @@ public class FightingActions : MonoBehaviour
 
     private void OnHeavyAttackZoom()
     {
+        if (equippedWeaponR == null)
+        {
+            return;
+        }
+
         if (equippedWeaponR.CompareTag("SwordOnehanded"))
         {
             weaponScript.lightAttack = false;
@@ -79,7 +89,12 @@ public class FightingActions : MonoBehaviour
 
     private void OnBlockAimTorch()
     {
-        if(equippedWeaponL.CompareTag("Shield"))
+        if (equippedWeaponL == null)
+        {
+            return;
+        }
+
+        if (equippedWeaponL.CompareTag("Shield"))
         {
             holdBlock = !holdBlock;
             anim.SetBool("HoldBlock", holdBlock);

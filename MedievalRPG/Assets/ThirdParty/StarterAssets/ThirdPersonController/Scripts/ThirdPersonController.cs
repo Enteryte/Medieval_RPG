@@ -258,16 +258,16 @@ namespace StarterAssets
                         {
                             if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
                             {
-                                //if (DebuffManager.instance.slowPlayerDebuff)
-                                //{
-                                //    _animator.speed = 1;
+                                if (DebuffManager.instance.slowPlayerDebuff)
+                                {
+                                    _animator.speed = 1;
 
-                                //    StartCoroutine(SlowedRoll());
-                                //}
-                                //else
-                                //{
+                                    StartCoroutine(SlowedRoll());
+                                }
+                                else
+                                {
                                     StartCoroutine(Roll());
-                                //}
+                                }
                             }
                         }
 
