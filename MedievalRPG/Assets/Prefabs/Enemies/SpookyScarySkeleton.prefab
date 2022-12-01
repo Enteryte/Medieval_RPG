@@ -23,13 +23,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982788573}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6426284465588112790}
-  m_RootOrder: 3
+  m_Father: {fileID: 2767886967745730794}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2004182895
 GameObject:
@@ -1251,6 +1251,7 @@ GameObject:
   - component: {fileID: 2767886967745730794}
   - component: {fileID: 8109204317566075536}
   - component: {fileID: 5760192927884614512}
+  - component: {fileID: 5901562912245196568}
   m_Layer: 0
   m_Name: SkeletonWarrior
   m_TagString: Enemy
@@ -1272,6 +1273,7 @@ Transform:
   m_Children:
   - {fileID: 2049569712204436350}
   - {fileID: 6673550823435541805}
+  - {fileID: 982788574}
   m_Father: {fileID: 6426284465588112790}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1309,6 +1311,18 @@ CapsuleCollider:
   m_Height: 1.84
   m_Direction: 1
   m_Center: {x: 0, y: 0.93, z: 0}
+--- !u!114 &5901562912245196568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252252199117029968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6130c37e3bff794abe2e36cae66a592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3272749374839929497
 GameObject:
   m_ObjectHideFlags: 0
@@ -1986,9 +2000,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2767886967745730794}
-  - {fileID: 4685987643263416025}
   - {fileID: 3020906770971163837}
-  - {fileID: 982788574}
+  - {fileID: 4685987643263416025}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2890,7 +2903,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6426284465588112790}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1922301455289897733
 CapsuleCollider:
@@ -3043,7 +3056,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6426284465588112790}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7752233790990239391
 BoxCollider:
