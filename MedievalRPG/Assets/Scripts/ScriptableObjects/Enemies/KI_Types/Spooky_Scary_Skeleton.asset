@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc4312f7c1dda94e96ec03c3995c3e5, type: 3}
   m_Name: Spooky_Scary_Skeleton
   m_EditorClassIdentifier: 
-  PatrolsWhileVibing: 0
-  IsKnockDownable: 0
-  DetectionRange: 0
-  DetectionFOV: 0
-  AttackRange: 0
-  AttackRangeFOV: 0
-  AttackCoolDown: 0
+  PatrolsWhileVibing: 1
+  PatrollingRange: 5
+  IsKnockDownable: 1
+  DetectionRange: 10
+  DetectionFOV: 151
+  AttackRange: 2
+  AttackRangeFOV: 62
+  AttackCoolDown: 2
+  AlertCoolDown: 0
+  Patience: 0

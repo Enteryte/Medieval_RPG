@@ -15,16 +15,14 @@ public class DoDamage : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(isActive == true && other.gameObject.CompareTag("Enemy"))
-        {
-            if(lightAttack)
-            { 
-                //reference script and do damage
-            }
-            if (heavyAttack)
-            {
-                //reference script and do damage
-            }
-        }
+        if (isActive != true || !other.gameObject.CompareTag("Enemy")) 
+            return;
+        if(!other.TryGetComponent(out EnemyHealth eHealth))
+            return;
+        if(lightAttack)
+            eHealth.LightDamage(lightDamage);
+        if(heavyAttack)
+            eHealth.HeavyDamage(heavyDamage);
+        
     }
 }
