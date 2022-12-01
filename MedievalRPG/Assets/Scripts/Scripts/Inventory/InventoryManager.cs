@@ -50,6 +50,12 @@ public class InventoryManager : MonoBehaviour
 
     public static ClickableInventorySlot currCIS;
 
+    [Header("Equipp Item")]
+    public GameObject selectHotbarSlotScreen;
+    public Transform oldHotbarParentTrans;
+    public Transform newHotbarParentTrans;
+    public GameObject hotbarObj;
+
     public void Awake()
     {
         instance = this;
