@@ -9,8 +9,11 @@ using Random = UnityEngine.Random;
 public class Generic_Enemy_KI : MonoBehaviour
 {
     [Header("Includes")] [SerializeField] private SO_KI_Stats KiStats;
+    [SerializeField] private EnemyBaseProfile BaseStats;
     [SerializeField] private Animator Animator;
     [SerializeField] private NavMeshAgent Agent;
+    [SerializeField] private EnemyHealth Health;
+    [SerializeField] private EnemyDamager Damager;
 
     private bool IsSeeingPlayer;
     private bool HasSeenPlayer;
@@ -35,6 +38,7 @@ public class Generic_Enemy_KI : MonoBehaviour
     //How low the speed is to be considered not moving, just in case Navmesh doesn't do it's job stopping
     [SerializeField]
     private float Tolerance = 0f;
+
     private float SqrTolerance = 0f;
 
     private int CheckValue = 0;
@@ -51,22 +55,22 @@ public class Generic_Enemy_KI : MonoBehaviour
         SetDetectors(KiStats.AttackRangeFOV, RayDetectorsAttack);
         StartPos = transform.position;
         SqrTolerance = Tolerance * Tolerance;
+        Health.Initialize(BaseStats, Animator, this);
+        Damager.Init(BaseStats.normalDamage);
     }
 
     void Update()
     {
         if (HasDied)
-        {
-            Death();
             return;
-        }
-        
+
+
         IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
         //TODO: If IsSeeingPlayer went from Positive to negative, put the OnSightLost Event here.
         SightEvent(IsSeeingPlayer);
-        
+
         Animator.SetBool("IsMoving", (Agent.velocity.sqrMagnitude > SqrTolerance));
-        
+
         //Putting the Attack Detection into an if so it only checks when it has the player within it's sight for better performance.
         if (!IsSeeingPlayer) return;
         IsSearching = false;
@@ -160,7 +164,7 @@ public class Generic_Enemy_KI : MonoBehaviour
 
             return;
         }
-        //TODO: Do this over a OnLoseSight event instead of a continous event 
+        //TODO: Do this over a OnLoseSight event instead of a continuous event 
 
         if (!IsSearching)
         {
@@ -226,9 +230,10 @@ public class Generic_Enemy_KI : MonoBehaviour
 
     #endregion
 
-    private void Death()
+    public void Death()
     {
         //TODO: Turn of all other scripts, animators, etc. and turn the enemy into a ragdoll
+        HasDied = true;
     }
 
     /// <summary>
@@ -257,7 +262,7 @@ public class Generic_Enemy_KI : MonoBehaviour
         VisualizeDetectors(Color.cyan, KiStats.DetectionRange, RayDetectorsSight);
         VisualizeDetectors(Color.red, KiStats.AttackRange, RayDetectorsAttack);
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(StartPos, new Vector3(KiStats.PatrollingRange*2, 0, KiStats.PatrollingRange*2));
+        Gizmos.DrawWireCube(StartPos, new Vector3(KiStats.PatrollingRange * 2, 0, KiStats.PatrollingRange * 2));
     }
 
     private void VisualizeDetectors(Color _lineColor, float _range, RayDetection[] _detectors)
