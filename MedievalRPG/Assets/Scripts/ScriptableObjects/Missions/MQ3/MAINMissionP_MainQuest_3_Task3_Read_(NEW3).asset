@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: MAINMissionP_MainQuest_3_Task3_Read_(NEW3)
   m_EditorClassIdentifier: 
   missionTaskType: 4
+  isOptional: 0
+  missionButtonDescription: 
   completeAfterInteracted: 1
-  missionTaskCompleted: 1
+  missionTaskCompleted: 0
   cutsceneToTrigger: {fileID: 0}
   cutsceneToTriggerOnce: {fileID: 0}
   moneyReward: 0
@@ -22,6 +24,7 @@ MonoBehaviour:
   canNormallyBeDisplayed: 0
   canBeDisplayed: 0
   missionTaskToActivate: {fileID: 11400000, guid: 802a44426acdb904f90921e378cdbf18, type: 2}
+  missionTaskToActivate2: {fileID: 0}
   isActiveAtStart: 0
   nPCToTalkToBaseProfile: {fileID: 0}
   dialogToPlayAfterInteracted: {fileID: 0}
@@ -30,6 +33,8 @@ MonoBehaviour:
   possibleDialoguesToAdd: []
   mainNPC: {fileID: 0}
   dialogueToAdd: {fileID: 0}
+  pointsToGainForWin: 0
+  currGainedPoints: 0
   itemToCollectBase: {fileID: 0}
   itemToCollectBase2: {fileID: 0}
   howManyToCollect: 0

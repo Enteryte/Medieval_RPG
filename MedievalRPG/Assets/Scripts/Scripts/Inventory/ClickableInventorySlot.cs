@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using TMPro;
 using System;
 
-public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
+public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public enum ClickableSlotType
     {
@@ -30,6 +31,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
     [HideInInspector] public InventorySlot invSlot;
     //[HideInInspector] public List<Button> allInteractableButton;
 
+    public HotbarSlotButton correspondingMainScreenHotbarSlotBtn;
+
     public void Awake()
     {
 
@@ -39,24 +42,48 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
     {
         if (clickableSlotType != ClickableSlotType.categoryButton)
         {
-            if (this.gameObject.GetComponent<Button>() != null)
-            {
-                this.gameObject.GetComponent<Button>().onClick.AddListener(SelectAction);
+            //if (this.gameObject.GetComponent<Button>() != null)
+            //{
+            //    this.gameObject.GetComponent<Button>().onClick.AddListener(SelectAction);
 
-                //var eventSystem = EventSystem.current;
-                //eventSystem.SetSelectedGameObject(null);
-                //eventSystem.SetSelectedGameObject(this.gameObject, new BaseEventData(eventSystem));
-            }
+            //    //var eventSystem = EventSystem.current;
+            //    //eventSystem.SetSelectedGameObject(null);
+            //    //eventSystem.SetSelectedGameObject(this.gameObject, new BaseEventData(eventSystem));
+            //}
 
             if (storedItemBase != null)
             {
                 this.gameObject.GetComponent<Image>().sprite = storedItemBase.itemSprite;
                 storedAmountTxt.text = storedAmount.ToString();
+
+                if (correspondingMainScreenHotbarSlotBtn != null)
+                {
+                    correspondingMainScreenHotbarSlotBtn.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = storedItemBase.itemSprite;
+                    correspondingMainScreenHotbarSlotBtn.GetComponent<HotbarSlotButton>().itemAmountTxt.text = storedAmount.ToString();
+                }
             }
             else
             {
                 this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
+
+                if (correspondingMainScreenHotbarSlotBtn != null)
+                {
+                    correspondingMainScreenHotbarSlotBtn.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
+                }
             }
+        }
+    }
+
+    public void UpdateSlotInformations()
+    {
+        if (storedItemBase != null)
+        {
+            this.gameObject.GetComponent<Image>().sprite = storedItemBase.itemSprite;
+            storedAmountTxt.text = storedAmount.ToString();
+        }
+        else
+        {
+            this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
         }
     }
 
@@ -88,10 +115,10 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
         //    }
         //}
 
-        if (InventoryManager.instance.currClickedBtn == null/* && clickableSlotType != ClickableSlotType.categoryButton*/)
-        {
+        //if (InventoryManager.instance.currClickedBtn == null/* && clickableSlotType != ClickableSlotType.categoryButton*/)
+        //{
             DisplayAllItemInformationsOnClick();
-        }
+        //}
         //else if (InventoryManager.instance.currClickedBtn == null && clickableSlotType != ClickableSlotType.categoryButton)
         //{
 
@@ -171,82 +198,63 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
     public void EquipItemToEquipment()
     {
         InventoryManager.instance.currClickedBtn = this;
-        //if (currEquippedItem != null)
-        //{
-        //    InventoryManager.instance.inventory.AddItem(currEquippedItem, 1);
 
-        //    InventoryManager.instance.RemoveHoldingWeight(currEquippedItem.weight, 1);
-        //}
+        //var oldIB = storedItemBase;
+        //var newIB =
 
-        //if (newItemToEquip != null)
-        //{
-        //    InventoryManager.instance.AddHoldingWeight(newItemToEquip.weight, 1);
-        //}
+        //var oldIB = storedItemBase;
 
-        //if (currEquippedItem != null && EquippingManager.instance.weaponParentObj != null)
-        //{
-        //    for (int i = 0; i < EquippingManager.instance.weaponParentObj.transform.childCount; i++)
-        //    {
-        //        if (EquippingManager.instance.weaponParentObj.transform.GetChild(i).GetComponent<Item>().iBP.itemPrefab == currEquippedItem.itemPrefab)
-        //        {
-        //            EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(false);
+        //Debug.Log(oldIB);
 
-        //            break;
-        //        }
-        //    }
-        //}
+        //var newIB = InventoryManager.instance.currClickedBtn.storedItemBase;
 
-        //if (InventoryManager.instance.currClickedBtn.storedItemBase != null && EquippingManager.instance.leftWeaponES != null)
-        //{
-        //    for (int i = 0; i < EquippingManager.instance.leftWeaponES.transform.childCount; i++)
-        //    {
-        //        if (EquippingManager.instance.leftWeaponES.transform.GetChild(i).GetComponent<Item>().iBP == storedItemBase)
-        //        {
-        //            EquippingManager.instance.leftWeaponES.transform.GetChild(i).gameObject.SetActive(true);
-        //            FightingActions.instance.equippedWeaponL = EquippingManager.instance.leftWeaponES.transform.GetChild(i).gameObject;
+        //Debug.Log(newIB);
 
-        //            FightingActions.instance.GetWeapon();
-
-        //            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = storedItemBase;
-        //            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedAmount = storedAmount;
-
-        //            EquippingManager.instance.leftWeaponES.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
-        //            EquippingManager.instance.leftWeaponES.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = storedItemBase.itemSprite;
-
-        //            var eventSystem = EventSystem.current;
-        //            eventSystem.SetSelectedGameObject(null);
-        //            eventSystem.SetSelectedGameObject(EquippingManager.instance.leftWeaponES.gameObject, new BaseEventData(eventSystem));
-
-        //            break;
-        //        }
-        //    }
-        //}
-
+        // --------------------- Linke Hand fehlt noch
+        
         if (InventoryManager.instance.currClickedBtn.storedItemBase != null && EquippingManager.instance.rightWeaponParentObj != null)
         {
             for (int i = 0; i < EquippingManager.instance.rightWeaponParentObj.transform.childCount; i++)
             {
                 if (EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).GetComponent<Item>().iBP == storedItemBase)
                 {
+                    storedItemBase = InventoryManager.instance.currClickedBtn.storedItemBase;
+
                     EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
                     FightingActions.instance.equippedWeaponR = EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject;
 
                     FightingActions.instance.GetWeapon();
 
+                    if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
+                    {
+                        InventoryManager.instance.RemoveHoldingWeight(EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weight, 1);
+                        InventoryManager.instance.inventory.AddItem(EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase, 1);
+                    }
+
                     EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = storedItemBase;
-                    EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedAmount = storedAmount;
+                    EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedAmount = 1;
+
+                    EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedAmountTxt.gameObject.SetActive(false);
 
                     EquippingManager.instance.rightWeaponES.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                     EquippingManager.instance.rightWeaponES.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = storedItemBase.itemSprite;
 
-                    var eventSystem = EventSystem.current;
-                    eventSystem.SetSelectedGameObject(null);
-                    eventSystem.SetSelectedGameObject(EquippingManager.instance.rightWeaponES.gameObject, new BaseEventData(eventSystem));
+                    InventoryManager.instance.AddHoldingWeight(storedItemBase.weight, 1);
+
+                    InventoryManager.instance.inventory.RemoveItem(EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase, 1);
+
+                    //storedItemBase
+
+                    //var eventSystem = EventSystem.current;
+                    //eventSystem.SetSelectedGameObject(null);
+                    //eventSystem.SetSelectedGameObject(EquippingManager.instance.rightWeaponES.gameObject, new BaseEventData(eventSystem));
 
                     break;
                 }
             }
         }
+
+        InventoryManager.instance.DisplayItemsOfCategory();
     }
 
     public void EquipItemToHotbar()
@@ -258,7 +266,14 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
         {
             InventoryManager.instance.inventory.AddItem(oldIB, storedAmount);
 
-            InventoryManager.instance.RemoveHoldingWeight(oldIB.weight, storedAmount);
+            //if (storedItemBase.itemType == ItemBaseProfile.ItemType.weapon)
+            //{
+            //    InventoryManager.instance.RemoveHoldingWeight(oldIB.weight, 1);
+            //}
+            //else
+            //{
+                InventoryManager.instance.RemoveHoldingWeight(oldIB.weight, storedAmount);
+            //}
         }
 
         if (newIB != null)
@@ -272,11 +287,25 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
             InventoryManager.instance.currClickedBtn.storedAmount = InventoryManager.instance.currClickedBtn.storedAmount - Convert.ToInt32(HotbarManager.instance.hbHMScreen.howManyHBSlider.value);
             InventoryManager.instance.currClickedBtn.storedAmountTxt.text = InventoryManager.instance.currClickedBtn.storedAmount.ToString();
 
+            correspondingMainScreenHotbarSlotBtn.GetComponent<HotbarSlotButton>().itemSpriteImg.enabled = true;
+            correspondingMainScreenHotbarSlotBtn.GetComponent<HotbarSlotButton>().itemSpriteImg.sprite = storedItemBase.itemSprite;
+            correspondingMainScreenHotbarSlotBtn.GetComponent<HotbarSlotButton>().itemAmountTxt.text = Convert.ToInt32(HotbarManager.instance.hbHMScreen.howManyHBSlider.value).ToString();
+
+            //if (storedItemBase.itemType == ItemBaseProfile.ItemType.weapon)
+            //{
+            //    InventoryManager.instance.AddHoldingWeight(newIB.weight, 1);
+            //}
+            //else
+            //{
             InventoryManager.instance.AddHoldingWeight(newIB.weight, storedAmount);
+            //}
         }
         else
         {
             this.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = null;
+
+            correspondingMainScreenHotbarSlotBtn.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
+            correspondingMainScreenHotbarSlotBtn.GetComponent<HotbarSlotButton>().itemAmountTxt.text = "";
         }
 
         //if (newIB != null)
@@ -297,11 +326,15 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
 
         InventoryManager.instance.selectHotbarSlotScreen.SetActive(false);
 
-        var eventSystem = EventSystem.current;
-        eventSystem.SetSelectedGameObject(null);
-        eventSystem.SetSelectedGameObject(InventoryManager.instance.currClickedBtn.gameObject, new BaseEventData(eventSystem));
+        //var eventSystem = EventSystem.current;
+        //eventSystem.SetSelectedGameObject(null);
+        //eventSystem.SetSelectedGameObject(InventoryManager.instance.currClickedBtn.gameObject, new BaseEventData(eventSystem));
+
+        InventoryManager.instance.inventory.RemoveItem(newIB, Convert.ToInt32(HotbarManager.instance.hbHMScreen.howManyHBSlider.value));
 
         InventoryManager.instance.currClickedBtn = null;
+
+        InventoryManager.instance.DisplayItemsOfCategory();
     }
 
     public void ClearHotbarSlot()
@@ -312,7 +345,15 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
 
         this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
 
+        storedItemBase = null;
+        storedAmount = 0;
+
         storedAmountTxt.text = "";
+
+        correspondingMainScreenHotbarSlotBtn.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
+        correspondingMainScreenHotbarSlotBtn.GetComponent<HotbarSlotButton>().itemAmountTxt.text = "";
+
+        InventoryManager.instance.DisplayItemsOfCategory();
     }
 
     public void ClearEquipmentSlot()
@@ -320,6 +361,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
         InventoryManager.instance.inventory.AddItem(storedItemBase, 1);
 
         this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
+
+        // --------------------- Linke Hand fehlt noch
 
         if (storedItemBase != null && EquippingManager.instance.rightWeaponParentObj != null)
         {
@@ -332,12 +375,16 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
 
                     //FightingActions.instance.GetWeapon();
 
+                    InventoryManager.instance.RemoveHoldingWeight(storedItemBase.weight, 1);
+
                     EquippingManager.instance.rightWeaponES.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
                     EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = null;
 
                     break;
                 }
             }
+
+            InventoryManager.instance.DisplayItemsOfCategory();
         }
 
         //if (storedItemBase != null && EquippingManager.instance.leftWeaponES != null)
@@ -382,6 +429,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
 
         cISCopy.transform.parent = InventoryManager.instance.newHotbarParentTrans;
 
+        cISCopy.gameObject.name = "CISCOPY";
+
         InventoryManager.instance.hotbarObj.transform.parent = InventoryManager.instance.newHotbarParentTrans;
 
         InventoryManager.instance.selectHotbarSlotScreen.SetActive(true);
@@ -392,19 +441,22 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
 
         HotbarManager.instance.howManyToHotbarScreen.GetComponent<HotbarHowManyScreen>().SetStartValues(storedAmount);
 
-        var eventSystem = EventSystem.current;
-        eventSystem.SetSelectedGameObject(null);
-        eventSystem.SetSelectedGameObject(HotbarManager.instance.howManyToHotbarScreen.GetComponent<HotbarHowManyScreen>().howManyHBSlider.gameObject, new BaseEventData(eventSystem));
+        //var eventSystem = EventSystem.current;
+        //eventSystem.SetSelectedGameObject(null);
+        //eventSystem.SetSelectedGameObject(HotbarManager.instance.howManyToHotbarScreen.GetComponent<HotbarHowManyScreen>().howManyHBSlider.gameObject, new BaseEventData(eventSystem));
 
         Debug.Log("EQUIPPED");
     }
 
     public void DisplayAllItemInformationsOnClick()
     {
-        if (isNewSymbol != null && storedItemBase != null)
+        if (storedItemBase != null)
         {
-            storedItemBase.isNew = false;
-            isNewSymbol.gameObject.SetActive(false);
+            if (isNewSymbol != null)
+            {
+                storedItemBase.isNew = false;
+                isNewSymbol.gameObject.SetActive(false);
+            }
 
             InventoryManager.instance.currItemNameTxt.text = storedItemBase.itemName;
             InventoryManager.instance.currItemDescriptionTxt.text = storedItemBase.itemDescription;
@@ -423,6 +475,32 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler
 
     public void OnSelect(BaseEventData eventData)
     {
+        if (clickableSlotType == ClickableSlotType.hotbarSlot)
+        {
+            SelectAction();
+        }
+        else
+        {
+            if (InventoryManager.instance.currClickedBtn == null || InventoryManager.instance.currClickedBtn != this && this.gameObject.name != "CISCOPY")
+            {
+                SelectAction();
+            }
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
         SelectInventorySlot();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        InventoryManager.instance.currItemNameTxt.text = "";
+        InventoryManager.instance.currItemDescriptionTxt.text = "";
+
+        animator.enabled = false;
+        boarder.gameObject.SetActive(false);
+
+        //this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = true;
     }
 }

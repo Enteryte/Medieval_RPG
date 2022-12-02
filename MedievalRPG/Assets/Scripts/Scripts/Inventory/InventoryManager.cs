@@ -98,9 +98,12 @@ public class InventoryManager : MonoBehaviour
                     GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventorySlotsParentObjTrans);
 
                     newInventorySlot.GetComponent<ClickableInventorySlot>().storedItemBase = inventory.slots[i].itemBase;
+                    newInventorySlot.GetComponent<ClickableInventorySlot>().storedAmount = inventory.slots[i].itemAmount;
                     newInventorySlot.GetComponent<ClickableInventorySlot>().DisplayAllItemInformationsOnClick();
 
                     newInventorySlot.GetComponent<ClickableInventorySlot>().invSlot = inventory.slots[i];
+
+                    newInventorySlot.GetComponent<ClickableInventorySlot>().UpdateSlotInformations();
 
                     if (currIBP == null)
                     {
@@ -115,7 +118,10 @@ public class InventoryManager : MonoBehaviour
                     GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventorySlotsParentObjTrans);
 
                     newInventorySlot.GetComponent<ClickableInventorySlot>().storedItemBase = inventory.slots[i].itemBase;
+                    newInventorySlot.GetComponent<ClickableInventorySlot>().storedAmount = inventory.slots[i].itemAmount;
                     newInventorySlot.GetComponent<ClickableInventorySlot>().DisplayAllItemInformationsOnClick();
+
+                    newInventorySlot.GetComponent<ClickableInventorySlot>().UpdateSlotInformations();
 
                     if (currIBP == null)
                     {
