@@ -5,9 +5,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnterHandler, IPointerExitHandler
+public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Image boarder;
+
+    public GameObject screenToOpen;
+    public AnimationClip openScreenAnim;
+
+    public bool canPressButtonMoreThanOnce = false;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -27,12 +32,61 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
     public void OnSelect(BaseEventData eventData)
     {
-        if (StartScreenManager.currSelectedSSMBtn != null)
+        if (!canPressButtonMoreThanOnce)
         {
-            StartScreenManager.currSelectedSSMBtn.GetComponent<TextMeshProUGUI>().color = Color.white;
-        }
+            if (StartScreenManager.currSelectedSSMBtn != null && StartScreenManager.currSelectedLoadSlotBtn != this)
+            {
+                StartScreenManager.currSelectedSSMBtn.GetComponent<TextMeshProUGUI>().color = Color.white;
 
-        StartScreenManager.currSelectedSSMBtn = this;
-        this.gameObject.GetComponent<TMP_Text>().color = Color.gray;
+                if (StartScreenManager.currSelectedSSMBtn.screenToOpen != null)
+                {
+                    StartScreenManager.currSelectedSSMBtn.screenToOpen.SetActive(false);
+
+                    StartScreenManager.instance.mainAnimator.enabled = false;
+                }
+            }
+
+            if (screenToOpen != null)
+            {
+                screenToOpen.SetActive(true);
+
+                StartScreenManager.instance.mainAnimator.enabled = true;
+                StartScreenManager.instance.mainAnimator.Rebind();
+                StartScreenManager.instance.mainAnimator.Play(openScreenAnim.name);
+            }
+
+            StartScreenManager.currSelectedSSMBtn = this;
+            this.gameObject.GetComponent<TMP_Text>().color = Color.gray;
+        }       
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (canPressButtonMoreThanOnce)
+        {
+            if (StartScreenManager.currSelectedSSMBtn != null && StartScreenManager.currSelectedLoadSlotBtn != this)
+            {
+                StartScreenManager.currSelectedSSMBtn.GetComponent<TextMeshProUGUI>().color = Color.white;
+
+                if (StartScreenManager.currSelectedSSMBtn.screenToOpen != null)
+                {
+                    StartScreenManager.currSelectedSSMBtn.screenToOpen.SetActive(false);
+
+                    StartScreenManager.instance.mainAnimator.enabled = false;
+                }
+            }
+
+            if (screenToOpen != null)
+            {
+                screenToOpen.SetActive(true);
+
+                StartScreenManager.instance.mainAnimator.enabled = true;
+                StartScreenManager.instance.mainAnimator.Rebind();
+                StartScreenManager.instance.mainAnimator.Play(openScreenAnim.name);
+            }
+
+            StartScreenManager.currSelectedSSMBtn = this;
+            this.gameObject.GetComponent<TMP_Text>().color = Color.gray;
+        }
     }
 }
