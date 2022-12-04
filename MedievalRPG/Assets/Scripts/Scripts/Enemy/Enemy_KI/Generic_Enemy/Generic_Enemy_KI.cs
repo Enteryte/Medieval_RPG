@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class Generic_Enemy_KI : MonoBehaviour
@@ -14,34 +12,40 @@ public class Generic_Enemy_KI : MonoBehaviour
     [SerializeField] private NavMeshAgent Agent;
     [SerializeField] private EnemyHealth Health;
     [SerializeField] private EnemyDamager Damager;
+    [SerializeField] private GameObject HardCodeTarget;
 
     private bool IsSeeingPlayer;
     private bool HasSeenPlayer;
     private bool IsInAttackRange;
 
-    private bool HasDied = false;
+    private bool HasDied;
 
     private Vector3 RandomTarget;
     private Transform Target;
     private Vector3 StartPos;
 
 
-    [Header("Detectors")]
-    //The Transforms for the Detectors, must be an amount divisible by 2
-    public RayDetection[] RayDetectorsSight;
+    [Header("Detectors")] [SerializeField] private RayDetection RayDetectionPrefab;
+    [SerializeField] private Transform SightContainer;
+
+    [SerializeField] private Transform AttackContainer;
 
     //The Transforms for the Detectors, must be an amount divisible by 2
-    public RayDetection[] RayDetectorsAttack;
+    private RayDetection[] RayDetectorsSight;
+
+    //The Transforms for the Detectors, must be an amount divisible by 2
+    private RayDetection[] RayDetectorsAttack;
 
 
     [Header("Dev Variables")]
     //How low the speed is to be considered not moving, just in case Navmesh doesn't do it's job stopping
     [SerializeField]
-    private float Tolerance = 0f;
+    private float Tolerance;
+    private float SqrTolerance;
+    public float SpeedValue;
 
-    private float SqrTolerance = 0f;
-
-    private int CheckValue = 0;
+    
+    private int CheckValue;
     private bool IsAttackCoroutineStarted;
     private bool IsSearching;
 
@@ -49,12 +53,14 @@ public class Generic_Enemy_KI : MonoBehaviour
 
     void Start()
     {
-        //TODO: Temp solution, will get replaced once all Generic Enemy Animations are there for a modular system to just give the ID's properly
-        Animator.SetBool("IsKnockDownable", KiStats.IsKnockDownable);
-        SetDetectors(KiStats.DetectionFOV, RayDetectorsSight);
-        SetDetectors(KiStats.AttackRangeFOV, RayDetectorsAttack);
         StartPos = transform.position;
         SqrTolerance = Tolerance * Tolerance;
+        //TODO: Temp solution, will get replaced once all Generic Enemy Animations are there for a modular system to just give the ID's properly
+        Animator.SetBool("IsKnockDownable", KiStats.IsKnockDownable);
+        RayDetectorsSight = SetDetectors(KiStats.SightDetectorCountHalf, SightContainer, KiStats.DetectionFOV,
+            KiStats.DetectionRange, Color.cyan);
+        RayDetectorsAttack = SetDetectors(KiStats.AttackDetectorCountHalf, AttackContainer, KiStats.AttackRangeFOV,
+            KiStats.AttackRange, Color.red);
         Health.Initialize(BaseStats, Animator, this);
         Damager.Init(BaseStats.normalDamage);
     }
@@ -68,6 +74,9 @@ public class Generic_Enemy_KI : MonoBehaviour
         //TODO: If IsSeeingPlayer went from Positive to negative, put the OnSightLost Event here.
         SightEvent(IsSeeingPlayer);
 
+        // Debug.Log(Agent.velocity.sqrMagnitude);
+        SpeedValue = Agent.velocity.sqrMagnitude;
+        Debug.Log(Agent.velocity.sqrMagnitude > SqrTolerance);
         Animator.SetBool("IsMoving", (Agent.velocity.sqrMagnitude > SqrTolerance));
 
         //Putting the Attack Detection into an if so it only checks when it has the player within it's sight for better performance.
@@ -79,8 +88,10 @@ public class Generic_Enemy_KI : MonoBehaviour
 
     private bool DetectorCheck(RayDetection[] _detectors)
     {
-        for (int i = 0, CheckValue = 0; i < _detectors.Length; i++)
+        CheckValue = 0;
+        for (int i = 0; i < _detectors.Length; i++)
             CheckValue += _detectors[i].Sight() ? 1 : 0;
+        // Debug.Log(CheckValue);
         return (CheckValue > 0);
     }
 
@@ -111,7 +122,10 @@ public class Generic_Enemy_KI : MonoBehaviour
 
     private void NoticeEnemy()
     {
-        Target = GameManager.instance.playerGO.transform;
+        if (!HardCodeTarget)
+            Target = GameManager.instance.playerGO.transform;
+        else
+            Target = HardCodeTarget.transform;
         HasSeenPlayer = true;
         Animator.SetTrigger("NoticedYou");
         Animator.SetBool("KnowsAboutYou", true);
@@ -137,15 +151,22 @@ public class Generic_Enemy_KI : MonoBehaviour
         //TODO: Maybe make the AI more complex by having it skirt around when on cooldown
         if (IsInAttackRange)
         {
-            //Attack TODO: Set the Animation correctly so it also does damage
+            if (!Agent.isStopped)
+            {
+                Agent.isStopped = true;
+                Agent.ResetPath();
+            }
+
+            //Attack
             if (!IsAttackCoroutineStarted)
                 StartCoroutine(AttackTrigger());
         }
         else
         {
             //Move in the direction of the player
-            if (!Agent.hasPath)
-                Agent.SetDestination(Target.position);
+            if (Agent.hasPath || IsInAttackRange) return;
+            Agent.isStopped = false;
+            Agent.SetDestination(Target.position);
         }
     }
 
@@ -237,42 +258,48 @@ public class Generic_Enemy_KI : MonoBehaviour
 
     /// <summary>
     /// The Function that appoints the Detectors into their Position according to the Field of View
-    /// TODO: Create the Detectors via code and just multiply the amount by 2, maybe even with a range
     /// </summary>
+    /// <param name="_halvedCount">50% of the amount of Detectors you want the enemy to have. Needs to be doubled.</param>
+    /// <param name="_container">What parent element the Detectors are subordinate to in the scene.</param>
     /// <param name="_fov">The Field of View for the set of Detectors</param>
-    /// <param name="_detectors">The Detectors for this particular Function</param>
-    private void SetDetectors(float _fov, RayDetection[] _detectors)
+    /// <param name="_range"></param>
+    /// <param name="_gizmoColor"></param>
+    /// <returns>A ray Detection array, as otherwise it doesn't actually store the detectors.</returns>
+    private RayDetection[] SetDetectors(int _halvedCount, Transform _container, float _fov, float _range,
+        Color _gizmoColor)
     {
-        if (_detectors.Length % 2 != 0)
-            throw new Exception("Amount of Detectors not divisible by 2");
-        float angleSteps = (_fov / _detectors.Length) / 2f;
-        for (int i = 0; i < _detectors.Length; i += 2)
+        float detectorCount = _halvedCount * 2f;
+        float angleSteps = (_fov / detectorCount) / 2f;
+        RayDetection[] detectors = new RayDetection[(int) detectorCount];
+        for (int i = 0; i < detectors.Length; i += 2)
         {
-            _detectors[i].gameObject.transform.localRotation = Quaternion.AngleAxis(angleSteps * (i + 1), Vector3.up);
-            _detectors[i + 1].gameObject.transform.localRotation =
-                Quaternion.AngleAxis(-angleSteps * (i + 1), Vector3.up);
+            Quaternion lRot = Quaternion.AngleAxis(-angleSteps * (i + 1), Vector3.up);
+            Quaternion rRot = Quaternion.AngleAxis(angleSteps * (i + 1), Vector3.up);
+            Vector3 containerPosition = _container.position;
+            detectors[i] = Instantiate(RayDetectionPrefab, containerPosition, lRot, _container);
+            detectors[i].Initialize(_range, _gizmoColor, HardCodeTarget);
+            detectors[i + 1] = Instantiate(RayDetectionPrefab, containerPosition, rRot, _container);
+            detectors[i + 1].Initialize(_range, _gizmoColor, HardCodeTarget);
         }
+
+        return detectors;
     }
 
     #region EditorDepictors
 
     private void OnDrawGizmos()
     {
-        VisualizeDetectors(Color.cyan, KiStats.DetectionRange, RayDetectorsSight);
-        VisualizeDetectors(Color.red, KiStats.AttackRange, RayDetectorsAttack);
+        VisualizeDetectors(Color.cyan, KiStats.DetectionRange, SightContainer, RayDetectorsSight);
+        VisualizeDetectors(Color.red, KiStats.AttackRange, AttackContainer, RayDetectorsAttack);
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(StartPos, new Vector3(KiStats.PatrollingRange * 2, 0, KiStats.PatrollingRange * 2));
+        Gizmos.DrawWireCube(StartPos, new Vector3(KiStats.PatrollingRange * 2f, 0, KiStats.PatrollingRange * 2f));
     }
 
-    private void VisualizeDetectors(Color _lineColor, float _range, RayDetection[] _detectors)
+    private void VisualizeDetectors(Color _lineColor, float _range, Transform _container, RayDetection[] _detectors)
     {
         Gizmos.color = _lineColor;
-        Transform t = transform;
+        Transform t = _container.transform;
         Gizmos.DrawLine(t.position, t.forward * _range + t.position);
-        for (int i = 0; i < _detectors.Length; i++)
-            Gizmos.DrawLine(transform.position,
-                _detectors[i].gameObject.transform.forward * _range +
-                _detectors[i].gameObject.transform.position);
     }
 
     #endregion
