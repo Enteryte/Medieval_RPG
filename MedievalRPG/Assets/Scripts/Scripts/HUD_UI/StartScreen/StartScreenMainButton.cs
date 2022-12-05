@@ -11,8 +11,22 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
     public GameObject screenToOpen;
     public AnimationClip openScreenAnim;
+    public AnimationClip closeScreenAnim;
 
     public bool canPressButtonMoreThanOnce = false;
+
+    //public void Update()
+    //{
+    //    if (StartScreenManager.currSelectedSSMBtn.closeScreenAnim != null)
+    //    {
+    //        if (Input.GetKeyDown(KeyCode.N))
+    //        {
+    //            StartScreenManager.instance.mainObjectAnimator.Rebind();
+    //            //StartScreenManager.instance.mainObjectAnimator.enabled = true;
+    //            StartScreenManager.instance.mainObjectAnimator.Play(StartScreenManager.currSelectedSSMBtn.closeScreenAnim.name);
+    //        }
+    //    }
+    //}
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -32,17 +46,46 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
     public void OnSelect(BaseEventData eventData)
     {
+        if (this.gameObject.name == "Text (TMP):Continue")
+        {
+            return;
+        }
+
+        this.gameObject.GetComponent<TMP_Text>().color = Color.gray;
+
         if (!canPressButtonMoreThanOnce)
         {
             if (StartScreenManager.currSelectedSSMBtn != null && StartScreenManager.currSelectedLoadSlotBtn != this)
             {
                 StartScreenManager.currSelectedSSMBtn.GetComponent<TextMeshProUGUI>().color = Color.white;
 
-                if (StartScreenManager.currSelectedSSMBtn.screenToOpen != null)
+                //if (StartScreenManager.currSelectedSSMBtn.screenToOpen != null)
+                //{
+                //    StartScreenManager.currSelectedSSMBtn.screenToOpen.SetActive(false);
+
+                //    StartScreenManager.instance.mainAnimator.enabled = false;
+                //}
+
+                if (StartScreenManager.currSelectedSSMBtn.screenToOpen != null && StartScreenManager.currSelectedSSMBtn.closeScreenAnim != null)
+                {
+                    if (closeScreenAnim == null)
+                    {
+                        StartScreenManager.instance.mainObjectAnimator.Rebind();
+                        StartScreenManager.instance.mainObjectAnimator.enabled = true;
+                        StartScreenManager.instance.mainObjectAnimator.Play(StartScreenManager.currSelectedSSMBtn.closeScreenAnim.name);
+                    }
+                }
+                else if (StartScreenManager.currSelectedSSMBtn.screenToOpen != null && StartScreenManager.currSelectedSSMBtn.closeScreenAnim == null)
                 {
                     StartScreenManager.currSelectedSSMBtn.screenToOpen.SetActive(false);
 
                     StartScreenManager.instance.mainAnimator.enabled = false;
+                }
+
+                if (StartScreenManager.currSelectedSSMBtn.screenToOpen == null || StartScreenManager.currSelectedSSMBtn.closeScreenAnim == null)
+                {
+                    StartScreenManager.instance.mainObjectAnimator.Rebind();
+                    StartScreenManager.instance.mainObjectAnimator.enabled = false;
                 }
             }
 
@@ -56,23 +99,44 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
             }
 
             StartScreenManager.currSelectedSSMBtn = this;
-            this.gameObject.GetComponent<TMP_Text>().color = Color.gray;
         }       
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (this.gameObject.name == "Text (TMP):Continue")
+        {
+            return;
+        }
+
+        this.gameObject.GetComponent<TMP_Text>().color = Color.gray;
+
         if (canPressButtonMoreThanOnce)
         {
             if (StartScreenManager.currSelectedSSMBtn != null && StartScreenManager.currSelectedLoadSlotBtn != this)
             {
                 StartScreenManager.currSelectedSSMBtn.GetComponent<TextMeshProUGUI>().color = Color.white;
 
-                if (StartScreenManager.currSelectedSSMBtn.screenToOpen != null)
+                if (StartScreenManager.currSelectedSSMBtn.screenToOpen != null && StartScreenManager.currSelectedSSMBtn.closeScreenAnim != null)
+                {
+                    if (closeScreenAnim == null)
+                    {
+                        StartScreenManager.instance.mainObjectAnimator.Rebind();
+                        StartScreenManager.instance.mainObjectAnimator.enabled = true;
+                        StartScreenManager.instance.mainObjectAnimator.Play(StartScreenManager.currSelectedSSMBtn.closeScreenAnim.name);
+                    }
+                }
+                else if (StartScreenManager.currSelectedSSMBtn.screenToOpen != null && StartScreenManager.currSelectedSSMBtn.closeScreenAnim == null)
                 {
                     StartScreenManager.currSelectedSSMBtn.screenToOpen.SetActive(false);
 
                     StartScreenManager.instance.mainAnimator.enabled = false;
+                }
+
+                if (StartScreenManager.currSelectedSSMBtn.screenToOpen == null || StartScreenManager.currSelectedSSMBtn.closeScreenAnim == null)
+                {
+                    StartScreenManager.instance.mainObjectAnimator.Rebind();
+                    StartScreenManager.instance.mainObjectAnimator.enabled = false;
                 }
             }
 
@@ -86,7 +150,6 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
             }
 
             StartScreenManager.currSelectedSSMBtn = this;
-            this.gameObject.GetComponent<TMP_Text>().color = Color.gray;
         }
     }
 }
