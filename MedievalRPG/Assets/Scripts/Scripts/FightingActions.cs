@@ -23,7 +23,7 @@ public class FightingActions : MonoBehaviour
     void Start()
     {
         anim = this.gameObject.GetComponent<Animator>();
-        //GetWeapon(); //Nur für testzwecke, später löschen
+        GetWeapon(); //Nur für testzwecke, später löschen
     }
 
     public void ResetBool()
@@ -60,13 +60,13 @@ public class FightingActions : MonoBehaviour
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("LightAttackSword");
         }
-        //if (equippedWeaponR.CompareTag("Axe"))
-        //{
-        //    weaponScript.heavyAttack = false;
-        //    weaponScript.lightAttack = true;
-        //    anim.SetTrigger("LightAttackAxe");
-        //}
-        //Debug.Log(attackCount);
+        if (equippedWeaponR.CompareTag("Axe"))
+        {
+            weaponScript.heavyAttack = false;
+            weaponScript.lightAttack = true;
+            anim.SetInteger("AttackCount", attackCount);
+            anim.SetTrigger("LightAttackAxe");
+        }
     }
 
     private void OnHeavyAttackZoom()
@@ -83,14 +83,14 @@ public class FightingActions : MonoBehaviour
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("HeavyAttackSword");
         }
-        //if (equippedWeaponR.CompareTag("Axe"))
-        //{
-        //    weaponScript.lightAttack = false;
-        //    weaponScript.heavyAttack = true;
-        //    anim.SetInteger("AttackCount", attackCount);
-        //    anim.SetTrigger("HeavyAttackAxe");
-        //}
-        //Debug.Log(attackCount);
+        if (equippedWeaponR.CompareTag("Axe"))
+        {
+            weaponScript.lightAttack = false;
+            weaponScript.heavyAttack = true;
+            anim.SetInteger("AttackCount", attackCount);
+            anim.SetTrigger("HeavyAttackAxe");
+        }
+        Debug.Log(attackCount);
     }
 
     private void OnBlockAimTorch()

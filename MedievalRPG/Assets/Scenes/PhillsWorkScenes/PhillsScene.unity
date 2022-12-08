@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &243101499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6494079935579299925, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
+  m_PrefabInstance: {fileID: 1253556720}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &278938523
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,6 +241,19 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -1.15
       objectReference: {fileID: 0}
+    - target: {fileID: 2787393080001920831, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'upperarm_r'\n\tTransform 'lowerarm_r'\n\tTransform
+        'hand_r'\n\tTransform 'upperarm_r'\n\tTransform 'lowerarm_r'\n\tTransform
+        'hand_r'\n\tTransform 'upperarm_r'\n\tTransform 'lowerarm_r'\n\tTransform
+        'hand_r'"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320871776080816139, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
+      propertyPath: equippedWeaponR
+      value: 
+      objectReference: {fileID: 243101499}
     - target: {fileID: 5031657548434145969, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.20000005
@@ -248,9 +266,13 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6183255971469515495, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6494079935579299925, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6718419915722365989, guid: b85e8f1d764f5d540a1d035c58437654, type: 3}
       propertyPath: m_Name
