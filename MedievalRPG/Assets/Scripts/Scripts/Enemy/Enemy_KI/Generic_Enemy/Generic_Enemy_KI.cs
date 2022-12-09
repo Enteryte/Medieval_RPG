@@ -42,9 +42,8 @@ public class Generic_Enemy_KI : MonoBehaviour
     [SerializeField]
     private float Tolerance;
     private float SqrTolerance;
-    public float SpeedValue;
 
-    
+
     private int CheckValue;
     private bool IsAttackCoroutineStarted;
     private bool IsSearching;
@@ -75,7 +74,6 @@ public class Generic_Enemy_KI : MonoBehaviour
         SightEvent(IsSeeingPlayer);
 
         // Debug.Log(Agent.velocity.sqrMagnitude);
-        SpeedValue = Agent.velocity.sqrMagnitude;
         Debug.Log(Agent.velocity.sqrMagnitude > SqrTolerance);
         Animator.SetBool("IsMoving", (Agent.velocity.sqrMagnitude > SqrTolerance));
 
