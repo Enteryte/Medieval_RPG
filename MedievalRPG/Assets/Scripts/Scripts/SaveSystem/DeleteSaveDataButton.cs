@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +21,22 @@ public class DeleteSaveDataButton : MonoBehaviour
         else
         {
             // WIP: Delete SaveData of currClickedLoadSlot
+
+            StartScreenManager.instance.saveGameScreenshot.enabled = false;
+            StartScreenManager.instance.saveGameScreenshot.sprite = null;
+
+            if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
+            {
+                var dirInfo = Directory.GetDirectories(Application.persistentDataPath + "/SaveData/");
+
+                for (int i = 0; i < dirInfo.Length; i++)
+                {
+                    if (dirInfo[i].ToString() == StartScreenManager.currClickedLoadSlot.correspondingSaveDataDirectory.ToString())
+                    {
+                        FileUtil.DeleteFileOrDirectory(StartScreenManager.currClickedLoadSlot.correspondingSaveDataDirectory.ToString());
+                    }
+                }
+            }
 
             StartScreenManager.currClickedLoadSlot = null;
             Destroy(correspondingLoadSlot.gameObject);
