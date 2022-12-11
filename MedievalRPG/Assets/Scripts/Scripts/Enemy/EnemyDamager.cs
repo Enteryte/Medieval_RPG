@@ -5,34 +5,28 @@ using UnityEngine;
 
 public class EnemyDamager : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private float Damage;
+    private bool IsDamaging;
+    private void OnCollisionEnter(Collision _collision)
     {
         if(!IsDamaging)
             return;
-        if (other.gameObject == GameManager.instance.playerGO)
+        if (_collision.gameObject == GameManager.instance.playerGO)
             Attack();
-    }
-
-   
-
-    private float Damage;
-    private bool IsDamaging;
-
+    } 
     public void Init(float _damage)
     {
         Damage = _damage;
     }
-
     public void DamageOn()
     {
         IsDamaging = true;
     }
-    
     public void DamageOff()
     {
         IsDamaging = true;
     }
-    public void Attack()
+    private void Attack()
     {
         //Do Damage to the Player Health here. The Debug is to be replaced with that.
         Debug.Log($"{Damage} launched");
