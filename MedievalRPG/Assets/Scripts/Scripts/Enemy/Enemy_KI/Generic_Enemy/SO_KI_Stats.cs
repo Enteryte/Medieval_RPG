@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Enemy AI Pattern", menuName = "Scriptable Objects/Enemies/Enemy AI Profile",
-    order = 0)]
+[CreateAssetMenu(fileName = "New Enemy AI Pattern", menuName = "Scriptable Objects/Enemies/Enemy AI Profile", order = 0)]
 public class SO_KI_Stats : ScriptableObject
 {
     //True if the Enemy should move around a bit while not aware of the player

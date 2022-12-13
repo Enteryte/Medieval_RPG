@@ -11,7 +11,7 @@ public class Generic_Enemy_KI : MonoBehaviour
     [SerializeField] private Animator Animator;
     [SerializeField] private NavMeshAgent Agent;
     [SerializeField] private EnemyHealth Health;
-    [SerializeField] private EnemyDamager Damager;
+    [SerializeField] private EnemyDamager EnemyDamager;
     [SerializeField] private GameObject HardCodeTarget;
 
     private bool IsSeeingPlayer;
@@ -42,9 +42,8 @@ public class Generic_Enemy_KI : MonoBehaviour
     [SerializeField]
     private float Tolerance;
     private float SqrTolerance;
-    public float SpeedValue;
 
-    
+
     private int CheckValue;
     private bool IsAttackCoroutineStarted;
     private bool IsSearching;
@@ -55,14 +54,13 @@ public class Generic_Enemy_KI : MonoBehaviour
     {
         StartPos = transform.position;
         SqrTolerance = Tolerance * Tolerance;
-        //TODO: Temp solution, will get replaced once all Generic Enemy Animations are there for a modular system to just give the ID's properly
-        Animator.SetBool("IsKnockDownable", KiStats.IsKnockDownable);
+        Animator.SetBool(Animator.StringToHash("IsKnockDownable"), KiStats.IsKnockDownable);
         RayDetectorsSight = SetDetectors(KiStats.SightDetectorCountHalf, SightContainer, KiStats.DetectionFOV,
             KiStats.DetectionRange, Color.cyan);
         RayDetectorsAttack = SetDetectors(KiStats.AttackDetectorCountHalf, AttackContainer, KiStats.AttackRangeFOV,
             KiStats.AttackRange, Color.red);
         Health.Initialize(BaseStats, Animator, this);
-        Damager.Init(BaseStats.normalDamage);
+        EnemyDamager.Init(BaseStats.normalDamage);
     }
 
     void Update()
@@ -75,15 +73,14 @@ public class Generic_Enemy_KI : MonoBehaviour
         SightEvent(IsSeeingPlayer);
 
         // Debug.Log(Agent.velocity.sqrMagnitude);
-        SpeedValue = Agent.velocity.sqrMagnitude;
         Debug.Log(Agent.velocity.sqrMagnitude > SqrTolerance);
-        Animator.SetBool("IsMoving", (Agent.velocity.sqrMagnitude > SqrTolerance));
+        Animator.SetBool(Animator.StringToHash("IsMoving"), (Agent.velocity.sqrMagnitude > SqrTolerance));
 
         //Putting the Attack Detection into an if so it only checks when it has the player within it's sight for better performance.
         if (!IsSeeingPlayer) return;
         IsSearching = false;
         IsInAttackRange = DetectorCheck(RayDetectorsAttack);
-        Animator.SetBool("InsideAttackRange", IsInAttackRange);
+        Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), IsInAttackRange);
     }
 
     private bool DetectorCheck(RayDetection[] _detectors)
@@ -122,13 +119,14 @@ public class Generic_Enemy_KI : MonoBehaviour
 
     private void NoticeEnemy()
     {
+        //ToDo: Remove this temporary check when in the game.
         if (!HardCodeTarget)
             Target = GameManager.instance.playerGO.transform;
         else
             Target = HardCodeTarget.transform;
         HasSeenPlayer = true;
-        Animator.SetTrigger("NoticedYou");
-        Animator.SetBool("KnowsAboutYou", true);
+        Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
+        Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
     }
 
     #endregion
@@ -140,7 +138,7 @@ public class Generic_Enemy_KI : MonoBehaviour
         while (IsInAttackRange)
         {
             IsAttackCoroutineStarted = true;
-            Animator.SetTrigger("AttackLaunch");
+            Animator.SetTrigger(Animator.StringToHash("AttackLaunch"));
             yield return new WaitForSeconds(KiStats.AttackCoolDown);
             IsAttackCoroutineStarted = false;
         }
@@ -194,9 +192,7 @@ public class Generic_Enemy_KI : MonoBehaviour
         }
 
         if (IsSearching && Agent.velocity.sqrMagnitude <= Tolerance)
-        {
             StartCoroutine(WaitUntilGivingUp());
-        }
     }
 
     private IEnumerator WaitUntilGivingUp()
@@ -254,6 +250,7 @@ public class Generic_Enemy_KI : MonoBehaviour
     {
         //TODO: Turn of all other scripts, animators, etc. and turn the enemy into a ragdoll
         HasDied = true;
+        Animator.SetBool(Animator.StringToHash("IsDead"), true);
     }
 
     /// <summary>
