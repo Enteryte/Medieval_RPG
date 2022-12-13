@@ -81,6 +81,8 @@ public class SaveSystem : MonoBehaviour
 
             LoadGameData(sGO);
             LoadPlayer(sGO);
+            LoadMissions(sGO);
+            LoadNPCs(sGO);
 
             Debug.Log("nhjmkklsssssssssssss");
             //LoadInteractableObjects();
@@ -197,6 +199,9 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadMissions(SaveGameObject sGO)
     {
+        MissionManager.instance.allCurrAcceptedMissions.Clear();
+        MissionManager.instance.allCurrOpenNotAcceptedMissions.Clear();
+
         int taskNumber = 0;
 
         for (int i = 0; i < MissionManager.instance.allMissions.Count; i++)
@@ -229,6 +234,8 @@ public class SaveSystem : MonoBehaviour
             GameManager.instance.allVillageNPCs[i].transform.rotation = sGO.allNPCRotations[i];
 
             GameManager.instance.allVillageNPCs[i].gameObject.SetActive(sGO.isNPCVisible[i]);
+
+            Debug.Log("gjkdefegge");
         }
     }
 

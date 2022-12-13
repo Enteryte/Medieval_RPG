@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
 
     public GameObject pauseMenuScreen;
+    public bool gameIsPaused = false;
 
     [Header("Saving/Loading")]
     public GameObject saveGameSlotPrefab;
@@ -42,10 +43,10 @@ public class GameManager : MonoBehaviour
         //BeerScreenMissionButton.instance = bSMButton;
     }
 
-    public void Start()
-    {
-        CreateSaveGameSlotButton();
-    }
+    //public void Start()
+    //{
+    //    CreateSaveGameSlotButton();
+    //}
 
     public void Update()
     {
@@ -56,35 +57,50 @@ public class GameManager : MonoBehaviour
             OpenInventory();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf)
+        if (pauseMenuScreen != null)
         {
-            pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
-            FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+            if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf && !CutsceneManager.instance.playableDirector.playableGraph.IsValid())
+            {
+                pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
+                FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+
+                if (pauseMenuScreen.activeSelf)
+                {
+                    PauseGame();
+                }
+                else
+                {
+                    ContinueGame();
+                }
+            }
         }
 
-        if (readBookOrNoteScreen.activeSelf)
+        if (readBookOrNoteScreen != null)
         {
-            if (Input.GetKey(KeyCode.Escape))
+            if (readBookOrNoteScreen.activeSelf)
             {
-                readBookOrNoteScreen.SetActive(false);
-
-                if (!currBookOrNote.hasBeenRead && currBookOrNote.cutsceneToPlayAfterCloseReadScreen != null)
+                if (Input.GetKey(KeyCode.Escape))
                 {
-                    if (currBookOrNote.corresspondingMissionTask != null && currBookOrNote.corresspondingMissionTask.canBeDisplayed)
-                    {
-                        CutsceneManager.instance.currCP = currBookOrNote.cutsceneToPlayAfterCloseReadScreen;
-                        CutsceneManager.instance.playableDirector.playableAsset = currBookOrNote.cutsceneToPlayAfterCloseReadScreen.cutscene;
-                        CutsceneManager.instance.playableDirector.Play();
+                    readBookOrNoteScreen.SetActive(false);
 
-                        currBookOrNote.hasBeenRead = true;
-                    }
-                    else if (currBookOrNote.corresspondingMissionTask == null)
+                    if (!currBookOrNote.hasBeenRead && currBookOrNote.cutsceneToPlayAfterCloseReadScreen != null)
                     {
-                        CutsceneManager.instance.currCP = currBookOrNote.cutsceneToPlayAfterCloseReadScreen;
-                        CutsceneManager.instance.playableDirector.playableAsset = currBookOrNote.cutsceneToPlayAfterCloseReadScreen.cutscene;
-                        CutsceneManager.instance.playableDirector.Play();
+                        if (currBookOrNote.corresspondingMissionTask != null && currBookOrNote.corresspondingMissionTask.canBeDisplayed)
+                        {
+                            CutsceneManager.instance.currCP = currBookOrNote.cutsceneToPlayAfterCloseReadScreen;
+                            CutsceneManager.instance.playableDirector.playableAsset = currBookOrNote.cutsceneToPlayAfterCloseReadScreen.cutscene;
+                            CutsceneManager.instance.playableDirector.Play();
 
-                        currBookOrNote.hasBeenRead = true;
+                            currBookOrNote.hasBeenRead = true;
+                        }
+                        else if (currBookOrNote.corresspondingMissionTask == null)
+                        {
+                            CutsceneManager.instance.currCP = currBookOrNote.cutsceneToPlayAfterCloseReadScreen;
+                            CutsceneManager.instance.playableDirector.playableAsset = currBookOrNote.cutsceneToPlayAfterCloseReadScreen.cutscene;
+                            CutsceneManager.instance.playableDirector.Play();
+
+                            currBookOrNote.hasBeenRead = true;
+                        }
                     }
                 }
             }
@@ -99,6 +115,34 @@ public class GameManager : MonoBehaviour
 
             correspondingCutsceneProfilAtNight = null;
         }
+    }
+
+    public void PauseGame()
+    {
+        // Player
+        playerGO.GetComponent<Animator>().speed = 0;
+
+        // NPCs
+        for (int i = 0; i < allVillageNPCs.Count; i++)
+        {
+            allVillageNPCs[i].animator.speed = 0;
+        }
+
+        gameIsPaused = true;
+    }
+
+    public void ContinueGame()
+    {
+        // Player
+        playerGO.GetComponent<Animator>().speed = 1;
+
+        // NPCs
+        for (int i = 0; i < allVillageNPCs.Count; i++)
+        {
+            allVillageNPCs[i].animator.speed = 1;
+        }
+
+        gameIsPaused = false;
     }
 
     public void OpenInventory()

@@ -21,6 +21,16 @@ public class SaveGameObject
     public List<Quaternion> allNPCRotations = new List<Quaternion>();
     public List<bool> isNPCVisible = new List<bool>();
 
+    // --------------------------------------------- WIP: Noch schauen, ob man das überhaupt benötigt.
+    //// Merchants
+    //public List<Vector3> allMerchantPositions = new List<Vector3>();
+    //public List<Quaternion> allMerchantRotations = new List<Quaternion>();
+    //public List<bool> isMerchantVisible = new List<bool>();
+
+    //// TavernKeeper
+    //public Vector3 tavernKeeperPosition;
+    //public Quaternion tavernKeeperRotation;
+
     // Missions
     public List<int> allCurrAcceptedMissionNumbers = new List<int>();
     public List<int> allCurrOpenNotAcceptedMissionNumbers = new List<int>();
