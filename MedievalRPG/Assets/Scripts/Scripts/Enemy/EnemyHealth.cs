@@ -7,9 +7,9 @@ public class EnemyHealth : MonoBehaviour
 {
     private EnemyBaseProfile Stats;
     private Animator Anim;
-    private Generic_Enemy_KI AI;
+    private GenericEnemyKi AI;
     private float LifePoints;
-    public void Initialize(EnemyBaseProfile _stats, Animator _anim, Generic_Enemy_KI _ai)
+    public void Initialize(EnemyBaseProfile _stats, Animator _anim, GenericEnemyKi _ai)
     {
         Stats = _stats;
         LifePoints = Stats.normalHealth;

@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class Generic_Enemy_KI : MonoBehaviour
+// ReSharper disable once CheckNamespace
+public class GenericEnemyKi : MonoBehaviour
 {
     [Header("Includes")] [SerializeField] private SO_KI_Stats KiStats;
     [SerializeField] private EnemyBaseProfile BaseStats;
     [SerializeField] private Animator Animator;
     [SerializeField] private NavMeshAgent Agent;
     [SerializeField] private EnemyHealth Health;
+    // ReSharper disable once IdentifierTypo
     [SerializeField] private EnemyDamager EnemyDamager;
     [SerializeField] private GameObject HardCodeTarget;
 
@@ -54,6 +56,7 @@ public class Generic_Enemy_KI : MonoBehaviour
     {
         StartPos = transform.position;
         SqrTolerance = Tolerance * Tolerance;
+        // ReSharper disable once StringLiteralTypo
         Animator.SetBool(Animator.StringToHash("IsKnockDownable"), KiStats.IsKnockDownable);
         RayDetectorsSight = SetDetectors(KiStats.SightDetectorCountHalf, SightContainer, KiStats.DetectionFOV,
             KiStats.DetectionRange, Color.cyan);
@@ -103,12 +106,14 @@ public class Generic_Enemy_KI : MonoBehaviour
                     break;
                 StartCoroutine(TimeToLookAtNewRandomTarget());
                 break;
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             case false when _isSeeingPlayer:
                 NoticeEnemy();
                 break;
             case true when _isSeeingPlayer:
                 CheckAttackPossible();
                 break;
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             case true when !_isSeeingPlayer:
                 Search();
                 break;
@@ -120,6 +125,7 @@ public class Generic_Enemy_KI : MonoBehaviour
     private void NoticeEnemy()
     {
         //ToDo: Remove this temporary check when in the game.
+        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
         if (!HardCodeTarget)
             Target = GameManager.instance.playerGO.transform;
         else
@@ -286,17 +292,18 @@ public class Generic_Enemy_KI : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        VisualizeDetectors(Color.cyan, KiStats.DetectionRange, SightContainer, RayDetectorsSight);
-        VisualizeDetectors(Color.red, KiStats.AttackRange, AttackContainer, RayDetectorsAttack);
+        VisualizeDetectors(Color.cyan, KiStats.DetectionRange, SightContainer);
+        VisualizeDetectors(Color.red, KiStats.AttackRange, AttackContainer);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(StartPos, new Vector3(KiStats.PatrollingRange * 2f, 0, KiStats.PatrollingRange * 2f));
     }
 
-    private void VisualizeDetectors(Color _lineColor, float _range, Transform _container, RayDetection[] _detectors)
+    private void VisualizeDetectors(Color _lineColor, float _range, Transform _container)
     {
         Gizmos.color = _lineColor;
         Transform t = _container.transform;
-        Gizmos.DrawLine(t.position, t.forward * _range + t.position);
+        Vector3 position = t.position;
+        Gizmos.DrawLine(position, t.forward * _range + position);
     }
 
     #endregion

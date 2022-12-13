@@ -39,6 +39,7 @@ public class Generic_Archer_Enemy_KI : MonoBehaviour
             return;
     }
 
+    
     private void FireArrow()
     {
         ArrowPool.SpawnAndFireArrow(FiringPoint);
