@@ -40,6 +40,19 @@ public class SaveGameObject
 
     public string currentMainMissionName;
 
+    // Inventory
+    //public float currHoldingWeight;
+    public List<int> itemID = new List<int>();
+    public List<int> itemAmountInInventory = new List<int>();
+
+    // Equipment
+    public int currLeftHandWeaponID;
+    public int currRightHandWeaponID;
+
+    // Hotbar
+    public List<int> storedItemID = new List<int>();
+    public List<int> storedItemAmount = new List<int>();
+
     // Interactable Objects ( /+ Doors )
     public List<string> allInteractableObjectNames = new List<string>();
 

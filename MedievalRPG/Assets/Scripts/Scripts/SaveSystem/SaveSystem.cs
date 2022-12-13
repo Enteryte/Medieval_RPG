@@ -56,6 +56,7 @@ public class SaveSystem : MonoBehaviour
         SaveNPCs(sGO);
         SaveMissions(sGO);
         SaveInteractableObjects(sGO);
+        SaveInventory(sGO);
 
         return sGO;
     }
@@ -83,6 +84,7 @@ public class SaveSystem : MonoBehaviour
             LoadPlayer(sGO);
             LoadMissions(sGO);
             LoadNPCs(sGO);
+            LoadInventory(sGO);
 
             Debug.Log("nhjmkklsssssssssssss");
             //LoadInteractableObjects();
@@ -113,10 +115,58 @@ public class SaveSystem : MonoBehaviour
         sGO.currPlayerStamina = PlayerValueManager.instance.staminaSlider.value;
     }
 
-    public void SaveInventory()
+    public void SaveInventory(SaveGameObject sGO)
     {
+        for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
+        {
+            sGO.itemID.Add(InventoryManager.instance.inventory.slots[i].itemID);
+            sGO.itemAmountInInventory.Add(InventoryManager.instance.inventory.slots[i].itemAmount);
+        }
 
+        for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
+        {
+            if (HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase != null)
+            {
+                sGO.storedItemID.Add(InventoryManager.instance.inventory.database.GetID[HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase]);
+                sGO.storedItemAmount.Add(HotbarManager.instance.allHotbarSlotBtn[i].storedAmount);
+            }
+            else
+            {
+                sGO.storedItemID.Add(-1);
+                sGO.storedItemAmount.Add(-1);
+            }
+        }
+
+        if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
+        {
+            sGO.currLeftHandWeaponID = InventoryManager.instance.inventory.database.GetID[EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase];
+        }
+        else
+        {
+            sGO.currLeftHandWeaponID = -1;
+        }
+
+        if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
+        {
+            sGO.currRightHandWeaponID = InventoryManager.instance.inventory.database.GetID[EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase];
+        }
+        else
+        {
+            sGO.currRightHandWeaponID = -1;
+        }
     }
+
+    //public void CheckIfEquipmentIsNull(int idToSet, ClickableInventorySlot invSlotToCheck)
+    //{
+    //    if (invSlotToCheck.storedItemBase != null)
+    //    {
+    //        idToSet = InventoryManager.instance.inventory.database.GetID[invSlotToCheck.storedItemBase];
+    //    }
+    //    else
+    //    {
+    //        idToSet = -1;
+    //    }
+    //}
 
     public void SaveMissions(SaveGameObject sGO)
     {
@@ -192,9 +242,40 @@ public class SaveSystem : MonoBehaviour
         PlayerValueManager.instance.staminaSlider.value = sGO.currPlayerStamina;
     }
 
-    public void LoadInventory()
+    public void LoadInventory(SaveGameObject sGO)
     {
+        for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
+        {
+            HotbarManager.instance.allHotbarSlotBtn[i].ClearHotbarSlot();
+        }
 
+        EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+        EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+
+        InventoryManager.instance.inventory.slots.Clear();
+
+        for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
+        {
+            if (sGO.storedItemID[i] != -1)
+            {
+                HotbarManager.instance.allHotbarSlotBtn[i].EquipItemToHotbar(InventoryManager.instance.inventory.database.GetItem[sGO.storedItemID[i]], sGO.storedItemAmount[i]);
+            }
+        }
+
+        for (int i = 0; i < sGO.itemID.Count; i++)
+        {
+            InventoryManager.instance.inventory.AddItem(InventoryManager.instance.inventory.database.GetItem[sGO.itemID[i]], sGO.itemAmountInInventory[i]);
+        }
+
+        if (sGO.currLeftHandWeaponID != -1)
+        {
+            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(InventoryManager.instance.inventory.database.GetItem[sGO.currLeftHandWeaponID], 1);
+        }
+
+        if (sGO.currRightHandWeaponID != -1)
+        {
+            EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(InventoryManager.instance.inventory.database.GetItem[sGO.currRightHandWeaponID], 1);
+        }
     }
 
     public void LoadMissions(SaveGameObject sGO)
