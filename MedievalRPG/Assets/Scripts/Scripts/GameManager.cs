@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public List<NPC> allVillageNPCs;
     public List<GameObject> allInteractableObjects;
     public List<Door> allInteractableDoors;
+    public List<Generic_Enemy_KI> allMeleeEnemies;
 
     //public BeerScreenMissionButton bSMButton;
     public GameObject readBookOrNoteScreen;
@@ -35,6 +36,13 @@ public class GameManager : MonoBehaviour
     [Header("Saving/Loading")]
     public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
+
+    public float autoSaveTime;
+    public float passedTimeTillLastSave = 0;
+
+    [Header("Tutorial")]
+    public TutorialBaseProfile meleeTutorial;
+    public TutorialBaseProfile rangedTutorial;
 
     public void Awake()
     {
@@ -52,12 +60,24 @@ public class GameManager : MonoBehaviour
     {
         playtimeInSeconds += Time.deltaTime;
 
+        if (passedTimeTillLastSave < autoSaveTime)
+        {
+            passedTimeTillLastSave += Time.deltaTime;
+
+            if (passedTimeTillLastSave >= autoSaveTime)
+            {
+                passedTimeTillLastSave = 0;
+
+                SaveSystem.instance.SaveAutomatic();
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.I) && !ShopManager.instance.shopScreen.activeSelf)
         {
             OpenInventory();
         }
 
-        if (pauseMenuScreen != null)
+        if (pauseMenuScreen != null && TutorialManager.currTBP == null)
         {
             if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf && !CutsceneManager.instance.playableDirector.playableGraph.IsValid())
             {
@@ -72,6 +92,14 @@ public class GameManager : MonoBehaviour
                 {
                     ContinueGame();
                 }
+            }
+        }
+
+        if (gameIsPaused && TutorialManager.currTBP != null)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                TutorialManager.instance.CloseBigTutorial();
             }
         }
 
@@ -128,6 +156,12 @@ public class GameManager : MonoBehaviour
             allVillageNPCs[i].animator.speed = 0;
         }
 
+        // Enemies
+        for (int i = 0; i < allMeleeEnemies.Count; i++)
+        {
+            allMeleeEnemies[i].Animator.speed = 0;
+        }
+
         gameIsPaused = true;
     }
 
@@ -140,6 +174,12 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < allVillageNPCs.Count; i++)
         {
             allVillageNPCs[i].animator.speed = 1;
+        }
+
+        // Enemies
+        for (int i = 0; i < allMeleeEnemies.Count; i++)
+        {
+            allMeleeEnemies[i].Animator.speed = 1;
         }
 
         gameIsPaused = false;
@@ -186,6 +226,32 @@ public class GameManager : MonoBehaviour
         FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !InventoryManager.instance.inventoryScreen.activeSelf);
 
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+        if (!InventoryManager.instance.inventoryScreen.activeSelf)
+        {
+            if (EquippingManager.instance.leftWeaponES.currEquippedItem != null)
+            {
+                if (EquippingManager.instance.leftWeaponES.currEquippedItem.weaponType == ItemBaseProfile.WeaponType.bow)
+                {
+                    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(rangedTutorial);
+                }
+                else
+                {
+                    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(meleeTutorial);
+                }
+            }
+            else if (EquippingManager.instance.rightWeaponES.currEquippedItem != null)
+            {
+                if (EquippingManager.instance.rightWeaponES.currEquippedItem.weaponType == ItemBaseProfile.WeaponType.bow)
+                {
+                    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(rangedTutorial);
+                }
+                else
+                {
+                    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(meleeTutorial);
+                }
+            }
+        }
     }
 
     public void DisplayGetBeerUI()
@@ -243,6 +309,8 @@ public class GameManager : MonoBehaviour
 
                 newSGSlot.GetComponent<LoadSlot>().correspondingSaveDataDirectory = dirInfo[i];
                 newSGSlot.GetComponent<LoadSlot>().correspondingTextFile = gameDataFolder[0];
+
+                newSGSlot.GetComponent<LoadSlot>().loadGameSavingTypeTxt.text = sOG.savingType;
             }
         }
     }

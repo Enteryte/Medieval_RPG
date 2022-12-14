@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SaveGameObject
 {
+    public string savingType;
+
     // Save-Game-Data
     public float playtimeInSeconds;
     public string dayOfSaving;

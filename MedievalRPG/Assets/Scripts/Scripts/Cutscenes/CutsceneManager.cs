@@ -27,6 +27,9 @@ public class CutsceneManager : MonoBehaviour
 
     public Transform playerBaseMeshParentTrans;
 
+    [Header("Tutorial")]
+    public TutorialBaseProfile decisionTutorial;
+
     public void Awake()
     {
         instance = this;
@@ -227,6 +230,8 @@ public class CutsceneManager : MonoBehaviour
 
     public void DisplayDecisions()
     {
+        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(decisionTutorial);
+
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
 
         for (int i = 0; i < currCP.allDecisions.Length; i++)

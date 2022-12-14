@@ -23,6 +23,9 @@ public class CutsceneProfile : ScriptableObject
 
     public List<float> timesWhenNewSentenceStarts;
 
+    [Header("Tutorial")]
+    public TutorialBaseProfile tutorialToTrigger;
+
     [Header("Change Transform At Start")]
     public bool changeParentTrans = false;
 

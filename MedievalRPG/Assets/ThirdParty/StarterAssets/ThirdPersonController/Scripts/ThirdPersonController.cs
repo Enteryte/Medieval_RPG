@@ -346,7 +346,10 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            CameraRotation();
+            if (!GameManager.instance.gameIsPaused)
+            {
+                CameraRotation();
+            }
         }
 
         private void AssignAnimationIDs()

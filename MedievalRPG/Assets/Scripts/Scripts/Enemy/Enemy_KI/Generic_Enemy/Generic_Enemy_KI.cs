@@ -8,7 +8,7 @@ public class Generic_Enemy_KI : MonoBehaviour
 {
     [Header("Includes")] [SerializeField] private SO_KI_Stats KiStats;
     [SerializeField] private EnemyBaseProfile BaseStats;
-    [SerializeField] private Animator Animator;
+    [SerializeField] public Animator Animator;
     [SerializeField] private NavMeshAgent Agent;
     [SerializeField] private EnemyHealth Health;
     [SerializeField] private EnemyDamager EnemyDamager;
@@ -61,6 +61,8 @@ public class Generic_Enemy_KI : MonoBehaviour
             KiStats.AttackRange, Color.red);
         Health.Initialize(BaseStats, Animator, this);
         EnemyDamager.Init(BaseStats.normalDamage);
+
+        GameManager.instance.allMeleeEnemies.Add(this);
     }
 
     void Update()

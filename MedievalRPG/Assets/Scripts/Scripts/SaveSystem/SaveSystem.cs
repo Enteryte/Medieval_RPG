@@ -9,7 +9,16 @@ public class SaveSystem : MonoBehaviour
     public static SaveSystem instance;
 
     [Tooltip("")] public static string path;
-    
+
+    public enum SavingType
+    {
+        manual,
+        auto,
+        checkpoint
+    }
+
+    public SavingType currSavingType = SavingType.manual;
+
     public void Awake()
     {
         instance = this;
@@ -47,9 +56,38 @@ public class SaveSystem : MonoBehaviour
         //SaveMissions();
     }
 
+    // Immer nach einer bestimmten Zeit
+    public void SaveAutomatic()
+    {
+        currSavingType = SavingType.auto;
+
+        Save();
+    }
+
+    // Bzw. nach dem Erfüllen einer Mission / Nach der Cutscene der erfüllten Mission
+    public void SaveCheckpoint()
+    {
+        currSavingType = SavingType.checkpoint;
+
+        Save();
+    }
+
     public SaveGameObject createSaveGameObject()
     {
         SaveGameObject sGO = new SaveGameObject();
+
+        if (currSavingType == SavingType.manual)
+        {
+            sGO.savingType = "Manuel";
+        }
+        else if (currSavingType == SavingType.auto)
+        {
+            sGO.savingType = "Autosave";
+        }
+        else
+        {
+            sGO.savingType = "Checkpoint";
+        }
 
         SaveGameData(sGO);
         SavePlayer(sGO);
@@ -57,6 +95,8 @@ public class SaveSystem : MonoBehaviour
         SaveMissions(sGO);
         SaveInteractableObjects(sGO);
         SaveInventory(sGO);
+
+        currSavingType = SavingType.manual;
 
         return sGO;
     }
@@ -85,6 +125,7 @@ public class SaveSystem : MonoBehaviour
             LoadMissions(sGO);
             LoadNPCs(sGO);
             LoadInventory(sGO);
+            LoadInteractableObjects(sGO);
 
             Debug.Log("nhjmkklsssssssssssss");
             //LoadInteractableObjects();
@@ -213,7 +254,14 @@ public class SaveSystem : MonoBehaviour
     {
         for (int i = 0; i < GameManager.instance.allInteractableObjects.Count; i++)
         {
-            sGO.allInteractableObjectNames.Add(GameManager.instance.allInteractableObjects[i].name);
+            if (GameManager.instance.allInteractableObjects[i] != null)
+            {
+                sGO.allInteractableObjectNames.Add(GameManager.instance.allInteractableObjects[i].name);
+            }
+            else
+            {
+                sGO.allInteractableObjectNames.Add(null);
+            }
         }
 
         for (int i = 0; i < GameManager.instance.allInteractableDoors.Count; i++)
@@ -327,7 +375,11 @@ public class SaveSystem : MonoBehaviour
             if (!sGO.allInteractableObjectNames.Contains(GameManager.instance.allInteractableObjects[i].name))
             {
                 GameManager.instance.allInteractableObjects[i].gameObject.SetActive(false);
-                GameManager.instance.allInteractableObjects.Remove(GameManager.instance.allInteractableObjects[i]);
+                //GameManager.instance.allInteractableObjects.Remove(GameManager.instance.allInteractableObjects[i]);
+            }
+            else
+            {
+                GameManager.instance.allInteractableObjects[i].gameObject.SetActive(true);
             }
         }
 

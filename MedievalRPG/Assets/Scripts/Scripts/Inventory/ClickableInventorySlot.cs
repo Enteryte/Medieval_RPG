@@ -525,6 +525,11 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         //eventSystem.SetSelectedGameObject(HotbarManager.instance.howManyToHotbarScreen.GetComponent<HotbarHowManyScreen>().howManyHBSlider.gameObject, new BaseEventData(eventSystem));
 
         Debug.Log("EQUIPPED");
+
+        if (clickableSlotType == ClickableSlotType.inventorySlot && storedItemBase != null)
+        {
+            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(InventoryManager.instance.hotbarTutorial);
+        }
     }
 
     public void DisplayAllItemInformationsOnClick()
@@ -570,6 +575,15 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
     public void OnPointerEnter(PointerEventData eventData)
     {
         SelectInventorySlot();
+
+        if (clickableSlotType == ClickableSlotType.inventorySlot && storedItemBase != null && storedItemBase.itemType == ItemBaseProfile.ItemType.weapon)
+        {
+            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(InventoryManager.instance.equipmentTutorial);
+        } // ---------------------------- WIP: Hier noch die Abfrage fürs Equipment einfügen.
+        //else if (clickableSlotType == ClickableSlotType.inventorySlot && storedItemBase != null && storedItemBase.itemType == ItemBaseProfile.ItemType.)
+        //{
+        //    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(InventoryManager.instance.equipmentTutorial);
+        //}
     }
 
     public void OnPointerExit(PointerEventData eventData)
