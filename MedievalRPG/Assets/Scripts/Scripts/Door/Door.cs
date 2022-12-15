@@ -29,6 +29,8 @@ public class Door : MonoBehaviour, IInteractable
     public void Start()
     {
         InstantiateIOCanvas();
+
+        GameManager.instance.allInteractableDoors.Add(this);
     }
 
     public void OpenDoor(Vector3 playerPos)

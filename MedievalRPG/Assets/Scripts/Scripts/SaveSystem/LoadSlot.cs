@@ -5,10 +5,12 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class LoadSlot : MonoBehaviour, ISelectHandler, IPointerEnterHandler, IPointerExitHandler
+public class LoadSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public TMP_Text loadGameNameTxt;
     public TMP_Text loadGameSavingTypeTxt;
+
+    public Sprite saveGameScreenshot;
 
     public Animator animator;
     public Image boarderImg;
@@ -18,6 +20,16 @@ public class LoadSlot : MonoBehaviour, ISelectHandler, IPointerEnterHandler, IPo
 
     public AnimationClip hoverOverAnim;
     public AnimationClip hoverOverExitAnim;
+
+    [HideInInspector] public string correspondingSaveDataDirectory;
+    [HideInInspector] public string correspondingTextFile;
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        // Load Game
+        Debug.Log("jhmsdfwfwfwf");
+        SaveSystem.instance.Load();
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -36,6 +48,9 @@ public class LoadSlot : MonoBehaviour, ISelectHandler, IPointerEnterHandler, IPo
 
         StartScreenManager.currSelectedLoadSlotBtn = this;
 
+        StartScreenManager.instance.saveGameScreenshot.enabled = true;
+        StartScreenManager.instance.saveGameScreenshot.sprite = saveGameScreenshot;
+
         animator.Rebind();
         animator.Play(hoverOverAnim.name);
     }
@@ -46,12 +61,15 @@ public class LoadSlot : MonoBehaviour, ISelectHandler, IPointerEnterHandler, IPo
         loadGameNameTxt.color = normalColor;
         loadGameSavingTypeTxt.color = normalColor;
 
+        StartScreenManager.instance.saveGameScreenshot.enabled = false;
+        StartScreenManager.instance.saveGameScreenshot.sprite = null;
+
         animator.Rebind();
         animator.Play(hoverOverExitAnim.name);
     }
 
-    public void OnSelect(BaseEventData eventData)
-    {
-        // Load Game
-    }
+    //public void OnSelect(BaseEventData eventData)
+    //{
+
+    //}
 }

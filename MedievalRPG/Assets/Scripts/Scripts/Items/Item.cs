@@ -34,6 +34,8 @@ public class Item : MonoBehaviour, IInteractable
         {
             MissionManager.instance.objectsToExamine.Add(this);
         }
+
+        GameManager.instance.allInteractableObjects.Add(this.gameObject);
     }
 
     // Update is called once per frame
