@@ -34,6 +34,16 @@ public class FightingActions : MonoBehaviour
     public void GetWeapon()
     {
         weaponScript = equippedWeaponR.GetComponent<DoDamage>();
+
+        if(equippedWeaponR.CompareTag("GreatSword"))
+        {
+            if(equippedWeaponR != null)
+            {
+                //De-Equip left Weapon
+            }
+
+            anim.SetTrigger("GreatSwordIdle");
+        }
     }
 
     public void EnableDisableWeapon()
@@ -46,6 +56,11 @@ public class FightingActions : MonoBehaviour
         attackCount++;
     }
 
+    private void OnEquipGreatsword()
+    {
+
+    }
+
     private void OnLightAttack()
     {
         if (equippedWeaponR == null)
@@ -53,7 +68,7 @@ public class FightingActions : MonoBehaviour
             return;
         }
 
-        if(equippedWeaponR.CompareTag("SwordOnehanded"))
+        if (equippedWeaponR.CompareTag("SwordOnehanded"))
         {
             weaponScript.heavyAttack = false;
             weaponScript.lightAttack = true;
@@ -105,7 +120,7 @@ public class FightingActions : MonoBehaviour
             holdBlock = !holdBlock;
             anim.SetBool("HoldBlock", holdBlock);
         }
-        if(equippedWeaponL.CompareTag("Torch"))
+        if (equippedWeaponL.CompareTag("Torch"))
         {
             anim.SetTrigger("AttackTorch");
         }
