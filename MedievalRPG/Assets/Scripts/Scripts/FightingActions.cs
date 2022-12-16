@@ -14,7 +14,7 @@ public class FightingActions : MonoBehaviour
     private Animator anim;
     private int attackCount = 0;
     private bool holdBlock = false;
-
+    private int chanceToRepeatIdle = 10; //chance von 2 zu n die Idle zu wechseln 
     public void Awake()
     {
         instance = this;
@@ -37,12 +37,7 @@ public class FightingActions : MonoBehaviour
 
         if(equippedWeaponR.CompareTag("GreatSword"))
         {
-            if(equippedWeaponR != null)
-            {
-                //De-Equip left Weapon
-            }
-
-            anim.SetTrigger("GreatSwordIdle");
+            OnEquipGreatsword();
         }
     }
 
@@ -58,7 +53,37 @@ public class FightingActions : MonoBehaviour
 
     private void OnEquipGreatsword()
     {
+        if (equippedWeaponL != null)
+        {
+            //De-Equip left Weapon
+        }
 
+        anim.SetTrigger("GreatSwordIdle");
+    }
+
+    public void OnIdleChange()
+    {
+        int rand = Random.Range(0, chanceToRepeatIdle);
+        if (rand == 0)
+        {
+            anim.SetBool("GSIdleVar1", true);
+            anim.SetBool("GSIdleVar2", false);
+        }
+        if(rand == 1)
+        {
+            anim.SetBool("GSIdleVar1", false);
+            anim.SetBool("GSIdleVar2", true);
+        }
+        if(rand > 1)
+        {
+            anim.SetBool("GSIdleVar1", false); 
+            anim.SetBool("GSIdleVar2", false);
+        }
+    }
+
+    public void AllowStateChange()
+    {
+        anim.SetBool("MayChange", !anim.GetBool("MayChange"));
     }
 
     private void OnLightAttack()
@@ -81,6 +106,12 @@ public class FightingActions : MonoBehaviour
             weaponScript.lightAttack = true;
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("LightAttackAxe");
+        }
+        if (equippedWeaponR.CompareTag("GreatSword"))
+        {
+            weaponScript.heavyAttack = false;
+            weaponScript.lightAttack = true;
+            anim.SetTrigger("GreatSwordKick");
         }
     }
 
@@ -105,7 +136,12 @@ public class FightingActions : MonoBehaviour
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("HeavyAttackAxe");
         }
-        Debug.Log(attackCount);
+        if (equippedWeaponR.CompareTag("GreatSword"))
+        {
+            weaponScript.lightAttack = false;
+            weaponScript.heavyAttack = true;
+            anim.SetTrigger("GreatSwordSlash");
+        }
     }
 
     private void OnBlockAimTorch()
