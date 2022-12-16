@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 // ReSharper disable once CheckNamespace
-public class GenericEnemyKi : MonoBehaviour
+public class MeleeEnemyKi : MonoBehaviour
 {
     [Header("Includes")] [SerializeField] private SO_KI_Stats KiStats;
     [SerializeField] private EnemyBaseProfile BaseStats;
@@ -62,7 +62,7 @@ public class GenericEnemyKi : MonoBehaviour
             KiStats.DetectionRange, Color.cyan);
         RayDetectorsAttack = SetDetectors(KiStats.AttackDetectorCountHalf, AttackContainer, KiStats.AttackRangeFOV,
             KiStats.AttackRange, Color.red);
-        Health.Initialize(BaseStats, Animator, this);
+        Health.InitializeMelee(BaseStats, Animator, this);
         EnemyDamager.Init(BaseStats.normalDamage);
     }
 
