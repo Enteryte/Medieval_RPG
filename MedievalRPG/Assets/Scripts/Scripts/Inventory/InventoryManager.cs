@@ -71,7 +71,7 @@ public class InventoryManager : MonoBehaviour
             inventory.database.items[i].hasBeenRead = false;
         }
 
-        InventoryManager.instance.weightTxt.text = InventoryManager.instance.currHoldingWeight + " / " + InventoryManager.instance.maxHoldingWeight;
+        weightTxt.text = currHoldingWeight + " / " + maxHoldingWeight;
     }
 
     // Update is called once per frame

@@ -200,145 +200,148 @@ namespace StarterAssets
 
             //_hasAnimator = TryGetComponent(out _animator);
 
-            if (canMove && currSeatTrans == null)
+            if (!GameManager.instance.gameIsPaused)
             {
-                JumpAndGravity();
-                GroundedCheck();
-
-                if (!_animator.GetBool("Roll")/* && !_animator.GetBool("HeavyAttack") && attackClicks == 0*/)
+                if (canMove && currSeatTrans == null)
                 {
-                    Move();
-                }
+                    JumpAndGravity();
+                    GroundedCheck();
 
-                if (_animator.GetBool("Grounded"))
-                {
-                    /*if (!_animator.GetBool("Bow_Aim"))
+                    if (!_animator.GetBool("Roll")/* && !_animator.GetBool("HeavyAttack") && attackClicks == 0*/)
                     {
-                        if (Input.GetKeyDown(KeyCode.Mouse0) && attackClicks < 3)
+                        Move();
+                    }
+
+                    if (_animator.GetBool("Grounded"))
+                    {
+                        /*if (!_animator.GetBool("Bow_Aim"))
                         {
-                            if (attackClicks > 0 && PlayerValueManager.instance.currStamina - (normalAttackStaminaReduceValue * attackClicks) > 0
-                                || attackClicks == 0 && PlayerValueManager.instance.currStamina - normalAttackStaminaReduceValue > 0)
+                            if (Input.GetKeyDown(KeyCode.Mouse0) && attackClicks < 3)
+                            {
+                                if (attackClicks > 0 && PlayerValueManager.instance.currStamina - (normalAttackStaminaReduceValue * attackClicks) > 0
+                                    || attackClicks == 0 && PlayerValueManager.instance.currStamina - normalAttackStaminaReduceValue > 0)
+                                {
+                                    //if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+                                    //{
+                                    //    _animator.speed = 0.6f;
+                                    //}
+
+                                    attackClicks += 1;
+                                    _animator.SetInteger("AttackClicks", attackClicks);
+
+                                    if (_animator.GetLayerWeight(1) != 0.5f)
+                                    {
+                                        _animator.SetLayerWeight(1, 0.5f);
+                                    }
+                                }
+                            }
+
+                            if (Input.GetKeyDown(KeyCode.Mouse1) && _animator.GetBool("Bow"))
+                            {
+                                _animator.SetBool("Bow_Aim", true);
+                                HandleBowAimingCameras(_bowAimingVCamera, _normalVCamera, _bowAimingZoomVCamera);
+                            }
+                            else if (Input.GetKeyDown(KeyCode.Mouse1) && !_animator.GetBool("Bow") && PlayerValueManager.instance.currStamina - heavyAttackStaminaReduceValue > 0)
                             {
                                 //if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
                                 //{
                                 //    _animator.speed = 0.6f;
                                 //}
 
-                                attackClicks += 1;
-                                _animator.SetInteger("AttackClicks", attackClicks);
-                                
-                                if (_animator.GetLayerWeight(1) != 0.5f)
-                                {
-                                    _animator.SetLayerWeight(1, 0.5f);
-                                }
-                            }
-                        }
+                                _animator.SetBool("HeavyAttack", true);
 
-                        if (Input.GetKeyDown(KeyCode.Mouse1) && _animator.GetBool("Bow"))
-                        {
-                            _animator.SetBool("Bow_Aim", true);
-                            HandleBowAimingCameras(_bowAimingVCamera, _normalVCamera, _bowAimingZoomVCamera);
-                        }
-                        else if (Input.GetKeyDown(KeyCode.Mouse1) && !_animator.GetBool("Bow") && PlayerValueManager.instance.currStamina - heavyAttackStaminaReduceValue > 0)
-                        {
-                            //if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
-                            //{
-                            //    _animator.speed = 0.6f;
-                            //}
-
-                            _animator.SetBool("HeavyAttack", true);
-
-                            //if (_animator.GetLayerWeight(1) != 0.5f)
-                            //{
-                            //    _animator.SetLayerWeight(1, 0.5f);
-                            //}
-                        }
-
-                        if (_animator.GetBool("Grounded") && attackClicks == 0)
-                        {
-                            if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
-                            {
-                                if (DebuffManager.instance.slowPlayerDebuff)
-                                {
-                                    _animator.speed = 1;
-
-                                    StartCoroutine(SlowedRoll());
-                                }
-                                else
-                                {
-                                    StartCoroutine(Roll());
-                                }
-                            }
-                        }
-
-                        //if (_animator.GetBool("Roll"))
-                        //{
-                        //    this.gameObject.transform.forward += new Vector3(1, 0, 1);
-                        //}
-                    }
-                    else
-                    {
-                        if (Input.GetKeyDown(KeyCode.Mouse0) && PlayerValueManager.instance.currStamina - normalAttackStaminaReduceValue > 0)
-                        {
-                            if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
-                            {
-                                _animator.speed = 0.6f;
+                                //if (_animator.GetLayerWeight(1) != 0.5f)
+                                //{
+                                //    _animator.SetLayerWeight(1, 0.5f);
+                                //}
                             }
 
-                            _animator.SetBool("Bow_Shoot", true);
-                        }
-
-                        if (Input.GetKeyDown(KeyCode.Mouse1))
-                        {
-                            _animator.SetBool("Bow_Aim", false);
-                            HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
-                        }
-
-                        if (Input.GetKeyDown(KeyCode.Mouse2))
-                        {
-                            if (_bowAimingZoomVCamera.Priority == 12)
-                            {
-                                HandleBowAimingCameras(_bowAimingVCamera, _bowAimingZoomVCamera, _normalVCamera);
-                            }
-                            else
-                            {
-                                HandleBowAimingCameras(_bowAimingZoomVCamera, _bowAimingVCamera, _normalVCamera);
-                            }
-                        }
-
-                        if (_animator.GetBool("Grounded") && !_animator.GetBool("Bow_Shoot"))
-                        {
-                            //if (Input.GetKeyDown(KeyCode.LeftShift) && !isRolling)
-                            //{
-                            //    HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
-                            //    _animator.SetBool("Bow_Aim", false);
-                            //    StartCoroutine(Roll());
-                            //}
-
-                            if (_animator.GetBool("Grounded") && !isRolling && attackClicks == 0)
+                            if (_animator.GetBool("Grounded") && attackClicks == 0)
                             {
                                 if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
                                 {
-                                    HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
-                                    _animator.SetBool("Bow_Aim", false);
+                                    if (DebuffManager.instance.slowPlayerDebuff)
+                                    {
+                                        _animator.speed = 1;
 
-                                    //if (DebuffManager.instance.slowPlayerDebuff)
-                                    //{
-                                    //    //DebuffManager.instance.slowPlayerDebuff = false;
-                                    //    _animator.speed = 1;
-
-                                    //    StartCoroutine(SlowedRoll());
-                                    //}
-                                    //else
-                                    //{
+                                        StartCoroutine(SlowedRoll());
+                                    }
+                                    else
+                                    {
                                         StartCoroutine(Roll());
-                                    //}
+                                    }
                                 }
                             }
+
+                            //if (_animator.GetBool("Roll"))
+                            //{
+                            //    this.gameObject.transform.forward += new Vector3(1, 0, 1);
+                            //}
                         }
-                    }*/
+                        else
+                        {
+                            if (Input.GetKeyDown(KeyCode.Mouse0) && PlayerValueManager.instance.currStamina - normalAttackStaminaReduceValue > 0)
+                            {
+                                if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
+                                {
+                                    _animator.speed = 0.6f;
+                                }
+
+                                _animator.SetBool("Bow_Shoot", true);
+                            }
+
+                            if (Input.GetKeyDown(KeyCode.Mouse1))
+                            {
+                                _animator.SetBool("Bow_Aim", false);
+                                HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
+                            }
+
+                            if (Input.GetKeyDown(KeyCode.Mouse2))
+                            {
+                                if (_bowAimingZoomVCamera.Priority == 12)
+                                {
+                                    HandleBowAimingCameras(_bowAimingVCamera, _bowAimingZoomVCamera, _normalVCamera);
+                                }
+                                else
+                                {
+                                    HandleBowAimingCameras(_bowAimingZoomVCamera, _bowAimingVCamera, _normalVCamera);
+                                }
+                            }
+
+                            if (_animator.GetBool("Grounded") && !_animator.GetBool("Bow_Shoot"))
+                            {
+                                //if (Input.GetKeyDown(KeyCode.LeftShift) && !isRolling)
+                                //{
+                                //    HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
+                                //    _animator.SetBool("Bow_Aim", false);
+                                //    StartCoroutine(Roll());
+                                //}
+
+                                if (_animator.GetBool("Grounded") && !isRolling && attackClicks == 0)
+                                {
+                                    if (Input.GetKeyDown(KeyCode.Tab) && !isRolling && PlayerValueManager.instance.currStamina - rollStaminaReduceValue > 0)
+                                    {
+                                        HandleBowAimingCameras(_normalVCamera, _bowAimingVCamera, _bowAimingZoomVCamera);
+                                        _animator.SetBool("Bow_Aim", false);
+
+                                        //if (DebuffManager.instance.slowPlayerDebuff)
+                                        //{
+                                        //    //DebuffManager.instance.slowPlayerDebuff = false;
+                                        //    _animator.speed = 1;
+
+                                        //    StartCoroutine(SlowedRoll());
+                                        //}
+                                        //else
+                                        //{
+                                            StartCoroutine(Roll());
+                                        //}
+                                    }
+                                }
+                            }
+                        }*/
+                    }
                 }
-            }
+            }           
         }
 
         private void LateUpdate()
