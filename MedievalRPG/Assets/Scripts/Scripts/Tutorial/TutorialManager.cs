@@ -29,7 +29,10 @@ public class TutorialManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (this.enabled)
+        {
+            instance = this;
+        }
     }
 
     // Start is called before the first frame update

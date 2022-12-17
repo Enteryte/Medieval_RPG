@@ -97,8 +97,11 @@ public class GameManager : MonoBehaviour
 
         if (gameIsPaused && TutorialManager.currTBP != null)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
+                Debug.Log(TutorialManager.instance.gameObject.name);
+                Debug.Log(TutorialManager.instance.closeBigTutorialUIAnim.name);
+
                 TutorialManager.instance.CloseBigTutorial();
             }
         }
