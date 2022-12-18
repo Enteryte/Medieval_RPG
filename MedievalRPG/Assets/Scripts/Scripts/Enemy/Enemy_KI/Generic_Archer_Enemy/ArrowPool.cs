@@ -5,8 +5,11 @@ using UnityEngine;
 public class ArrowPool : MonoBehaviour
 {
     [SerializeField] private EnemyArrowController ArrowPrefab;
+    [SerializeField] private Transform ArrowParent;
+    public Transform GetArrowParent => ArrowParent;
     [SerializeField] private int ArrowsToGenerate;
     [SerializeField] private float DespawnTime;
+    [SerializeField] private Transform HardCodeTarget;
 
     private EnemyArrowController[] ArrowControllers;
 
@@ -26,10 +29,12 @@ public class ArrowPool : MonoBehaviour
     private void GenerateArrows(float _perfectionDistance, float _damage, float _speed)
     {
         ArrowControllers = new EnemyArrowController[ArrowsToGenerate];
+        Transform target = HardCodeTarget ? HardCodeTarget : GameManager.instance.playerGO.transform;
         for (int i = 0; i < ArrowControllers.Length; i++)
         {
             ArrowControllers[i] = Instantiate(ArrowPrefab);
-            ArrowControllers[i].Initialize(this, _perfectionDistance, DespawnTime, _damage, _speed);
+            ArrowControllers[i].gameObject.name = $"Arrow {i}";
+            ArrowControllers[i].Initialize(this, _perfectionDistance, DespawnTime, _damage, _speed, target);
         }
     }
 

@@ -15,7 +15,8 @@ public class EnemyInitializer : MonoBehaviour
     void Start()
     {
         //Todo: Replace those magic numbers when this can be set via difficulty options
-        ArrowPool.InitializeArrows(1f, 2f, 3f);
+        ArrowPool.InitializeArrows(0.5f, 2f, 1.2f);
+        
         for (int i = 0; i < ArcherEnemies.Length; i++)
         {
             ArcherEnemies[i].Initialize(ArrowPool);
