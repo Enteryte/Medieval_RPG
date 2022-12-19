@@ -165,6 +165,8 @@ public class GameManager : MonoBehaviour
             allMeleeEnemies[i].Animator.speed = 0;
         }
 
+        PrickMinigameManager.instance.prickCardAnimator.speed = 0;
+
         gameIsPaused = true;
     }
 
@@ -184,6 +186,8 @@ public class GameManager : MonoBehaviour
         {
             allMeleeEnemies[i].Animator.speed = 1;
         }
+
+        PrickMinigameManager.instance.prickCardAnimator.speed = 1;
 
         gameIsPaused = false;
     }
