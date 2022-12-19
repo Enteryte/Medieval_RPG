@@ -66,14 +66,16 @@ public class MissionLogScreenHandler : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            DisplayMissions();
-        }
+        //if (Input.GetKeyDown(KeyCode.Y))
+        //{
+        //    DisplayMissions();
+        //}
     }
 
     public void DisplayMissions()
     {
+        currClickedMS = null;
+
         mainMissionSlot.gameObject.SetActive(false);
 
         for (int i = 0; i < sideMissionSlotParentObj.transform.childCount; i++)
@@ -81,13 +83,28 @@ public class MissionLogScreenHandler : MonoBehaviour
             Destroy(sideMissionSlotParentObj.transform.GetChild(i).gameObject);
         }
 
+        if (missionManager == null)
+        {
+            missionManager = MissionManager.instance;
+        }
+
         for (int i = 0; i < missionManager.allCurrAcceptedMissions.Count; i++)
         {
             if (missionManager.allCurrAcceptedMissions[i].missionType == MissionBaseProfile.MissionType.main)
             {
-                mainMissionSlot.gameObject.SetActive(mainMLTBtn.arrowLookingDown.activeSelf);
-
                 mainMissionSlot.SetMissionInfo(missionManager.allCurrAcceptedMissions[i]);
+
+                if (mainMissionSlot.corrMBP != null)
+                {
+                    mainMissionSlot.gameObject.SetActive(mainMLTBtn.arrowLookingDown.activeSelf);
+
+                    mainMissionSlot.hoverGradientImg.gameObject.SetActive(true);
+                    mainMissionSlot.DisplayInformation();
+                }
+                else
+                {
+                    mainMissionSlot.gameObject.SetActive(false);
+                }
             }
             else
             {
@@ -96,6 +113,14 @@ public class MissionLogScreenHandler : MonoBehaviour
                 newSideMissionSlot.GetComponent<MissionSlot>().SetMissionInfo(missionManager.allCurrAcceptedMissions[i]);
 
                 newSideMissionSlot.gameObject.SetActive(sideMLTButton.arrowLookingDown.activeSelf);
+
+                if (currClickedMS == null)
+                {
+                    newSideMissionSlot.GetComponent<MissionSlot>().hoverGradientImg.gameObject.SetActive(true);
+                    newSideMissionSlot.GetComponent<MissionSlot>().DisplayInformation();
+                }
+
+                Debug.Log("drfgvhbjnm");
             }
         }
     }

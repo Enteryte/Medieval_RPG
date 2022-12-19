@@ -75,6 +75,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I) && !ShopManager.instance.shopScreen.activeSelf)
         {
             OpenInventory();
+
+            MissionLogScreenHandler.instance.DisplayMissions();
         }
 
         if (pauseMenuScreen != null && TutorialManager.currTBP == null)

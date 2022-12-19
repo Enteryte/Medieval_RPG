@@ -25,6 +25,8 @@ public class MissionSlot : MonoBehaviour
 
     public void SetMissionInfo(MissionBaseProfile mBP)
     {
+        corrMBP = mBP;
+
         missionNameTxt.text = mBP.missionName;
         whereToDoMissionTxt.text = "";
 
@@ -48,8 +50,6 @@ public class MissionSlot : MonoBehaviour
 
             missionSymbolImg.sprite = MissionLogScreenHandler.instance.sideMissionSprite;
         }
-
-        corrMBP = mBP;
     }
 
     public void DisplayInformation()

@@ -29,7 +29,14 @@ public class MissionLogTypeButton : MonoBehaviour
         }
         else
         {
-            MissionLogScreenHandler.instance.mainMissionSlot.gameObject.SetActive(arrowLookingDown.activeSelf);
+            if (MissionLogScreenHandler.instance.mainMissionSlot.corrMBP != null)
+            {
+                MissionLogScreenHandler.instance.mainMissionSlot.gameObject.SetActive(arrowLookingDown.activeSelf);
+            }
+            else
+            {
+                MissionLogScreenHandler.instance.mainMissionSlot.gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -146,13 +146,13 @@ public class MinimapIcon : MonoBehaviour
                     mMIconMissionTxt.text = "";
                 }
 
-                if (corrNPCMissionSymbol != null)
-                {
-                    corrNPCMissionSymbol.missionSymbolTxt.text = mMIconMissionTxt.text;
-                    corrNPCMissionSymbol.missionSymbolTxt.color = mMIconMissionTxt.color;
-                }
-
                 Debug.Log(mBToCheck.missionName);
+            }
+
+            if (corrNPCMissionSymbol != null)
+            {
+                corrNPCMissionSymbol.missionSymbolTxt.text = mMIconMissionTxt.text;
+                corrNPCMissionSymbol.missionSymbolTxt.color = mMIconMissionTxt.color;
             }
         }
         else
@@ -224,13 +224,13 @@ public class MinimapIcon : MonoBehaviour
                     mMIconMissionTxt.text = "";
                 }
 
-                if (corrNPCMissionSymbol != null)
-                {
-                    corrNPCMissionSymbol.missionSymbolTxt.text = mMIconMissionTxt.text;
-                    corrNPCMissionSymbol.missionSymbolTxt.color = mMIconMissionTxt.color;
-                }
-
                 Debug.Log(mBToCheck.missionName);
+            }
+
+            if (corrNPCMissionSymbol != null)
+            {
+                corrNPCMissionSymbol.missionSymbolTxt.text = mMIconMissionTxt.text;
+                corrNPCMissionSymbol.missionSymbolTxt.color = mMIconMissionTxt.color;
             }
         }
     }
