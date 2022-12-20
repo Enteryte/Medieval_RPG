@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
     public bool playedTheGameThrough = false; // Soll true sein, sobald der Spieler das Spiel zum ersten Mal durchgespielt hat.
 
     public List<NPC> allVillageNPCs;
+    public List<NPC> allWalkingNPCs;
+
     public List<GameObject> allInteractableObjects;
     public List<Door> allInteractableDoors;
     public List<Generic_Enemy_KI> allMeleeEnemies;
@@ -29,6 +32,12 @@ public class GameManager : MonoBehaviour
 
     public bool isNight = false; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
     public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
+
+    public GameObject cutsceneBlackFadeGO;
+    public GameObject interactCanvasasParentGO;
+    public GameObject mapGO;
+    public GameObject hotbarGO;
+    public GameObject playerStatsGO;
 
     public GameObject pauseMenuScreen;
     public bool gameIsPaused = false;
@@ -44,6 +53,11 @@ public class GameManager : MonoBehaviour
     public TutorialBaseProfile meleeTutorial;
     public TutorialBaseProfile rangedTutorial;
 
+    public bool displayTutorial = true;
+
+    [Header("Pausing Game")]
+    public double pausedCutsceneTime;
+
     public void Awake()
     {
         instance = this;
@@ -58,17 +72,20 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        playtimeInSeconds += Time.deltaTime;
-
-        if (passedTimeTillLastSave < autoSaveTime)
+        if (!pauseMenuScreen.activeSelf)
         {
-            passedTimeTillLastSave += Time.deltaTime;
+            playtimeInSeconds += Time.deltaTime;
 
-            if (passedTimeTillLastSave >= autoSaveTime)
+            if (passedTimeTillLastSave < autoSaveTime)
             {
-                passedTimeTillLastSave = 0;
+                passedTimeTillLastSave += Time.deltaTime;
 
-                SaveSystem.instance.SaveAutomatic();
+                if (passedTimeTillLastSave >= autoSaveTime)
+                {
+                    passedTimeTillLastSave = 0;
+
+                    SaveSystem.instance.SaveAutomatic();
+                }
             }
         }
 
@@ -79,35 +96,51 @@ public class GameManager : MonoBehaviour
             MissionLogScreenHandler.instance.DisplayMissions();
         }
 
-        if (pauseMenuScreen != null && TutorialManager.currTBP == null)
+        if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf && !CutsceneManager.instance.playableDirector.playableGraph.IsValid())
+            if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf/* &&*/ /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*//*alid()*/)
             {
-                pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
-                FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+                if (CutsceneManager.instance.currCP != null && !CutsceneManager.instance.cutsceneCam.activeSelf)
+                {
+                    pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
+                    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
 
-                if (pauseMenuScreen.activeSelf)
-                {
-                    PauseGame();
+                    if (pauseMenuScreen.activeSelf)
+                    {
+                        PauseGame();
+                    }
+                    else
+                    {
+                        ContinueGame();
+                    }
                 }
-                else
+                else if (CutsceneManager.instance.currCP == null)
                 {
-                    ContinueGame();
-                }
+                    pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
+                    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+
+                    if (pauseMenuScreen.activeSelf)
+                    {
+                        PauseGame();
+                    }
+                    else
+                    {
+                        ContinueGame();
+                    }
+                }  
             }
         }
 
+        // Close Tutorial ( Big )
         if (gameIsPaused && TutorialManager.currTBP != null)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                Debug.Log(TutorialManager.instance.gameObject.name);
-                Debug.Log(TutorialManager.instance.closeBigTutorialUIAnim.name);
-
                 TutorialManager.instance.CloseBigTutorial();
             }
         }
 
+        // Close Read-Book- Or Note-Screen
         if (readBookOrNoteScreen != null)
         {
             if (readBookOrNoteScreen.activeSelf)
@@ -161,13 +194,34 @@ public class GameManager : MonoBehaviour
             allVillageNPCs[i].animator.speed = 0;
         }
 
+        for (int i = 0; i < allWalkingNPCs.Count; i++)
+        {
+            allWalkingNPCs[i].navMeshAgent.isStopped = true;
+        }
+
         // Enemies
         for (int i = 0; i < allMeleeEnemies.Count; i++)
         {
             allMeleeEnemies[i].Animator.speed = 0;
+
+            allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = true;
         }
 
         PrickMinigameManager.instance.prickCardAnimator.speed = 0;
+
+        if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid())
+        {
+            pausedCutsceneTime = CutsceneManager.instance.playableDirector.time;
+            CutsceneManager.instance.playableDirector.Pause();
+        }
+
+        if (TutorialManager.instance.smallTutorialUI.activeSelf)
+        {
+            TutorialManager.instance.animator.speed = 0;
+        }
+
+        UIAnimationHandler.instance.addedMissionAnimator.speed = 0;
+        UIAnimationHandler.instance.missionDisplayAnimator.speed = 0;
 
         gameIsPaused = true;
     }
@@ -183,13 +237,34 @@ public class GameManager : MonoBehaviour
             allVillageNPCs[i].animator.speed = 1;
         }
 
+        for (int i = 0; i < allWalkingNPCs.Count; i++)
+        {
+            allWalkingNPCs[i].navMeshAgent.isStopped = false;
+        }
+
         // Enemies
         for (int i = 0; i < allMeleeEnemies.Count; i++)
         {
             allMeleeEnemies[i].Animator.speed = 1;
+
+            allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = false;
         }
 
         PrickMinigameManager.instance.prickCardAnimator.speed = 1;
+
+        if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid())
+        {
+            CutsceneManager.instance.playableDirector.Play();
+            CutsceneManager.instance.playableDirector.time = pausedCutsceneTime;
+        }
+
+        if (TutorialManager.instance.smallTutorialUI.activeSelf)
+        {
+            TutorialManager.instance.animator.speed = 1;
+        }
+
+        UIAnimationHandler.instance.addedMissionAnimator.speed = 1;
+        UIAnimationHandler.instance.missionDisplayAnimator.speed = 1;
 
         gameIsPaused = false;
     }

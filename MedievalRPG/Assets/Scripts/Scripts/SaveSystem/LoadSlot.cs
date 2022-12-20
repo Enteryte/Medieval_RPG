@@ -28,7 +28,11 @@ public class LoadSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     {
         // Load Game
         Debug.Log("jhmsdfwfwfwf");
-        SaveSystem.instance.Load();
+        //SaveSystem.instance.Load();
+
+        StartScreenManager.instance.mainObjectAnimator.Rebind();
+        StartScreenManager.instance.mainObjectAnimator.enabled = true;
+        StartScreenManager.instance.mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
     }
 
     public void OnPointerEnter(PointerEventData eventData)

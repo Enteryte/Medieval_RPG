@@ -54,30 +54,30 @@ public class ShopManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) && shopScreen != null && shopScreen.activeSelf)
         {
-            if (hMScreen.gameObject.activeSelf)
-            {
-                hMScreen.gameObject.SetActive(false);
-            }
-            else if (mainShopScreen.activeSelf)
-            {
-                mainShopScreen.SetActive(false);
+            //if (hMScreen.gameObject.activeSelf)
+            //{
+            //    hMScreen.gameObject.SetActive(false);
+            //}
+            //else if (mainShopScreen.activeSelf)
+            //{
+            //    mainShopScreen.SetActive(false);
 
-                rightShopItemInformationGO.SetActive(false);
+            //    rightShopItemInformationGO.SetActive(false);
 
-                bOSMScreen.gameObject.SetActive(false);
+            //    bOSMScreen.gameObject.SetActive(false);
 
-                hMScreen.gameObject.SetActive(false);
-            }
-            else if (shopScreen.activeSelf)
-            {
-                CheckIfNeededForCutscene();
+            //    hMScreen.gameObject.SetActive(false);
+            //}
+            //else if (shopScreen.activeSelf)
+            //{
+            //    CheckIfNeededForCutscene();
 
-                shopScreen.SetActive(false);
+            //    shopScreen.SetActive(false);
 
-                ThirdPersonController.instance.canMove = true;
+            //    ThirdPersonController.instance.canMove = true;
 
-                GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
-            }
+            //    GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+            //}
         }
     }
 

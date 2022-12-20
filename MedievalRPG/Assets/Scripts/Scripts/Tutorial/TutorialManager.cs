@@ -105,12 +105,15 @@ public class TutorialManager : MonoBehaviour
 
     public void CheckIfTutorialIsAlreadyCompleted(TutorialBaseProfile tutorialBaseToCheck)
     {
-        if (!allCompletedTutorials.Contains(tutorialBaseToCheck))
+        if (GameManager.instance.displayTutorial)
         {
-            allCompletedTutorials.Add(tutorialBaseToCheck);
+            if (!allCompletedTutorials.Contains(tutorialBaseToCheck))
+            {
+                allCompletedTutorials.Add(tutorialBaseToCheck);
 
-            currTBP = tutorialBaseToCheck;
-            OpenTutorialUI();
+                currTBP = tutorialBaseToCheck;
+                OpenTutorialUI();
+            }
         }
     }
 

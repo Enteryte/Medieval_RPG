@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StartScreenManager : MonoBehaviour
@@ -37,7 +38,10 @@ public class StartScreenManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Start is called before the first frame update
@@ -62,8 +66,11 @@ public class StartScreenManager : MonoBehaviour
                 // Start new game
                 mainObjectAnimator.Rebind();
                 mainObjectAnimator.enabled = true;
+                mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
                 mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
                 Debug.Log("NEW GAME");
+
+                SceneChangeManager.instance.startedNewGame = true;
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -134,6 +141,8 @@ public class StartScreenManager : MonoBehaviour
     public void ContinueGameButton()
     {
         // Continue game
+        SceneChangeManager.instance.pressedContinue = true;
+
         mainObjectAnimator.Rebind();
         mainObjectAnimator.enabled = true;
         mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");

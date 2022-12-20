@@ -19,6 +19,9 @@ public class SaveSystem : MonoBehaviour
 
     public SavingType currSavingType = SavingType.manual;
 
+    public static string continuePath;
+    public static string continueTxtFile;
+
     public void Awake()
     {
         instance = this;
@@ -90,8 +93,10 @@ public class SaveSystem : MonoBehaviour
         }
 
         SaveGameData(sGO);
+        SaveTutorial(sGO);
         SavePlayer(sGO);
         SaveNPCs(sGO);
+        SaveEnemies(sGO);
         SaveMissions(sGO);
         SaveInteractableObjects(sGO);
         SaveInventory(sGO);
@@ -121,9 +126,62 @@ public class SaveSystem : MonoBehaviour
             //GameManager.instance.playtimeInSeconds = sGO.playtimeInSeconds;
 
             LoadGameData(sGO);
+            LoadTutorial(sGO);
             LoadPlayer(sGO);
             LoadMissions(sGO);
             LoadNPCs(sGO);
+            LoadEnemies(sGO);
+            LoadInventory(sGO);
+            LoadInteractableObjects(sGO);
+
+            Debug.Log("nhjmkklsssssssssssss");
+            //LoadInteractableObjects();
+            //LoadInventory();
+            //LoadNPCs();
+            //LoadMissions();
+        }
+    }
+
+    public void LoadContinueData()
+    {
+        if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
+        {
+            var dirInfo = Directory.GetDirectories(Application.persistentDataPath + "/SaveData/");
+
+            //for (int i = dirInfo.Length - 1; i > -1; i--)
+            //{
+            //    var gameDataFolder = Directory.GetFiles(dirInfo[i]);
+            //}
+
+            var gameDataFolder = Directory.GetFiles(dirInfo[dirInfo.Length - 1]);
+
+            continuePath = dirInfo[dirInfo.Length - 1];
+            continueTxtFile = gameDataFolder[0];
+        }
+
+        if (Directory.Exists(continuePath))
+        {
+            StreamReader sr = new StreamReader(continueTxtFile);
+
+            string JsonString = sr.ReadToEnd();
+
+            sr.Close();
+
+            //GameManager.instance.displayInventory.inventory.database = Resources.Load<ItemDatabaseBase>("Database");
+            //GameManager.Instance.enemyDatabase = Resources.Load<EnemyDatabase>("EnemyDatabase");
+            //#endif
+
+            SaveGameObject sGO = JsonUtility.FromJson<SaveGameObject>(JsonString);
+
+            // Playtime
+            //GameManager.instance.playtimeInSeconds = sGO.playtimeInSeconds;
+
+            LoadGameData(sGO);
+            LoadTutorial(sGO);
+            LoadPlayer(sGO);
+            LoadMissions(sGO);
+            LoadNPCs(sGO);
+            LoadEnemies(sGO);
             LoadInventory(sGO);
             LoadInteractableObjects(sGO);
 
@@ -143,6 +201,16 @@ public class SaveSystem : MonoBehaviour
 
         var screenshotName = "Screenshot_" + System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss") + ".png";
         ScreenCapture.CaptureScreenshot(System.IO.Path.Combine(Application.persistentDataPath + "/SaveData/" + path, screenshotName), 2);
+    }
+
+    public void SaveTutorial(SaveGameObject sGO)
+    {
+        sGO.displayTutorial = GameManager.instance.displayTutorial;
+
+        for (int i = 0; i < TutorialManager.instance.allCompletedTutorials.Count; i++)
+        {
+            sGO.allCompletedTutorialNumbers.Add(TutorialManager.instance.allCompletedTutorials[i].tutorialNumber);
+        }
     }
 
     public void SavePlayer(SaveGameObject sGO)
@@ -221,6 +289,20 @@ public class SaveSystem : MonoBehaviour
                 {
                     sGO.allAcceptedMissionTaskIsCompletedStates.Add(MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.missionTaskCompleted);
                     sGO.allAcceptedMissionTaskIsDisplayableStates.Add(MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.canBeDisplayed);
+
+                    // Save Mission Task Progress
+                    if (MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.kill)
+                    {
+                        sGO.allCurrKillMissionKills.Add(MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.howManyAlreadyKilled);
+                    }
+                    else if (MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
+                    {
+                        sGO.allCurrCollectMissionProgresses.Add(MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.howManyAlreadyCollected);
+                    }
+                    else if (MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.examine)
+                    {
+                        sGO.allCurrExamineMissionProgresses.Add(MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.howManyAlreadyExamined);
+                    }
                 }
             }
 
@@ -232,7 +314,7 @@ public class SaveSystem : MonoBehaviour
 
         for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
         {
-            if (MissionManager.instance.allMissions[i].missionType == MissionBaseProfile.MissionType.main)
+            if (MissionManager.instance.allCurrAcceptedMissions[i].missionType == MissionBaseProfile.MissionType.main)
             {
                 sGO.currentMainMissionName = MissionManager.instance.allCurrAcceptedMissions[i].missionName;
             }
@@ -247,6 +329,32 @@ public class SaveSystem : MonoBehaviour
             sGO.allNPCRotations.Add(GameManager.instance.allVillageNPCs[i].transform.rotation);
 
             sGO.isNPCVisible.Add(GameManager.instance.allVillageNPCs[i].gameObject.activeSelf);
+
+            // Save Waypoints
+            if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
+            {
+                if (GameManager.instance.allVillageNPCs[i].currWaypoint == null)
+                {
+                    sGO.currWaypointNames.Add(GameManager.instance.allVillageNPCs[i].firstWaypoint.name);
+                }
+                else
+                {
+                    sGO.currWaypointNames.Add(GameManager.instance.allVillageNPCs[i].currWaypoint.name);
+                }
+            }
+            else
+            {
+                sGO.currWaypointNames.Add("");
+            }
+        }
+    }
+
+    public void SaveEnemies(SaveGameObject sGO)
+    {
+        for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
+        {
+            sGO.allEnemyPositions.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.position);
+            sGO.allEnemyRotations.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.rotation);
         }
     }
 
@@ -275,6 +383,21 @@ public class SaveSystem : MonoBehaviour
     public void LoadGameData(SaveGameObject sGO)
     {
         GameManager.instance.playtimeInSeconds = sGO.playtimeInSeconds;
+    }
+
+    public void LoadTutorial(SaveGameObject sGO)
+    {
+        GameManager.instance.displayTutorial = sGO.displayTutorial;
+
+        TutorialManager.instance.allCompletedTutorials.Clear();
+
+        for (int i = 0; i < TutorialManager.instance.allTutorialProfiles.Count; i++)
+        {
+            if (sGO.allCompletedTutorialNumbers.Contains(TutorialManager.instance.allTutorialProfiles[i].tutorialNumber))
+            {
+                TutorialManager.instance.allCompletedTutorials.Add(TutorialManager.instance.allTutorialProfiles[i]);
+            }
+        }
     }
 
     public void LoadPlayer(SaveGameObject sGO)
@@ -333,6 +456,10 @@ public class SaveSystem : MonoBehaviour
 
         int taskNumber = 0;
 
+        int killNumber = 0;
+        int collectNumber = 0;
+        int examineNumber = 0;
+
         for (int i = 0; i < MissionManager.instance.allMissions.Count; i++)
         {
             if (sGO.allCurrAcceptedMissionNumbers.Contains(i))
@@ -345,6 +472,26 @@ public class SaveSystem : MonoBehaviour
                     MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.canBeDisplayed = sGO.allAcceptedMissionTaskIsDisplayableStates[i];
 
                     taskNumber += 1;
+
+                    // Load Mission Task Progress
+                    if (MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.kill)
+                    {
+                        MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.howManyAlreadyKilled = sGO.allCurrKillMissionKills[killNumber];
+
+                        killNumber += 1;
+                    }
+                    else if (MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
+                    {
+                        MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.howManyAlreadyCollected = sGO.allCurrCollectMissionProgresses[collectNumber];
+
+                        collectNumber += 1;
+                    }
+                    else if (MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.examine)
+                    {
+                        MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.howManyAlreadyExamined = sGO.allCurrExamineMissionProgresses[examineNumber];
+
+                        examineNumber += 1;
+                    }
                 }
             }
 
@@ -364,7 +511,26 @@ public class SaveSystem : MonoBehaviour
 
             GameManager.instance.allVillageNPCs[i].gameObject.SetActive(sGO.isNPCVisible[i]);
 
-            Debug.Log("gjkdefegge");
+            // Load Waypoints
+            if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
+            {
+                for (int y = 0; y < GameManager.instance.allVillageNPCs[i].allCorrWaypoints.Count; y++)
+                {
+                    if (GameManager.instance.allVillageNPCs[i].allCorrWaypoints[y].name == sGO.currWaypointNames[i])
+                    {
+                        GameManager.instance.allVillageNPCs[i].SetNewWaypoint(GameManager.instance.allVillageNPCs[i].allCorrWaypoints[y]);
+                    }
+                }
+            }
+        }
+    }
+
+    public void LoadEnemies(SaveGameObject sGO)
+    {
+        for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
+        {
+            GameManager.instance.allMeleeEnemies[i].transform.position = sGO.allEnemyPositions[i];
+            GameManager.instance.allMeleeEnemies[i].transform.rotation = sGO.allEnemyRotations[i];
         }
     }
 
