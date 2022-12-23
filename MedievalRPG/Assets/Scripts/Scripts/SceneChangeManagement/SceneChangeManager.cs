@@ -14,6 +14,10 @@ public class SceneChangeManager : MonoBehaviour
     public bool pressedContinue = false;
     public CutsceneProfile startCutsceneP;
 
+    [Header("Deactivate If Load GameScene")]
+    public List<GameObject> allGOsToDeactivate;
+    public List<GameObject> allGosToActivate;
+
     public void Awake()
     {
         if (instance == null)
@@ -64,6 +68,8 @@ public class SceneChangeManager : MonoBehaviour
             //StartScreenManager.instance.mainObjectAnimator.enabled = true;
 
             startedNewGame = false;
+
+            DeactivateMainObjectAnimator();
         }
     }
 
@@ -81,6 +87,21 @@ public class SceneChangeManager : MonoBehaviour
         GameManager.instance.cutsceneBlackFadeGO.SetActive(false);
     }
 
+    public void DeactivateMainObjectAnimator()
+    {
+        StartScreenManager.instance.mainObjectAnimator.enabled = false;
+
+        for (int i = 0; i < allGOsToDeactivate.Count; i++)
+        {
+            allGOsToDeactivate[i].SetActive(false);
+        }
+
+        for (int i = 0; i < allGosToActivate.Count; i++)
+        {
+            allGosToActivate[i].SetActive(true);
+        }
+    }
+
     public void OnLevelWasLoaded(int level)
     {
         if (level == 2 && startedNewGame)
@@ -93,6 +114,10 @@ public class SceneChangeManager : MonoBehaviour
         {
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_2");
         }
+
+        GameManager.instance.pauseMenuScreen = this.gameObject;
+
+        StartScreenManager.instance.mainAnimator.enabled = false;
 
         Debug.Log("LOADED");
     }

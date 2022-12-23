@@ -71,11 +71,15 @@ public class StartScreenManager : MonoBehaviour
                 Debug.Log("NEW GAME");
 
                 SceneChangeManager.instance.startedNewGame = true;
+
+                Debug.Log("0909");
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
+
+                Debug.Log("0909");
             }
         }
         else if (areYouSureDeleteSavaDataScreen.activeSelf)
@@ -117,6 +121,8 @@ public class StartScreenManager : MonoBehaviour
 
                 StartScreenManager.instance.saveGameScreenshot.enabled = false;
                 StartScreenManager.instance.saveGameScreenshot.sprite = null;
+
+                Debug.Log("0909");
             }
         }
         else if (areYouSureExitGameScreen.activeSelf)
@@ -124,11 +130,15 @@ public class StartScreenManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 Application.Quit();
+
+                Debug.Log("0909");
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mainAnimator.Play(closeAreYouSureExitGameAnim.name);
+
+                Debug.Log("0909");
             }
         }
     }

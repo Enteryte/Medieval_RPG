@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class SellButton : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        this.gameObject.GetComponent<Button>().onClick.AddListener(ShopManager.instance.OpenSellScreen);
-    }
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+    //    this.gameObject.GetComponent<Button>().onClick.AddListener(ShopManager.instance.OpenSellScreen);
+    //}
 }

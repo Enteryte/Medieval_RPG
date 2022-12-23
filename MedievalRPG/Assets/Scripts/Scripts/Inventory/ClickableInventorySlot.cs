@@ -14,7 +14,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         inventorySlot,
         equipmentSlot,
         hotbarSlot,
-        categoryButton
+        categoryButton,
+        shopSlot
     }
 
     public ClickableSlotType clickableSlotType;
@@ -32,6 +33,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
     //[HideInInspector] public List<Button> allInteractableButton;
 
     public HotbarSlotButton correspondingMainScreenHotbarSlotBtn;
+
+    [HideInInspector] public bool isShopPlayerItem = false;
 
     public void Awake()
     {
@@ -125,6 +128,32 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         //}
     }
 
+    public void OpenHowManyScreen(ItemBaseProfile iBP,bool isPlayerItem)
+    {
+        //if (ShopManager.instance.isBuying)
+        //{
+        //    ShopManager.instance.hMScreen.buyOrSellTxt.text = "Wie oft möchtst du das Item kaufen?";
+        //}
+        //else
+        //{
+        //    ShopManager.instance.hMScreen.buyOrSellTxt.text = "Wie oft möchtst du das Item verkaufen?";
+        //}
+
+        if (iBP.itemType == ItemBaseProfile.ItemType.weapon)
+        {
+            ShopManager.instance.BuyOrSellItem(iBP, 1);
+        }
+        else
+        {
+            ShopManager.instance.hMScreen.SetNewMaxAmount(iBP, isPlayerItem);
+
+            ShopManager.instance.hMScreen.gameObject.SetActive(true);
+        }
+
+        //HowManyScreen.currItem = storedItemBase;
+        //ShopManager.instance.hMScreen.currAmountInInv = amountInInv;
+    }
+
     public void DisplayWhatToDoText()
     {
         if (clickableSlotType == ClickableSlotType.inventorySlot)
@@ -156,6 +185,12 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             {
                 ClearEquipmentSlot();
             }
+        }
+        else if (clickableSlotType == ClickableSlotType.shopSlot)
+        {
+            ShopManager.instance.isShopPlayerItem = isShopPlayerItem;
+
+            OpenHowManyScreen(storedItemBase, isShopPlayerItem);
         }
     }
 
@@ -191,8 +226,15 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                 ClearEquipmentSlot();
             }
         }
+        else if (clickableSlotType == ClickableSlotType.shopSlot)
+        {
+            ShopManager.instance.isShopPlayerItem = isShopPlayerItem;
+
+            OpenHowManyScreen(storedItemBase, isShopPlayerItem);
+        }
 
         InventoryManager.instance.weightTxt.text = InventoryManager.instance.currHoldingWeight + " / " + InventoryManager.instance.maxHoldingWeight;
+        ShopManager.instance.weightTxt.text = InventoryManager.instance.currHoldingWeight + " / " + InventoryManager.instance.maxHoldingWeight;
     }
 
     public void EquipItemToEquipment(ItemBaseProfile ibToUse, int amountToStore)
@@ -418,17 +460,17 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             InventoryManager.instance.RemoveHoldingWeight(storedItemBase.weight, storedAmount);
         }
 
-            this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
+        this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
 
-            storedItemBase = null;
-            storedAmount = 0;
+        storedItemBase = null;
+        storedAmount = 0;
 
-            storedAmountTxt.text = "";
+        storedAmountTxt.text = "";
 
-            correspondingMainScreenHotbarSlotBtn.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
-            correspondingMainScreenHotbarSlotBtn.GetComponent<HotbarSlotButton>().itemAmountTxt.text = "";
+        correspondingMainScreenHotbarSlotBtn.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
+        correspondingMainScreenHotbarSlotBtn.GetComponent<HotbarSlotButton>().itemAmountTxt.text = "";
 
-            InventoryManager.instance.DisplayItemsOfCategory();
+        InventoryManager.instance.DisplayItemsOfCategory();
     }
 
     public void ClearEquipmentSlot()
@@ -559,7 +601,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
     public void OnSelect(BaseEventData eventData)
     {
-        if (clickableSlotType == ClickableSlotType.hotbarSlot)
+        if (clickableSlotType == ClickableSlotType.hotbarSlot && clickableSlotType == ClickableSlotType.shopSlot)
         {
             SelectAction();
         }
@@ -584,6 +626,19 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         //{
         //    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(InventoryManager.instance.equipmentTutorial);
         //}
+
+        //if (clickableSlotType == ClickableSlotType.shopSlot)
+        //{
+        //    if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon)
+        //    {
+                ShopManager.instance.itemInfoPopUp.gameObject.GetComponent<ItemInfoPopUp>().SetItemInformationsToDisplay(storedItemBase, isShopPlayerItem);
+                ShopManager.instance.itemInfoPopUp.gameObject.SetActive(true);
+        //    }
+        //    else
+        //    {
+        //        ShopManager.instance.BuyOrSellItem(storedItemBase, 1);
+        //    }
+        //}
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -593,6 +648,11 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
         animator.enabled = false;
         boarder.gameObject.SetActive(false);
+
+        if (clickableSlotType == ClickableSlotType.shopSlot)
+        {
+            ShopManager.instance.itemInfoPopUp.gameObject.SetActive(false);
+        }
 
         //this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = true;
     }

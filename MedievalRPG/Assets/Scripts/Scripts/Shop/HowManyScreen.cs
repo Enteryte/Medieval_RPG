@@ -6,89 +6,180 @@ using UnityEngine.UI;
 
 public class HowManyScreen : MonoBehaviour
 {
-    public static ItemBaseProfile currItem;
-    public int currAmountInInv;
+    public int currDisplayedAmount = 1;
+    public int currMaxAmount = 1;
 
-    public int currAmount = 0;
-
-    public TMP_Text buyOrSellTxt;
     public TMP_Text currAmountTxt;
+    public TMP_Text currMaxAmountTxt;
+    public TMP_Text currPriceTxt;
 
-    public Button acceptBtn; 
+    public Color normalWeightColor;
+    public Color tooMuchWeightColor;
 
-    // Start is called before the first frame update
-    void Start()
+    public static ItemBaseProfile currIBP;
+
+    public Slider howManySSlider;
+    public GameObject sliderHandle;
+
+    public bool isPlayerItem = false;
+
+    public void Update()
     {
-
+        UpdateSliderValues();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetStartValues(int maxAmount)
     {
-        if (currAmount == 0)
+        howManySSlider.maxValue = maxAmount;
+        howManySSlider.value = maxAmount;
+
+        currAmountTxt.text = maxAmount.ToString();
+        currMaxAmountTxt.text = maxAmount.ToString();
+
+        if (isPlayerItem)
         {
-            acceptBtn.interactable = false;
+            currPriceTxt.text = (currIBP.sellingPrice * maxAmount).ToString();
         }
         else
         {
-            acceptBtn.interactable = true;
+            currPriceTxt.text = (currIBP.buyPrice * maxAmount).ToString();
         }
+
+        currDisplayedAmount = maxAmount;
+
+        Debug.Log("1");
     }
 
-    public void AddAmount()
+    public void UpdateSliderValues()
     {
-        if (!ShopManager.instance.isBuying)
+        currAmountTxt.text = howManySSlider.value.ToString();
+
+        if (isPlayerItem)
         {
-            if (currAmount + 1 <= currAmountInInv)
+            currPriceTxt.text = (currIBP.sellingPrice * howManySSlider.value).ToString();
+        }
+        else
+        {
+            currPriceTxt.text = (currIBP.buyPrice * howManySSlider.value).ToString();
+        }
+
+        Debug.Log(howManySSlider.value.ToString());
+        Debug.Log(currDisplayedAmount);
+    }
+
+    public void SetNewMaxAmount(ItemBaseProfile iBP, bool isPlayerItem)
+    {
+        currIBP = iBP;
+        this.isPlayerItem = isPlayerItem;
+
+        if (isPlayerItem)
+        {
+            for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
             {
-                currAmount += 1;
-            }
-            else
-            {
-                currAmount = 0;
+                if (InventoryManager.instance.inventory.slots[i].itemBase == iBP)
+                {
+                    currMaxAmount = InventoryManager.instance.inventory.slots[i].itemAmount;
+
+                    break;
+                }
             }
         }
         else
         {
-            if (currItem.buyPrice * (currAmount + 1) <= PlayerValueManager.instance.money)
-            {
-                currAmount += 1;
-            }
-            else
-            {
-                currAmount = 0;
-            }
+            currMaxAmount = ((int)PlayerValueManager.instance.money / iBP.buyPrice);
         }
 
-        currAmountTxt.text = currAmount.ToString();
+        SetStartValues(currMaxAmount);
     }
 
-    public void RemoveAmount()
+    public void AddAmountToAdd()
     {
-        if (currAmount > 0)
+        if (currDisplayedAmount < currMaxAmount)
         {
-            currAmount -= 1;
+            currDisplayedAmount += 1;
         }
-        else if (currAmount == 0 && !ShopManager.instance.isBuying)
+        else
         {
-            //float weight = (InventoryManager.instance.currInvWeight + ((currAmountInInv * currItem.itemWeight) 
-            //    * (currItem.sellingPrice * GameManager.instance.coinWeightValue)));
-
-            currAmount = currAmountInInv;
-        }
-        else if (currAmount == 0 && ShopManager.instance.isBuying)
-        {
-            currAmount = ((int)PlayerValueManager.instance.money / currItem.buyPrice);          
+            currDisplayedAmount = 1;
         }
 
-        currAmountTxt.text = currAmount.ToString();
+        UpdateAmountText();
+        //UpdateWeightTextColor();
     }
 
-    public void AcceptBuyOrSellAmount()
+    public void RemoveAmountToAdd()
     {
-        ShopManager.instance.BuyOrSellItem(currItem, currAmount);
+        if (currDisplayedAmount == 1)
+        {
+            currDisplayedAmount = currMaxAmount;
+        }
+        else
+        {
+            currDisplayedAmount -= 1;
+        }
 
-        ShopManager.instance.rightShopItemInformationGO.SetActive(false);
+        UpdateAmountText();
+        //UpdateWeightTextColor();
+    }
+
+    public void UpdateAmountText()
+    {
+        currAmountTxt.text = currDisplayedAmount.ToString();
+
+        if (isPlayerItem)
+        {
+            currPriceTxt.text = (currIBP.sellingPrice * howManySSlider.value).ToString();
+        }
+        else
+        {
+            currPriceTxt.text = (currIBP.buyPrice * howManySSlider.value).ToString();
+        }
+    }
+
+    //public void UpdateWeightTextColor()
+    //{
+    //    float currStoredWeightOfItem = 0;
+
+    //    for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
+    //    {
+    //        if (HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase != null && HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase == currIBP)
+    //        {
+    //            currStoredWeightOfItem = HotbarManager.instance.allHotbarSlotBtn[i].storedAmount * HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase.weight;
+
+    //            break;
+    //        }
+    //    }
+
+    //    if (InventoryManager.instance.maxHoldingWeight - (InventoryManager.instance.currHoldingWeight - currStoredWeightOfItem) > currDisplayedAmount * currIBP.weight)
+    //    {
+    //        currAmountTxt.color = normalWeightColor;
+    //    }
+    //    else
+    //    {
+    //        currAmountTxt.color = tooMuchWeightColor;
+    //    }
+    //}
+
+    public void AcceptAmount()
+    {
+        //HotbarManager.instance.hbHMScreen.UpdateAmountText();
+        //HotbarManager.instance.hbHMScreen.SetNewMaxAmount();
+
+        Debug.Log(currDisplayedAmount);
+        //HotbarManager.currHSB.ChangeHotbarSlotItem(currIBP, currDisplayedAmount);
+
+        //HotbarManager.currHSB = null;
+
+        this.gameObject.SetActive(false);
+    }
+
+    public void CloseScreen()
+    {
+        //HotbarManager.instance.hbHMScreen.UpdateAmountText();
+        //HotbarManager.instance.hbHMScreen.SetNewMaxAmount();
+
+        //HotbarManager.currHSB = null;
+
         this.gameObject.SetActive(false);
     }
 }

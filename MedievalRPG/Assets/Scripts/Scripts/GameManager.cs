@@ -223,6 +223,8 @@ public class GameManager : MonoBehaviour
         UIAnimationHandler.instance.addedMissionAnimator.speed = 0;
         UIAnimationHandler.instance.missionDisplayAnimator.speed = 0;
 
+        //StartScreenManager.instance.mainObjectAnimator.enabled = true;
+
         gameIsPaused = true;
     }
 
@@ -265,6 +267,8 @@ public class GameManager : MonoBehaviour
 
         UIAnimationHandler.instance.addedMissionAnimator.speed = 1;
         UIAnimationHandler.instance.missionDisplayAnimator.speed = 1;
+
+        StartScreenManager.instance.mainAnimator.enabled = false;
 
         gameIsPaused = false;
     }
