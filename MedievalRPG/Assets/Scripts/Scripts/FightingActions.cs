@@ -113,6 +113,12 @@ public class FightingActions : MonoBehaviour
             weaponScript.lightAttack = true;
             anim.SetTrigger("GreatSwordKick");
         }
+        if (equippedWeaponR.CompareTag("Club"))
+        {
+            weaponScript.heavyAttack = false;
+            weaponScript.lightAttack = true;
+            anim.SetTrigger("ClubAttack");
+        }
     }
 
     private void OnHeavyAttackZoom()
@@ -141,6 +147,12 @@ public class FightingActions : MonoBehaviour
             weaponScript.lightAttack = false;
             weaponScript.heavyAttack = true;
             anim.SetTrigger("GreatSwordSlash");
+        }
+        if (equippedWeaponR.CompareTag("Club"))
+        {
+            weaponScript.heavyAttack = true;
+            weaponScript.lightAttack = false;
+            anim.SetTrigger("ClubAttack");
         }
     }
 
