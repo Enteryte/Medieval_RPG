@@ -38,6 +38,8 @@ public class InventoryManager : MonoBehaviour
     public GameObject draggableInvSlotPrefab;
     public Transform draggableInvSlotParent;
 
+    public ItemInfoPopUp itemInfoPopUp;
+
     [Header("Weight")]
     public float maxHoldingWeight;
     public float currHoldingWeight; // Equipment + Hotbar Weight
@@ -82,7 +84,10 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (itemInfoPopUp.gameObject.activeSelf)
+        {
+            itemInfoPopUp.transform.position = Input.mousePosition;
+        }
     }
 
     public void DisplayItemsOfCategory()

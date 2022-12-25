@@ -34,7 +34,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 2.4833333333333334
+  m_Time: 2.7306666666666666
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 07f38f21e5e614e4c98abd207db34a32, type: 2}
@@ -63,7 +63,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 1565654206697665289}
-    m_Duration: 2.4833333333333334
+    m_Duration: 2.7306666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: -6144059117790267840}
     m_EaseInDuration: 0.5
@@ -177,7 +177,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -2747977311207796726}
-    m_Duration: 1
+    m_Duration: 2.7306666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5186121140896179422}
     m_EaseInDuration: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 6950545628277328865}
-    m_Duration: 2.4833333333333334
+    m_Duration: 2.7306666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4530198575940420454}
     m_EaseInDuration: 0
@@ -427,7 +427,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -6115375684042217008}
-    m_Duration: 2.4833333333333334
+    m_Duration: 2.7306666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: -2120162843170425913}
     m_EaseInDuration: 0
@@ -802,6 +802,7 @@ MonoBehaviour:
   - {fileID: -5186121140896179422}
   - {fileID: 3495015615065830063}
   - {fileID: -2120162843170425913}
+  - {fileID: 5979544168591122825}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
@@ -820,9 +821,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ecf11910bb77234e9f61d8db564ba04, type: 3}
   m_Name: SubtitleClip
   m_EditorClassIdentifier: 
-  subtitleText: "Nat\xFCrlich, ich werde mein bestes versuchen. Aber mach dir keine
-    gro\xDFen Hoffnung, die Menschen hier sehen es nicht gerne von einem Elfen gema\xDFregelt
-    zu werden."
+  subtitleText: "Caeldrim: Nat\xFCrlich, ich werde mein bestes versuchen. Aber mach
+    dir keine gro\xDFen Hoffnung, die Menschen hier sehen es nicht gerne von einem
+    Elfen gema\xDFregelt zu werden."
 --- !u!114 &2540877731795702861
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -835,7 +836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 2.4833333333333334
+  m_Time: 2.7306666666666666
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: f57c016f4fc34d54495344e77b8724f7, type: 2}
@@ -897,25 +898,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -933,7 +916,7 @@ MonoBehaviour:
     m_Start: 1
     m_ClipIn: 0
     m_Asset: {fileID: 4767051334501192096}
-    m_Duration: 1.4833333333333334
+    m_Duration: 1.7306666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: 3495015615065830063}
     m_EaseInDuration: 0
@@ -1065,7 +1048,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -654158502721596704}
-    m_Duration: 2.4833333333333334
+    m_Duration: 2.7306666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5012703598261853719}
     m_EaseInDuration: 0.5
@@ -1132,6 +1115,119 @@ MonoBehaviour:
     m_DisplayName: SubtitleClip
   m_Markers:
     m_Objects: []
+--- !u!114 &5421370627447847300
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f10dd60657c6004587f237a7e90f8e4, type: 3}
+  m_Name: AudioPlayableAsset
+  m_EditorClassIdentifier: 
+  m_Clip: {fileID: 8300000, guid: ab7b0d726f028da48b02f1865d7ba80a, type: 3}
+  m_Loop: 0
+  m_bufferingTime: 0.1
+  m_ClipProperties:
+    volume: 1
+--- !u!114 &5979544168591122825
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b22792c3b570444eb18cb78c2af3a74, type: 3}
+  m_Name: Audio Track
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips:
+  - m_Version: 1
+    m_Start: 0
+    m_ClipIn: 0
+    m_Asset: {fileID: 5421370627447847300}
+    m_Duration: 2.7306666666666666
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 5979544168591122825}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: 04_hq1_C_S5_V19_bip
+  m_Markers:
+    m_Objects: []
+  m_TrackProperties:
+    volume: 1
+    stereoPan: 0
+    spatialBlend: 0
 --- !u!114 &6950545628277328865
 MonoBehaviour:
   m_ObjectHideFlags: 1

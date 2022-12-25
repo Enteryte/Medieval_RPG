@@ -39,13 +39,20 @@ public class ItemInfoPopUp : MonoBehaviour
             }
         }
 
-        if (isPlayerItem)
+        if (ShopManager.instance.itemInfoPopUp.activeSelf)
         {
-            buyOrSellPriceTxt.text = iBP.sellingPrice.ToString();
+            if (isPlayerItem)
+            {
+                buyOrSellPriceTxt.text = iBP.sellingPrice.ToString();
+            }
+            else
+            {
+                buyOrSellPriceTxt.text = iBP.buyPrice.ToString();
+            }
         }
         else
         {
-            buyOrSellPriceTxt.text = iBP.buyPrice.ToString();
+            buyOrSellPriceTxt.text = iBP.sellingPrice.ToString();
         }
 
         weightTxt.text = iBP.weight.ToString();

@@ -471,6 +471,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         correspondingMainScreenHotbarSlotBtn.GetComponent<HotbarSlotButton>().itemAmountTxt.text = "";
 
         InventoryManager.instance.DisplayItemsOfCategory();
+
+        InventoryManager.instance.itemInfoPopUp.gameObject.SetActive(false);
     }
 
     public void ClearEquipmentSlot()
@@ -505,6 +507,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
                 InventoryManager.instance.DisplayItemsOfCategory();
             }
+
+            InventoryManager.instance.itemInfoPopUp.gameObject.SetActive(false);
 
             //if (storedItemBase != null && EquippingManager.instance.leftWeaponES != null)
             //{
@@ -631,8 +635,25 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         //{
         //    if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon)
         //    {
-                ShopManager.instance.itemInfoPopUp.gameObject.GetComponent<ItemInfoPopUp>().SetItemInformationsToDisplay(storedItemBase, isShopPlayerItem);
-                ShopManager.instance.itemInfoPopUp.gameObject.SetActive(true);
+
+        if (InventoryManager.instance.inventoryScreen.activeSelf)
+        {
+            if (storedItemBase != null)
+            {
+                InventoryManager.instance.itemInfoPopUp.gameObject.GetComponent<ItemInfoPopUp>().SetItemInformationsToDisplay(storedItemBase, isShopPlayerItem);
+                InventoryManager.instance.itemInfoPopUp.gameObject.SetActive(true);
+            }
+            else
+            {
+                InventoryManager.instance.itemInfoPopUp.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            ShopManager.instance.itemInfoPopUp.gameObject.GetComponent<ItemInfoPopUp>().SetItemInformationsToDisplay(storedItemBase, isShopPlayerItem);
+            ShopManager.instance.itemInfoPopUp.gameObject.SetActive(true);
+        }
+
         //    }
         //    else
         //    {
@@ -652,6 +673,10 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         if (clickableSlotType == ClickableSlotType.shopSlot)
         {
             ShopManager.instance.itemInfoPopUp.gameObject.SetActive(false);
+        }
+        else if (clickableSlotType == ClickableSlotType.equipmentSlot || clickableSlotType == ClickableSlotType.inventorySlot)
+        {
+            InventoryManager.instance.itemInfoPopUp.gameObject.SetActive(false);
         }
 
         //this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = true;

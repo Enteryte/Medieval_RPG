@@ -130,7 +130,7 @@ public class Merchant : MonoBehaviour, IInteractable
         }
 
         //ShopManager.instance.DisplayMainScreenButtons();
-        ShopManager.instance.DisplayShopItems();
+        //ShopManager.instance.DisplayShopItems();
 
         ThirdPersonController.instance.canMove = false;
         //ShopManager.instance.shopScreen.SetActive(true);
