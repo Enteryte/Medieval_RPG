@@ -124,6 +124,8 @@ public class TutorialManager : MonoBehaviour
 
         currTBP = CutsceneManager.instance.currCP.tutorialToTrigger;
         OpenTutorialUI();
+
+        GameManager.instance.normalPlayerFollowCamCVC.enabled = true;
     }
 
     public void TriggerNextTutorial()

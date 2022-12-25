@@ -1,3 +1,4 @@
+using Cinemachine;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,6 +39,8 @@ public class GameManager : MonoBehaviour
     public GameObject mapGO;
     public GameObject hotbarGO;
     public GameObject playerStatsGO;
+
+    public CinemachineVirtualCamera normalPlayerFollowCamCVC;
 
     public GameObject pauseMenuScreen;
     public bool gameIsPaused = false;

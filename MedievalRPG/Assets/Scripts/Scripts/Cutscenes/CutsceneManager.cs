@@ -430,5 +430,21 @@ public class CutsceneManager : MonoBehaviour
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
+
+    public void ActivateHUDUI()
+    {
+        GameManager.instance.interactCanvasasParentGO.SetActive(true);
+        GameManager.instance.mapGO.SetActive(true);
+        GameManager.instance.hotbarGO.SetActive(true);
+        GameManager.instance.playerStatsGO.SetActive(true);
+    }
+
+    public void DeactivateHUDUI()
+    {
+        GameManager.instance.interactCanvasasParentGO.SetActive(false);
+        GameManager.instance.mapGO.SetActive(false);
+        GameManager.instance.hotbarGO.SetActive(false);
+        GameManager.instance.playerStatsGO.SetActive(false);
+    }
     #endregion
 }
