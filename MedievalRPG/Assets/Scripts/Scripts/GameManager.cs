@@ -345,9 +345,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void DisplayGetBeerUI()
+    public void DisplayTavernKeeperUI()
     {
-        TavernKeeper.instance.OpenGetBeerScreen();
+        TavernKeeper.instance.DisplayTavernKeeperUI();
     }
 
     public void FreezeCameraAndSetMouseVisibility(ThirdPersonController tPC, StarterAssetsInputs _input, bool isVisible)

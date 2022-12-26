@@ -226,6 +226,12 @@ public class CutsceneManager : MonoBehaviour
         GameManager.instance.playerGO.transform.parent = playerBaseMeshParentTrans;
 
         ThirdPersonController.instance.canMove = true;
+
+        ActivateHUDUI();
+
+        playableDirector.Stop();
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 
     public void DisplayDecisions()

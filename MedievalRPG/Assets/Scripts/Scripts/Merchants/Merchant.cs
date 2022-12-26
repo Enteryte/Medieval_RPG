@@ -150,6 +150,19 @@ public class Merchant : MonoBehaviour, IInteractable
             //CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
             //CutsceneManager.instance.playableDirector.Play();
         }
+        else
+        {
+            ShopManager.instance.DisplayMainScreenButtons();
+
+            CutsceneManager.instance.ChangePlayerParentToCurrInteractObj();
+            CutsceneManager.instance.DeactivateHUDUI();
+
+            normalMerchantObj.SetActive(false);
+
+            CutsceneManager.instance.playableDirector.playableAsset = idleTimeline;
+            CutsceneManager.instance.playableDirector.Play();
+            CutsceneManager.instance.SetAndPlayCutscene();
+        }
         //CheckIfNeededForMission();
         //}
     }

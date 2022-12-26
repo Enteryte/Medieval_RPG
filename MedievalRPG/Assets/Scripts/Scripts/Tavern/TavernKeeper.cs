@@ -137,6 +137,12 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
     public void DontBuyBeer()
     {
+        GameManager.instance.playerGO.transform.parent = CutsceneManager.instance.playerBaseMeshParentTrans;
+
+        CutsceneManager.instance.ActivateHUDUI();
+
+        CutsceneManager.instance.playableDirector.Stop();
+
         getBeerScreen.SetActive(false);
 
         ThirdPersonController.instance.canMove = true;
@@ -185,9 +191,9 @@ public class TavernKeeper : MonoBehaviour, IInteractable
             Destroy(buttonParentTrans.GetChild(i).gameObject);
         }
 
-        var tavernBuyBeerButton = Instantiate(buyBeerButtonPrefab, buttonParentTrans);
+        //var tavernBuyBeerButton = Instantiate(buyBeerButtonPrefab, buttonParentTrans);
 
-        tavernBuyBeerButton.GetComponent<Button>().onClick.AddListener(BuyAndDrinkBeer);
+        //tavernBuyBeerButton.GetComponent<Button>().onClick.AddListener(BuyAndDrinkBeer);
 
         for (int i = 0; i < allCurrCorrTasks.Count; i++)
         {
@@ -202,7 +208,7 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         tavernDontBuyBeerButton.GetComponent<Button>().onClick.AddListener(DontBuyBeer);
     }
 
-    public void OpenGetBeerScreen()
+    public void DisplayTavernKeeperUI()
     {
         CreateTavernMissionTaskButton();
 
