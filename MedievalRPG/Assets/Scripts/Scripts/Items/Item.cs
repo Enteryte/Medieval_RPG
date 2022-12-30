@@ -104,8 +104,9 @@ public class Item : MonoBehaviour, IInteractable
                 CutsceneManager.instance.playableDirector.Play();
             }
 
-            Destroy(iOCanvas.gameObject);
-            Destroy(this.gameObject);
+            //Destroy(iOCanvas.gameObject);
+            //Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
         else
         {
@@ -113,7 +114,8 @@ public class Item : MonoBehaviour, IInteractable
             CutsceneManager.instance.playableDirector.playableAsset = cutsceneToPlayAfterExamine.cutscene;
             CutsceneManager.instance.playableDirector.Play();
 
-            Destroy(iOCanvas.gameObject);
+            //Destroy(iOCanvas.gameObject);
+            this.gameObject.SetActive(false);
 
             Interacting.instance.howToInteractGO.SetActive(false);
         }

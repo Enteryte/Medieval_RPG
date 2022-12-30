@@ -12,6 +12,11 @@ public class NPCWaypoint : MonoBehaviour
     public float stayingTime;
     [Min(0)] public int standingAnimNumber = 0;
 
+    public void Start()
+    {
+        correspondingNPCObj.GetComponent<NPC>().allCorrWaypoints.Add(this);
+    }
+
     public IEnumerator StartStayingForSpecificTime()
     {
         float currStayingTime = 0;

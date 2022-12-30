@@ -25,6 +25,8 @@ public class NPC : MonoBehaviour, IInteractable
 
     public bool isInDialogue = false;
 
+    [HideInInspector] public List<NPCWaypoint> allCorrWaypoints;
+
     void Start()
     {
         InstantiateIOCanvas();
@@ -32,6 +34,8 @@ public class NPC : MonoBehaviour, IInteractable
         if (firstWaypoint != null)
         {
             SetNewWaypointWithoutStopping(firstWaypoint);
+
+            GameManager.instance.allWalkingNPCs.Add(this);
         }
 
         GameManager.instance.allVillageNPCs.Add(this);
@@ -39,7 +43,7 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void Update()
     {
-        if (currWaypoint != null)
+        if (currWaypoint != null && !GameManager.instance.gameIsPaused)
         {
             navMeshAgent.SetDestination(currWaypoint.transform.position);
 

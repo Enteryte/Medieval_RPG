@@ -47,6 +47,10 @@ public class Interacting : MonoBehaviour
     public GameObject playerHeadObj;
     public GameObject playerHandObj;
 
+    [Header("Tutorial")]
+    public TutorialBaseProfile interactingTutorial;
+    public TutorialBaseProfile selectingAndParryTutorial;
+
     public void Awake()
     {
         instance = this;
@@ -138,6 +142,18 @@ public class Interacting : MonoBehaviour
                         && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove && interactable.iOCanvas() != null)
                     {
                         interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
+
+                        if (GameManager.instance.playtimeInSeconds > 5)
+                        {
+                            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
+                        }
+                    }
+
+                    if (interactableObj.GetComponent<Enemy>())
+                    {
+                        Debug.Log(interactableObj.gameObject.name);
+
+                        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
                     }
                 }
             }
@@ -299,7 +315,8 @@ public class Interacting : MonoBehaviour
 
                         if (Input.GetKeyDown(KeyCode.Q))
                         {
-                            FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
+                            // ---------------------------------------------- WIP: Hier Target-Enemy einfügen!
+                            //FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);                            
                         }
                     }
                 }

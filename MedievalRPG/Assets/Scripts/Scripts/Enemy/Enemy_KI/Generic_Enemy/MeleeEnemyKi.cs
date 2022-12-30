@@ -9,7 +9,7 @@ public class MeleeEnemyKi : MonoBehaviour
 {
     [Header("Includes")] [SerializeField] private SO_KI_Stats KiStats;
     [SerializeField] private EnemyBaseProfile BaseStats;
-    [SerializeField] private Animator Animator;
+    [SerializeField] public Animator Animator;
     [SerializeField] private NavMeshAgent Agent;
     [SerializeField] private EnemyHealth Health;
     // ReSharper disable once IdentifierTypo
@@ -64,6 +64,8 @@ public class MeleeEnemyKi : MonoBehaviour
             KiStats.AttackRange, Color.red);
         Health.InitializeMelee(BaseStats, Animator, this);
         EnemyDamager.Init(BaseStats.normalDamage);
+
+        GameManager.instance.allMeleeEnemies.Add(this);
     }
 
     void Update()

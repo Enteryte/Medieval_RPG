@@ -1,8 +1,10 @@
+using Cinemachine;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
@@ -19,8 +21,11 @@ public class GameManager : MonoBehaviour
     public bool playedTheGameThrough = false; // Soll true sein, sobald der Spieler das Spiel zum ersten Mal durchgespielt hat.
 
     public List<NPC> allVillageNPCs;
+    public List<NPC> allWalkingNPCs;
+
     public List<GameObject> allInteractableObjects;
     public List<Door> allInteractableDoors;
+    public List<Generic_Enemy_KI> allMeleeEnemies;
 
     //public BeerScreenMissionButton bSMButton;
     public GameObject readBookOrNoteScreen;
@@ -29,12 +34,32 @@ public class GameManager : MonoBehaviour
     public bool isNight = false; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
     public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
 
+    public GameObject cutsceneBlackFadeGO;
+    public GameObject interactCanvasasParentGO;
+    public GameObject mapGO;
+    public GameObject hotbarGO;
+    public GameObject playerStatsGO;
+
+    public CinemachineVirtualCamera normalPlayerFollowCamCVC;
+
     public GameObject pauseMenuScreen;
     public bool gameIsPaused = false;
 
     [Header("Saving/Loading")]
     public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
+
+    public float autoSaveTime;
+    public float passedTimeTillLastSave = 0;
+
+    [Header("Tutorial")]
+    public TutorialBaseProfile meleeTutorial;
+    public TutorialBaseProfile rangedTutorial;
+
+    public bool displayTutorial = true;
+
+    [Header("Pausing Game")]
+    public double pausedCutsceneTime;
 
     public void Awake()
     {
@@ -50,31 +75,75 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        playtimeInSeconds += Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.I) && !ShopManager.instance.shopScreen.activeSelf)
+        if (!pauseMenuScreen.activeSelf)
         {
-            OpenInventory();
-        }
+            playtimeInSeconds += Time.deltaTime;
 
-        if (pauseMenuScreen != null)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf && !CutsceneManager.instance.playableDirector.playableGraph.IsValid())
+            if (passedTimeTillLastSave < autoSaveTime)
             {
-                pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
-                FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+                passedTimeTillLastSave += Time.deltaTime;
 
-                if (pauseMenuScreen.activeSelf)
+                if (passedTimeTillLastSave >= autoSaveTime)
                 {
-                    PauseGame();
-                }
-                else
-                {
-                    ContinueGame();
+                    passedTimeTillLastSave = 0;
+
+                    SaveSystem.instance.SaveAutomatic();
                 }
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.I) && !ShopManager.instance.shopScreen.activeSelf)
+        {
+            OpenInventory();
+
+            MissionLogScreenHandler.instance.DisplayMissions();
+        }
+
+        if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf/* &&*/ /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*//*alid()*/)
+            {
+                if (CutsceneManager.instance.currCP != null && !CutsceneManager.instance.cutsceneCam.activeSelf)
+                {
+                    pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
+                    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+
+                    if (pauseMenuScreen.activeSelf)
+                    {
+                        PauseGame();
+                    }
+                    else
+                    {
+                        ContinueGame();
+                    }
+                }
+                else if (CutsceneManager.instance.currCP == null)
+                {
+                    pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
+                    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+
+                    if (pauseMenuScreen.activeSelf)
+                    {
+                        PauseGame();
+                    }
+                    else
+                    {
+                        ContinueGame();
+                    }
+                }  
+            }
+        }
+
+        // Close Tutorial ( Big )
+        if (gameIsPaused && TutorialManager.currTBP != null)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                TutorialManager.instance.CloseBigTutorial();
+            }
+        }
+
+        // Close Read-Book- Or Note-Screen
         if (readBookOrNoteScreen != null)
         {
             if (readBookOrNoteScreen.activeSelf)
@@ -128,6 +197,37 @@ public class GameManager : MonoBehaviour
             allVillageNPCs[i].animator.speed = 0;
         }
 
+        for (int i = 0; i < allWalkingNPCs.Count; i++)
+        {
+            allWalkingNPCs[i].navMeshAgent.isStopped = true;
+        }
+
+        // Enemies
+        for (int i = 0; i < allMeleeEnemies.Count; i++)
+        {
+            allMeleeEnemies[i].Animator.speed = 0;
+
+            allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = true;
+        }
+
+        PrickMinigameManager.instance.prickCardAnimator.speed = 0;
+
+        if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid())
+        {
+            pausedCutsceneTime = CutsceneManager.instance.playableDirector.time;
+            CutsceneManager.instance.playableDirector.Pause();
+        }
+
+        if (TutorialManager.instance.smallTutorialUI.activeSelf)
+        {
+            TutorialManager.instance.animator.speed = 0;
+        }
+
+        UIAnimationHandler.instance.addedMissionAnimator.speed = 0;
+        UIAnimationHandler.instance.missionDisplayAnimator.speed = 0;
+
+        //StartScreenManager.instance.mainObjectAnimator.enabled = true;
+
         gameIsPaused = true;
     }
 
@@ -141,6 +241,37 @@ public class GameManager : MonoBehaviour
         {
             allVillageNPCs[i].animator.speed = 1;
         }
+
+        for (int i = 0; i < allWalkingNPCs.Count; i++)
+        {
+            allWalkingNPCs[i].navMeshAgent.isStopped = false;
+        }
+
+        // Enemies
+        for (int i = 0; i < allMeleeEnemies.Count; i++)
+        {
+            allMeleeEnemies[i].Animator.speed = 1;
+
+            allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = false;
+        }
+
+        PrickMinigameManager.instance.prickCardAnimator.speed = 1;
+
+        if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid())
+        {
+            CutsceneManager.instance.playableDirector.Play();
+            CutsceneManager.instance.playableDirector.time = pausedCutsceneTime;
+        }
+
+        if (TutorialManager.instance.smallTutorialUI.activeSelf)
+        {
+            TutorialManager.instance.animator.speed = 1;
+        }
+
+        UIAnimationHandler.instance.addedMissionAnimator.speed = 1;
+        UIAnimationHandler.instance.missionDisplayAnimator.speed = 1;
+
+        StartScreenManager.instance.mainAnimator.enabled = false;
 
         gameIsPaused = false;
     }
@@ -186,11 +317,37 @@ public class GameManager : MonoBehaviour
         FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !InventoryManager.instance.inventoryScreen.activeSelf);
 
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+        if (!InventoryManager.instance.inventoryScreen.activeSelf)
+        {
+            if (EquippingManager.instance.leftWeaponES.currEquippedItem != null)
+            {
+                if (EquippingManager.instance.leftWeaponES.currEquippedItem.weaponType == ItemBaseProfile.WeaponType.bow)
+                {
+                    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(rangedTutorial);
+                }
+                else
+                {
+                    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(meleeTutorial);
+                }
+            }
+            else if (EquippingManager.instance.rightWeaponES.currEquippedItem != null)
+            {
+                if (EquippingManager.instance.rightWeaponES.currEquippedItem.weaponType == ItemBaseProfile.WeaponType.bow)
+                {
+                    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(rangedTutorial);
+                }
+                else
+                {
+                    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(meleeTutorial);
+                }
+            }
+        }
     }
 
-    public void DisplayGetBeerUI()
+    public void DisplayTavernKeeperUI()
     {
-        TavernKeeper.instance.OpenGetBeerScreen();
+        TavernKeeper.instance.DisplayTavernKeeperUI();
     }
 
     public void FreezeCameraAndSetMouseVisibility(ThirdPersonController tPC, StarterAssetsInputs _input, bool isVisible)
@@ -243,6 +400,8 @@ public class GameManager : MonoBehaviour
 
                 newSGSlot.GetComponent<LoadSlot>().correspondingSaveDataDirectory = dirInfo[i];
                 newSGSlot.GetComponent<LoadSlot>().correspondingTextFile = gameDataFolder[0];
+
+                newSGSlot.GetComponent<LoadSlot>().loadGameSavingTypeTxt.text = sOG.savingType;
             }
         }
     }

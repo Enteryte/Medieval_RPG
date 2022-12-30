@@ -23,6 +23,9 @@ public class ChooseDifficultyButton : MonoBehaviour, IPointerClickHandler, IPoin
         StartScreenManager.instance.mainAnimator.enabled = true;
         StartScreenManager.instance.mainAnimator.Rebind();
         StartScreenManager.instance.mainAnimator.Play(openScreenAnim.name);
+
+        //SceneChangeManager.instance.startedNewGame = true;
+        //SceneChangeManager.instance.LoadVillage();
     }
 
     public void OnPointerEnter(PointerEventData eventData)

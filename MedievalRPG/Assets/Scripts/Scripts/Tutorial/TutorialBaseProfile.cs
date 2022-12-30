@@ -12,4 +12,9 @@ public class TutorialBaseProfile : ScriptableObject
 
     public bool hasElementToPointAt = false;
     public bool useSmallTutorialUI = false;
+
+    public int tutorialNumber;
+
+    [Header("Tutorial To Trigger Next")]
+    public TutorialBaseProfile tutorialToTrigger;
 }
