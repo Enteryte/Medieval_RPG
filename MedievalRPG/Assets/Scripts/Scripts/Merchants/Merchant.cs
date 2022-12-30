@@ -36,6 +36,8 @@ public class Merchant : MonoBehaviour, IInteractable
     void Start()
     {
         InstantiateIOCanvas();
+
+        GameManager.instance.allMerchants.Add(this);
     }
 
     //// Update is called once per frame
@@ -163,6 +165,13 @@ public class Merchant : MonoBehaviour, IInteractable
             CutsceneManager.instance.playableDirector.Play();
             CutsceneManager.instance.SetAndPlayCutscene();
         }
+
+        for (int i = 0; i < GameManager.instance.allNPCScreamingHandler.Count; i++)
+        {
+            GameManager.instance.allNPCScreamingHandler[i].nPCAudioSource.Pause();
+            GameManager.instance.allNPCScreamingHandler[i].isPlayingAudio = false;
+        }
+
         //CheckIfNeededForMission();
         //}
     }

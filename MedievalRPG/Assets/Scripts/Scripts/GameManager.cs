@@ -23,9 +23,13 @@ public class GameManager : MonoBehaviour
     public List<NPC> allVillageNPCs;
     public List<NPC> allWalkingNPCs;
 
+    // WIP ------------------------------------- > Muss noch gespeichert werden!
+    public List<Merchant> allMerchants;
+    public List<NPCScreamingHandler> allNPCScreamingHandler;
+
     public List<GameObject> allInteractableObjects;
     public List<Door> allInteractableDoors;
-    public List<Generic_Enemy_KI> allMeleeEnemies;
+    public List<MeleeEnemyKi> allMeleeEnemies;
 
     //public BeerScreenMissionButton bSMButton;
     public GameObject readBookOrNoteScreen;
@@ -202,6 +206,19 @@ public class GameManager : MonoBehaviour
             allWalkingNPCs[i].navMeshAgent.isStopped = true;
         }
 
+        for (int i = 0; i < allMerchants.Count; i++)
+        {
+            if (allMerchants[i].normalMerchantObj != null)
+            {
+                allMerchants[i].normalMerchantObj.GetComponent<Animator>().speed = 0;
+            }
+        }
+
+        for (int i = 0; i < allNPCScreamingHandler.Count; i++)
+        {
+            allNPCScreamingHandler[i].nPCAudioSource.Pause();
+        }
+
         // Enemies
         for (int i = 0; i < allMeleeEnemies.Count; i++)
         {
@@ -245,6 +262,22 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < allWalkingNPCs.Count; i++)
         {
             allWalkingNPCs[i].navMeshAgent.isStopped = false;
+        }
+
+        for (int i = 0; i < allMerchants.Count; i++)
+        {
+            if (allMerchants[i].normalMerchantObj != null)
+            {
+                allMerchants[i].normalMerchantObj.GetComponent<Animator>().speed = 1;
+            }
+        }
+
+        for (int i = 0; i < allNPCScreamingHandler.Count; i++)
+        {
+            if (allNPCScreamingHandler[i].isPlayingAudio)
+            {
+                allNPCScreamingHandler[i].nPCAudioSource.UnPause();
+            }
         }
 
         // Enemies
