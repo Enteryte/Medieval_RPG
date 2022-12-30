@@ -59,7 +59,7 @@ public abstract class BaseEnemyKi : MonoBehaviour
         EnemyDamager.Init(BaseStats.normalDamage);
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (HasDied)
             return;
@@ -103,44 +103,6 @@ public abstract class BaseEnemyKi : MonoBehaviour
 
     #endregion
 
-    #region AttackingBehaviour
-
-    private IEnumerator AttackTrigger()
-    {
-        while (IsInAttackRange)
-        {
-            IsAttackCoroutineStarted = true;
-            Animator.SetTrigger(Animator.StringToHash("AttackLaunch"));
-            yield return new WaitForSeconds(KiStats.AttackCoolDown);
-            IsAttackCoroutineStarted = false;
-        }
-    }
-
-    private void CheckAttackPossible()
-    {
-        //TODO: Maybe make the AI more complex by having it skirt around when on cooldown
-        if (IsInAttackRange)
-        {
-            if (!Agent.isStopped)
-            {
-                Agent.isStopped = true;
-                Agent.ResetPath();
-            }
-
-            //Attack
-            if (!IsAttackCoroutineStarted)
-                StartCoroutine(AttackTrigger());
-        }
-        else
-        {
-            //Move in the direction of the player
-            if (Agent.hasPath || IsInAttackRange) return;
-            Agent.isStopped = false;
-            Agent.SetDestination(Target.position);
-        }
-    }
-
-    #endregion
 
     #region SearchingBehaviour
 
@@ -167,7 +129,7 @@ public abstract class BaseEnemyKi : MonoBehaviour
             StartCoroutine(WaitUntilGivingUp());
     }
 
-    private IEnumerator WaitUntilGivingUp()
+    protected IEnumerator WaitUntilGivingUp()
     {
         float a = 0f;
         while (a <= KiStats.AttackCoolDown * 10f)
@@ -194,7 +156,7 @@ public abstract class BaseEnemyKi : MonoBehaviour
     /// A vector3 that generates a random position on the map that the NPC can use as a target while he isn't chasing anything. Also checks the position on the mesh for improved navigation.
     /// </summary>
     /// <returns>A random Vector3 on the Mesh</returns>
-    private Vector3 GenerateRandomTarget()
+    protected Vector3 GenerateRandomTarget()
     {
         Vector3 myTarget = new Vector3(
             Random.Range(StartPos.x - KiStats.PatrollingRange, StartPos.x + KiStats.PatrollingRange), 0,
@@ -218,7 +180,7 @@ public abstract class BaseEnemyKi : MonoBehaviour
 
     #endregion
 
-    public void Death()
+    public virtual void Death()
     {
         //TODO: Turn of all other scripts, animators, etc. and turn the enemy into a ragdoll
         HasDied = true;
@@ -234,7 +196,7 @@ public abstract class BaseEnemyKi : MonoBehaviour
     /// <param name="_range"></param>
     /// <param name="_gizmoColor"></param>
     /// <returns>A ray Detection array, as otherwise it doesn't actually store the detectors.</returns>
-    private RayDetection[] SetDetectors(int _halvedCount, Transform _container, float _fov, float _range,
+    protected RayDetection[] SetDetectors(int _halvedCount, Transform _container, float _fov, float _range,
         Color _gizmoColor)
     {
         float detectorCount = _halvedCount * 2f;
@@ -256,14 +218,14 @@ public abstract class BaseEnemyKi : MonoBehaviour
 
     #region EditorDepictors
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         VisualizeDetectors(Color.cyan, KiStats.DetectionRange, SightContainer);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(StartPos, new Vector3(KiStats.PatrollingRange * 2f, 0, KiStats.PatrollingRange * 2f));
     }
 
-    private void VisualizeDetectors(Color _lineColor, float _range, Transform _container)
+    protected void VisualizeDetectors(Color _lineColor, float _range, Transform _container)
     {
         Gizmos.color = _lineColor;
         Transform t = _container.transform;
