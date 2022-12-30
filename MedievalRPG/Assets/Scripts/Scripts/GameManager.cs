@@ -65,6 +65,15 @@ public class GameManager : MonoBehaviour
     [Header("Pausing Game")]
     public double pausedCutsceneTime;
 
+    [Header("Player AFK")]
+    public AudioSource playerAudioSource;
+    public AudioClip[] allAFKPlayerAudioClips;
+
+    public bool isAFK = false;
+
+    public float timeTillAfk;
+    public float timeSinceLastButtonPressed = 0;
+
     public void Awake()
     {
         instance = this;
@@ -79,6 +88,35 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+        if (ThirdPersonController.instance.canMove)
+        {
+            if (!Input.anyKey && !isAFK)
+            {
+                timeSinceLastButtonPressed += Time.deltaTime;
+
+                if (timeSinceLastButtonPressed >= timeTillAfk)
+                {
+                    isAFK = true;
+
+                    var rndmAudioNumber = Random.Range(0, allAFKPlayerAudioClips.Length);
+                    playerAudioSource.clip = allAFKPlayerAudioClips[rndmAudioNumber];
+
+                    playerAudioSource.volume = 1;
+                    playerAudioSource.Play();
+                }
+            }
+            else if (Input.anyKey && isAFK)
+            {
+                isAFK = false;
+
+                //playerAudioSource.Stop();
+
+                StartCoroutine(FadePlayerAFKAudioToZero());
+
+                timeSinceLastButtonPressed = 0;
+            }
+        }
+
         if (!pauseMenuScreen.activeSelf)
         {
             playtimeInSeconds += Time.deltaTime;
@@ -188,6 +226,25 @@ public class GameManager : MonoBehaviour
 
             correspondingCutsceneProfilAtNight = null;
         }
+    }
+
+    public IEnumerator FadePlayerAFKAudioToZero()
+    {
+        float currentTime = 0;
+
+        float start = playerAudioSource.volume;
+
+        while (currentTime < 1f)
+        {
+            currentTime += Time.deltaTime;
+            playerAudioSource.volume = Mathf.Lerp(start, 0, currentTime / 1f);
+
+            yield return null;
+        }
+
+        playerAudioSource.Stop();
+
+        yield break;
     }
 
     public void PauseGame()
