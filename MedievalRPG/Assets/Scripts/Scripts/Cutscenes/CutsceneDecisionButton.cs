@@ -22,9 +22,9 @@ public class CutsceneDecisionButton : MonoBehaviour
 
         if (storedDecision.cutsceneToPlay != null)
         {
-            CutsceneManager.instance.currCP = storedDecision.cutsceneToPlay;
             CutsceneManager.instance.playableDirector.playableAsset = storedDecision.cutsceneToPlay.cutscene;
             CutsceneManager.instance.playableDirector.Play();
+            CutsceneManager.instance.currCP = storedDecision.cutsceneToPlay;
         }
 
         if (storedDecision.missionToActivate != null)

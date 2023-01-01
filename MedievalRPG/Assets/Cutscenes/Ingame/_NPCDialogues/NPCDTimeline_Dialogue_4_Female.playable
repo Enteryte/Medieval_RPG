@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ecf11910bb77234e9f61d8db564ba04, type: 3}
   m_Name: SubtitleClip(Clone)
   m_EditorClassIdentifier: 
-  subtitleText: 'Dorfbewohnerin: Caeldrim, mein Junge! ( ... )'
+  subtitleText: "Dorfbewohnerin: Caeldrim, mein Junge! Wie sch\xF6n dass du vorbei
+    schaust! In der Tat habe ich dir etwas zu erz\xE4hlen. Gael hat mir geschrieben,
+    dass es ihm gut geht im Dienste des K\xF6nigs. Ich hoffe nur dass ich ihn mal
+    wieder sehen werde!"
 --- !u!114 &-6856768006618408796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -25,7 +28,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ecf11910bb77234e9f61d8db564ba04, type: 3}
   m_Name: SubtitleClip(Clone)(Clone)
   m_EditorClassIdentifier: 
-  subtitleText: 'Draco: Ach, keine Ahnung...'
+  subtitleText: 'Caeldrim: Hab'' Hoffnung, dein Sohn ist stark. Ich hab'' immer noch
+    die Narben um das zu beweisen.'
 --- !u!114 &-5050993332470024067
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,6 +88,39 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: 01_Dia_C_S17_V1_bip
+  - m_Version: 1
+    m_Start: 11.605333333333334
+    m_ClipIn: 0
+    m_Asset: {fileID: -969182044478081652}
+    m_Duration: 5.461333333333333
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -5050993332470024067}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
@@ -115,7 +152,7 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: 01_Dia_C_S17_V1_bip
+    m_DisplayName: 01_Dia_C_S18_V7_bip
   m_Markers:
     m_Objects: []
   m_TrackProperties:
@@ -147,7 +184,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -1832290723029957579}
-    m_Duration: 11.605333333333334
+    m_Duration: 19.883333333333333
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4216809112016486107}
     m_EaseInDuration: 0
@@ -227,6 +264,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fde0d25a170598d46a0b9dc16b4527a5, type: 3}
   m_Name: ActivationPlayableAsset
   m_EditorClassIdentifier: 
+--- !u!114 &-969182044478081652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f10dd60657c6004587f237a7e90f8e4, type: 3}
+  m_Name: AudioPlayableAsset
+  m_EditorClassIdentifier: 
+  m_Clip: {fileID: 8300000, guid: f9a1428df7b03fa4fb52c20f2aafb969, type: 3}
+  m_Loop: 0
+  m_bufferingTime: 0.1
+  m_ClipProperties:
+    volume: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,7 +415,7 @@ MonoBehaviour:
     m_Start: 2.048
     m_ClipIn: 0
     m_Asset: {fileID: -8539273739243794505}
-    m_Duration: 7.2186666666666675
+    m_Duration: 9.557333333333334
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5133641717749338881}
     m_EaseInDuration: 0.5
@@ -427,10 +481,79 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: SubtitleClip
   - m_Version: 1
-    m_Start: 9.266666666666667
+    m_Start: 11.605333333333334
     m_ClipIn: 0
     m_Asset: {fileID: -6856768006618408796}
-    m_Duration: 2.3386666666666667
+    m_Duration: 5.461333333333332
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 5133641717749338881}
+    m_EaseInDuration: 0.5
+    m_EaseOutDuration: 0.5
+    m_BlendInDuration: -1
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: SubtitleClip
+  - m_Version: 1
+    m_Start: 17.066666666666666
+    m_ClipIn: 0
+    m_Asset: {fileID: 5592011100600446405}
+    m_Duration: 2.8166666666666664
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5133641717749338881}
     m_EaseInDuration: 0.5
@@ -497,6 +620,20 @@ MonoBehaviour:
     m_DisplayName: SubtitleClip
   m_Markers:
     m_Objects: []
+--- !u!114 &5592011100600446405
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ecf11910bb77234e9f61d8db564ba04, type: 3}
+  m_Name: SubtitleClip(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  subtitleText: 'Dorfbewohnerin: Ich erinnere mich! Gael hat dich wirklich ordentlich
+    zugerichtet damals! Pass gut auf dich auf Caeldrim, die Zeiten sind.'
 --- !u!114 &5662378024943113357
 MonoBehaviour:
   m_ObjectHideFlags: 1
