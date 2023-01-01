@@ -13,7 +13,7 @@ public class ArrowScript : MonoBehaviour
 
     IEnumerator TriggerEvents()
     {
-        yield return new WaitForSeconds(0.05f);
+        //yield return new WaitForSeconds(0.005f);
         this.gameObject.GetComponent<Collider>().enabled = true;
         yield return new WaitForSeconds(30);
         Destroy(this.gameObject);

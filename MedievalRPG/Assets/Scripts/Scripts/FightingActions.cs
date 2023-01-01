@@ -12,7 +12,7 @@ public class FightingActions : MonoBehaviour
     public GameObject arrow;
     public GameObject holdArrow;
     public GameObject stone;
-    public int shotSpeed = 1;
+    public int shotSpeed = 10;
     public int throwSpeed = 10;
     public bool aims = false;
 
@@ -71,7 +71,7 @@ public class FightingActions : MonoBehaviour
     {
         if (equippedWeaponR != null)
         {
-            //De-Equip left Weapon
+            //FABIENNE: De-Equip left Weapon
         }
 
         anim.SetTrigger("BowIdle");
@@ -81,7 +81,7 @@ public class FightingActions : MonoBehaviour
     {
         if (equippedWeaponL != null)
         {
-            //De-Equip left Weapon
+            //FABIENNE: De-Equip left Weapon
         }
 
         anim.SetTrigger("GreatSwordIdle");
@@ -142,11 +142,14 @@ public class FightingActions : MonoBehaviour
                 Arrow = null;
                 aims = !aims;
                 TPC.transform.rotation = Quaternion.Euler(0, TPC.transform.rotation.eulerAngles.y, 0);
+
+                //FABIENNE: Pfeile aus inventar entfernen
             }
         }
 
         if(equippedWeaponR != null)
         {
+            //FABIENNE: Stamina loss bei Angriffen
             if (equippedWeaponR.CompareTag("SwordOnehanded"))
             {
                 weaponScript.heavyAttack = false;
@@ -192,6 +195,7 @@ public class FightingActions : MonoBehaviour
             TPC.HandleBowAimingCameras(TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera, TPC._normalVCamera);
         }
 
+        //FABIENNE: Stamina loss bei Angriffen
         if (equippedWeaponR.CompareTag("SwordOnehanded"))
         {
             weaponScript.lightAttack = false;
@@ -231,6 +235,7 @@ public class FightingActions : MonoBehaviour
         {
             holdBlock = !holdBlock;
             anim.SetBool("HoldBlock", holdBlock);
+            //FABIENNE: Stamina ziehen
         }
         if (equippedWeaponL.CompareTag("Torch"))
         {
@@ -243,13 +248,13 @@ public class FightingActions : MonoBehaviour
             if(aims == false)
             {
                 TPC.HandleBowAimingCameras(TPC._bowAimingVCamera, TPC._bowAimingZoomVCamera, TPC._normalVCamera);
-                //holdArrow.SetActive(true);
+                holdArrow.SetActive(true);
             }
             if (aims == true)
             {
                 TPC.transform.rotation = Quaternion.Euler(0, TPC.transform.rotation.eulerAngles.y, 0);
                 TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
-                //holdArrow.SetActive(false);
+                holdArrow.SetActive(false);
             }
             
             aims = !aims;
