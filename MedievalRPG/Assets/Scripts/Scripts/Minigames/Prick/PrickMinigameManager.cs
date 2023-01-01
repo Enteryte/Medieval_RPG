@@ -59,6 +59,11 @@ public class PrickMinigameManager : MonoBehaviour
 
     public GameObject[] enemyCardGOs;
 
+    [Header("Tutorial")]
+    public TutorialBaseProfile welcomeTutorial;
+    public TutorialBaseProfile chooseACardTutorial;
+    public TutorialBaseProfile pointsAndGoldTutorial;
+
     public void OnEnable()
     {
         playerPoints = 0;
@@ -77,6 +82,8 @@ public class PrickMinigameManager : MonoBehaviour
         {
             startNewMatchBtn.interactable = false;
         }
+
+        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(welcomeTutorial);
     }
 
     public void Awake()
@@ -222,6 +229,8 @@ public class PrickMinigameManager : MonoBehaviour
 
         //layedEnemyCB = null;
         //layedPlayerCB = null;
+
+        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(pointsAndGoldTutorial);
     }
 
     public void StartNewRound()
@@ -332,5 +341,7 @@ public class PrickMinigameManager : MonoBehaviour
         }
 
         currGivenCardNumber += 1;
+
+        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(chooseACardTutorial);
     }
 }

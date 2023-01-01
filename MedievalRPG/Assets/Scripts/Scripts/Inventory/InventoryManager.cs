@@ -38,6 +38,8 @@ public class InventoryManager : MonoBehaviour
     public GameObject draggableInvSlotPrefab;
     public Transform draggableInvSlotParent;
 
+    public ItemInfoPopUp itemInfoPopUp;
+
     [Header("Weight")]
     public float maxHoldingWeight;
     public float currHoldingWeight; // Equipment + Hotbar Weight
@@ -58,6 +60,11 @@ public class InventoryManager : MonoBehaviour
     public Transform newHotbarParentTrans;
     public GameObject hotbarObj;
 
+    [Header("Tutorial")]
+    public TutorialBaseProfile hotbarTutorial;
+    public TutorialBaseProfile equipmentTutorial;
+    public TutorialBaseProfile weightTutorial;
+
     public void Awake()
     {
         instance = this;
@@ -77,7 +84,10 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (itemInfoPopUp.gameObject.activeSelf)
+        {
+            itemInfoPopUp.transform.position = Input.mousePosition;
+        }
     }
 
     public void DisplayItemsOfCategory()
@@ -146,6 +156,8 @@ public class InventoryManager : MonoBehaviour
         currHoldingWeight += weightToAdd * howOften;
 
         CheckHoldingWeight();
+
+        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(weightTutorial);
     }
 
     public void RemoveHoldingWeight(float weightToRemove, int howOften)

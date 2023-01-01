@@ -60,6 +60,8 @@ public class MissionManager : MonoBehaviour
 
             Debug.Log("NJMK");
         }
+
+        MinimapManager.instance.CheckAllMinimapSymbols();
     }
 
     public void AddMission(MissionBaseProfile missionToAdd)
@@ -98,6 +100,8 @@ public class MissionManager : MonoBehaviour
         UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.addedMissionString;
         UIAnimationHandler.instance.addedMissionTxt.text = missionToAdd.missionName;
         UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+
+        MinimapManager.instance.CheckAllMinimapSymbols();
     }
 
     public void RemoveMission(MissionBaseProfile missionToRemove)
@@ -107,6 +111,8 @@ public class MissionManager : MonoBehaviour
         UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.completedMissionString;
         UIAnimationHandler.instance.addedMissionTxt.text = missionToRemove.missionName;
         UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+
+        MinimapManager.instance.CheckAllMinimapSymbols();
     }
 
     public void AddOpenMission(MissionBaseProfile missionToAdd)
@@ -124,6 +130,8 @@ public class MissionManager : MonoBehaviour
                 {
                     Blackboard.instance.allBlackboardMB[i].SetStoredMission(missionToAdd);
                     Blackboard.instance.allBlackboardMB[i].gameObject.SetActive(true);
+
+                    MinimapManager.instance.CheckAllMinimapSymbols();
 
                     return;
                 }
@@ -292,6 +300,8 @@ public class MissionManager : MonoBehaviour
             CutsceneManager.instance.playableDirector.Play();
         }
 
+        MinimapManager.instance.CheckAllMinimapSymbols();
+
         CheckMissionProgress(mBP);
     }
 
@@ -353,6 +363,8 @@ public class MissionManager : MonoBehaviour
         {
             CheckSideMissions(missionToComplete.missionAfterItsActive);
         }
+
+        MinimapManager.instance.CheckAllMinimapSymbols();
 
         //UIManager.instance.missionTaskObjParentObj.gameObject.transform.parent.gameObject.SetActive(true);
 

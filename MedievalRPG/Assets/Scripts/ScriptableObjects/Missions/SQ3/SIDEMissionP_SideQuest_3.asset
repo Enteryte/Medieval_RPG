@@ -13,9 +13,21 @@ MonoBehaviour:
   m_Name: SIDEMissionP_SideQuest_3
   m_EditorClassIdentifier: 
   missionType: 2
-  missionName: Schmiedelehrling
+  missionName: Mya in der Klemme
   missionDescription: Hilfe anbieten
-  allMissionTasks: []
+  allMissionTasks:
+  - isOptional: 0
+    taskName: Finde den Lehrling
+    taskDescription: 
+    mTB: {fileID: 11400000, guid: 45b0e09c40376324a9c9935a8e6eeb44, type: 2}
+  - isOptional: 0
+    taskName: Rede mit Mya
+    taskDescription: 
+    mTB: {fileID: 11400000, guid: 24f720bb71e3ce441a890cf4235df417, type: 2}
+  - isOptional: 0
+    taskName: Rede mit Kilian
+    taskDescription: 
+    mTB: {fileID: 11400000, guid: d3752e4f4d092114cab77fe1e7a68960, type: 2}
   missionCompleted: 0
   moneyReward: 0
   itemRewards: []
@@ -24,6 +36,6 @@ MonoBehaviour:
   nPCWhereToGetMissionFrom: {fileID: 11400000, guid: 0a86d3156ee58374db01e7703532750d, type: 2}
   cutsceneToTriggerAfterPressedButton: {fileID: 11400000, guid: b848f7fb4550ab449b41943f22a0e614, type: 2}
   missionAfterItsActive: {fileID: 0}
-  isActive: 1
+  isActive: 0
   changeEnvironment: 0
   itemToChangeAfterMissionNames: []

@@ -27,6 +27,9 @@ public class CutsceneManager : MonoBehaviour
 
     public Transform playerBaseMeshParentTrans;
 
+    [Header("Tutorial")]
+    public TutorialBaseProfile decisionTutorial;
+
     public void Awake()
     {
         instance = this;
@@ -223,10 +226,18 @@ public class CutsceneManager : MonoBehaviour
         GameManager.instance.playerGO.transform.parent = playerBaseMeshParentTrans;
 
         ThirdPersonController.instance.canMove = true;
+
+        ActivateHUDUI();
+
+        playableDirector.Stop();
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 
     public void DisplayDecisions()
     {
+        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(decisionTutorial);
+
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
 
         for (int i = 0; i < currCP.allDecisions.Length; i++)
@@ -424,6 +435,22 @@ public class CutsceneManager : MonoBehaviour
         ThirdPersonController.instance.canMove = true;
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+    }
+
+    public void ActivateHUDUI()
+    {
+        GameManager.instance.interactCanvasasParentGO.SetActive(true);
+        GameManager.instance.mapGO.SetActive(true);
+        GameManager.instance.hotbarGO.SetActive(true);
+        GameManager.instance.playerStatsGO.SetActive(true);
+    }
+
+    public void DeactivateHUDUI()
+    {
+        GameManager.instance.interactCanvasasParentGO.SetActive(false);
+        GameManager.instance.mapGO.SetActive(false);
+        GameManager.instance.hotbarGO.SetActive(false);
+        GameManager.instance.playerStatsGO.SetActive(false);
     }
     #endregion
 }

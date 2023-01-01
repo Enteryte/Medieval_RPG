@@ -27,6 +27,9 @@ public class PlayerValueManager : MonoBehaviour
     public float normalStrength;
     public float currStrength;
 
+    [Header("Tutorial")]
+    public TutorialBaseProfile staminaTutorial;
+
     public void Awake()
     {
         instance = this;
@@ -80,6 +83,11 @@ public class PlayerValueManager : MonoBehaviour
                     currWaitingTime = 0;
                 }
             }
+        }
+
+        if (staminaSlider.value <= normalStamina / 2)
+        {
+            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(staminaTutorial);
         }
     }
 

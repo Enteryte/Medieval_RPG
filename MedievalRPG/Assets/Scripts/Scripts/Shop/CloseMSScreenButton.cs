@@ -18,9 +18,30 @@ public class CloseMSScreenButton : MonoBehaviour
 
         ShopManager.instance.shopScreen.SetActive(false);
 
-        CutsceneManager.instance.cutsceneCam.SetActive(false);
+        //CutsceneManager.instance.cutsceneCam.SetActive(false);
+
+        //GameManager.instance.playerGO.transform.parent = CutsceneManager.instance.playerBaseMeshParentTrans;
 
         GameManager.instance.playerGO.transform.parent = CutsceneManager.instance.playerBaseMeshParentTrans;
+
+        //CutsceneManager.instance.ActivateHUDUI();
+
+        //CutsceneManager.instance.playableDirector.Stop();
+
+        //getBeerScreen.SetActive(false);
+
+        //ThirdPersonController.instance.canMove = true;
+        //GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+
+        CutsceneManager.instance.cutsceneCam.SetActive(false);
+
+        CutsceneManager.instance.ActivateHUDUI();
+
+        CutsceneManager.instance.playableDirector.Stop();
+
+        ThirdPersonController.instance.canMove = true;
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
         if (ShopManager.instance.currMerchant != null)
         {
@@ -31,9 +52,5 @@ public class CloseMSScreenButton : MonoBehaviour
 
             ShopManager.instance.currMerchant.normalMerchantObj.SetActive(true);
         }
-
-        ThirdPersonController.instance.canMove = true;
-
-        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 }
