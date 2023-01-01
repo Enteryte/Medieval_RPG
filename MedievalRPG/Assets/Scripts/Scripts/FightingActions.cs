@@ -9,12 +9,18 @@ public class FightingActions : MonoBehaviour
 
     public GameObject equippedWeaponR;
     public GameObject equippedWeaponL;
+    public GameObject arrow;
+    public GameObject holdArrow;
 
+
+    private StarterAssets.ThirdPersonController TPC;
     private DoDamage weaponScript;
     private Animator anim;
     private int attackCount = 0;
+    private int chanceToRepeatIdle = 10; //chance die Idle zu wechseln 
     private bool holdBlock = false;
-    private int chanceToRepeatIdle = 10; //chance von 2 zu n die Idle zu wechseln 
+    private bool aims = true;
+
     public void Awake()
     {
         instance = this;
@@ -23,6 +29,7 @@ public class FightingActions : MonoBehaviour
     void Start()
     {
         anim = this.gameObject.GetComponent<Animator>();
+        TPC = this.gameObject.GetComponent<StarterAssets.ThirdPersonController>();
         GetWeapon(); //Nur für testzwecke, später löschen
     }
 
@@ -33,11 +40,18 @@ public class FightingActions : MonoBehaviour
 
     public void GetWeapon()
     {
-        weaponScript = equippedWeaponR.GetComponent<DoDamage>();
+        if (equippedWeaponR != null)
+        {
+            weaponScript = equippedWeaponR.GetComponent<DoDamage>();
+        }
 
-        if(equippedWeaponR.CompareTag("GreatSword"))
+        if (equippedWeaponR != null && equippedWeaponR.CompareTag("GreatSword"))
         {
             OnEquipGreatsword();
+        }
+        if (equippedWeaponL != null && equippedWeaponL.CompareTag("Bow"))
+        {
+            OnEquipBow();
         }
     }
 
@@ -49,6 +63,16 @@ public class FightingActions : MonoBehaviour
     public void AttackedBool()
     {
         attackCount++;
+    }
+
+    private void OnEquipBow()
+    {
+        if (equippedWeaponR != null)
+        {
+            //De-Equip left Weapon
+        }
+
+        anim.SetTrigger("BowIdle");
     }
 
     private void OnEquipGreatsword()
@@ -64,20 +88,30 @@ public class FightingActions : MonoBehaviour
     public void OnIdleChange()
     {
         int rand = Random.Range(0, chanceToRepeatIdle);
-        if (rand == 0)
+        if (equippedWeaponR != null && equippedWeaponR.CompareTag("GreatSword"))
         {
-            anim.SetBool("GSIdleVar1", true);
-            anim.SetBool("GSIdleVar2", false);
+            if (rand == 0)
+            {
+                anim.SetBool("GSIdleVar1", true);
+                anim.SetBool("GSIdleVar2", false);
+            }
+            if (rand == 1)
+            {
+                anim.SetBool("GSIdleVar1", false);
+                anim.SetBool("GSIdleVar2", true);
+            }
+            if (rand > 1)
+            {
+                anim.SetBool("GSIdleVar1", false);
+                anim.SetBool("GSIdleVar2", false);
+            }
         }
-        if(rand == 1)
+        if (equippedWeaponL != null && equippedWeaponL.CompareTag("Bow"))
         {
-            anim.SetBool("GSIdleVar1", false);
-            anim.SetBool("GSIdleVar2", true);
-        }
-        if(rand > 1)
-        {
-            anim.SetBool("GSIdleVar1", false); 
-            anim.SetBool("GSIdleVar2", false);
+            if (rand == 0)
+            {
+                anim.SetTrigger("BowIdleVar1");
+            }
         }
     }
 
@@ -123,9 +157,14 @@ public class FightingActions : MonoBehaviour
 
     private void OnHeavyAttackZoom()
     {
-        if (equippedWeaponR == null)
+        if (equippedWeaponR == null && equippedWeaponL == null)
         {
             return;
+        }
+
+        if (equippedWeaponL.CompareTag("Bow"))
+        {
+            TPC.HandleBowAimingCameras(TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera, TPC._normalVCamera);
         }
 
         if (equippedWeaponR.CompareTag("SwordOnehanded"))
@@ -172,10 +211,27 @@ public class FightingActions : MonoBehaviour
         {
             anim.SetTrigger("AttackTorch");
         }
+        if (equippedWeaponL.CompareTag("Bow"))
+        {
+            anim.SetTrigger("BowAim");
+            aims = !aims;
+            
+            if(aims == false)
+            {
+                TPC.HandleBowAimingCameras(TPC._bowAimingVCamera, TPC._bowAimingZoomVCamera, TPC._normalVCamera);
+                //holdArrow.SetActive(true);
+            }
+            if (aims == true)
+            {
+                TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
+                //holdArrow.SetActive(false);
+            }
+        }
     }
 
     private void OnZoomShoot()
     {
-
+        TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
+        Instantiate(arrow);
     }
 }
