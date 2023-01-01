@@ -11,7 +11,8 @@ public class FightingActions : MonoBehaviour
     public GameObject equippedWeaponL;
     public GameObject arrow;
     public GameObject holdArrow;
-
+    public int shotSpeed = 1;
+    public bool aims = false;
 
     private StarterAssets.ThirdPersonController TPC;
     private DoDamage weaponScript;
@@ -19,7 +20,6 @@ public class FightingActions : MonoBehaviour
     private int attackCount = 0;
     private int chanceToRepeatIdle = 10; //chance die Idle zu wechseln 
     private bool holdBlock = false;
-    private bool aims = true;
 
     public void Awake()
     {
@@ -30,7 +30,7 @@ public class FightingActions : MonoBehaviour
     {
         anim = this.gameObject.GetComponent<Animator>();
         TPC = this.gameObject.GetComponent<StarterAssets.ThirdPersonController>();
-        GetWeapon(); //Nur für testzwecke, später löschen
+        GetWeapon(); 
     }
 
     public void ResetBool()
@@ -120,38 +120,57 @@ public class FightingActions : MonoBehaviour
         anim.SetBool("MayChange", !anim.GetBool("MayChange"));
     }
 
-    private void OnLightAttack()
+    private void OnLightAttackShoot()
     {
-        if (equippedWeaponR == null)
+        if (equippedWeaponR == null && equippedWeaponL == null)
         {
             return;
         }
 
-        if (equippedWeaponR.CompareTag("SwordOnehanded"))
+        if(equippedWeaponL != null)
         {
-            weaponScript.heavyAttack = false;
-            weaponScript.lightAttack = true;
-            anim.SetInteger("AttackCount", attackCount);
-            anim.SetTrigger("LightAttackSword");
+            if (equippedWeaponL.CompareTag("Bow") && aims == true)
+            {
+                anim.SetTrigger("Shoot");
+                TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
+                GameObject Arrow = Instantiate(arrow);
+                Arrow.transform.position = equippedWeaponL.transform.position;
+                Arrow.transform.rotation = Quaternion.LookRotation(transform.forward, new Vector3(0,0,0));
+                Arrow.GetComponent<Rigidbody>().AddForce(transform.forward * shotSpeed, ForceMode.Impulse);
+                Arrow = null;
+                aims = !aims;
+                TPC.transform.rotation = Quaternion.Euler(0, TPC.transform.rotation.eulerAngles.y, 0);
+            }
         }
-        if (equippedWeaponR.CompareTag("Axe"))
+
+        if(equippedWeaponR != null)
         {
-            weaponScript.heavyAttack = false;
-            weaponScript.lightAttack = true;
-            anim.SetInteger("AttackCount", attackCount);
-            anim.SetTrigger("LightAttackAxe");
-        }
-        if (equippedWeaponR.CompareTag("GreatSword"))
-        {
-            weaponScript.heavyAttack = false;
-            weaponScript.lightAttack = true;
-            anim.SetTrigger("GreatSwordKick");
-        }
-        if (equippedWeaponR.CompareTag("Club"))
-        {
-            weaponScript.heavyAttack = false;
-            weaponScript.lightAttack = true;
-            anim.SetTrigger("ClubAttack");
+            if (equippedWeaponR.CompareTag("SwordOnehanded"))
+            {
+                weaponScript.heavyAttack = false;
+                weaponScript.lightAttack = true;
+                anim.SetInteger("AttackCount", attackCount);
+                anim.SetTrigger("LightAttackSword");
+            }
+            if (equippedWeaponR.CompareTag("Axe"))
+            {
+                weaponScript.heavyAttack = false;
+                weaponScript.lightAttack = true;
+                anim.SetInteger("AttackCount", attackCount);
+                anim.SetTrigger("LightAttackAxe");
+            }
+            if (equippedWeaponR.CompareTag("GreatSword"))
+            {
+                weaponScript.heavyAttack = false;
+                weaponScript.lightAttack = true;
+                anim.SetTrigger("GreatSwordKick");
+            }
+            if (equippedWeaponR.CompareTag("Club"))
+            {
+                weaponScript.heavyAttack = false;
+                weaponScript.lightAttack = true;
+                anim.SetTrigger("ClubAttack");
+            }
         }
     }
 
@@ -214,7 +233,6 @@ public class FightingActions : MonoBehaviour
         if (equippedWeaponL.CompareTag("Bow"))
         {
             anim.SetTrigger("BowAim");
-            aims = !aims;
             
             if(aims == false)
             {
@@ -223,15 +241,12 @@ public class FightingActions : MonoBehaviour
             }
             if (aims == true)
             {
+                TPC.transform.rotation = Quaternion.Euler(0, TPC.transform.rotation.eulerAngles.y, 0);
                 TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
                 //holdArrow.SetActive(false);
             }
+            
+            aims = !aims;
         }
-    }
-
-    private void OnZoomShoot()
-    {
-        TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
-        Instantiate(arrow);
     }
 }

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> allInteractableObjects;
     public List<Door> allInteractableDoors;
-    public List<Generic_Enemy_KI> allMeleeEnemies;
+    public List<MeleeEnemyKi> allMeleeEnemies;
 
     //public BeerScreenMissionButton bSMButton;
     public GameObject readBookOrNoteScreen;
