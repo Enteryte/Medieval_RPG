@@ -11,7 +11,9 @@ public class FightingActions : MonoBehaviour
     public GameObject equippedWeaponL;
     public GameObject arrow;
     public GameObject holdArrow;
+    public GameObject stone;
     public int shotSpeed = 1;
+    public int throwSpeed = 10;
     public bool aims = false;
 
     private StarterAssets.ThirdPersonController TPC;
@@ -171,6 +173,10 @@ public class FightingActions : MonoBehaviour
                 weaponScript.lightAttack = true;
                 anim.SetTrigger("ClubAttack");
             }
+            if(equippedWeaponR.CompareTag("Stone"))
+            {
+                anim.SetTrigger("ThrowStone");
+            }
         }
     }
 
@@ -248,5 +254,15 @@ public class FightingActions : MonoBehaviour
             
             aims = !aims;
         }
+    }
+
+    public void ThrowStone()
+    {
+        GameObject Stone = Instantiate(stone);
+        stone.transform.position = equippedWeaponR.transform.position;
+        equippedWeaponR.gameObject.SetActive(false);
+        Stone.GetComponent<Rigidbody>().AddForce(Stone.transform.forward * throwSpeed, ForceMode.Impulse);
+
+        equippedWeaponR = null;
     }
 }
