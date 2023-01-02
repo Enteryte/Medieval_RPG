@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 7191414890087967072}
   - component: {fileID: 6948878868123181622}
   - component: {fileID: 8463524092494229835}
+  - component: {fileID: -7952929115714726194}
   m_Layer: 0
   m_Name: TheStone
   m_TagString: Stone
@@ -109,7 +110,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2988612437622947283}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.11017116, y: 1.7603478, z: 0.33393657}
+  m_LocalPosition: {x: 0.0621832, y: 1.7533844, z: 2.4241138}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -146,3 +147,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-7952929115714726194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2988612437622947283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e2dfc41eeae47848858e96d2b06af37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stoneDamage: 10
