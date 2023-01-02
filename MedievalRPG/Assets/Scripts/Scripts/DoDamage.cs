@@ -15,14 +15,16 @@ public class DoDamage : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isActive != true || !other.gameObject.CompareTag("Enemy")) 
-            return;
-        if(!other.TryGetComponent(out EnemyHealth eHealth))
-            return;
-        if(lightAttack)
-            eHealth.LightDamage(lightDamage);
-        if(heavyAttack)
-            eHealth.HeavyDamage(heavyDamage);
-        
+        if (isActive == true && other.gameObject.CompareTag("Enemy"))
+        {
+            if (other.TryGetComponent(out EnemyHealth eHealth))
+            {
+                if (lightAttack)
+                    eHealth.LightDamage(lightDamage);
+                if (heavyAttack)
+                    eHealth.HeavyDamage(heavyDamage);
+            }
+        }
+
     }
 }

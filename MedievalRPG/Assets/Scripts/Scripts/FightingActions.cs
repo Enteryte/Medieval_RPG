@@ -15,13 +15,14 @@ public class FightingActions : MonoBehaviour
     public int shotSpeed = 10;
     public int throwSpeed = 10;
     public bool aims = false;
+    public bool holdBlock = false;
 
     private StarterAssets.ThirdPersonController TPC;
-    private DoDamage weaponScript;
+    private DoDamage weaponScriptR;
+    private DoDamage weaponScriptL;
     private Animator anim;
     private int attackCount = 0;
     private int chanceToRepeatIdle = 10; //chance die Idle zu wechseln 
-    private bool holdBlock = false;
 
     public void Awake()
     {
@@ -35,16 +36,17 @@ public class FightingActions : MonoBehaviour
         GetWeapon(); 
     }
 
-    public void ResetBool()
-    {
-        attackCount = 0;
-    }
+    #region WeaponHandling
 
     public void GetWeapon()
     {
         if (equippedWeaponR != null)
         {
-            weaponScript = equippedWeaponR.GetComponent<DoDamage>();
+            weaponScriptR = equippedWeaponR.GetComponent<DoDamage>();
+        }
+        if (equippedWeaponL != null && !equippedWeaponL.CompareTag("Torch"))
+        {
+            weaponScriptL = equippedWeaponL.GetComponent<DoDamage>();
         }
 
         if (equippedWeaponR != null && equippedWeaponR.CompareTag("GreatSword"))
@@ -55,16 +57,6 @@ public class FightingActions : MonoBehaviour
         {
             OnEquipBow();
         }
-    }
-
-    public void EnableDisableWeapon()
-    {
-        weaponScript.isActive = !weaponScript.isActive;
-    }
-
-    public void AttackedBool()
-    {
-        attackCount++;
     }
 
     private void OnEquipBow()
@@ -86,7 +78,24 @@ public class FightingActions : MonoBehaviour
 
         anim.SetTrigger("GreatSwordIdle");
     }
+    #endregion
 
+    #region AnimEvents
+    public void ResetBool()
+    {
+        attackCount = 0;
+    }
+
+    public void EnableDisableTorch()
+    {
+        equippedWeaponL.GetComponent<Collider>().enabled = !equippedWeaponL.GetComponent<Collider>().enabled;
+    }
+
+    public void AllowStateChange()
+    {
+        anim.SetBool("MayChange", !anim.GetBool("MayChange"));
+    }
+    
     public void OnIdleChange()
     {
         int rand = Random.Range(0, chanceToRepeatIdle);
@@ -116,12 +125,30 @@ public class FightingActions : MonoBehaviour
             }
         }
     }
-
-    public void AllowStateChange()
+    
+    public void EnableDisableWeapon()
     {
-        anim.SetBool("MayChange", !anim.GetBool("MayChange"));
+        weaponScriptR.isActive = !weaponScriptR.isActive;
+        weaponScriptL.isActive = !weaponScriptL.isActive;
+
+        if (weaponScriptL.gameObject.CompareTag("Shield"))
+        {
+            weaponScriptL.gameObject.GetComponent<BoxCollider>().isTrigger = !weaponScriptL.gameObject.GetComponent<BoxCollider>().isTrigger;
+        }
     }
 
+    public void EnableDisableShieldCollider()
+    {
+        weaponScriptL.gameObject.GetComponent<BoxCollider>().enabled = !weaponScriptL.gameObject.GetComponent<BoxCollider>().enabled;
+    }
+
+    public void AttackedBool()
+    {
+        attackCount++;
+    }
+    #endregion
+
+    #region Attacks
     private void OnLightAttackShoot()
     {
         if (equippedWeaponR == null && equippedWeaponL == null)
@@ -145,35 +172,41 @@ public class FightingActions : MonoBehaviour
 
                 //FABIENNE: Pfeile aus inventar entfernen
             }
+            if(equippedWeaponL.CompareTag("Shield") && holdBlock == true)
+            {
+                weaponScriptL.heavyAttack = false;
+                weaponScriptL.lightAttack = true;
+                anim.SetTrigger("ShieldSmack");
+            }
         }
 
         if(equippedWeaponR != null)
         {
             //FABIENNE: Stamina loss bei Angriffen
-            if (equippedWeaponR.CompareTag("SwordOnehanded"))
+            if (equippedWeaponR.CompareTag("SwordOnehanded") && holdBlock == false)
             {
-                weaponScript.heavyAttack = false;
-                weaponScript.lightAttack = true;
+                weaponScriptR.heavyAttack = false;
+                weaponScriptR.lightAttack = true;
                 anim.SetInteger("AttackCount", attackCount);
                 anim.SetTrigger("LightAttackSword");
             }
             if (equippedWeaponR.CompareTag("Axe"))
             {
-                weaponScript.heavyAttack = false;
-                weaponScript.lightAttack = true;
+                weaponScriptR.heavyAttack = false;
+                weaponScriptR.lightAttack = true;
                 anim.SetInteger("AttackCount", attackCount);
                 anim.SetTrigger("LightAttackAxe");
             }
             if (equippedWeaponR.CompareTag("GreatSword"))
             {
-                weaponScript.heavyAttack = false;
-                weaponScript.lightAttack = true;
+                weaponScriptR.heavyAttack = false;
+                weaponScriptR.lightAttack = true;
                 anim.SetTrigger("GreatSwordKick");
             }
             if (equippedWeaponR.CompareTag("Club"))
             {
-                weaponScript.heavyAttack = false;
-                weaponScript.lightAttack = true;
+                weaponScriptR.heavyAttack = false;
+                weaponScriptR.lightAttack = true;
                 anim.SetTrigger("ClubAttack");
             }
             if(equippedWeaponR.CompareTag("Stone"))
@@ -190,7 +223,7 @@ public class FightingActions : MonoBehaviour
             return;
         }
 
-        if (equippedWeaponL.CompareTag("Bow"))
+        if (equippedWeaponL != null && equippedWeaponL.CompareTag("Bow"))
         {
             TPC.HandleBowAimingCameras(TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera, TPC._normalVCamera);
         }
@@ -198,28 +231,28 @@ public class FightingActions : MonoBehaviour
         //FABIENNE: Stamina loss bei Angriffen
         if (equippedWeaponR.CompareTag("SwordOnehanded"))
         {
-            weaponScript.lightAttack = false;
-            weaponScript.heavyAttack = true;
+            weaponScriptR.lightAttack = false;
+            weaponScriptR.heavyAttack = true;
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("HeavyAttackSword");
         }
         if (equippedWeaponR.CompareTag("Axe"))
         {
-            weaponScript.lightAttack = false;
-            weaponScript.heavyAttack = true;
+            weaponScriptR.lightAttack = false;
+            weaponScriptR.heavyAttack = true;
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("HeavyAttackAxe");
         }
         if (equippedWeaponR.CompareTag("GreatSword"))
         {
-            weaponScript.lightAttack = false;
-            weaponScript.heavyAttack = true;
+            weaponScriptR.lightAttack = false;
+            weaponScriptR.heavyAttack = true;
             anim.SetTrigger("GreatSwordSlash");
         }
         if (equippedWeaponR.CompareTag("Club"))
         {
-            weaponScript.heavyAttack = true;
-            weaponScript.lightAttack = false;
+            weaponScriptR.heavyAttack = true;
+            weaponScriptR.lightAttack = false;
             anim.SetTrigger("ClubAttack");
         }
     }
@@ -234,6 +267,7 @@ public class FightingActions : MonoBehaviour
         if (equippedWeaponL.CompareTag("Shield"))
         {
             holdBlock = !holdBlock;
+            TPC.canMove = !holdBlock;
             anim.SetBool("HoldBlock", holdBlock);
             //FABIENNE: Stamina ziehen
         }
@@ -270,4 +304,5 @@ public class FightingActions : MonoBehaviour
 
         equippedWeaponR = null;
     }
+    #endregion
 }
