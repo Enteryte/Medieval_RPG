@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 // ReSharper disable once CheckNamespace
-public abstract class BaseEnemyKi : MonoBehaviour
+public abstract class BaseEnemyKI : MonoBehaviour
 {
     //TODO: Cut this down and have the basic functions remain here, then let the melee and archer KI inherit from it.
     [Header("Includes")] [SerializeField] protected SO_KI_Stats KiStats;

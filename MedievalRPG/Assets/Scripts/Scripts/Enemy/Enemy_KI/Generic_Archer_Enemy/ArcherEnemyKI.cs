@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ArcherEnemyKI : MonoBehaviour
+public class ArcherEnemyKI : BaseEnemyKI
 {
     [SerializeField] private SO_KI_Stats KiStats;
     [SerializeField] private EnemyBaseProfile BaseStats;

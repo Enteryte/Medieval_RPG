@@ -7,7 +7,7 @@ public class EnemyHealth : MonoBehaviour
 {
     private EnemyBaseProfile Stats;
     private Animator Anim;
-    private BaseEnemyKi AI;
+    private BaseEnemyKI AI;
     private MeleeEnemyKi MeleeAI;
     private ArcherEnemyKI ArcherAI;
     private float LifePoints;

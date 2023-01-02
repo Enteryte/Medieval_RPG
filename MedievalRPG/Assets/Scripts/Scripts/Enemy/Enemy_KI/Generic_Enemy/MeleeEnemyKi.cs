@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 // ReSharper disable once CheckNamespace
-public class MeleeEnemyKi : MonoBehaviour
+public class MeleeEnemyKi : BaseEnemyKI
 {
     [Header("Includes")] [SerializeField] private SO_KI_Stats KiStats;
     [SerializeField] private EnemyBaseProfile BaseStats;
