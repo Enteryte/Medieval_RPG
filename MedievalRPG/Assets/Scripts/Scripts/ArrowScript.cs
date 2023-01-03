@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArrowScript : MonoBehaviour
 {
-    private bool destroy = true;
+    public int damage = 10;
 
     private void Start()
     {
@@ -13,16 +13,24 @@ public class ArrowScript : MonoBehaviour
 
     IEnumerator TriggerEvents()
     {
-        //yield return new WaitForSeconds(0.005f);
         this.gameObject.GetComponent<Collider>().enabled = true;
         yield return new WaitForSeconds(30);
         Destroy(this.gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        StopCoroutine(TriggerEvents());
-        Destroy(this.GetComponent<Rigidbody>());
-        this.transform.SetParent(other.gameObject.transform);
+        Debug.Log(other.gameObject.name);
+        if(!other.gameObject.CompareTag("Player"))
+        {
+            StopCoroutine(TriggerEvents());
+            Destroy(this.GetComponent<Rigidbody>());
+            this.transform.SetParent(other.gameObject.transform);
+
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                other.gameObject.GetComponent<EnemyHealth>().LightDamage(damage);
+            }
+        }
     }
 }

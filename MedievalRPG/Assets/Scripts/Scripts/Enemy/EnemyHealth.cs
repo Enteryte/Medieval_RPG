@@ -37,14 +37,12 @@ public class EnemyHealth : MonoBehaviour
     {
         LifePoints -= _lightDamageTaken;
         Anim.SetTrigger(Animator.StringToHash("LightAttackTaken"));
-        Debug.Log(LifePoints);
     }
 
     public void HeavyDamage(float _heavyDamageTaken)
     {
         LifePoints -= _heavyDamageTaken;
         Anim.SetTrigger(Animator.StringToHash("HeavyAttackTaken"));
-        Debug.Log(LifePoints);
     }
     /// <summary>
     /// TODO: Create a base enemy both AI bases inherit from so this mess can be removed

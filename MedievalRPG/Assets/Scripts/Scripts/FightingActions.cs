@@ -12,7 +12,8 @@ public class FightingActions : MonoBehaviour
     public GameObject arrow;
     public GameObject holdArrow;
     public GameObject stone;
-    public int shotSpeed = 10;
+    public Collider foot;
+    public int shotSpeed = 6;
     public int throwSpeed = 10;
     public bool aims = false;
     public bool holdBlock = false;
@@ -84,6 +85,11 @@ public class FightingActions : MonoBehaviour
     public void ResetBool()
     {
         attackCount = 0;
+    }
+
+    public void EnableDisableFoot()
+    {
+        foot.enabled = !foot.enabled;
     }
 
     public void EnableDisableTorch()
@@ -282,13 +288,13 @@ public class FightingActions : MonoBehaviour
             if(aims == false)
             {
                 TPC.HandleBowAimingCameras(TPC._bowAimingVCamera, TPC._bowAimingZoomVCamera, TPC._normalVCamera);
-                holdArrow.SetActive(true);
+                //holdArrow.SetActive(true);
             }
             if (aims == true)
             {
                 TPC.transform.rotation = Quaternion.Euler(0, TPC.transform.rotation.eulerAngles.y, 0);
                 TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
-                holdArrow.SetActive(false);
+                //holdArrow.SetActive(false);
             }
             
             aims = !aims;
