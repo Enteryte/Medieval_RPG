@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "LightAttack",
+                    "name": "LightAttack/Shoot",
                     "type": "Button",
                     "id": "038a07ee-bb69-4a32-a93c-6705d7fb9fca",
                     "expectedControlType": "Button",
@@ -63,15 +63,6 @@
                     "name": "Block/Aim/Torch",
                     "type": "Button",
                     "id": "f3645d39-dafc-4a35-932b-293ba59d6b46",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Zoom/Shoot",
-                    "type": "Button",
-                    "id": "2a51d290-dbe8-47ec-906f-d0698f2310bf",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -236,7 +227,7 @@
                 {
                     "name": "",
                     "id": "dc65b89f-9bd3-43fb-92af-d0d87ba5faa4",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -262,7 +253,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "LightAttack",
+                    "action": "LightAttack/Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -273,7 +264,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "LightAttack",
+                    "action": "LightAttack/Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -318,17 +309,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Block/Aim/Torch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "857ca1d0-3a95-4323-ab90-78b6cdb3442a",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Zoom/Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

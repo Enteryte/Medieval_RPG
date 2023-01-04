@@ -41,13 +41,12 @@ public class EnemyHealth : MonoBehaviour
 
     public void HeavyDamage(float _heavyDamageTaken)
     {
-        
         LifePoints -= _heavyDamageTaken;
         Anim.SetTrigger(Animator.StringToHash("HeavyAttackTaken"));
     }
-/// <summary>
-/// TODO: Create a base enemy both AI bases inherit from so this mess can be removed
-/// </summary>
+    /// <summary>
+    /// TODO: Create a base enemy both AI bases inherit from so this mess can be removed
+    /// </summary>
     private void DeathCheck()
     {
         if(LifePoints > 0)

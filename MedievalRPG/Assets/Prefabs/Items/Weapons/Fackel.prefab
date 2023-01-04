@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8067252839941759487}
   - component: {fileID: 3626989762298787158}
   - component: {fileID: 3129961898712999368}
-  - component: {fileID: 7079280377442355306}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -84,20 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7079280377442355306
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2852210534864854698}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &7590025650295690534
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +94,6 @@ GameObject:
   - component: {fileID: 2275311269672897660}
   - component: {fileID: 3377361554094620648}
   - component: {fileID: 9147514564167506825}
-  - component: {fileID: 1625644883637497838}
   m_Layer: 0
   m_Name: Cylinder (1)
   m_TagString: Untagged
@@ -182,20 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &1625644883637497838
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7590025650295690534}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &7996527778182324153
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,6 +175,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1351852448191706304}
+  - component: {fileID: 4516999338286907538}
+  - component: {fileID: 3058170691099289838}
   m_Layer: 0
   m_Name: Fackel
   m_TagString: Torch
@@ -226,6 +198,99 @@ Transform:
   m_Children:
   - {fileID: 8067252839941759487}
   - {fileID: 2275311269672897660}
+  - {fileID: 4298822178862421942}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4516999338286907538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996527778182324153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 316afccf63dfedb46a5f7f5c1016cba8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flames: {fileID: 3272857864513555194, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+--- !u!65 &3058170691099289838
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996527778182324153}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.10753465, y: 0.2806039, z: 0.065784484}
+  m_Center: {x: 0.0062929094, y: 0.27705526, z: -0.0031340718}
+--- !u!1001 &7350079347573462016
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1351852448191706304}
+    m_Modifications:
+    - target: {fileID: 3272857864513555194, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_Name
+      value: Particle System
+      objectReference: {fileID: 0}
+    - target: {fileID: 4572506916737015213, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1567
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+--- !u!4 &4298822178862421942 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
+  m_PrefabInstance: {fileID: 7350079347573462016}
+  m_PrefabAsset: {fileID: 0}
