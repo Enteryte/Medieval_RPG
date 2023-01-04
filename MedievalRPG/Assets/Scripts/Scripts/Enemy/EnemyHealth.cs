@@ -11,7 +11,7 @@ public class EnemyHealth : MonoBehaviour
     private MeleeEnemyKi MeleeAI;
     private ArcherEnemyKI ArcherAI;
     private float LifePoints;
-    public void Initialize(EnemyBaseProfile _stats, Animator _anim, BaseEnemyKi _ai)
+    public void Initialize(EnemyBaseProfile _stats, Animator _anim, BaseEnemyKI _ai)
     {
         Stats = _stats;
         LifePoints = Stats.normalHealth;
