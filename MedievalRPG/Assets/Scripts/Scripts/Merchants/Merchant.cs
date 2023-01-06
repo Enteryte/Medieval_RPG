@@ -26,6 +26,11 @@ public class Merchant : MonoBehaviour, IInteractable
 
     public PlayableAsset idleTimeline;
 
+    [Header("Shop-Audio-Files")]
+    public PlayableAsset[] mStartShopPA;
+    public PlayableAsset[] mAfterBoughtShopPA;
+    public PlayableAsset[] mEndBuyingShopPA;
+
     //public float maxMoneyMerchantCanSpend;
     //public float currMoneyMerchantSpend = 0;
 
@@ -38,6 +43,14 @@ public class Merchant : MonoBehaviour, IInteractable
         InstantiateIOCanvas();
 
         GameManager.instance.allMerchants.Add(this);
+    }
+
+    public void SetShopAudioFile(PlayableAsset[] timelinesToChooseFrom)
+    {
+        var timelineNumber = Random.Range(0, timelinesToChooseFrom.Length);
+
+        CutsceneManager.instance.playableDirector.playableAsset = timelinesToChooseFrom[timelineNumber];
+        CutsceneManager.instance.playableDirector.Play();
     }
 
     //// Update is called once per frame

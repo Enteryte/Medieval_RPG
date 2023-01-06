@@ -46,6 +46,11 @@ public class TavernKeeper : MonoBehaviour, IInteractable
     public Transform buttonParentTrans;
     public static List<GameObject> allMissionTaskButton;
 
+    [Header("Shop-Audio-Files")]
+    public PlayableAsset[] tKStartShopPA;
+    public PlayableAsset[] tKAfterBoughtShopPA;
+    public PlayableAsset[] tKEndBuyingShopPA;
+
     public void Awake()
     {
         instance = this;
@@ -215,6 +220,14 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         getBeerScreen.SetActive(true);
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+    }
+
+    public void SetShopAudioFile(PlayableAsset[] timelinesToChooseFrom)
+    {
+        var timelineNumber = Random.Range(0, timelinesToChooseFrom.Length);
+
+        CutsceneManager.instance.playableDirector.playableAsset = timelinesToChooseFrom[timelineNumber];
+        CutsceneManager.instance.playableDirector.Play();
     }
 
     public void InstantiateIOCanvas()

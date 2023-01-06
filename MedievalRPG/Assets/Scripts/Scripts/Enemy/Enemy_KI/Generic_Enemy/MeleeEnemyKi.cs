@@ -78,7 +78,7 @@ public class MeleeEnemyKi : MonoBehaviour
         SightEvent(IsSeeingPlayer);
 
         // Debug.Log(Agent.velocity.sqrMagnitude);
-        Debug.Log(Agent.velocity.sqrMagnitude > SqrTolerance);
+        //Debug.Log(Agent.velocity.sqrMagnitude > SqrTolerance);
         Animator.SetBool(Animator.StringToHash("IsMoving"), (Agent.velocity.sqrMagnitude > SqrTolerance));
 
         //Putting the Attack Detection into an if so it only checks when it has the player within it's sight for better performance.

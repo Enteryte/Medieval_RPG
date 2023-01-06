@@ -46,8 +46,10 @@ public class CutsceneManager : MonoBehaviour
     {
         if (playableDirector.playableAsset != null)
         {
-            if (Input.GetKey(KeyCode.Escape) && currCP.isNotADialogue && currCP.cantBeSkipped)
+            if (Input.GetKey(KeyCode.Escape) && currCP.isNotADialogue && !currCP.cantBeSkipped)
             {
+                Debug.Log("is pressing: " + pressedTime);
+
                 if (!GameManager.instance.playedTheGameThrough)
                 {
                     pressedTime += Time.deltaTime;
@@ -65,7 +67,7 @@ public class CutsceneManager : MonoBehaviour
                 }   
             }
 
-            if (Input.GetKeyDown(KeyCode.Return) && !currCP.isNotADialogue && currCP.cantBeSkipped)
+            if (Input.GetKeyDown(KeyCode.Return) && !currCP.isNotADialogue && !currCP.cantBeSkipped)
             {
                 SkipSentenceInDialogue();
             }
@@ -191,13 +193,16 @@ public class CutsceneManager : MonoBehaviour
 
     public void SkipSentenceInDialogue()
     {
-        for (int i = 0; i < currCP.timesWhenNewSentenceStarts.Count; i++)
+        if (currCP.timesWhenNewSentenceStarts.Count > 0)
         {
-            if (playableDirector.time < currCP.timesWhenNewSentenceStarts[i])
+            for (int i = 0; i < currCP.timesWhenNewSentenceStarts.Count; i++)
             {
-                playableDirector.time = currCP.timesWhenNewSentenceStarts[i];
+                if (playableDirector.time < currCP.timesWhenNewSentenceStarts[i])
+                {
+                    playableDirector.time = currCP.timesWhenNewSentenceStarts[i];
 
-                return;
+                    return;
+                }
             }
         }
     }
@@ -236,6 +241,8 @@ public class CutsceneManager : MonoBehaviour
 
     public void DisplayDecisions()
     {
+        playableDirector.time = 0;
+
         TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(decisionTutorial);
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
@@ -295,12 +302,15 @@ public class CutsceneManager : MonoBehaviour
 
         if (currCP.mBTToCheck != null && !currCP.mBTToCheck.missionTaskCompleted)
         {
+            playableDirector.time = 0;
+
             //playableDirector.Stop();
             currCP = currCP.cutsceneToChangeTo;
 
             //Debug.Log(currCP);
             //Debug.Log(currCP.cutsceneToChangeTo);
             playableDirector.playableAsset = currCP.cutscene;
+
             playableDirector.Play();
         }
     }
@@ -401,6 +411,8 @@ public class CutsceneManager : MonoBehaviour
 
     public void PlayIdleTimeline()
     {
+        playableDirector.time = 0;
+
         var go = Interacting.instance.currInteractedObjTrans.gameObject;
 
         if (go.GetComponent<TavernKeeper>() != null)
