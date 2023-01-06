@@ -230,6 +230,14 @@ public class Interacting : MonoBehaviour
                         }
                     }
 
+                    if (nearestObjTrans.TryGetComponent(out NPC npc))
+                    {
+                        if (npc.nPCAudioSource.isPlaying)
+                        {
+                            howToInteractGO.SetActive(false);
+                        }
+                    }
+
                     if (howToInteractGO.activeSelf)
                     {
                         if (timeTillInteract > 0)

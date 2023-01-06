@@ -74,6 +74,13 @@ public class GameManager : MonoBehaviour
     public float timeTillAfk;
     public float timeSinceLastButtonPressed = 0;
 
+    [Header("NPC One-Liner")]
+    public NPCOneLinerProfile quietMaleOL;
+    public NPCOneLinerProfile[] allMaleProfiles;
+
+    public NPCOneLinerProfile quietFemaleOL;
+    public NPCOneLinerProfile[] allFemaleProfiles;
+
     [Header("Cutscenes To Reset On New Game")]
     public CutsceneProfile cutsceneToReset;
 
