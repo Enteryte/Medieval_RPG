@@ -126,6 +126,22 @@ MonoBehaviour:
   VirtualCamera:
     exposedName: f0d4c13eee9382f42b5657eae8a6ddb8
     defaultValue: {fileID: 0}
+--- !u!114 &-372542229456008092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: 
+  m_Time: 0
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: 52ae36094b5cda649aa83cd08e8ea6b2, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,6 +389,22 @@ MonoBehaviour:
     m_DisplayName: CVC_Oskar_Idle_Timeline_Cutscene
   m_Markers:
     m_Objects: []
+--- !u!114 &3189671805771321927
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: 
+  m_Time: 0
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: e8e1710198c0ff444a9684234dbaf758, type: 2}
 --- !u!114 &3607107034057534642
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -397,6 +429,8 @@ MonoBehaviour:
   m_Markers:
     m_Objects:
     - {fileID: 7887601343725216399}
+    - {fileID: 3189671805771321927}
+    - {fileID: -372542229456008092}
 --- !u!114 &3642649806638214599
 MonoBehaviour:
   m_ObjectHideFlags: 1

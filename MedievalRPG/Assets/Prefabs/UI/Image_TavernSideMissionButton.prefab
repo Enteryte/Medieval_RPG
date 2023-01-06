@@ -66,10 +66,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Bier kaufen
+  m_text: Sondergericht
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5b0d1e95636dac046a718d455309b607, type: 2}
+  m_sharedMaterial: {fileID: 2766935698080480103, guid: 5b0d1e95636dac046a718d455309b607, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 38
+  m_fontSizeBase: 38
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -147,8 +147,9 @@ GameObject:
   - component: {fileID: 4944336751879212652}
   - component: {fileID: 4944336751879212643}
   - component: {fileID: 4944336751879212642}
+  - component: {fileID: 2008595308}
   m_Layer: 5
-  m_Name: Image_BuyBeerButton
+  m_Name: Image_TavernSideMissionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,7 +162,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4944336751879212640}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5271772, y: 0.48964822, z: 0.71716005}
   m_ConstrainProportionsScale: 0
@@ -252,8 +253,22 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 4944336751879212643}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2008595308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944336751879212640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96bb97513efc5241a6330208f2a1a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  corrMissionBP: {fileID: 11400000, guid: 9ecc40a8ed2111f4399d0753e858e1f4, type: 2}
+  missionBtn: {fileID: 4944336751879212642}

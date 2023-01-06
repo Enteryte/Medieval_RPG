@@ -40,8 +40,8 @@ public class TavernKeeper : MonoBehaviour, IInteractable
     public MissionTaskBase currCorrTask;
     public List<MissionTaskBase> allCurrCorrTasks;
 
-    public GameObject buyBeerButtonPrefab;
     public GameObject missionButtonPrefab;
+    public GameObject sideMissionButtonPrefab;
     public GameObject dontBuyBeerButtonPrefab;
     public Transform buttonParentTrans;
     public static List<GameObject> allMissionTaskButton;
@@ -196,16 +196,19 @@ public class TavernKeeper : MonoBehaviour, IInteractable
             Destroy(buttonParentTrans.GetChild(i).gameObject);
         }
 
-        //var tavernBuyBeerButton = Instantiate(buyBeerButtonPrefab, buttonParentTrans);
-
-        //tavernBuyBeerButton.GetComponent<Button>().onClick.AddListener(BuyAndDrinkBeer);
-
         for (int i = 0; i < allCurrCorrTasks.Count; i++)
         {
             var tavernMissionTaskButton = Instantiate(missionButtonPrefab, buttonParentTrans);
 
             tavernMissionTaskButton.GetComponent<TavernMissionButton>().storedMissionTask = allCurrCorrTasks[i];
             tavernMissionTaskButton.GetComponent<TavernMissionButton>().missionDescriptionTxt.text = allCurrCorrTasks[i].missionButtonDescription;
+        }
+
+        if (MissionManager.instance.allCurrAcceptedMissions.Contains(sideMissionButtonPrefab.GetComponent<TavernSideMissionButton>().corrMissionBP))
+        {
+            var tavernSideMissionButton = Instantiate(sideMissionButtonPrefab, buttonParentTrans);
+
+            sideMissionButtonPrefab.GetComponent<TavernSideMissionButton>().CheckSideMissionState();
         }
 
         var tavernDontBuyBeerButton = Instantiate(dontBuyBeerButtonPrefab, buttonParentTrans);
@@ -219,7 +222,15 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
         getBeerScreen.SetActive(true);
 
-        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+        // Close if has no mission -> Sonst wird nur der "Schließen"-Button displayed.
+        //if (CheckIfNeededForMission())
+        //{
+            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+        //}
+        //else
+        //{
+        //    CutsceneManager.instance.CloseCutscene();
+        //}
     }
 
     public void SetShopAudioFile(PlayableAsset[] timelinesToChooseFrom)
@@ -259,17 +270,25 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
         if (neededForMission)
         {
-            if (currCorrTask.dialogToPlayAfterInteracted != null)
+            if (currCorrTask.dialogToPlayAfterInteracted != null && !currCorrTask.dialogToPlayAfterInteracted.alreadyPlayedCutscene)
             {
                 StartCoroutine(CutsceneManager.instance.StartCutsceneFadeIn(currCorrTask.dialogToPlayAfterInteracted));
                 //CutsceneManager.instance.currCP = currCorrTask.dialogToPlayAfterInteracted;
                 //CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+
+                // -----------------------> WIP: Muss noch am Anfang des Spiels auf false gesetzt werden.
+                currCorrTask.dialogToPlayAfterInteracted.alreadyPlayedCutscene = true;
             }
             else
             {
-                StartCoroutine(CutsceneManager.instance.StartCutsceneFadeIn(normalTalkCP));
+                //StartCoroutine(CutsceneManager.instance.StartCutsceneFadeIn(idleTimeline));
                 //CutsceneManager.instance.currCP = normalTalkCP;
                 //CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+
+                CutsceneManager.instance.playableDirector.playableAsset = idleTimeline;
+                CutsceneManager.instance.playableDirector.Play();
+
+                DisplayTavernKeeperUI();
             }
             
             //CutsceneManager.instance.playableDirector.Play();
@@ -278,9 +297,11 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         }
         else if (!neededForMission)
         {
-            CutsceneManager.instance.currCP = normalTalkCP;
-            CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+            //CutsceneManager.instance.currCP = idleTimeline;
+            CutsceneManager.instance.playableDirector.playableAsset = idleTimeline;
             CutsceneManager.instance.playableDirector.Play();
+
+            DisplayTavernKeeperUI();
 
             //BeerScreenMissionButton.instance.gameObject.SetActive(false);
 

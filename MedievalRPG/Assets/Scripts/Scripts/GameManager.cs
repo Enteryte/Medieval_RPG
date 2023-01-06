@@ -74,9 +74,14 @@ public class GameManager : MonoBehaviour
     public float timeTillAfk;
     public float timeSinceLastButtonPressed = 0;
 
+    [Header("Cutscenes To Reset On New Game")]
+    public CutsceneProfile cutsceneToReset;
+
     public void Awake()
     {
         instance = this;
+
+        cutsceneToReset.alreadyPlayedCutscene = false;
 
         //BeerScreenMissionButton.instance = bSMButton;
     }
