@@ -153,7 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a235c20bc879b24d9ae490ddd0357ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MeleeEnemies: []
+  MeleeEnemies:
+  - {fileID: 910196871}
   ArcherEnemies:
   - {fileID: 1384553416}
   ArrowPool: {fileID: 123261558}
@@ -218,8 +219,73 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &189790005
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 237045142, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: HardCodeTarget
+      value: 
+      objectReference: {fileID: 1163096410}
+    - target: {fileID: 5270352153419477226, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_Name
+      value: SpookyScarySkeleton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5270352153419477226, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.54994
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00000047683716
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.14496422
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426284465588112790, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
 --- !u!1 &231211491
 GameObject:
   m_ObjectHideFlags: 1
@@ -452,13 +518,24 @@ PrefabInstance:
     - target: {fileID: 5664829812521682032, guid: 1543ace1a7321324db1a62717a33e84e, type: 3}
       propertyPath: HardCodeTarget
       value: 
-      objectReference: {fileID: 1163096414}
+      objectReference: {fileID: 1163096410}
     - target: {fileID: 6986633709839149656, guid: 1543ace1a7321324db1a62717a33e84e, type: 3}
       propertyPath: m_Name
       value: SpookyScarySkeletonArcher
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1543ace1a7321324db1a62717a33e84e, type: 3}
+--- !u!114 &910196871 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 237045142, guid: 7f8ef4d404f3ebe4489b3aea35c97e44, type: 3}
+  m_PrefabInstance: {fileID: 189790005}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 963ac893aab516749a5381feaa5c2518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &997651648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,7 +1198,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6012343542627322765, guid: 1eeab8ad024659e4f8563ff784330545, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6012343542627322765, guid: 1eeab8ad024659e4f8563ff784330545, type: 3}
       propertyPath: m_LocalPosition.x

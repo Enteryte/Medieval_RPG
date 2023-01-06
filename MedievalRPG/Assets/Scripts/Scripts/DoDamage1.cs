@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoDamage : MonoBehaviour
+public class DoDamage1 : MonoBehaviour
 {
     [SerializeField]
     private float lightDamage;

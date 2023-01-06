@@ -6,13 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="b9a8b162-a686-480c-b4b1-69697e59fe7a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MedievalRPG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MedievalRPG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Enemies/Arrow.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Enemies/Arrow.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Enemies/SkeletonWarrior.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Enemies/SkeletonWarrior.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Juri_TestingScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Juri_TestingScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Effects.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Effects.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/DoDamage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/DoDamage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyHealth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyHealth.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyInitializer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/ArrowPool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/ArrowPool.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/EnemyArrowController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/EnemyArrowController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/BaseEnemyKi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/BaseEnemyKi.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/ArcherEnemyKI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/ArcherEnemyKI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Enemy/MeleeEnemyKi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Enemy/MeleeEnemyKi.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,15 +31,15 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Enemy/SO_KI_Stats.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyDamager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/ArcherEnemyKI.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/BaseEnemyKi.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyHealth.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyInitializer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/BaseEnemyKi.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/ArcherEnemyKI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/EnemyArrowController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Enemy/MeleeEnemyKi.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Enemy/RayDetection.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyHealth.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Enemy/SO_KI_Stats.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -47,22 +50,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="Discover.Launch.Via.Unity" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="TODO_SCOPE" value="All Places" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="rider.run.widget.enabled.cache" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Discover.Launch.Via.Unity": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\Freqcon\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Freqcon\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\SourcesCache",
+      "C:\\Users\\Freqcon\\AppData\\Local\\Symbols\\src"
+    ]
+  }
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="D:\Unity_Installs\2021.3.11f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath D:\Medieval_RPG\Github\MedievalRPG -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="D:\Medieval_RPG\Github\MedievalRPG" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="UnitTests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="D:\Unity_Installs\2021.3.11f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath D:\Medieval_RPG\Github\MedievalRPG -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="D:\Medieval_RPG\Github\MedievalRPG" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
@@ -102,6 +121,8 @@
       <workItem from="1671112633457" duration="12695000" />
       <workItem from="1671187920873" duration="7062000" />
       <workItem from="1671288359827" duration="10612000" />
+      <workItem from="1672837896233" duration="5385000" />
+      <workItem from="1673000080582" duration="6766000" />
     </task>
     <servers />
   </component>

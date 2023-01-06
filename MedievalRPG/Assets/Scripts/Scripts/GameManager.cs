@@ -35,8 +35,8 @@ public class GameManager : MonoBehaviour
     public GameObject readBookOrNoteScreen;
     public static ItemBaseProfile currBookOrNote;
 
-    public bool isNight = false; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
-    public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
+    public bool isNight = false; // NUR ZUM TESTEN FÃœR DIE CUTSCENES! ( in DNCircle ersetzen )
+    public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÃœR DIE CUTSCENES! ( in DNCircle ersetzen )
 
     public GameObject cutsceneBlackFadeGO;
     public GameObject interactCanvasasParentGO;
@@ -217,7 +217,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
+        // NUR ZUM TESTEN FÃœR DIE CUTSCENES! ( in DNCircle ersetzen )
         if (isNight && correspondingCutsceneProfilAtNight != null)
         {
             CutsceneManager.instance.currCP = correspondingCutsceneProfilAtNight;
@@ -279,7 +279,7 @@ public class GameManager : MonoBehaviour
         // Enemies
         for (int i = 0; i < allMeleeEnemies.Count; i++)
         {
-            allMeleeEnemies[i].Animator.speed = 0;
+            allMeleeEnemies[i].SetAnimatorSpeed(0f);
 
             allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = true;
         }
@@ -340,7 +340,7 @@ public class GameManager : MonoBehaviour
         // Enemies
         for (int i = 0; i < allMeleeEnemies.Count; i++)
         {
-            allMeleeEnemies[i].Animator.speed = 1;
+            allMeleeEnemies[i].SetAnimatorSpeed(1f);
 
             allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = false;
         }

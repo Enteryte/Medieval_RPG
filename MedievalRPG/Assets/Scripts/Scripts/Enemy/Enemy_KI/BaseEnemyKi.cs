@@ -14,16 +14,15 @@ public abstract class BaseEnemyKI : MonoBehaviour
     [SerializeField] protected NavMeshAgent Agent;
     [SerializeField] protected EnemyHealth Health;
     // ReSharper disable once IdentifierTypo
-    [SerializeField] protected EnemyDamager EnemyDamager;
     [SerializeField] protected GameObject HardCodeTarget;
 
+    protected bool IsInitialized;
     protected bool IsSeeingPlayer;
+    protected bool WasSeeingPlayer;
     protected bool HasSeenPlayer;
-    protected bool IsInAttackRange;
 
     protected bool HasDied;
-
-    protected Vector3 RandomTarget;
+    
     protected Transform Target;
     protected Vector3 StartPos;
 
@@ -41,13 +40,13 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected float SqrTolerance;
 
 
-    protected int CheckValue;
-    protected bool IsAttackCoroutineStarted;
-    protected bool IsSearching;
+    private int CheckValue;
 
     #region Unity Events
-
-    protected virtual void Start()
+/// <summary>
+/// The Method for Initialization
+/// </summary>
+    public virtual void Init()
     {
         StartPos = transform.position;
         SqrTolerance = Tolerance * Tolerance;
@@ -56,25 +55,27 @@ public abstract class BaseEnemyKI : MonoBehaviour
         RayDetectorsSight = SetDetectors(KiStats.SightDetectorCountHalf, SightContainer, KiStats.DetectionFOV,
             KiStats.DetectionRange, Color.cyan);
         Health.Initialize(BaseStats, Animator, this);
-        EnemyDamager.Init(BaseStats.normalDamage);
     }
 
     protected virtual void Update()
     {
-        if (HasDied)
+        if (HasDied && !IsInitialized)
             return;
 
         IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
-        //TODO: If IsSeeingPlayer went from Positive to negative, put the OnSightLost Event here.
-        // SightEvent(IsSeeingPlayer);
 
-        // Debug.Log(Agent.velocity.sqrMagnitude);
-        Debug.Log(Agent.velocity.sqrMagnitude > SqrTolerance);
         Animator.SetBool(Animator.StringToHash("IsMoving"), (Agent.velocity.sqrMagnitude > SqrTolerance));
 
     }
-
-    private bool DetectorCheck(RayDetection[] _detectors)
+/// <summary>
+/// Sets the Speed of the Animator
+/// </summary>
+/// <param name="_speed">The New Value</param>
+    public void SetAnimatorSpeed(float _speed)
+    {
+        Animator.speed = _speed;
+    }
+    protected bool DetectorCheck(RayDetection[] _detectors)
     {
         CheckValue = 0;
         for (int i = 0; i < _detectors.Length; i++)
@@ -84,102 +85,6 @@ public abstract class BaseEnemyKI : MonoBehaviour
     }
 
     #endregion
-
-     
-    #region NoticingBehaviour
-
-    private void NoticeEnemy()
-    {
-        //ToDo: Remove this temporary check when in the game.
-        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-        if (!HardCodeTarget)
-            Target = GameManager.instance.playerGO.transform;
-        else
-            Target = HardCodeTarget.transform;
-        HasSeenPlayer = true;
-        Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
-        Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
-    }
-
-    #endregion
-
-
-    #region SearchingBehaviour
-
-    private void Search()
-    {
-        if (Vector3.Distance(transform.position, StartPos) <= Tolerance && IsSearching)
-        {
-            if (!KiStats.PatrolsWhileVibing || Agent.velocity.sqrMagnitude != 0)
-                return;
-            StartCoroutine(TimeToLookAtNewRandomTarget());
-
-            return;
-        }
-        //TODO: Do this over a OnLoseSight event instead of a continuous event 
-
-        if (!IsSearching)
-        {
-            IsSearching = true;
-            Vector3 placeToGo = Target.position;
-            Agent.SetDestination(placeToGo);
-        }
-
-        if (IsSearching && Agent.velocity.sqrMagnitude <= Tolerance)
-            StartCoroutine(WaitUntilGivingUp());
-    }
-
-    protected IEnumerator WaitUntilGivingUp()
-    {
-        float a = 0f;
-        while (a <= KiStats.AttackCoolDown * 10f)
-        {
-            a += 1f;
-            if (IsSeeingPlayer)
-            {
-                Agent.SetDestination(StartPos);
-                break;
-            }
-
-            yield return new WaitForSeconds(0.1f);
-            if (!IsSeeingPlayer) continue;
-            Agent.SetDestination(StartPos);
-            break;
-        }
-    }
-
-    #endregion
-
-    #region IdleBehaviour
-
-    /// <summary>
-    /// A vector3 that generates a random position on the map that the NPC can use as a target while he isn't chasing anything. Also checks the position on the mesh for improved navigation.
-    /// </summary>
-    /// <returns>A random Vector3 on the Mesh</returns>
-    protected Vector3 GenerateRandomTarget()
-    {
-        Vector3 myTarget = new Vector3(
-            Random.Range(StartPos.x - KiStats.PatrollingRange, StartPos.x + KiStats.PatrollingRange), 0,
-            Random.Range(StartPos.z - KiStats.PatrollingRange, StartPos.z + KiStats.PatrollingRange));
-        if (NavMesh.SamplePosition(myTarget, out NavMeshHit hit, KiStats.PatrollingRange, NavMesh.AllAreas))
-            myTarget = hit.position;
-        else
-            throw new Exception($"Couldn't Hit NavMesh at Target: {myTarget.x}, {myTarget.y}, {myTarget.z}");
-        return myTarget;
-    }
-
-    /// <summary>
-    /// A coroutine that just waits for how long the Patience of the NPC lasts before requesting a new random Target.
-    /// </summary>
-    private IEnumerator TimeToLookAtNewRandomTarget()
-    {
-        yield return new WaitForSeconds(KiStats.Patience);
-        RandomTarget = GenerateRandomTarget();
-        Agent.SetDestination(RandomTarget);
-    }
-
-    #endregion
-
     public virtual void Death()
     {
         //TODO: Turn of all other scripts, animators, etc. and turn the enemy into a ragdoll
@@ -221,8 +126,6 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected virtual void OnDrawGizmos()
     {
         VisualizeDetectors(Color.cyan, KiStats.DetectionRange, SightContainer);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(StartPos, new Vector3(KiStats.PatrollingRange * 2f, 0, KiStats.PatrollingRange * 2f));
     }
 
     protected void VisualizeDetectors(Color _lineColor, float _range, Transform _container)
