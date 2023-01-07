@@ -127,6 +127,10 @@ public class GameManager : MonoBehaviour
 
                 timeSinceLastButtonPressed = 0;
             }
+            else if (Input.anyKey && timeSinceLastButtonPressed > 0)
+            {
+                timeSinceLastButtonPressed = 0;
+            }
         }
 
         if (!pauseMenuScreen.activeSelf)

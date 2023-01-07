@@ -150,7 +150,10 @@ public class ShopManager : MonoBehaviour
     {
         isBuying = true;
 
-        DisplayShopItems();
+        DisplayPlayerItems();
+        DisplayMerchantItems();
+
+        //DisplayShopItems();
 
         mainShopScreen.SetActive(true);
     }
@@ -175,24 +178,51 @@ public class ShopManager : MonoBehaviour
         {
             var currItem = InventoryManager.instance.inventory.slots[i].itemBase;
 
-            if (currItem.itemType.ToString() == currPlayerClickedSCBtn.itemTypeToDisplay.ToString())
+            if (currPlayerClickedSCBtn != null)
             {
-                var newItemSlot = Instantiate(shopItemButtonPrefab, playerItemSlotParentTrans);
+                if (currItem.itemType.ToString() == currPlayerClickedSCBtn.itemTypeToDisplay.ToString())
+                {
+                    var newItemSlot = Instantiate(shopItemButtonPrefab, playerItemSlotParentTrans);
 
-                newItemSlot.GetComponent<ClickableInventorySlot>().storedItemBase = currItem;
-                //newItemSlot.GetComponent<ClickableInventorySlot>().();
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedItemBase = currItem;
+                    //newItemSlot.GetComponent<ClickableInventorySlot>().();
 
-                newItemSlot.GetComponent<ClickableInventorySlot>().clickableSlotType = ClickableInventorySlot.ClickableSlotType.shopSlot;
-                newItemSlot.GetComponent<ClickableInventorySlot>().isShopPlayerItem = true;
+                    newItemSlot.GetComponent<ClickableInventorySlot>().clickableSlotType = ClickableInventorySlot.ClickableSlotType.shopSlot;
+                    newItemSlot.GetComponent<ClickableInventorySlot>().isShopPlayerItem = true;
 
-                newItemSlot.GetComponent<ClickableInventorySlot>().storedAmount = InventoryManager.instance.inventory.slots[i].itemAmount;
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedAmount = InventoryManager.instance.inventory.slots[i].itemAmount;
 
-                newItemSlot.GetComponent<ClickableInventorySlot>().UpdateSlotInformations();
+                    newItemSlot.GetComponent<ClickableInventorySlot>().UpdateSlotInformations();
 
-                //if (allCurrCategoryNames.Contains(currPlayerClickedSCBtn.itemTypeToDisplay.ToString()))
-                //{
-                //    newItemSlot.GetComponent<ShopItemButton>().im
-                //}
+                    //if (allCurrCategoryNames.Contains(currPlayerClickedSCBtn.itemTypeToDisplay.ToString()))
+                    //{
+                    //    newItemSlot.GetComponent<ShopItemButton>().im
+                    //}
+                }
+            }
+            else
+            {
+                if (currItem.itemType == ItemBaseProfile.ItemType.food)
+                {
+                    var newItemSlot = Instantiate(shopItemButtonPrefab, playerItemSlotParentTrans);
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedItemBase = currItem;
+                    //newItemSlot.GetComponent<ClickableInventorySlot>().();
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().clickableSlotType = ClickableInventorySlot.ClickableSlotType.shopSlot;
+                    newItemSlot.GetComponent<ClickableInventorySlot>().isShopPlayerItem = true;
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedAmount = InventoryManager.instance.inventory.slots[i].itemAmount;
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().UpdateSlotInformations();
+
+                    currPlayerCategoryNameTxt.text = "Nahrung";
+
+                    //if (allCurrCategoryNames.Contains(currPlayerClickedSCBtn.itemTypeToDisplay.ToString()))
+                    //{
+                    //    newItemSlot.GetComponent<ShopItemButton>().im
+                    //}
+                }
             }
         }
     }
@@ -210,21 +240,45 @@ public class ShopManager : MonoBehaviour
         {
             var currItem = currSLBP.itemBaseProfiles[i];
 
-            if (currItem.itemType.ToString() == currMerchantClickedSCBtn.itemTypeToDisplay.ToString())
+            if (currMerchantClickedSCBtn != null)
             {
-                var newItemSlot = Instantiate(shopItemButtonPrefab, merchantItemSlotParentTrans);
-
-                newItemSlot.GetComponent<ClickableInventorySlot>().storedItemBase = currItem;
-                //newItemSlot.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
-
-                if (!allCurrCategoryNames.Contains(currMerchantClickedSCBtn.itemTypeToDisplay.ToString()))
+                if (currItem.itemType.ToString() == currMerchantClickedSCBtn.itemTypeToDisplay.ToString())
                 {
-                    allCurrCategoryNames.Add(currMerchantClickedSCBtn.itemTypeToDisplay.ToString());
+                    var newItemSlot = Instantiate(shopItemButtonPrefab, merchantItemSlotParentTrans);
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedItemBase = currItem;
+                    //newItemSlot.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
+
+                    if (!allCurrCategoryNames.Contains(currMerchantClickedSCBtn.itemTypeToDisplay.ToString()))
+                    {
+                        allCurrCategoryNames.Add(currMerchantClickedSCBtn.itemTypeToDisplay.ToString());
+                    }
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().clickableSlotType = ClickableInventorySlot.ClickableSlotType.shopSlot;
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedAmountTxt.gameObject.SetActive(false);
                 }
+            }
+            else
+            {
+                if (currItem.itemType == ItemBaseProfile.ItemType.food)
+                {
+                    var newItemSlot = Instantiate(shopItemButtonPrefab, merchantItemSlotParentTrans);
 
-                newItemSlot.GetComponent<ClickableInventorySlot>().clickableSlotType = ClickableInventorySlot.ClickableSlotType.shopSlot;
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedItemBase = currItem;
+                    //newItemSlot.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
 
-                newItemSlot.GetComponent<ClickableInventorySlot>().storedAmountTxt.gameObject.SetActive(false);
+                    if (!allCurrCategoryNames.Contains(ItemBaseProfile.ItemType.food.ToString()))
+                    {
+                        allCurrCategoryNames.Add(ItemBaseProfile.ItemType.food.ToString());
+                    }
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().clickableSlotType = ClickableInventorySlot.ClickableSlotType.shopSlot;
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedAmountTxt.gameObject.SetActive(false);
+
+                    currMerchantCategoryNameTxt.text = "Nahrung";
+                }
             }
         }
     }
@@ -263,11 +317,11 @@ public class ShopManager : MonoBehaviour
                     }
                 }
 
-                if (newShopItemButton != null)
-                {
-                    newShopItemButton.GetComponent<ShopItemButton>().storedItemBase = currSLBP.itemBaseProfiles[i];
-                    newShopItemButton.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
-                }
+                //if (newShopItemButton != null)
+                //{
+                //    newShopItemButton.GetComponent<ClickableInventorySlot>().storedItemBase = currSLBP.itemBaseProfiles[i];
+                //    newShopItemButton.GetComponent<ClickableInventorySlot>().DisplayAllItemInformationsOnClick();
+                //}
             }
         }
         else

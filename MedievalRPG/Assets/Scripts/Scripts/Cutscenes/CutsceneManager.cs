@@ -30,6 +30,10 @@ public class CutsceneManager : MonoBehaviour
     [Header("Tutorial")]
     public TutorialBaseProfile decisionTutorial;
 
+    [Header("Skip Cutscene")]
+    public Animator cutsceneUIAnimator;
+    public GameObject skipCutsceneUI;
+
     public void Awake()
     {
         instance = this;
@@ -44,27 +48,30 @@ public class CutsceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playableDirector.playableAsset != null)
+        if (playableDirector.playableAsset != null && !TutorialManager.instance.bigTutorialUI.activeSelf && !TutorialManager.instance.smallTutorialUI.activeSelf && !GameManager.instance.pauseMenuScreen.activeSelf)
         {
-            if (Input.GetKey(KeyCode.Escape) && currCP.isNotADialogue && !currCP.cantBeSkipped)
+            if (Input.GetKeyDown(KeyCode.Escape) && currCP.isNotADialogue && !currCP.cantBeSkipped)
             {
                 Debug.Log("is pressing: " + pressedTime);
 
-                if (!GameManager.instance.playedTheGameThrough)
-                {
-                    pressedTime += Time.deltaTime;
+                cutsceneUIAnimator.Rebind();
+                cutsceneUIAnimator.enabled = true;
 
-                    if (pressedTime >= timeToPressToSkipCS)
-                    {
-                        SkipCutscene(currCP.timeTillWhereToSkip);
+                //if (!GameManager.instance.playedTheGameThrough)
+                //{
+                //    pressedTime += Time.deltaTime;
 
-                        pressedTime = 0;
-                    }
-                }
-                else
-                {
-                    SkipCutscene(currCP.timeTillWhereToSkip);
-                }   
+                //    if (pressedTime >= timeToPressToSkipCS)
+                //    {
+                //        SkipCutscene(currCP.timeTillWhereToSkip);
+
+                //        pressedTime = 0;
+                //    }
+                //}
+                //else
+                //{
+                //    SkipCutscene(currCP.timeTillWhereToSkip);
+                //}   
             }
 
             if (Input.GetKeyDown(KeyCode.Return) && !currCP.isNotADialogue && !currCP.cantBeSkipped)
@@ -74,7 +81,10 @@ public class CutsceneManager : MonoBehaviour
 
             if (Input.GetKeyUp(KeyCode.Escape))
             {
-                pressedTime = 0;
+                cutsceneUIAnimator.enabled = false;
+                skipCutsceneUI.SetActive(false);
+
+                //pressedTime = 0;
             }
         }
     }
@@ -207,9 +217,12 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
-    public void SkipCutscene(float timeTillWhereToSkip)
+    public void SkipCutscene(/*float timeTillWhereToSkip*/)
     {
-        playableDirector.time = timeTillWhereToSkip;
+        playableDirector.time = currCP.timeTillWhereToSkip;
+
+        cutsceneUIAnimator.enabled = false;
+        skipCutsceneUI.SetActive(false);
     }
 
     public void BackgroundFadeIn()

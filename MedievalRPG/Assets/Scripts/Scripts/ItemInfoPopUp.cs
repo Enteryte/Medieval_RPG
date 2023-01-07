@@ -13,48 +13,51 @@ public class ItemInfoPopUp : MonoBehaviour
 
     public void SetItemInformationsToDisplay(ItemBaseProfile iBP, bool isPlayerItem)
     {
-        itemNameTxt.text = iBP.itemName;
+        if (iBP != null)
+        {
+            itemNameTxt.text = iBP.itemName;
 
-        if (iBP.itemType == ItemBaseProfile.ItemType.weapon)
-        {
-            itemTypeTxt.text = iBP.weaponType.ToString();
-        }
-        else if (iBP.itemType == ItemBaseProfile.ItemType.potion)
-        {
-            itemTypeTxt.text = iBP.potionType.ToString();
-        }
-        else if (iBP.itemType == ItemBaseProfile.ItemType.bookOrNote)
-        {
-            // Buch oder Notiz
-        }
-        else
-        {
-            if (iBP.itemType == ItemBaseProfile.ItemType.food)
+            if (iBP.itemType == ItemBaseProfile.ItemType.weapon)
             {
-                itemTypeTxt.text = "Nahrung";
+                itemTypeTxt.text = iBP.weaponType.ToString();
             }
-            else if (iBP.itemType == ItemBaseProfile.ItemType.none)
+            else if (iBP.itemType == ItemBaseProfile.ItemType.potion)
             {
-                itemTypeTxt.text = "Questgegenstand";
+                itemTypeTxt.text = iBP.potionType.ToString();
             }
-        }
-
-        if (ShopManager.instance.itemInfoPopUp.activeSelf)
-        {
-            if (isPlayerItem)
+            else if (iBP.itemType == ItemBaseProfile.ItemType.bookOrNote)
             {
-                buyOrSellPriceTxt.text = iBP.sellingPrice.ToString();
+                // Buch oder Notiz
             }
             else
             {
-                buyOrSellPriceTxt.text = iBP.buyPrice.ToString();
+                if (iBP.itemType == ItemBaseProfile.ItemType.food)
+                {
+                    itemTypeTxt.text = "Nahrung";
+                }
+                else if (iBP.itemType == ItemBaseProfile.ItemType.none)
+                {
+                    itemTypeTxt.text = "Questgegenstand";
+                }
             }
-        }
-        else
-        {
-            buyOrSellPriceTxt.text = iBP.sellingPrice.ToString();
-        }
 
-        weightTxt.text = iBP.weight.ToString();
+            if (ShopManager.instance.itemInfoPopUp.activeSelf)
+            {
+                if (isPlayerItem)
+                {
+                    buyOrSellPriceTxt.text = iBP.sellingPrice.ToString();
+                }
+                else
+                {
+                    buyOrSellPriceTxt.text = iBP.buyPrice.ToString();
+                }
+            }
+            else
+            {
+                buyOrSellPriceTxt.text = iBP.sellingPrice.ToString();
+            }
+
+            weightTxt.text = iBP.weight.ToString();
+        }        
     }
 }
