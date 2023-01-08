@@ -1,3 +1,4 @@
+using Cinemachine;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ public class Merchant : MonoBehaviour, IInteractable
     public Transform whereToSetPlayerTrans;
 
     public PlayableAsset idleTimeline;
+
+    public CinemachineVirtualCamera idleCVC;
 
     [Header("Shop-Audio-Files")]
     public PlayableAsset[] mStartShopPA;
@@ -158,12 +161,14 @@ public class Merchant : MonoBehaviour, IInteractable
             Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
         }
 
-        if (neededForMission)
+        if (neededForMission && !currCorrTask.dialogToPlayAfterInteracted.alreadyPlayedCutscene)
         {
             StartCoroutine(CutsceneManager.instance.StartCutsceneFadeIn(currCorrTask.dialogToPlayAfterInteracted));
             //CutsceneManager.instance.currCP = currCorrTask.dialogToPlayAfterInteracted;
             //CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
             //CutsceneManager.instance.playableDirector.Play();
+
+            currCorrTask.dialogToPlayAfterInteracted.alreadyPlayedCutscene = true;
         }
         else
         {
@@ -174,9 +179,12 @@ public class Merchant : MonoBehaviour, IInteractable
 
             normalMerchantObj.SetActive(false);
 
-            CutsceneManager.instance.playableDirector.playableAsset = idleTimeline;
+            var randomMerchantDialogue = Random.Range(0, mStartShopPA.Length);
+
+            CutsceneManager.instance.playableDirector.playableAsset = mStartShopPA[randomMerchantDialogue];
             CutsceneManager.instance.playableDirector.Play();
-            CutsceneManager.instance.SetAndPlayCutscene();
+
+            //CutsceneManager.instance.SetAndPlayCutscene();
         }
 
         for (int i = 0; i < GameManager.instance.allNPCScreamingHandler.Count; i++)

@@ -12,13 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df470a69912d4064e86f315fcc6c32cc, type: 3}
   m_Name: MAINCutsceneP_0_GameStart_MissionDialog_Task5_NPCDialogueOption0
   m_EditorClassIdentifier: 
-  cutscene: {fileID: 11400000, guid: 6fe8f8be949a4d44fb7ee0622266bee9, type: 2}
+  cutscene: {fileID: 11400000, guid: afb5b634283273c4f8a2c9ca9ab622f6, type: 2}
+  fadeIn: 1
+  isNightCutscene: 0
   isNotADialogue: 0
   cantBeSkipped: 0
   playCutsceneMoreThanOnce: 1
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
   timesWhenNewSentenceStarts: []
+  tutorialToTrigger: {fileID: 0}
+  changeParentTrans: 0
   hasDecisions: 0
   allDecisions: []
   mBTToCheck: {fileID: 0}
@@ -29,3 +33,5 @@ MonoBehaviour:
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

@@ -94,6 +94,21 @@ public class ShopManager : MonoBehaviour
         {
             itemInfoPopUp.transform.position = Input.mousePosition;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !hMScreen.gameObject.activeSelf)
+        {
+            if (mainShopScreen.activeSelf)
+            {
+                CutsceneManager.instance.playableDirector.playableAsset = currMerchant.idleTimeline;
+                CutsceneManager.instance.playableDirector.Play();
+
+                mainShopScreen.SetActive(false);
+            }
+            else if (shopScreen.activeSelf)
+            {
+                CloseMSScreenButton.CloseScreen();
+            }
+        }
     }
 
     public void DisplayMainScreenButtons()
@@ -407,6 +422,20 @@ public class ShopManager : MonoBehaviour
             PlayerValueManager.instance.money -= (itemBase.buyPrice * amount);
 
             bOSMScreen.boughtOrSoldTxt.text = "Item erworben";
+
+            //var chanceOfTriggerDialogue = Random.Range(0, 100);
+
+            //if (chanceOfTriggerDialogue > 70)
+            //{
+
+            // ---------------------------------------------> WIP: Irgendwie buggy; Funktioniert manchmal nur bei den Waffen.
+            var randomMerchantDialogue = Random.Range(0, currMerchant.mAfterBoughtShopPA.Length);
+
+            CutsceneManager.instance.playableDirector.playableAsset = currMerchant.mAfterBoughtShopPA[randomMerchantDialogue];
+            CutsceneManager.instance.playableDirector.Play();
+
+            Debug.Log(randomMerchantDialogue);
+            //}
         }
         else
         {
@@ -438,6 +467,18 @@ public class ShopManager : MonoBehaviour
 
         //bOSMScreen.gameObject.SetActive(true);
         //bOSMScreen.enabled = true;
+
+        //if (currMerchant.mAfterBoughtShopPA.Length > 0)
+        //{
+
+        //}
+        //else
+        //{
+        //    var randomMerchantDialogue = Random.Range(0, currMerchant.mAfterBoughtShopPA.Length);
+
+        //    CutsceneManager.instance.playableDirector.playableAsset = currMerchant.mAfterBoughtShopPA[randomMerchantDialogue];
+        //    CutsceneManager.instance.playableDirector.Play();
+        //}
     }
 
     public void ClearShopCategoryChilds(Transform categoryTrans)

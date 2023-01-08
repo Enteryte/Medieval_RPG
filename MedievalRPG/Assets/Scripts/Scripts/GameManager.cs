@@ -82,13 +82,21 @@ public class GameManager : MonoBehaviour
     public NPCOneLinerProfile[] allFemaleProfiles;
 
     [Header("Cutscenes To Reset On New Game")]
-    public CutsceneProfile cutsceneToReset;
+    public List<CutsceneProfile> cutscenesToReset;
+
+    [Header("New-Game-Values")]
+    public bool alreadySpokeWThava = false;
+    public bool alreadySpokeWOskar = false;
+    public bool alreadySpokeWMorrin = false;
 
     public void Awake()
     {
         instance = this;
 
-        cutsceneToReset.alreadyPlayedCutscene = false;
+        for (int i = 0; i < cutscenesToReset.Count; i++)
+        {
+            cutscenesToReset[i].alreadyPlayedCutscene = false;
+        }
 
         //BeerScreenMissionButton.instance = bSMButton;
     }
@@ -157,7 +165,7 @@ public class GameManager : MonoBehaviour
             MissionLogScreenHandler.instance.DisplayMissions();
         }
 
-        if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/)
+        if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.shopScreen && !ShopManager.instance.mainShopScreen.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf/* &&*/ /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*//*alid()*/)
             {
@@ -349,6 +357,7 @@ public class GameManager : MonoBehaviour
         {
             if (allNPCScreamingHandler[i].isPlayingAudio)
             {
+                //allNPCScreamingHandler[i].nPCAudioSource.clip = null;
                 allNPCScreamingHandler[i].nPCAudioSource.UnPause();
             }
         }

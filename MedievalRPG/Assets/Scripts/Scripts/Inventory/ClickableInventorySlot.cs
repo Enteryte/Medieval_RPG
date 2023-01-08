@@ -36,13 +36,38 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
     [HideInInspector] public bool isShopPlayerItem = false;
 
-    public void Awake()
-    {
-
-    }
-
     public void Start()
     {
+        if (clickableSlotType == ClickableSlotType.shopSlot && storedItemBase != null)
+        {
+            if (isShopPlayerItem)
+            {
+                if (storedItemBase.itemType == ItemBaseProfile.ItemType.none)
+                {
+                    this.gameObject.GetComponent<Image>().color = Color.red;
+                    this.gameObject.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    this.gameObject.GetComponent<Image>().color = Color.white;
+                    this.gameObject.GetComponent<Button>().interactable = true;
+                }
+            }
+            else
+            {
+                if (storedItemBase.buyPrice > PlayerValueManager.instance.money)
+                {
+                    this.gameObject.GetComponent<Image>().color = Color.red;
+                    this.gameObject.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    this.gameObject.GetComponent<Image>().color = Color.white;
+                    this.gameObject.GetComponent<Button>().interactable = true;
+                }
+            }
+        }
+
         if (clickableSlotType != ClickableSlotType.categoryButton)
         {
             //if (this.gameObject.GetComponent<Button>() != null)
@@ -72,6 +97,39 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                 if (correspondingMainScreenHotbarSlotBtn != null)
                 {
                     correspondingMainScreenHotbarSlotBtn.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
+                }
+            }
+        }
+    }
+
+    public void Update()
+    {
+        if (clickableSlotType == ClickableSlotType.shopSlot && storedItemBase != null)
+        {
+            if (isShopPlayerItem)
+            {
+                if (storedItemBase.itemType == ItemBaseProfile.ItemType.none)
+                {
+                    this.gameObject.GetComponent<Image>().color = Color.red;
+                    this.gameObject.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    this.gameObject.GetComponent<Image>().color = Color.white;
+                    this.gameObject.GetComponent<Button>().interactable = true;
+                }
+            }
+            else
+            {
+                if (storedItemBase.buyPrice > PlayerValueManager.instance.money)
+                {
+                    this.gameObject.GetComponent<Image>().color = Color.red;
+                    this.gameObject.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    this.gameObject.GetComponent<Image>().color = Color.white;
+                    this.gameObject.GetComponent<Button>().interactable = true;
                 }
             }
         }

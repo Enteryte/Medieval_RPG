@@ -41,7 +41,7 @@ public class ItemInfoPopUp : MonoBehaviour
                 }
             }
 
-            if (ShopManager.instance.itemInfoPopUp.activeSelf)
+            if (ShopManager.instance.itemInfoPopUp.activeSelf || ShopManager.instance.mainShopScreen.activeSelf)
             {
                 if (isPlayerItem)
                 {

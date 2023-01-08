@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8106934559119677052
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90fb794a295e73545af71bcdb7375791, type: 3}
-  m_Name: CinemachineShot
-  m_EditorClassIdentifier: 
-  DisplayName: 
-  VirtualCamera:
-    exposedName: 5405942afd0d61740bd457e4c35a942a
-    defaultValue: {fileID: 0}
 --- !u!114 &-4853540376947336100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -41,7 +25,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 345097389178291701}
-    m_Duration: 90
+    m_Duration: 357
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4853540376947336100}
     m_EaseInDuration: 0
@@ -136,7 +120,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfda56da833e2384a9677cd3c976a436, type: 3}
-  m_Name: IDLETimeline_Merchant_Female_0
+  m_Name: IDLETimeline_Villager_Standing_Female_4
   m_EditorClassIdentifier: 
   m_Version: 0
   m_Tracks:
@@ -196,7 +180,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 3642649806638214599}
-    m_Duration: 90
+    m_Duration: 357
     m_TimeScale: 1
     m_ParentTrack: {fileID: 1208419181691578813}
     m_EaseInDuration: 0
@@ -281,6 +265,22 @@ MonoBehaviour:
   m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_ApplyOffsets: 0
+--- !u!114 &1377350376306659279
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fb794a295e73545af71bcdb7375791, type: 3}
+  m_Name: CinemachineShot
+  m_EditorClassIdentifier: 
+  DisplayName: 
+  VirtualCamera:
+    exposedName: 8dc202da2dfc7904797d95d9c2407d0e
+    defaultValue: {fileID: 0}
 --- !u!114 &2740872099368565633
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -305,8 +305,8 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: -8106934559119677052}
-    m_Duration: 90
+    m_Asset: {fileID: 1377350376306659279}
+    m_Duration: 357
     m_TimeScale: 1
     m_ParentTrack: {fileID: 2740872099368565633}
     m_EaseInDuration: 0
@@ -370,7 +370,7 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: CVC_Morrin_Idle_Timeline_Cutscene
+    m_DisplayName: CVC_Idle_Timeline_Cutscene
   m_Markers:
     m_Objects: []
 --- !u!114 &3607107034057534642
@@ -431,7 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 90
+  m_Time: 357
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 483bafb0925f5284a9c6d47b885d87d3, type: 2}

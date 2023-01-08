@@ -1,7 +1,10 @@
+using Cinemachine;
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Playables;
 
 [RequireComponent(typeof(Collider), typeof(NavMeshAgent))]
 public class NPC : MonoBehaviour, IInteractable
@@ -26,6 +29,8 @@ public class NPC : MonoBehaviour, IInteractable
 
     [HideInInspector] public List<NPCWaypoint> allCorrWaypoints;
 
+    public CinemachineVirtualCamera nPCCVC;
+
     [Header("NPC One-Liner")]
     public List<NPCOneLinerProfile> allPossibleOL = new List<NPCOneLinerProfile>();
 
@@ -41,6 +46,11 @@ public class NPC : MonoBehaviour, IInteractable
     public NPCOneLinerProfile choosenOL;
 
     public AudioSource nPCAudioSource;
+
+    [Header("Use For Mission")]
+    public bool isUsedForMissions = false;
+
+    public PlayableAsset idleTimeline;
 
     void Start()
     {
@@ -178,11 +188,6 @@ public class NPC : MonoBehaviour, IInteractable
     {
         Interacting.instance.currInteractedObjTrans = this.transform;
 
-        if (npcAudioType != NPCAudioType.none)
-        {
-            PlayOneLiner();
-        }
-
         //CutsceneManager.instance.currCP = possibleNormalDialogues[Random.Range(0, possibleNormalDialogues.Count)];
         //CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
         //CutsceneManager.instance.playableDirector.Play();
@@ -221,6 +226,8 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void CheckIfNeededForMission()
     {
+        bool isNeeded = false;
+
         for (int i = 0; i < UIManager.instance.npcMissionButtonParentObjTrans.childCount; i++)
         {
             Destroy(UIManager.instance.npcMissionButtonParentObjTrans.GetChild(i).gameObject);
@@ -249,10 +256,12 @@ public class NPC : MonoBehaviour, IInteractable
                             CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
                             CutsceneManager.instance.playableDirector.Play();
 
+                            isNeeded = true;
+
                             break;
                         }
                         else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.talkToAllNPCs 
-                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.canBeDisplayed)
+                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.canBeDisplayed && isUsedForMissions)
                         {
                             var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
@@ -260,6 +269,19 @@ public class NPC : MonoBehaviour, IInteractable
                             newNPCMissionButton.GetComponent<NPCMissionButton>().storedMTB = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
 
                             UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+
+                            CutsceneManager.instance.ChangePlayerParentToCurrInteractObj();
+
+                            CutsceneManager.instance.playableDirector.playableAsset = idleTimeline;
+                            CutsceneManager.instance.playableDirector.Play();
+
+                            ThirdPersonController.instance.canMove = false;
+
+                            ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+                            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+                            isNeeded = true;
                         }
                     }
                 }
@@ -290,10 +312,12 @@ public class NPC : MonoBehaviour, IInteractable
                             CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
                             CutsceneManager.instance.playableDirector.Play();
 
+                            isNeeded = true;
+
                             break;
                         }
                         else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.talkToAllNPCs 
-                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.canBeDisplayed)
+                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.canBeDisplayed && isUsedForMissions)
                         {
                             var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
@@ -301,10 +325,28 @@ public class NPC : MonoBehaviour, IInteractable
                             newNPCMissionButton.GetComponent<NPCMissionButton>().storedMTB = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
 
                             UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+
+                            CutsceneManager.instance.ChangePlayerParentToCurrInteractObj();
+
+                            CutsceneManager.instance.playableDirector.playableAsset = idleTimeline;
+                            CutsceneManager.instance.playableDirector.Play();
+
+                            ThirdPersonController.instance.canMove = false;
+
+                            ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+                            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+                            isNeeded = true;
                         }
                     }
                 }
             }
+        }
+
+        if (npcAudioType != NPCAudioType.none && !isNeeded)
+        {
+            PlayOneLiner();
         }
     }
 }
