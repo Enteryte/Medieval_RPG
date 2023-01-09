@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
     private Animator Anim;
     private BaseEnemyKI AI;
     private float LifePoints;
+
     public void Initialize(EnemyBaseProfile _stats, Animator _anim, BaseEnemyKI _ai)
     {
         Stats = _stats;
