@@ -52,6 +52,9 @@ public class NPC : MonoBehaviour, IInteractable
 
     public PlayableAsset idleTimeline;
 
+    public CutsceneProfile cPMissionTaskSymon;
+    public CutsceneProfile cPMissionTaskMya;
+
     void Start()
     {
         InstantiateIOCanvas();
