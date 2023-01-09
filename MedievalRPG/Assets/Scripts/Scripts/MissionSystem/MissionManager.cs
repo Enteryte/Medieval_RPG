@@ -16,6 +16,10 @@ public class MissionManager : MonoBehaviour
     public List<Item> objectsToExamine;
     public List<Item> itemsToActivateWithTasks;
 
+    [Header("For Speaking With NPCs")]
+    public MissionTaskBase mTBWSymon;
+    public MissionTaskBase mTBWMya;
+
     public void Awake()
     {
         instance = this;

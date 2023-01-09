@@ -7,6 +7,7 @@ public class FightingActions : MonoBehaviour
 {
     public static FightingActions instance;
 
+    public List<Collider> colls;
     public GameObject equippedWeaponR;
     public GameObject equippedWeaponL;
     public GameObject arrow;
@@ -15,6 +16,7 @@ public class FightingActions : MonoBehaviour
     public Collider foot;
     public int shotSpeed = 6;
     public int throwSpeed = 10;
+    public int rollSpeed = 10;
     public bool aims = false;
     public bool holdBlock = false;
 
@@ -24,6 +26,8 @@ public class FightingActions : MonoBehaviour
     private Animator anim;
     private int attackCount = 0;
     private int chanceToRepeatIdle = 10; //chance die Idle zu wechseln 
+    private float time;
+    private bool isRolling = false;
 
     public void Awake()
     {
@@ -82,6 +86,20 @@ public class FightingActions : MonoBehaviour
     #endregion
 
     #region AnimEvents
+    public void EnableDisableUnarmed()
+    {
+        for (int i = 0; i < colls.Count; i++)
+        {
+            colls[i].enabled = !colls[i].enabled;
+        }
+    }
+
+    public void MovePlayer()
+    {
+        Debug.Log("Works");
+        isRolling = !isRolling;
+    }
+
     public void ResetBool()
     {
         attackCount = 0;
@@ -159,6 +177,7 @@ public class FightingActions : MonoBehaviour
     {
         if (equippedWeaponR == null && equippedWeaponL == null)
         {
+            anim.SetTrigger("LightAttackFist");
             return;
         }
 
@@ -226,6 +245,7 @@ public class FightingActions : MonoBehaviour
     {
         if (equippedWeaponR == null && equippedWeaponL == null)
         {
+            anim.SetTrigger("HeavyAttackFist");
             return;
         }
 
@@ -311,4 +331,21 @@ public class FightingActions : MonoBehaviour
         equippedWeaponR = null;
     }
     #endregion
+
+    #region Miscellaneous
+     private void OnRoll()
+    {
+        anim.SetTrigger("RollNew");
+    }
+    private void Update()
+    {
+        if(isRolling)
+        {
+            time += Time.deltaTime;
+            float desiredDuration = time / rollSpeed;
+            this.transform.position = Vector3.Lerp(this.transform.position, transform.forward * 3.16f, desiredDuration);
+        }
+    }
+    #endregion
+
 }

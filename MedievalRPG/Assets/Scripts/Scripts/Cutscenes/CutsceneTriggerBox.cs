@@ -19,7 +19,7 @@ public class CutsceneTriggerBox : MonoBehaviour
     {
         if (!triggerOnExit)
         {
-            if (other.gameObject == GameManager.instance.playerGO)
+            if (other.gameObject == GameManager.instance.playerGO && !CutsceneManager.instance.playableDirector.playableGraph.IsValid())
             {
                 if (triggerWithoutMission)
                 {
@@ -62,7 +62,7 @@ public class CutsceneTriggerBox : MonoBehaviour
     {
         if (triggerOnExit)
         {
-            if (other.gameObject == GameManager.instance.playerGO)
+            if (other.gameObject == GameManager.instance.playerGO && !CutsceneManager.instance.playableDirector.playableGraph.IsValid())
             {
                 if (triggerWithoutMission)
                 {

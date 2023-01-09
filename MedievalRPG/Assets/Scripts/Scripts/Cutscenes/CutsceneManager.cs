@@ -30,6 +30,10 @@ public class CutsceneManager : MonoBehaviour
     [Header("Tutorial")]
     public TutorialBaseProfile decisionTutorial;
 
+    [Header("Skip Cutscene")]
+    public Animator cutsceneUIAnimator;
+    public GameObject skipCutsceneUI;
+
     public void Awake()
     {
         instance = this;
@@ -44,35 +48,43 @@ public class CutsceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playableDirector.playableAsset != null)
+        if (playableDirector.playableAsset != null && !TutorialManager.instance.bigTutorialUI.activeSelf && !TutorialManager.instance.smallTutorialUI.activeSelf && !GameManager.instance.pauseMenuScreen.activeSelf)
         {
-            if (Input.GetKey(KeyCode.Escape) && currCP.isNotADialogue && currCP.cantBeSkipped)
+            if (Input.GetKeyDown(KeyCode.Escape) && currCP.isNotADialogue && !currCP.cantBeSkipped)
             {
-                if (!GameManager.instance.playedTheGameThrough)
-                {
-                    pressedTime += Time.deltaTime;
+                Debug.Log("is pressing: " + pressedTime);
 
-                    if (pressedTime >= timeToPressToSkipCS)
-                    {
-                        SkipCutscene(currCP.timeTillWhereToSkip);
+                cutsceneUIAnimator.Rebind();
+                cutsceneUIAnimator.enabled = true;
 
-                        pressedTime = 0;
-                    }
-                }
-                else
-                {
-                    SkipCutscene(currCP.timeTillWhereToSkip);
-                }   
+                //if (!GameManager.instance.playedTheGameThrough)
+                //{
+                //    pressedTime += Time.deltaTime;
+
+                //    if (pressedTime >= timeToPressToSkipCS)
+                //    {
+                //        SkipCutscene(currCP.timeTillWhereToSkip);
+
+                //        pressedTime = 0;
+                //    }
+                //}
+                //else
+                //{
+                //    SkipCutscene(currCP.timeTillWhereToSkip);
+                //}   
             }
 
-            if (Input.GetKeyDown(KeyCode.Return) && !currCP.isNotADialogue && currCP.cantBeSkipped)
+            if (Input.GetKeyDown(KeyCode.Return) && !currCP.isNotADialogue && !currCP.cantBeSkipped)
             {
                 SkipSentenceInDialogue();
             }
 
             if (Input.GetKeyUp(KeyCode.Escape))
             {
-                pressedTime = 0;
+                cutsceneUIAnimator.enabled = false;
+                skipCutsceneUI.SetActive(false);
+
+                //pressedTime = 0;
             }
         }
     }
@@ -191,20 +203,26 @@ public class CutsceneManager : MonoBehaviour
 
     public void SkipSentenceInDialogue()
     {
-        for (int i = 0; i < currCP.timesWhenNewSentenceStarts.Count; i++)
+        if (currCP.timesWhenNewSentenceStarts.Count > 0)
         {
-            if (playableDirector.time < currCP.timesWhenNewSentenceStarts[i])
+            for (int i = 0; i < currCP.timesWhenNewSentenceStarts.Count; i++)
             {
-                playableDirector.time = currCP.timesWhenNewSentenceStarts[i];
+                if (playableDirector.time < currCP.timesWhenNewSentenceStarts[i])
+                {
+                    playableDirector.time = currCP.timesWhenNewSentenceStarts[i];
 
-                return;
+                    return;
+                }
             }
         }
     }
 
-    public void SkipCutscene(float timeTillWhereToSkip)
+    public void SkipCutscene(/*float timeTillWhereToSkip*/)
     {
-        playableDirector.time = timeTillWhereToSkip;
+        playableDirector.time = currCP.timeTillWhereToSkip;
+
+        cutsceneUIAnimator.enabled = false;
+        skipCutsceneUI.SetActive(false);
     }
 
     public void BackgroundFadeIn()
@@ -236,6 +254,8 @@ public class CutsceneManager : MonoBehaviour
 
     public void DisplayDecisions()
     {
+        playableDirector.time = 0;
+
         TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(decisionTutorial);
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
@@ -295,12 +315,15 @@ public class CutsceneManager : MonoBehaviour
 
         if (currCP.mBTToCheck != null && !currCP.mBTToCheck.missionTaskCompleted)
         {
+            playableDirector.time = 0;
+
             //playableDirector.Stop();
             currCP = currCP.cutsceneToChangeTo;
 
             //Debug.Log(currCP);
             //Debug.Log(currCP.cutsceneToChangeTo);
             playableDirector.playableAsset = currCP.cutscene;
+
             playableDirector.Play();
         }
     }
@@ -401,6 +424,8 @@ public class CutsceneManager : MonoBehaviour
 
     public void PlayIdleTimeline()
     {
+        playableDirector.time = 0;
+
         var go = Interacting.instance.currInteractedObjTrans.gameObject;
 
         if (go.GetComponent<TavernKeeper>() != null)

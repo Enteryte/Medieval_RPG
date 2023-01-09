@@ -20,17 +20,22 @@ MonoBehaviour:
   playCutsceneMoreThanOnce: 0
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
-  timesWhenNewSentenceStarts: []
+  timesWhenNewSentenceStarts:
+  - 6.15
+  - 17.0167
+  tutorialToTrigger: {fileID: 0}
   changeParentTrans: 0
   hasDecisions: 1
   allDecisions:
   - decisionText: Annehmen
+    arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 5f9571861381c6045b4ce91a85a28f26, type: 2}
     missionToActivate: {fileID: 0}
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Ablehnen
+    arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: b6b5a6f50f2f860459067b371f09f04c, type: 2}
     missionToActivate: {fileID: 0}

@@ -52,7 +52,8 @@ public class MissionTaskBase : ScriptableObject
 
     [Header("(Talk-Mission-Values)")]
     public bool talkToAllNPCs = false;
-    public CutsceneProfile[] possibleDialoguesToAdd;
+    public CutsceneProfile[] possibleDialoguesToAddFemale;
+    public CutsceneProfile[] possibleDialoguesToAddMale;
 
     public NPCBaseProfile mainNPC;
     public CutsceneProfile dialogueToAdd;

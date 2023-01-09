@@ -12,7 +12,7 @@ public class CloseMSScreenButton : MonoBehaviour
         this.gameObject.GetComponent<Button>().onClick.AddListener(CloseScreen);
     }
 
-    public void CloseScreen()
+    public static void CloseScreen()
     {
         //ShopManager.instance.CheckIfNeededForCutscene();
 
@@ -52,5 +52,10 @@ public class CloseMSScreenButton : MonoBehaviour
 
             ShopManager.instance.currMerchant.normalMerchantObj.SetActive(true);
         }
+
+        var randomMerchantDialogue = Random.Range(0, ShopManager.instance.currMerchant.mEndBuyingShopPA.Length);
+
+        CutsceneManager.instance.playableDirector.playableAsset = ShopManager.instance.currMerchant.mEndBuyingShopPA[randomMerchantDialogue];
+        CutsceneManager.instance.playableDirector.Play();
     }
 }
