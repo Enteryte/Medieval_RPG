@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -94,10 +95,9 @@ public class FightingActions : MonoBehaviour
         }
     }
 
-    public void MovePlayer()
+    public void StopMOVING()
     {
-        Debug.Log("Works");
-        isRolling = !isRolling;
+        TPC.StopMovingWhileRolling();
     }
 
     public void ResetBool()
@@ -335,8 +335,10 @@ public class FightingActions : MonoBehaviour
     #region Miscellaneous
      private void OnRoll()
     {
+        StartCoroutine(GameManager.instance.playerGO.GetComponent<ThirdPersonController>().Roll());
         anim.SetTrigger("RollNew");
     }
+
     private void Update()
     {
         if(isRolling)
@@ -346,6 +348,7 @@ public class FightingActions : MonoBehaviour
             this.transform.position = Vector3.Lerp(this.transform.position, transform.forward * 3.16f, desiredDuration);
         }
     }
+
     #endregion
 
 }
