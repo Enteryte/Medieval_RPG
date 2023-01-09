@@ -366,7 +366,7 @@ namespace StarterAssets
             rollStopMoving = false;
         }
 
-        IEnumerator Roll()
+        public IEnumerator Roll()
         {
             isRolling = true;
 
@@ -377,7 +377,7 @@ namespace StarterAssets
 
             PlayerValueManager.instance.RemoveStamina(rollStaminaReduceValue);
 
-            _animator.SetBool("Roll", true);
+            //_animator.SetBool("Roll", true);
 
             float timer = 0;
 
@@ -405,7 +405,7 @@ namespace StarterAssets
                 yield return null;
             }
 
-            _animator.SetBool("Roll", false);
+            //_animator.SetBool("Roll", false);
 
             yield return new WaitForSeconds(0.4f);
 
