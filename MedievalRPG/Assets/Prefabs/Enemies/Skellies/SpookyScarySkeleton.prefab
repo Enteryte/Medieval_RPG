@@ -1983,7 +1983,7 @@ GameObject:
   - component: {fileID: 237045143}
   m_Layer: 0
   m_Name: SpookyScarySkeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2022,12 +2022,12 @@ MonoBehaviour:
   Animator: {fileID: 8109204317566075536}
   Agent: {fileID: 237045143}
   Health: {fileID: 6854543641762457645}
-  EnemyDamager: {fileID: 4959356707431266280}
   HardCodeTarget: {fileID: 0}
   RayDetectionPrefab: {fileID: 6247046261946202479, guid: 5aa4d775553884342a6bcf626a24b45d, type: 3}
   SightContainer: {fileID: 2004182896}
-  AttackContainer: {fileID: 982788574}
   Tolerance: 1
+  EnemyDamager: {fileID: 4959356707431266280}
+  AttackContainer: {fileID: 982788574}
 --- !u!195 &237045143
 NavMeshAgent:
   m_ObjectHideFlags: 0

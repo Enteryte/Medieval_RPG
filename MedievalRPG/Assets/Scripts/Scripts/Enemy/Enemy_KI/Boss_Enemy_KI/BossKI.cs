@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BossKI : BaseEnemyKI
 {
+    [SerializeField] private float MinDistanceForRangeMode;
     public override void Init()
     {
         base.Init();
@@ -22,5 +23,10 @@ public class BossKI : BaseEnemyKI
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
+    }
+
+    private IEnumerator AttackLoop()
+    {
+        yield return null;
     }
 }

@@ -39,7 +39,6 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected float Tolerance;
     protected float SqrTolerance;
 
-
     private int CheckValue;
 
     #region Unity Events

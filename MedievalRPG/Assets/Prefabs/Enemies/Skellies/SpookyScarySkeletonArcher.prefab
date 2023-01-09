@@ -2642,7 +2642,7 @@ GameObject:
   - component: {fileID: 8169654544299737275}
   m_Layer: 0
   m_Name: SpookyScarySkeletonArcher
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2682,13 +2682,13 @@ MonoBehaviour:
   Animator: {fileID: 11078170838861015}
   Agent: {fileID: 8169654544299737275}
   Health: {fileID: 1115182316914900920}
+  HardCodeTarget: {fileID: 0}
+  RayDetectionPrefab: {fileID: 6247046261946202479, guid: 5aa4d775553884342a6bcf626a24b45d, type: 3}
+  SightContainer: {fileID: 3704353024204817998}
+  Tolerance: 1.19
   FiringPoint: {fileID: 2821798670182175154}
   FleeingDistance: 5
   FleeReroutCoolDown: 4
-  SightContainer: {fileID: 3704353024204817998}
-  Tolerance: 1.19
-  RayDetectionPrefab: {fileID: 6247046261946202479, guid: 5aa4d775553884342a6bcf626a24b45d, type: 3}
-  HardCodeTarget: {fileID: 0}
 --- !u!195 &8169654544299737275
 NavMeshAgent:
   m_ObjectHideFlags: 0
