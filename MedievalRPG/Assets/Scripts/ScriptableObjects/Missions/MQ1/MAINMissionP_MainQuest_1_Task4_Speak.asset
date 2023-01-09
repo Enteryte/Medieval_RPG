@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: MAINMissionP_MainQuest_1_Task4_Speak
   m_EditorClassIdentifier: 
   missionTaskType: 1
-  missionButtonDescription: 
+  isOptional: 0
+  missionButtonDescription: Nach Hilfe bitten
   completeAfterInteracted: 0
   missionTaskCompleted: 0
   cutsceneToTrigger: {fileID: 0}
@@ -32,6 +33,8 @@ MonoBehaviour:
   possibleDialoguesToAdd: []
   mainNPC: {fileID: 0}
   dialogueToAdd: {fileID: 0}
+  pointsToGainForWin: 0
+  currGainedPoints: 0
   itemToCollectBase: {fileID: 0}
   itemToCollectBase2: {fileID: 0}
   howManyToCollect: 0
