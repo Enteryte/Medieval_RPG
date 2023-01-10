@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class HotbarHowManyScreen : MonoBehaviour
 {
@@ -9,11 +10,41 @@ public class HotbarHowManyScreen : MonoBehaviour
     public int currMaxAmount = 1;
 
     public TMP_Text currAmountTxt;
+    public TMP_Text currMaxAmountTxt;
 
     public Color normalWeightColor;
     public Color tooMuchWeightColor;
 
     public static ItemBaseProfile currIBP;
+
+    public Slider howManyHBSlider;
+    public GameObject sliderHandle;
+
+    public void Update()
+    {
+        UpdateSliderValues();
+    }
+
+    public void SetStartValues(int maxAmount)
+    {
+        howManyHBSlider.maxValue = maxAmount;
+        howManyHBSlider.value = maxAmount;
+
+        currAmountTxt.text = maxAmount.ToString();
+        currMaxAmountTxt.text = maxAmount.ToString();
+
+        currDisplayedAmount = maxAmount;
+
+        Debug.Log("1");
+    }
+
+    public void UpdateSliderValues()
+    {
+        currAmountTxt.text = howManyHBSlider.value.ToString();
+
+        Debug.Log(howManyHBSlider.value.ToString());
+        Debug.Log(currDisplayedAmount);
+    }
 
     public void SetNewMaxAmount()
     {
@@ -69,9 +100,9 @@ public class HotbarHowManyScreen : MonoBehaviour
 
         for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
         {
-            if (HotbarManager.instance.allHotbarSlotBtn[i].iBP != null && HotbarManager.instance.allHotbarSlotBtn[i].iBP == currIBP)
+            if (HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase != null && HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase == currIBP)
             {
-                currStoredWeightOfItem = HotbarManager.instance.allHotbarSlotBtn[i].itemAmount * HotbarManager.instance.allHotbarSlotBtn[i].iBP.weight;
+                currStoredWeightOfItem = HotbarManager.instance.allHotbarSlotBtn[i].storedAmount * HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase.weight;
 
                 break;
             }
@@ -92,6 +123,7 @@ public class HotbarHowManyScreen : MonoBehaviour
         //HotbarManager.instance.hbHMScreen.UpdateAmountText();
         //HotbarManager.instance.hbHMScreen.SetNewMaxAmount();
 
+        Debug.Log(currDisplayedAmount);
         HotbarManager.currHSB.ChangeHotbarSlotItem(currIBP, currDisplayedAmount);
 
         HotbarManager.currHSB = null;

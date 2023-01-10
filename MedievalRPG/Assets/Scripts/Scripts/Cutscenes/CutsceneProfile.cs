@@ -9,6 +9,10 @@ public class CutsceneProfile : ScriptableObject
 {
     public TimelineAsset cutscene;
 
+    public bool fadeIn = true;
+
+    public bool isNightCutscene = false;
+
     public bool isNotADialogue = false;
     public bool cantBeSkipped = false;
 
@@ -18,6 +22,12 @@ public class CutsceneProfile : ScriptableObject
     public float timeTillWhereToSkip;
 
     public List<float> timesWhenNewSentenceStarts;
+
+    [Header("Tutorial")]
+    public TutorialBaseProfile tutorialToTrigger;
+
+    [Header("Change Transform At Start")]
+    public bool changeParentTrans = false;
 
     [Header("Decisions")]
     public bool hasDecisions = false;
@@ -74,11 +84,14 @@ public class CutsceneDecision
 {
     public string decisionText;
 
+    public int arguePointsToGain;
+
     public bool needsToBeClicked = true;
 
     public CutsceneProfile cutsceneToPlay;
     public MissionBaseProfile missionToActivate;
 
+    [Header("Rewards")]
     public ItemBaseProfile itemToGet;
     public int amountToGet;
 }

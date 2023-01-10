@@ -39,9 +39,9 @@ public class HotbarSlotButton : MonoBehaviour
 
         for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
         {
-            if (HotbarManager.instance.allHotbarSlotBtn[i].iBP != null && HotbarManager.instance.allHotbarSlotBtn[i].iBP == newItemBP && HotbarManager.instance.allHotbarSlotBtn[i] != this)
+            if (HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase != null && HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase == newItemBP && HotbarManager.instance.allHotbarSlotBtn[i] != this)
             {
-                HotbarManager.instance.allHotbarSlotBtn[i].ChangeHotbarSlotItem(oldIBP, itemAmount);
+                HotbarManager.instance.allHotbarSlotBtn[i].EquipItemToHotbar(null, 0);
 
                 break;
             }
@@ -63,6 +63,7 @@ public class HotbarSlotButton : MonoBehaviour
             }
 
             itemSpriteImg.sprite = iBP.itemSprite;
+            itemSpriteImg.enabled = true;
             itemAmountTxt.text = itemAmount.ToString();
 
             correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = iBP.itemSprite;
@@ -73,6 +74,7 @@ public class HotbarSlotButton : MonoBehaviour
             itemAmount = 0;
 
             itemSpriteImg.sprite = null;
+            itemSpriteImg.enabled = false;
             itemAmountTxt.text = itemAmount.ToString();
 
             correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = null;

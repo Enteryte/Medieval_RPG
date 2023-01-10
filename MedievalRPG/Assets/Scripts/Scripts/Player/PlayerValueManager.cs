@@ -27,15 +27,21 @@ public class PlayerValueManager : MonoBehaviour
     public float normalStrength;
     public float currStrength;
 
+    [Header("Tutorial")]
+    public TutorialBaseProfile staminaTutorial;
+
     public void Awake()
     {
         instance = this;
 
-        staminaSlider.maxValue = normalStamina;
-        staminaSlider.value = currStamina;
+        if(staminaSlider != null)
+        {
+            staminaSlider.maxValue = normalStamina;
+            staminaSlider.value = currStamina;
 
-        healthSlider.maxValue = normalHP;
-        healthSlider.value = currHP;
+            healthSlider.maxValue = normalHP;
+            healthSlider.value = currHP;
+        }
     }
 
     // Start is called before the first frame update
@@ -55,8 +61,11 @@ public class PlayerValueManager : MonoBehaviour
             }
             else if (currWaitingTime >= timeTillRefillStamina)
             {
-                staminaSlider.value += Mathf.Lerp(currStamina, normalStamina, Time.deltaTime * 1f);
-                currStamina = staminaSlider.value;
+                if(staminaSlider != null)
+                {
+                    staminaSlider.value += Mathf.Lerp(currStamina, normalStamina, Time.deltaTime * 1f);
+                    currStamina = staminaSlider.value;
+                }
 
                 if (currStamina >= normalStamina)
                 {
@@ -81,12 +90,21 @@ public class PlayerValueManager : MonoBehaviour
                 }
             }
         }
+
+        if (staminaSlider.value <= normalStamina / 2)
+        {
+            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(staminaTutorial);
+        }
     }
 
     public void RemoveStamina(float staminaAmountToRemove)
     {
         currStamina -= staminaAmountToRemove;
-        staminaSlider.value = currStamina;
+
+        if(staminaSlider != null)
+        {
+            staminaSlider.value = currStamina;
+        }
 
         currWaitingTime = 0;
     }

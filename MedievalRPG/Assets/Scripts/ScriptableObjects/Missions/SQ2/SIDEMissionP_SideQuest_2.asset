@@ -15,12 +15,30 @@ MonoBehaviour:
   missionType: 2
   missionName: Einkaufsliste
   missionDescription: 
-  allMissionTasks: []
+  allMissionTasks:
+  - isOptional: 0
+    taskName: "Besorge 5 \xC4pfel."
+    taskDescription: 
+    mTB: {fileID: 11400000, guid: b4819acdff79e9843be64e2c7e80e638, type: 2}
+  - isOptional: 0
+    taskName: Besorge 8 Kartoffeln.
+    taskDescription: 
+    mTB: {fileID: 11400000, guid: b31c1adc7308aa048a0daffe79451c49, type: 2}
+  - isOptional: 0
+    taskName: "Besorge 3 H\xFChner."
+    taskDescription: 
+    mTB: {fileID: 11400000, guid: 3fe15d582b8950d4095fc7033aa1fa9a, type: 2}
+  - isOptional: 0
+    taskName: "Gehe zur\xFCck zum Wirten."
+    taskDescription: 
+    mTB: {fileID: 11400000, guid: 5562baf86bbfed449b63b02c6bd923c9, type: 2}
   missionCompleted: 0
   moneyReward: 0
   itemRewards: []
   nextMissionToTrigger: {fileID: 0}
   cutsceneToTrigger: {fileID: 0}
+  nPCWhereToGetMissionFrom: {fileID: 0}
+  cutsceneToTriggerAfterPressedButton: {fileID: 11400000, guid: 9de0351e6174b224fa82eeca88053711, type: 2}
   missionAfterItsActive: {fileID: 0}
   isActive: 0
   changeEnvironment: 0

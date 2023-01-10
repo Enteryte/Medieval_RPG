@@ -16,16 +16,23 @@ MonoBehaviour:
   completeAfterInteracted: 1
   missionTaskCompleted: 0
   cutsceneToTrigger: {fileID: 0}
+  cutsceneToTriggerOnce: {fileID: 0}
   moneyReward: 0
   itemRewards: []
   canNormallyBeDisplayed: 1
   canBeDisplayed: 1
-  missionTaskToActivate: {fileID: 0}
+  missionTaskToActivate: {fileID: 11400000, guid: 327fcb3eaedd7f047b8d6d6ce9dc2a70, type: 2}
+  missionTaskToActivate2: {fileID: 11400000, guid: a454d55bdf65a2648ad8466c989a72a9, type: 2}
+  isActiveAtStart: 1
   nPCToTalkToBaseProfile: {fileID: 0}
   dialogToPlayAfterInteracted: {fileID: 0}
+  dialogToPlayAfterPressedButton: {fileID: 0}
   talkToAllNPCs: 0
   possibleDialoguesToAdd: []
+  mainNPC: {fileID: 0}
+  dialogueToAdd: {fileID: 0}
   itemToCollectBase: {fileID: 0}
+  itemToCollectBase2: {fileID: 0}
   howManyToCollect: 0
   howManyAlreadyCollected: 0
   dialogAfterSeenFirstItem: {fileID: 0}
@@ -37,3 +44,9 @@ MonoBehaviour:
   dialogAfterKilledFirstEnemy: {fileID: 0}
   noteOrBookToReadIBP: {fileID: 0}
   missionTriggerBoxToGoTo: {fileID: 0}
+  cutsceneWhenInteractedWDoor: {fileID: 0}
+  iBPOfItemToExamine: {fileID: 0}
+  iBPOfItemToExamine2: {fileID: 0}
+  eBPToExamine: {fileID: 0}
+  howManyToExamine: 0
+  howManyAlreadyExamined: 0

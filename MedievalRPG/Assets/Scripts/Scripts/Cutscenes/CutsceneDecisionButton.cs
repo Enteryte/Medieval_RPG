@@ -22,9 +22,9 @@ public class CutsceneDecisionButton : MonoBehaviour
 
         if (storedDecision.cutsceneToPlay != null)
         {
-            CutsceneManager.instance.currCP = storedDecision.cutsceneToPlay;
             CutsceneManager.instance.playableDirector.playableAsset = storedDecision.cutsceneToPlay.cutscene;
             CutsceneManager.instance.playableDirector.Play();
+            CutsceneManager.instance.currCP = storedDecision.cutsceneToPlay;
         }
 
         if (storedDecision.missionToActivate != null)
@@ -40,6 +40,11 @@ public class CutsceneDecisionButton : MonoBehaviour
         if (!storedDecision.cutsceneToPlay.playCutsceneMoreThanOnce)
         {
             storedDecision.cutsceneToPlay.alreadyPlayedCutscene = true;
+        }
+
+        if (storedDecision.arguePointsToGain > 0)
+        {
+            storedDecision.cutsceneToPlay.mBTToCheck.currGainedPoints += storedDecision.arguePointsToGain;
         }
 
         for (int i = 0; i < CutsceneManager.instance.decisionBtnParentTrans.childCount; i++)

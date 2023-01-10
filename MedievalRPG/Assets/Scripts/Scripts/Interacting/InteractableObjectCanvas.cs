@@ -67,6 +67,11 @@ public class InteractableObjectCanvas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (correspondingGO == null)
+        {
+            Destroy(this.gameObject);
+        }
+
         if (!isADoor && !isANPC && !isASeatingObj)
         {
             this.gameObject.transform.position = Camera.main.WorldToScreenPoint(correspondingGO.transform.position);

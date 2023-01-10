@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEditor;
 using System;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Inventory Base", menuName = "Scriptable Objects/Inventory/Inventory Base")]
 public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackReceiver
@@ -82,7 +83,7 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
                 {
                     slots.Remove(slots[i]);
 
-                    UpdateHotbarItems(item, true, amount);
+                    //UpdateHotbarItems(item, true, amount);
 
                     return;
                 }
@@ -117,54 +118,63 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
         {
             bool containsItem = false;
 
-            if (HotbarManager.instance.allHotbarSlotBtn[i].iBP != null && HotbarManager.instance.allHotbarSlotBtn[i].iBP == usedItemBP)
+            //Debug.Log(HotbarManager.instance.allHotbarSlotBtn[i]);
+            //Debug.Log(HotbarManager.instance.allHotbarSlotBtn[i].iBP);
+            
+            if (HotbarManager.instance.allHotbarSlotBtn[i] != null && HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase != null)
             {
-                for (int y = 0; y < slots.Count; y++)
+                if (HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase == usedItemBP)
                 {
-                    if (slots[y].itemBase == usedItemBP)
+                    for (int y = 0; y < slots.Count; y++)
                     {
-                        containsItem = true;
+                        if (slots[y].itemBase == usedItemBP)
+                        {
+                            containsItem = true;
 
-                        break;
+                            break;
+                        }
                     }
-                }
 
-                if (containsItem)
-                {
-                    if (reduceAmount)
+                    if (containsItem)
                     {
-                        if (HotbarManager.instance.allHotbarSlotBtn[i].itemAmount > InventoryManager.currIS.itemAmount)
+                        if (reduceAmount)
                         {
                             if (InventoryManager.currIS != null)
                             {
-                                HotbarManager.instance.allHotbarSlotBtn[i].itemAmount = InventoryManager.currIS.itemAmount;
+                                if (HotbarManager.instance.allHotbarSlotBtn[i].storedAmount > InventoryManager.currIS.itemAmount)
+                                {
+                                    if (InventoryManager.currIS != null)
+                                    {
+                                        HotbarManager.instance.allHotbarSlotBtn[i].storedAmount = InventoryManager.currIS.itemAmount;
+                                    }
+                                    else
+                                    {
+                                        HotbarManager.instance.allHotbarSlotBtn[i].storedAmount -= amountToReduce;
+                                    }
+
+                                    InventoryManager.instance.RemoveHoldingWeight(HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase.weight, amountToReduce);
+                                }
                             }
-                            else
+
+                            HotbarManager.instance.allHotbarSlotBtn[i].gameObject.transform.GetChild(0).GetComponent<Image>().sprite = HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase.itemSprite;
+                            HotbarManager.instance.allHotbarSlotBtn[i].storedAmountTxt.text = HotbarManager.instance.allHotbarSlotBtn[i].storedAmount.ToString();
+
+                            HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = HotbarManager.instance.allHotbarSlotBtn[i].storedItemBase.itemSprite;
+                            HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn.itemAmountTxt.text = HotbarManager.instance.allHotbarSlotBtn[i].storedAmount.ToString();
+
+                            if (HotbarManager.instance.allHotbarSlotBtn[i].storedAmount <= 0)
                             {
-                                HotbarManager.instance.allHotbarSlotBtn[i].itemAmount -= amountToReduce;
+                                HotbarManager.instance.allHotbarSlotBtn[i].ClearHotbarSlot();
                             }
 
-                            InventoryManager.instance.RemoveHoldingWeight(HotbarManager.instance.allHotbarSlotBtn[i].iBP.weight, amountToReduce);
+                            Debug.Log("REDUCE");
                         }
-
-                        HotbarManager.instance.allHotbarSlotBtn[i].itemSpriteImg.sprite = HotbarManager.instance.allHotbarSlotBtn[i].iBP.itemSprite;
-                        HotbarManager.instance.allHotbarSlotBtn[i].itemAmountTxt.text = HotbarManager.instance.allHotbarSlotBtn[i].itemAmount.ToString();
-
-                        HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn.itemSpriteImg.sprite = HotbarManager.instance.allHotbarSlotBtn[i].iBP.itemSprite;
-                        HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn.itemAmountTxt.text = HotbarManager.instance.allHotbarSlotBtn[i].itemAmount.ToString();
-
-                        if (HotbarManager.instance.allHotbarSlotBtn[i].itemAmount <= 0)
-                        {
-                            HotbarManager.instance.allHotbarSlotBtn[i].RemoveStoredItem();
-                        }
-
-                        Debug.Log("REDUCE");
                     }
-                }
-                else
-                {
-                    HotbarManager.instance.allHotbarSlotBtn[i].RemoveStoredItem();
-                }
+                    else
+                    {
+                        HotbarManager.instance.allHotbarSlotBtn[i].ClearHotbarSlot();
+                    }
+                }            
             }
         }
     }

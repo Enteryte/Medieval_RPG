@@ -13,6 +13,7 @@ public class ShopManager : MonoBehaviour
     public HowManyScreen hMScreen;
     public BoughtOrSoldMessageScreen bOSMScreen;
 
+    public Merchant currMerchant;
     public static MerchantBaseProfile currMBP;
     public ShopListBaseProfile currSLBP;
 
@@ -22,6 +23,27 @@ public class ShopManager : MonoBehaviour
 
     public GameObject shopItemButtonPrefab;
     public Transform shopItemPreviewCamTrans;
+
+    public TMP_Text weightTxt;
+    public TMP_Text moneyTxt;
+
+    public GameObject itemInfoPopUp;
+
+    public static ItemBaseProfile currClickedItem;
+
+    public bool isShopPlayerItem = false;
+
+    [Header("Player Item-Display")]
+    public ShopCategoryButton currPlayerClickedSCBtn;
+    public Transform playerItemSlotParentTrans;
+    public TMP_Text currPlayerCategoryNameTxt;
+
+    [Header("Shop Merchant Item-Display")]
+    public ShopCategoryButton currMerchantClickedSCBtn;
+    public Transform merchantItemSlotParentTrans;
+    public TMP_Text currMerchantCategoryNameTxt;
+
+    public List<string> allCurrCategoryNames;
 
     [Header("Right Shop Informations")]
     public GameObject rightShopItemInformationGO;
@@ -33,6 +55,15 @@ public class ShopManager : MonoBehaviour
     public TMP_Text itemCurrAmountInInvTxt;
 
     public bool isBuying = true;
+
+    [Header("Main Screen")]
+    public Transform mainScreenButtonParentTrans;
+
+    [Header("Button Prefabs")]
+    public GameObject buyButtonPrefab;
+    public GameObject sellButtonPrefab;
+    public GameObject missionButtonPrefab;
+    public GameObject closeMainShopScreenButtonPrefab;
 
     public void Awake()
     {
@@ -48,45 +79,223 @@ public class ShopManager : MonoBehaviour
             {
                 hMScreen.gameObject.SetActive(false);
             }
-            else if (mainShopScreen.activeSelf)
+        }
+        else if (Input.GetKeyDown(KeyCode.Return) && shopScreen != null && shopScreen.activeSelf)
+        {
+            if (hMScreen.gameObject.activeSelf)
             {
-                mainShopScreen.SetActive(false);
-
-                rightShopItemInformationGO.SetActive(false);
-
-                bOSMScreen.gameObject.SetActive(false);
-
                 hMScreen.gameObject.SetActive(false);
+
+                BuyOrSellItem(HowManyScreen.currIBP, (int)hMScreen.howManySSlider.value);
+            }
+        }
+
+        if (itemInfoPopUp.activeSelf)
+        {
+            itemInfoPopUp.transform.position = Input.mousePosition;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !hMScreen.gameObject.activeSelf)
+        {
+            if (mainShopScreen.activeSelf)
+            {
+                CutsceneManager.instance.playableDirector.playableAsset = currMerchant.idleTimeline;
+                CutsceneManager.instance.playableDirector.Play();
+
+                mainShopScreen.SetActive(false);
             }
             else if (shopScreen.activeSelf)
             {
-                CheckIfNeededForCutscene();
-
-                shopScreen.SetActive(false);
-
-                ThirdPersonController.instance.canMove = true;
-
-                GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+                CloseMSScreenButton.CloseScreen();
             }
         }
+    }
+
+    public void DisplayMainScreenButtons()
+    {
+        for (int i = 0; i < mainScreenButtonParentTrans.childCount; i++)
+        {
+            Destroy(mainScreenButtonParentTrans.GetChild(i).gameObject);
+        }
+
+        //Debug.Log(currMerchant);
+        //Debug.Log(currMerchant.currCorrTask);
+
+        Instantiate(buyButtonPrefab, mainScreenButtonParentTrans);
+        //Instantiate(sellButtonPrefab, mainScreenButtonParentTrans);
+
+        if (currMerchant.neededForMission && currMerchant.neededForMission /*!currMerchant.currCorrTask.missionTaskCompleted*/)
+        {
+            for (int i = 0; i < currMerchant.allCurrCorrTasks.Count; i++)
+            {
+                if (!currMerchant.allCurrCorrTasks[i].missionTaskCompleted)
+                {
+                    var shopMissionButton = Instantiate(missionButtonPrefab, mainScreenButtonParentTrans);
+
+                    shopMissionButton.GetComponent<ShopMissionButton>().storedMissionTask = currMerchant.allCurrCorrTasks[i];
+                    shopMissionButton.GetComponent<ShopMissionButton>().missionDescriptionTxt.text = currMerchant.allCurrCorrTasks[i].missionButtonDescription;
+                }
+            }
+
+            for (int i = 0; i < currMerchant.allCorrMissions.Count; i++)
+            {
+                if (!currMerchant.allCorrMissions[i].isActive)
+                {
+                    var shopMissionButton = Instantiate(missionButtonPrefab, mainScreenButtonParentTrans);
+
+                    shopMissionButton.GetComponent<ShopMissionButton>().storedMission = currMerchant.allCorrMissions[i];
+                    shopMissionButton.GetComponent<ShopMissionButton>().missionDescriptionTxt.text = currMerchant.allCorrMissions[i].missionDescription;
+                }
+            }
+        }
+
+        Instantiate(closeMainShopScreenButtonPrefab, mainScreenButtonParentTrans);
+
+        shopScreen.SetActive(true);
+
+        //Debug.Log("SCREEN");
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+        ThirdPersonController.instance.canMove = false;
+        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
     }
 
     public void OpenBuyScreen()
     {
         isBuying = true;
 
-        DisplayShopItems();
+        DisplayPlayerItems();
+        DisplayMerchantItems();
+
+        //DisplayShopItems();
 
         mainShopScreen.SetActive(true);
     }
 
-    public void OpenSellScreen()
+    //public void OpenSellScreen()
+    //{
+    //    isBuying = false;
+
+    //    DisplayShopItems();
+
+    //    mainShopScreen.SetActive(true);
+    //}
+
+    public void DisplayPlayerItems()
     {
-        isBuying = false;
+        for (int i = 0; i < playerItemSlotParentTrans.childCount; i++)
+        {
+            Destroy(playerItemSlotParentTrans.GetChild(i).gameObject);
+        }
 
-        DisplayShopItems();
+        for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
+        {
+            var currItem = InventoryManager.instance.inventory.slots[i].itemBase;
 
-        mainShopScreen.SetActive(true);
+            if (currPlayerClickedSCBtn != null)
+            {
+                if (currItem.itemType.ToString() == currPlayerClickedSCBtn.itemTypeToDisplay.ToString())
+                {
+                    var newItemSlot = Instantiate(shopItemButtonPrefab, playerItemSlotParentTrans);
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedItemBase = currItem;
+                    //newItemSlot.GetComponent<ClickableInventorySlot>().();
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().clickableSlotType = ClickableInventorySlot.ClickableSlotType.shopSlot;
+                    newItemSlot.GetComponent<ClickableInventorySlot>().isShopPlayerItem = true;
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedAmount = InventoryManager.instance.inventory.slots[i].itemAmount;
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().UpdateSlotInformations();
+
+                    //if (allCurrCategoryNames.Contains(currPlayerClickedSCBtn.itemTypeToDisplay.ToString()))
+                    //{
+                    //    newItemSlot.GetComponent<ShopItemButton>().im
+                    //}
+                }
+            }
+            else
+            {
+                if (currItem.itemType == ItemBaseProfile.ItemType.food)
+                {
+                    var newItemSlot = Instantiate(shopItemButtonPrefab, playerItemSlotParentTrans);
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedItemBase = currItem;
+                    //newItemSlot.GetComponent<ClickableInventorySlot>().();
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().clickableSlotType = ClickableInventorySlot.ClickableSlotType.shopSlot;
+                    newItemSlot.GetComponent<ClickableInventorySlot>().isShopPlayerItem = true;
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedAmount = InventoryManager.instance.inventory.slots[i].itemAmount;
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().UpdateSlotInformations();
+
+                    currPlayerCategoryNameTxt.text = "Nahrung";
+
+                    //if (allCurrCategoryNames.Contains(currPlayerClickedSCBtn.itemTypeToDisplay.ToString()))
+                    //{
+                    //    newItemSlot.GetComponent<ShopItemButton>().im
+                    //}
+                }
+            }
+        }
+    }
+
+    public void DisplayMerchantItems()
+    {
+        for (int i = 0; i < merchantItemSlotParentTrans.childCount; i++)
+        {
+            Destroy(merchantItemSlotParentTrans.GetChild(i).gameObject);
+        }
+
+        allCurrCategoryNames.Clear();
+
+        for (int i = 0; i < currSLBP.itemBaseProfiles.Length; i++)
+        {
+            var currItem = currSLBP.itemBaseProfiles[i];
+
+            if (currMerchantClickedSCBtn != null)
+            {
+                if (currItem.itemType.ToString() == currMerchantClickedSCBtn.itemTypeToDisplay.ToString())
+                {
+                    var newItemSlot = Instantiate(shopItemButtonPrefab, merchantItemSlotParentTrans);
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedItemBase = currItem;
+                    //newItemSlot.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
+
+                    if (!allCurrCategoryNames.Contains(currMerchantClickedSCBtn.itemTypeToDisplay.ToString()))
+                    {
+                        allCurrCategoryNames.Add(currMerchantClickedSCBtn.itemTypeToDisplay.ToString());
+                    }
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().clickableSlotType = ClickableInventorySlot.ClickableSlotType.shopSlot;
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedAmountTxt.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                if (currItem.itemType == ItemBaseProfile.ItemType.food)
+                {
+                    var newItemSlot = Instantiate(shopItemButtonPrefab, merchantItemSlotParentTrans);
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedItemBase = currItem;
+                    //newItemSlot.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
+
+                    if (!allCurrCategoryNames.Contains(ItemBaseProfile.ItemType.food.ToString()))
+                    {
+                        allCurrCategoryNames.Add(ItemBaseProfile.ItemType.food.ToString());
+                    }
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().clickableSlotType = ClickableInventorySlot.ClickableSlotType.shopSlot;
+
+                    newItemSlot.GetComponent<ClickableInventorySlot>().storedAmountTxt.gameObject.SetActive(false);
+
+                    currMerchantCategoryNameTxt.text = "Nahrung";
+                }
+            }
+        }
     }
 
     public void DisplayShopItems()
@@ -123,11 +332,11 @@ public class ShopManager : MonoBehaviour
                     }
                 }
 
-                if (newShopItemButton != null)
-                {
-                    newShopItemButton.GetComponent<ShopItemButton>().storedItemBase = currSLBP.itemBaseProfiles[i];
-                    newShopItemButton.GetComponent<ShopItemButton>().DisplayStoredItemInformation();
-                }
+                //if (newShopItemButton != null)
+                //{
+                //    newShopItemButton.GetComponent<ClickableInventorySlot>().storedItemBase = currSLBP.itemBaseProfiles[i];
+                //    newShopItemButton.GetComponent<ClickableInventorySlot>().DisplayAllItemInformationsOnClick();
+                //}
             }
         }
         else
@@ -204,7 +413,7 @@ public class ShopManager : MonoBehaviour
 
     public void BuyOrSellItem(ItemBaseProfile itemBase, int amount)
     {
-        if (ShopManager.instance.isBuying)
+        if (!isShopPlayerItem)
         {
             InventoryManager.instance.inventory.AddItem(itemBase, amount);
 
@@ -213,6 +422,20 @@ public class ShopManager : MonoBehaviour
             PlayerValueManager.instance.money -= (itemBase.buyPrice * amount);
 
             bOSMScreen.boughtOrSoldTxt.text = "Item erworben";
+
+            //var chanceOfTriggerDialogue = Random.Range(0, 100);
+
+            //if (chanceOfTriggerDialogue > 70)
+            //{
+
+            // ---------------------------------------------> WIP: Irgendwie buggy; Funktioniert manchmal nur bei den Waffen.
+            var randomMerchantDialogue = Random.Range(0, currMerchant.mAfterBoughtShopPA.Length);
+
+            CutsceneManager.instance.playableDirector.playableAsset = currMerchant.mAfterBoughtShopPA[randomMerchantDialogue];
+            CutsceneManager.instance.playableDirector.Play();
+
+            Debug.Log(randomMerchantDialogue);
+            //}
         }
         else
         {
@@ -238,10 +461,24 @@ public class ShopManager : MonoBehaviour
 
         //rightShopItemInformationGO.SetActive(false);
 
-        ShopManager.instance.DisplayShopItems();
+        DisplayPlayerItems();
 
-        bOSMScreen.gameObject.SetActive(true);
-        bOSMScreen.enabled = true;
+        moneyTxt.text = PlayerValueManager.instance.money.ToString();
+
+        //bOSMScreen.gameObject.SetActive(true);
+        //bOSMScreen.enabled = true;
+
+        //if (currMerchant.mAfterBoughtShopPA.Length > 0)
+        //{
+
+        //}
+        //else
+        //{
+        //    var randomMerchantDialogue = Random.Range(0, currMerchant.mAfterBoughtShopPA.Length);
+
+        //    CutsceneManager.instance.playableDirector.playableAsset = currMerchant.mAfterBoughtShopPA[randomMerchantDialogue];
+        //    CutsceneManager.instance.playableDirector.Play();
+        //}
     }
 
     public void ClearShopCategoryChilds(Transform categoryTrans)

@@ -14,10 +14,28 @@ public class Item : MonoBehaviour, IInteractable
 
     public Transform whereToGrabItemTrans;
 
+    [Header("Collectable")]
+    public MissionTaskBase corresspondingMissionTask;
+    public CutsceneProfile cutsceneToPlayAfterCollected;
+
+    [Header("Item To Examine")]
+    public bool onlyExamineObject = false;
+    public bool hasExaminedObject = false;
+    public CutsceneProfile cutsceneToPlayAfterExamine;
+
     // Start is called before the first frame update
     void Start()
     {
-        InstantiateIOCanvas();
+        if (!onlyExamineObject/* && corresspondingMissionTask == null*/)
+        {
+            InstantiateIOCanvas();
+        }
+        else if (onlyExamineObject)
+        {
+            MissionManager.instance.objectsToExamine.Add(this);
+        }
+
+        GameManager.instance.allInteractableObjects.Add(this.gameObject);
     }
 
     // Update is called once per frame
@@ -39,32 +57,68 @@ public class Item : MonoBehaviour, IInteractable
 
     public string GetInteractUIText()
     {
-        return "Einsammeln";
+        if (onlyExamineObject)
+        {
+            return "Untersuchen";
+        }
+        else
+        {
+            return "Einsammeln";
+        }
     }
 
     public float GetTimeTillInteract()
     {
         //return 1.5f;
-        return Interacting.instance.grabItemAnim.length;
+        if (onlyExamineObject)
+        {
+            return 0;
+        }
+        else
+        {
+            return Interacting.instance.grabItemAnim.length;
+        }
     }
 
     public void Interact(Transform transform)
     {
-        GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", false);
+        if (!onlyExamineObject)
+        {
+            GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", false);
 
-        InventoryManager.instance.inventory.AddItem(iBP, amountToGet);
+            InventoryManager.instance.inventory.AddItem(iBP, amountToGet);
 
-        MessageManager.instance.CreateCollectedMessage(iBP);
+            MessageManager.instance.CreateCollectedMessage(iBP);
 
-        CheckIfNeededForMission();
+            CheckIfNeededForMission();
 
-        Interacting.instance.rightHandParentRig.weight = 0;
-        Interacting.instance.headRig.weight = 0;
+            Interacting.instance.rightHandParentRig.weight = 0;
+            Interacting.instance.headRig.weight = 0;
 
-        ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
+            ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
 
-        Destroy(iOCanvas.gameObject);
-        Destroy(this.gameObject);
+            if (cutsceneToPlayAfterCollected != null)
+            {
+                CutsceneManager.instance.currCP = cutsceneToPlayAfterCollected;
+                CutsceneManager.instance.playableDirector.playableAsset = cutsceneToPlayAfterCollected.cutscene;
+                CutsceneManager.instance.playableDirector.Play();
+            }
+
+            //Destroy(iOCanvas.gameObject);
+            //Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
+        }
+        else
+        {
+            CutsceneManager.instance.currCP = cutsceneToPlayAfterExamine;
+            CutsceneManager.instance.playableDirector.playableAsset = cutsceneToPlayAfterExamine.cutscene;
+            CutsceneManager.instance.playableDirector.Play();
+
+            //Destroy(iOCanvas.gameObject);
+            this.gameObject.SetActive(false);
+
+            Interacting.instance.howToInteractGO.SetActive(false);
+        }
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()
@@ -82,24 +136,37 @@ public class Item : MonoBehaviour, IInteractable
                 {
                     if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
                     {
-                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.itemToCollectBase == iBP)
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.itemToCollectBase == iBP
+                            || MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.itemToCollectBase2 != null 
+                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.itemToCollectBase2 == iBP)
                         {
-                            MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.howManyAlreadyCollected += amountToGet;
+                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.completeAfterInteracted)
+                            {
+                                MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.howManyAlreadyCollected += amountToGet;
 
-                            MissionManager.instance.CheckMissionTaskProgress(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                                MissionManager.instance.CheckMissionTaskProgress(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                            }
                         }
                     }
                 }
             }
             else
             {
-                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
+                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length > 0)
                 {
-                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.itemToCollectBase == iBP)
+                    if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
                     {
-                        MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.howManyAlreadyCollected += amountToGet;
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.itemToCollectBase == iBP
+                            || MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.itemToCollectBase2 != null
+                                && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.itemToCollectBase2 == iBP)
+                        {
+                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.completeAfterInteracted)
+                            {
+                                MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.howManyAlreadyCollected += amountToGet;
 
-                        MissionManager.instance.CheckMissionTaskProgress(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                                MissionManager.instance.CheckMissionTaskProgress(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                            }
+                        }
                     }
                 }
             }

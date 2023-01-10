@@ -13,20 +13,37 @@ MonoBehaviour:
   m_Name: MAINMissionP_MainQuest_1_Task5_Speak
   m_EditorClassIdentifier: 
   missionTaskType: 1
+  isOptional: 0
+  missionButtonDescription: "H\xE4ndler Symon"
   completeAfterInteracted: 0
-  missionTaskCompleted: 0
+  missionTaskCompleted: 1
   cutsceneToTrigger: {fileID: 0}
+  cutsceneToTriggerOnce: {fileID: 0}
   moneyReward: 0
   itemRewards: []
   canNormallyBeDisplayed: 0
   canBeDisplayed: 0
   missionTaskToActivate: {fileID: 11400000, guid: 7ddf38633d1546743b1cec7fc88e6591, type: 2}
-  isActiveAtStart: 1
-  nPCToTalkToBaseProfile: {fileID: 0}
-  dialogToPlayAfterInteracted: {fileID: 0}
-  talkToAllNPCs: 0
-  possibleDialoguesToAdd: []
+  missionTaskToActivate2: {fileID: 0}
+  isActiveAtStart: 0
+  nPCToTalkToBaseProfile: {fileID: 11400000, guid: a380ad5dc01b15543aaacbf325e0ab60, type: 2}
+  dialogToPlayAfterInteracted: {fileID: 11400000, guid: 3717a72e9755d6b449b8f8539a876b8f, type: 2}
+  dialogToPlayAfterPressedButton: {fileID: 11400000, guid: 298918331957aae4187f4b8440f2f1dd, type: 2}
+  talkToAllNPCs: 1
+  possibleDialoguesToAddFemale:
+  - {fileID: 11400000, guid: c983e06c72b625146a8177a1a593003b, type: 2}
+  - {fileID: 11400000, guid: 38e4a6365585d844f968c1b2b9282ea3, type: 2}
+  - {fileID: 11400000, guid: 079fbe46ff7b8644d85aa770b6d3cfc3, type: 2}
+  possibleDialoguesToAddMale:
+  - {fileID: 11400000, guid: c983e06c72b625146a8177a1a593003b, type: 2}
+  - {fileID: 11400000, guid: 38e4a6365585d844f968c1b2b9282ea3, type: 2}
+  - {fileID: 11400000, guid: 079fbe46ff7b8644d85aa770b6d3cfc3, type: 2}
+  mainNPC: {fileID: 0}
+  dialogueToAdd: {fileID: 0}
+  pointsToGainForWin: 0
+  currGainedPoints: 0
   itemToCollectBase: {fileID: 0}
+  itemToCollectBase2: {fileID: 0}
   howManyToCollect: 0
   howManyAlreadyCollected: 0
   dialogAfterSeenFirstItem: {fileID: 0}
@@ -38,3 +55,9 @@ MonoBehaviour:
   dialogAfterKilledFirstEnemy: {fileID: 0}
   noteOrBookToReadIBP: {fileID: 0}
   missionTriggerBoxToGoTo: {fileID: 0}
+  cutsceneWhenInteractedWDoor: {fileID: 0}
+  iBPOfItemToExamine: {fileID: 0}
+  iBPOfItemToExamine2: {fileID: 0}
+  eBPToExamine: {fileID: 0}
+  howManyToExamine: 0
+  howManyAlreadyExamined: 0

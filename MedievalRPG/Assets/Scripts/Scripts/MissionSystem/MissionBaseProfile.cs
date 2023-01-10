@@ -31,6 +31,8 @@ public class MissionBaseProfile : ScriptableObject
     public CutsceneProfile cutsceneToTrigger;
 
     [Header("Side mission")] // If it's a side mission.
+    public NPCBaseProfile nPCWhereToGetMissionFrom;
+    public CutsceneProfile cutsceneToTriggerAfterPressedButton;
     public MissionBaseProfile missionAfterItsActive; // Mission after which THIS mission gets activted.
     public bool isActive = false;
 
@@ -43,6 +45,8 @@ public class MissionBaseProfile : ScriptableObject
 [System.Serializable]
 public class MissionTask
 {
+    public bool isOptional = false;
+
     public string taskName;
     public string taskDescription;
 

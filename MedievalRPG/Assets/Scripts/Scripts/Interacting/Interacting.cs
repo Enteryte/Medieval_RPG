@@ -38,12 +38,18 @@ public class Interacting : MonoBehaviour
 
     public AnimationClip grabItemAnim;
 
+    public Transform currInteractedObjTrans;
+
     [Header("Animation Rigging")]
     public Transform rightHandRigTargetTrans;
     public TwoBoneIKConstraint rightHandParentRig;
     public MultiAimConstraint headRig;
     public GameObject playerHeadObj;
     public GameObject playerHandObj;
+
+    [Header("Tutorial")]
+    public TutorialBaseProfile interactingTutorial;
+    public TutorialBaseProfile selectingAndParryTutorial;
 
     public void Awake()
     {
@@ -91,10 +97,13 @@ public class Interacting : MonoBehaviour
                 {
                     if (tIVR[i].TryGetComponent(out IInteractable interactable))
                     {
-                        howToInteractGO.SetActive(false);
-                        interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
+                        if (interactable.iOCanvas() != null)
+                        {
+                            howToInteractGO.SetActive(false);
+                            interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
 
-                        tIVR.Remove(tIVR[i]);
+                            tIVR.Remove(tIVR[i]);
+                        }
                     }
                 }
                 else
@@ -130,9 +139,21 @@ public class Interacting : MonoBehaviour
                 {
                     if (interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf
                         && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf && ThirdPersonController.instance.currSeatTrans == null
-                        && !Blackboard.instance.blackboardCam.enabled)
+                        && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove && interactable.iOCanvas() != null)
                     {
                         interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
+
+                        if (GameManager.instance.playtimeInSeconds > 5)
+                        {
+                            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
+                        }
+                    }
+
+                    if (interactableObj.GetComponent<Enemy>())
+                    {
+                        Debug.Log(interactableObj.gameObject.name);
+
+                        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
                     }
                 }
             }
@@ -154,16 +175,23 @@ public class Interacting : MonoBehaviour
             {
                 //if (!Input.anyKey)
                 //{
-                    if (Vector3.Distance(interactableObj.position, transform.position) > nearestDistance || nearestObjTrans == null)
+                if (interactableObj.TryGetComponent(out IInteractable interactable))
+                {
+                    if (interactable.iOCanvas() != null)
                     {
-                        nearestDistance = Vector3.Distance(interactableObj.position, transform.position);
-                        nearestObjTrans = interactableObj;
-                    }
+                        if (Vector3.Distance(interactableObj.position, transform.position) > nearestDistance || nearestObjTrans == null)
+                        {
+                            nearestDistance = Vector3.Distance(interactableObj.position, transform.position);
+                            nearestObjTrans = interactableObj;
+                        }
 
-                    if (!tIVR.Contains(interactableObj))
-                    {
-                        tIVR.Add(interactableObj);
+                        if (!tIVR.Contains(interactableObj))
+                        {
+                            tIVR.Add(interactableObj);
+                        }
                     }
+                }
+
                 //}
             }
         }
@@ -177,7 +205,7 @@ public class Interacting : MonoBehaviour
                     if (nearestObjTrans.TryGetComponent(out SeatingObject seatObj) && Vector3.Distance(seatObj.iOCanvasLookAtSitPlaceObj.transform.position, this.gameObject.transform.position) < 0.7f)
                     {
                         if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                            && !Blackboard.instance.blackboardCam.enabled)
+                            && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
                         {
                             howToInteractGO.SetActive(true);
 
@@ -189,13 +217,24 @@ public class Interacting : MonoBehaviour
                     else if (!nearestObjTrans.TryGetComponent(out SeatingObject seatObj2))
                     {
                         if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                            && !Blackboard.instance.blackboardCam.enabled)
+                            && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
                         {
-                            howToInteractGO.SetActive(true);
+                            if (interactable.iOCanvas() != null)
+                            {
+                                howToInteractGO.SetActive(true);
 
-                            howToInteractTxt.text = interactable.GetInteractUIText();
+                                howToInteractTxt.text = interactable.GetInteractUIText();
 
-                            timeTillInteract = interactable.GetTimeTillInteract();
+                                timeTillInteract = interactable.GetTimeTillInteract();
+                            }
+                        }
+                    }
+
+                    if (nearestObjTrans.TryGetComponent(out NPC npc))
+                    {
+                        if (npc.nPCAudioSource.isPlaying)
+                        {
+                            howToInteractGO.SetActive(false);
                         }
                     }
 
@@ -203,9 +242,10 @@ public class Interacting : MonoBehaviour
                     {
                         if (timeTillInteract > 0)
                         {
-                            if (Input.GetKeyDown(KeyCode.E) && nearestObjTrans.GetComponent<Item>() != null)
+                            if (Input.GetKeyDown(KeyCode.E) && nearestObjTrans.GetComponent<Item>() != null && !nearestObjTrans.GetComponent<Item>().onlyExamineObject
+                                /* || nearestObjTrans.GetComponent<Enemy>() != null && nearestObjTrans.GetComponent<Enemy>().isDead*/)
                             {
-                                if (nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans != null)
+                                if (/*nearestObjTrans.GetComponent<Item>() != null && */nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans != null)
                                 {
                                     rightHandRigTargetTrans.position = nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans.position;
                                 }
@@ -244,7 +284,7 @@ public class Interacting : MonoBehaviour
 
                                 keyToPressFillImg.fillAmount = 0;
 
-                                if (nearestObjTrans.GetComponent<Item>() != null)
+                                if (nearestObjTrans.GetComponent<Item>() != null && !nearestObjTrans.GetComponent<Item>().onlyExamineObject/* || nearestObjTrans.GetComponent<Enemy>() != null && nearestObjTrans.GetComponent<Enemy>().isDead*/)
                                 {
                                     //rightHandRigTargetTrans.position = nearestObjTrans.position;
 
@@ -259,7 +299,7 @@ public class Interacting : MonoBehaviour
                         }
                         else
                         {
-                            if (Input.GetKeyDown(KeyCode.E))
+                            if (Input.GetKeyDown(KeyCode.E) && interactable != null && nearestObjTrans != null)
                             {
                                 interactable.Interact(nearestObjTrans);
 
@@ -277,11 +317,15 @@ public class Interacting : MonoBehaviour
                 }
                 else if (nearestObjTrans.TryGetComponent(out Enemy enemy))
                 {
-                    Debug.Log("ENEMY");
-
-                    if (Input.GetKeyDown(KeyCode.Q))
+                    if (!enemy.isDead)
                     {
-                        FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
+                        Debug.Log("ENEMY");
+
+                        if (Input.GetKeyDown(KeyCode.Q))
+                        {
+                            // ---------------------------------------------- WIP: Hier Target-Enemy einfügen!
+                            //FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);                            
+                        }
                     }
                 }
 

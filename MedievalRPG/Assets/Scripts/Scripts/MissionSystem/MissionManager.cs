@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MissionManager : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class MissionManager : MonoBehaviour
     public List<MissionBaseProfile> allCurrOpenNotAcceptedMissions;
 
     public List<GameObject> allItemsToChangeAfterMissions;
+    public List<Item> objectsToExamine;
+    public List<Item> itemsToActivateWithTasks;
+
+    [Header("For Speaking With NPCs")]
+    public MissionTaskBase mTBWSymon;
+    public MissionTaskBase mTBWMya;
 
     public void Awake()
     {
@@ -30,6 +37,35 @@ public class MissionManager : MonoBehaviour
                 }
             }
         }
+
+        for (int i = 0; i < allMissions.Count; i++)
+        {
+            allMissions[i].missionCompleted = false;
+            allMissions[i].isActive = false;
+
+            for (int y = 0; y < allMissions[i].allMissionTasks.Length; y++)
+            {
+                if (allMissions[i].allMissionTasks[y].mTB.canNormallyBeDisplayed)
+                {
+                    allMissions[i].allMissionTasks[y].mTB.canBeDisplayed = true;
+                }
+                else
+                {
+                    allMissions[i].allMissionTasks[y].mTB.canBeDisplayed = false;
+                }
+
+                allMissions[i].allMissionTasks[y].mTB.howManyAlreadyCollected = 0;
+                allMissions[i].allMissionTasks[y].mTB.howManyAlreadyKilled = 0;
+                allMissions[i].allMissionTasks[y].mTB.howManyAlreadyExamined = 0;
+                allMissions[i].allMissionTasks[y].mTB.currGainedPoints = 0;
+
+                allMissions[i].allMissionTasks[y].mTB.missionTaskCompleted = false;
+            }
+
+            Debug.Log("NJMK");
+        }
+
+        MinimapManager.instance.CheckAllMinimapSymbols();
     }
 
     public void AddMission(MissionBaseProfile missionToAdd)
@@ -53,19 +89,34 @@ public class MissionManager : MonoBehaviour
                     }
                 }
             }
+
+            missionToAdd.isActive = true;
         }
 
         if (UIManager.missionToDisplay == null && missionToAdd.missionType == MissionBaseProfile.MissionType.main)
         {
+            Debug.Log("000000000000000000000000000000");
             UIManager.missionToDisplay = missionToAdd;
 
             UIManager.instance.CreateMissionDisplay();
         }
+
+        UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.addedMissionString;
+        UIAnimationHandler.instance.addedMissionTxt.text = missionToAdd.missionName;
+        UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+
+        MinimapManager.instance.CheckAllMinimapSymbols();
     }
 
     public void RemoveMission(MissionBaseProfile missionToRemove)
     {
         allCurrAcceptedMissions.Remove(missionToRemove);
+
+        UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.completedMissionString;
+        UIAnimationHandler.instance.addedMissionTxt.text = missionToRemove.missionName;
+        UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+
+        MinimapManager.instance.CheckAllMinimapSymbols();
     }
 
     public void AddOpenMission(MissionBaseProfile missionToAdd)
@@ -83,6 +134,8 @@ public class MissionManager : MonoBehaviour
                 {
                     Blackboard.instance.allBlackboardMB[i].SetStoredMission(missionToAdd);
                     Blackboard.instance.allBlackboardMB[i].gameObject.SetActive(true);
+
+                    MinimapManager.instance.CheckAllMinimapSymbols();
 
                     return;
                 }
@@ -125,6 +178,13 @@ public class MissionManager : MonoBehaviour
                 CompleteMissionTask(mBP, missionTaskToCheck);
             }
         }
+        else if (missionTaskToCheck.missionTaskType == MissionTaskBase.MissionTaskType.examine)
+        {
+            if (missionTaskToCheck.howManyAlreadyExamined >= missionTaskToCheck.howManyToExamine)
+            {
+                CompleteMissionTask(mBP, missionTaskToCheck);
+            }
+        }
     }
 
     public void CompleteMissionTask(MissionBaseProfile mBP, MissionTaskBase missionTaskToComplete)
@@ -141,11 +201,34 @@ public class MissionManager : MonoBehaviour
             InventoryManager.instance.inventory.AddItem(missionTaskToComplete.itemRewards[i].iBP, missionTaskToComplete.itemRewards[i].howManyToGet);
         }
 
-        if (missionTaskToComplete.missionTaskToActivate != null)
-        {
-            missionTaskToComplete.canBeDisplayed = false;
+        missionTaskToComplete.canBeDisplayed = false;
 
+        if (missionTaskToComplete.missionTaskToActivate != null)
+        { 
             missionTaskToComplete.missionTaskToActivate.canBeDisplayed = true;
+
+            if (missionTaskToComplete.missionTaskToActivate.missionTaskType == MissionTaskBase.MissionTaskType.examine)
+            {
+                for (int i = 0; i < objectsToExamine.Count; i++)
+                {
+                    if (objectsToExamine[i].iBP == missionTaskToComplete.missionTaskToActivate.iBPOfItemToExamine)
+                    {
+                        objectsToExamine[i].InstantiateIOCanvas();
+                    }
+                    else if (missionTaskToComplete.missionTaskToActivate.iBPOfItemToExamine2 != null && objectsToExamine[i].iBP == missionTaskToComplete.missionTaskToActivate.iBPOfItemToExamine2)
+                    {
+                        objectsToExamine[i].InstantiateIOCanvas();
+                    }
+                }
+            }
+
+            for (int i = 0; i < itemsToActivateWithTasks.Count; i++)
+            {
+                if (itemsToActivateWithTasks[i].corresspondingMissionTask == missionTaskToComplete.missionTaskToActivate)
+                {
+                    itemsToActivateWithTasks[i].InstantiateIOCanvas();
+                }
+            }
 
             if (UIManager.missionToDisplay != null && UIManager.missionToDisplay == mBP)
             {
@@ -159,18 +242,69 @@ public class MissionManager : MonoBehaviour
                     }
                 }
 
-                Debug.Log("HJNK");
-                UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb].taskDescription);
+                if (UIManager.missionToDisplay != mBP)
+                {
+                    UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.updatedMissionString;
+                    UIAnimationHandler.instance.addedMissionTxt.text = mBP.missionName;
+                    UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+                }
+                else
+                {
+                    if (missionTaskToComplete.missionTaskToActivate2 != null)
+                    {
+                        UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb], missionTaskToComplete.missionTaskToActivate2,
+                            mBP.allMissionTasks[numb + 2], mBP.allMissionTasks[numb].taskDescription, true);
+                    }
+                    else
+                    {
+                        UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, missionTaskToComplete.missionTaskToActivate, mBP.allMissionTasks[numb], null, null,
+                            mBP.allMissionTasks[numb].taskDescription, true);
+                    }
+                }
+
+                //if (missionTaskToComplete.missionTaskToActivate.missionTaskType == MissionTaskBase.MissionTaskType.talk_To)
+                //{
+                //    if (missionTaskToComplete.missionTaskToActivate.talkToAllNPCs)
+                //    {
+                //        for (int i = 0; i < GameManager.instance.allVillageNPCs.Count; i++)
+                //        {
+
+                //        }
+                //    }
+                //}
             }
+
+            //if (missionTaskToComplete.cutsceneToTrigger != null && missionTaskToComplete.cutsceneToTrigger.isNightCutscene)
+            //{
+            //    CutsceneManager.instance.currCP = missionTaskToComplete.cutsceneToTrigger;
+            //    CutsceneManager.instance.playableDirector.playableAsset = missionTaskToComplete.cutsceneToTrigger.cutscene;
+            //    CutsceneManager.instance.playableDirector.Play();
+            //}
 
             // WIP: Animation dazu fehlt noch + HUD-Missionsanzeige muss noch geupdated werden.
         }
-        else if (missionTaskToComplete.cutsceneToTrigger != null)
+        else
+        {
+            if (UIManager.missionToDisplay != mBP)
+            {
+                UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.updatedMissionString;
+                UIAnimationHandler.instance.addedMissionTxt.text = mBP.missionName;
+                UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+            }
+            else
+            {
+                UIManager.instance.UpdateMissionDisplayTasks(missionTaskToComplete, null, null, null, null, null, false);
+            }
+        }
+
+        if (missionTaskToComplete.cutsceneToTrigger != null && missionTaskToComplete.missionTaskToActivate == null)
         {
             CutsceneManager.instance.currCP = missionTaskToComplete.cutsceneToTrigger;
             CutsceneManager.instance.playableDirector.playableAsset = missionTaskToComplete.cutsceneToTrigger.cutscene;
             CutsceneManager.instance.playableDirector.Play();
         }
+
+        MinimapManager.instance.CheckAllMinimapSymbols();
 
         CheckMissionProgress(mBP);
     }
@@ -194,9 +328,20 @@ public class MissionManager : MonoBehaviour
 
         missionToComplete.missionCompleted = true;
 
+        for (int i = 0; i < missionToComplete.allMissionTasks.Length; i++)
+        {
+            missionToComplete.allMissionTasks[i].mTB.missionTaskCompleted = true;
+        }
+
+        if (UIManager.missionToDisplay == missionToComplete)
+        {
+            UIManager.missionToDisplay = null;           
+        }
+
         if (missionToComplete.nextMissionToTrigger != null)
         {
-            allCurrAcceptedMissions.Add(missionToComplete.nextMissionToTrigger);
+            AddMission(missionToComplete.nextMissionToTrigger);
+            //allCurrAcceptedMissions.Add(missionToComplete.nextMissionToTrigger);
         }
 
         if (missionToComplete.cutsceneToTrigger != null)
@@ -222,6 +367,17 @@ public class MissionManager : MonoBehaviour
         {
             CheckSideMissions(missionToComplete.missionAfterItsActive);
         }
+
+        MinimapManager.instance.CheckAllMinimapSymbols();
+
+        //UIManager.instance.missionTaskObjParentObj.gameObject.transform.parent.gameObject.SetActive(true);
+
+        //UIManager.instance.missionTaskObjParentObj.GetComponent<GridLayoutGroup>().enabled = true;
+
+        //for (int i = 0; i < UIManager.instance.missionTaskObjParentObj.transform.childCount; i++)
+        //{
+        //    Destroy(UIManager.instance.missionTaskObjParentObj.transform.GetChild(i).gameObject);
+        //}
     }
 
     public void ChangeEnvironmentAfterMission(MissionBaseProfile mission)

@@ -16,9 +16,9 @@ public class ShopItemButton : MonoBehaviour
 
     public ClickCursor clickCursor;
 
-    [HideInInspector] public bool isPressing = false;
-    public float timeToPress = 1f;
-    [HideInInspector] public float pressedTime = 0;
+    //[HideInInspector] public bool isPressing = false;
+    //public float timeToPress = 1f;
+    //[HideInInspector] public float pressedTime = 0;
 
     public Button btnComp;
 
@@ -61,30 +61,30 @@ public class ShopItemButton : MonoBehaviour
 
     public void Update()
     {
-        if (isPressing)
-        {
-            pressedTime += Time.deltaTime;
-            clickCursor.cursorImg.fillAmount += 1.0f/timeToPress * Time.deltaTime;
+        //if (isPressing)
+        //{
+        //    pressedTime += Time.deltaTime;
+        //    clickCursor.cursorImg.fillAmount += 1.0f/timeToPress * Time.deltaTime;
 
-            if (pressedTime >= timeToPress)
-            {
-                isPressing = false;
+        //    if (pressedTime >= timeToPress)
+        //    {
+        //        isPressing = false;
 
-                if (storedItemBase.stackable)
-                {
-                    OpenHowManyScreen();
-                }
-                else
-                {
-                    ShopManager.instance.BuyOrSellItem(storedItemBase, 1);
-                }
+        //        if (storedItemBase.stackable)
+        //        {
+        //            OpenHowManyScreen();
+        //        }
+        //        else
+        //        {
+        //            ShopManager.instance.BuyOrSellItem(storedItemBase, 1);
+        //        }
 
-                clickCursor.cursorImg.fillAmount = 0;
-                pressedTime = 0;
-            }
-        }
+        //        clickCursor.cursorImg.fillAmount = 0;
+        //        pressedTime = 0;
+        //    }
+        //}
 
-        if (ShopManager.instance.isBuying)
+        if (this.gameObject.transform.parent == ShopManager.instance.merchantItemSlotParentTrans)
         {
             if (PlayerValueManager.instance.money >= storedItemBase.buyPrice)
             {
@@ -120,59 +120,58 @@ public class ShopItemButton : MonoBehaviour
         }
     }
 
-    public void OpenHowManyScreen()
-    {
-        if (ShopManager.instance.isBuying)
-        {
-            ShopManager.instance.hMScreen.buyOrSellTxt.text = "Wie oft möchtst du das Item kaufen?";
-        }
-        else
-        {
-            ShopManager.instance.hMScreen.buyOrSellTxt.text = "Wie oft möchtst du das Item verkaufen?";
-        }
+    //public void OpenHowManyScreen(ItemBaseProfile iBP)
+    //{
+    //    //if (ShopManager.instance.isBuying)
+    //    //{
+    //    //    ShopManager.instance.hMScreen.buyOrSellTxt.text = "Wie oft möchtst du das Item kaufen?";
+    //    //}
+    //    //else
+    //    //{
+    //    //    ShopManager.instance.hMScreen.buyOrSellTxt.text = "Wie oft möchtst du das Item verkaufen?";
+    //    //}
 
-        ShopManager.instance.hMScreen.currAmount = 0;
-        ShopManager.instance.hMScreen.currAmountTxt.text = ShopManager.instance.hMScreen.currAmount.ToString();
+    //    ShopManager.instance.hMScreen.SetNewMaxAmount(iBP);
 
-        HowManyScreen.currItem = storedItemBase;
-        ShopManager.instance.hMScreen.currAmountInInv = amountInInv;
+    //    //HowManyScreen.currItem = storedItemBase;
+    //    //ShopManager.instance.hMScreen.currAmountInInv = amountInInv;
 
-        ShopManager.instance.hMScreen.gameObject.SetActive(true);
-    }
+    //    ShopManager.instance.hMScreen.gameObject.SetActive(true);
+    //}
 
-    public void StartedPressingButton()
-    {
-        if (ShopManager.instance.isBuying)
-        {
-            if (PlayerValueManager.instance.money >= storedItemBase.buyPrice)
-            {
-                isPressing = true;
-            }
-        }
-        else
-        {
-            isPressing = true;
-        }
-    }
+    //public void StartedPressingButton()
+    //{
+    //    if (ShopManager.instance.isBuying)
+    //    {
+    //        if (PlayerValueManager.instance.money >= storedItemBase.buyPrice)
+    //        {
+    //            isPressing = true;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        isPressing = true;
+    //    }
+    //}
 
-    public void EndedPressingButton()
-    {
-        isPressing = false;
+    //public void EndedPressingButton()
+    //{
+    //    isPressing = false;
 
-        clickCursor.cursorImg.fillAmount = 0;
-        pressedTime = 0;
-    }
+    //    clickCursor.cursorImg.fillAmount = 0;
+    //    pressedTime = 0;
+    //}
 
-    public void CloseRightShopItemInformations()
-    {
-        if (!ShopManager.instance.hMScreen.gameObject.activeSelf)
-        {
-            ShopManager.instance.rightShopItemInformationGO.SetActive(false);
+    //public void CloseRightShopItemInformations()
+    //{
+    //    if (!ShopManager.instance.hMScreen.gameObject.activeSelf)
+    //    {
+    //        ShopManager.instance.rightShopItemInformationGO.SetActive(false);
 
-            isPressing = false;
+    //        isPressing = false;
 
-            clickCursor.cursorImg.fillAmount = 0;
-            pressedTime = 0;
-        }
-    }
+    //        clickCursor.cursorImg.fillAmount = 0;
+    //        pressedTime = 0;
+    //    }
+    //}
 }

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df470a69912d4064e86f315fcc6c32cc, type: 3}
+  m_Name: SIDECutsceneP_SQ4_Task1_Decision1.1.1.2
+  m_EditorClassIdentifier: 
+  cutscene: {fileID: 11400000, guid: ec8ce0d8f7b6e7d4f9652cb421eff7e1, type: 2}
+  fadeIn: 1
+  isNightCutscene: 0
+  isNotADialogue: 0
+  cantBeSkipped: 0
+  playCutsceneMoreThanOnce: 1
+  alreadyPlayedCutscene: 0
+  timeTillWhereToSkip: 0
+  timesWhenNewSentenceStarts:
+  - 3.45
+  - 15.65
+  tutorialToTrigger: {fileID: 0}
+  changeParentTrans: 0
+  hasDecisions: 1
+  allDecisions:
+  - decisionText: 1
+    arguePointsToGain: 3
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: b7b6df556e8241f4397f3b7f0f15ec66, type: 2}
+    missionToActivate: {fileID: 0}
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  - decisionText: 2
+    arguePointsToGain: 2
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: aafafff2666d73546ab307ef2e0e6844, type: 2}
+    missionToActivate: {fileID: 0}
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  - decisionText: 3
+    arguePointsToGain: 1
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: 5f1230e8baf16804aadb9d3f37035e2f, type: 2}
+    missionToActivate: {fileID: 0}
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  mBTToCheck: {fileID: 11400000, guid: 3d6789ea13a51144f8c0c2c37a5184f5, type: 2}
+  cutsceneToChangeTo: {fileID: 0}
+  missionToComplete: {fileID: 0}
+  missionTaskToComplete: {fileID: 0}
+  missionToPlayAfter: {fileID: 0}
+  playNewCutsceneAfterDeactivatedObj: 0
+  gameObjectToDeactivateName: 
+  cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

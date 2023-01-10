@@ -17,8 +17,8 @@ public class Door : MonoBehaviour, IInteractable
 
     public Coroutine animationCoroutine;
 
-    public MissionBaseProfile correspondingMission;
-    public MissionTaskBase correspondingMissionTask;
+    public MissionBaseProfile[] correspondingMissions;
+    public MissionTaskBase[] correspondingMissionTasks;
 
     public void Awake()
     {
@@ -29,6 +29,8 @@ public class Door : MonoBehaviour, IInteractable
     public void Start()
     {
         InstantiateIOCanvas();
+
+        GameManager.instance.allInteractableDoors.Add(this);
     }
 
     public void OpenDoor(Vector3 playerPos)
@@ -136,16 +138,22 @@ public class Door : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
-        if (correspondingMission != null && MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMission) && !correspondingMissionTask.missionTaskCompleted)
+        if (correspondingMissions.Length > 0)
         {
-            if (correspondingMissionTask.completeAfterInteracted)
+            for (int i = 0; i < correspondingMissions.Length; i++)
             {
-                correspondingMissionTask.missionTaskCompleted = true;
-            }
+                if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMissions[i]) && !correspondingMissionTasks[i].missionTaskCompleted && correspondingMissionTasks[i].canBeDisplayed)
+                {
+                    if (correspondingMissionTasks[i].completeAfterInteracted)
+                    {
+                        correspondingMissionTasks[i].missionTaskCompleted = true;
+                    }
 
-            CutsceneManager.instance.currCP = correspondingMissionTask.cutsceneToTrigger;
-            CutsceneManager.instance.playableDirector.playableAsset = correspondingMissionTask.cutsceneToTrigger.cutscene;
-            CutsceneManager.instance.playableDirector.Play();
+                    CutsceneManager.instance.currCP = correspondingMissionTasks[i].cutsceneToTrigger;
+                    CutsceneManager.instance.playableDirector.playableAsset = correspondingMissionTasks[i].cutsceneToTrigger.cutscene;
+                    CutsceneManager.instance.playableDirector.Play();
+                }
+            }
         }
         else
         {

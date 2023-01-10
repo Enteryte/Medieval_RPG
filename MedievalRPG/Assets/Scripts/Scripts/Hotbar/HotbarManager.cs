@@ -10,7 +10,7 @@ public class HotbarManager : MonoBehaviour
     public GameObject howManyToHotbarScreen;
 
     [Header("Hotbar")]
-    public HotbarSlotButton[] allHotbarSlotBtn;
+    public ClickableInventorySlot[] allHotbarSlotBtn;
 
     public static HotbarSlotButton currHSB;
     public static ItemBaseProfile currDraggedIBP;

@@ -13,21 +13,31 @@ MonoBehaviour:
   m_Name: MAINCutsceneP_0_GameStart_MissionDialog_Task4_Decision3
   m_EditorClassIdentifier: 
   cutscene: {fileID: 11400000, guid: bbd4c0f132b7c3a45b6d9cff8b0a4eda, type: 2}
+  fadeIn: 1
+  isNightCutscene: 0
   isNotADialogue: 0
   cantBeSkipped: 0
   playCutsceneMoreThanOnce: 0
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
-  timesWhenNewSentenceStarts: []
+  timesWhenNewSentenceStarts:
+  - 2.7333
+  - 11.7333
+  - 25.25
+  - 28.65
+  tutorialToTrigger: {fileID: 0}
+  changeParentTrans: 0
   hasDecisions: 1
   allDecisions:
   - decisionText: Annehmen
+    arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 356ed1865bf4bb64baffab69431a6d14, type: 2}
     missionToActivate: {fileID: 0}
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Ablehnen
+    arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: b43689f21f5976c4080b0f43475e1d8f, type: 2}
     missionToActivate: {fileID: 0}
@@ -41,3 +51,5 @@ MonoBehaviour:
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

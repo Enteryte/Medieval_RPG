@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MAINCutsceneP_MQ2_Task1_InfrontOfSymonsHouse
   m_EditorClassIdentifier: 
   cutscene: {fileID: 11400000, guid: cca7daa4fa8aae446ab96feaeb74c69c, type: 2}
+  isNightCutscene: 1
   isNotADialogue: 0
   cantBeSkipped: 0
   playCutsceneMoreThanOnce: 1
@@ -21,11 +22,13 @@ MonoBehaviour:
   timesWhenNewSentenceStarts: []
   hasDecisions: 0
   allDecisions: []
-  mBTToCheck: {fileID: 0}
+  mBTToCheck: {fileID: 11400000, guid: 3cf46aaf5a35347429fedf059bf9a733, type: 2}
   cutsceneToChangeTo: {fileID: 0}
-  missionToComplete: {fileID: 0}
+  missionToComplete: {fileID: 11400000, guid: 20f04baf9e97643478db0914dc437491, type: 2}
   missionTaskToComplete: {fileID: 0}
   missionToPlayAfter: {fileID: 0}
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}
