@@ -2,7 +2,9 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+// -----------------> WIP: Armor Debuff fehlt noch.
 public class DebuffManager : MonoBehaviour
 {
     public static DebuffManager instance;
@@ -17,6 +19,11 @@ public class DebuffManager : MonoBehaviour
     public bool slowPlayerDebuff = false;
     public bool lowerStrengthDebuff = false;
     public bool bleedingDebuff = false;
+
+    public Image lowerStaminaImg;
+    public Image slowPlayerImg;
+    public Image lowerStrengthImg;
+    public Image bleedingImg;
 
     public Coroutine lowerStaminaCoro;
     public Coroutine slowPlayerCoro;
@@ -37,7 +44,10 @@ public class DebuffManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            LowerMaxStamina(60);
+            LowerStrength(2);
             Bleeding();
+            SlowPlayer();
         }
     }
 
@@ -85,9 +95,13 @@ public class DebuffManager : MonoBehaviour
     {
         float timer = 0;
 
+        lowerStaminaImg.gameObject.transform.parent.parent.gameObject.SetActive(true);
+
         while (timer < 15)
         {
             timer += Time.deltaTime;
+
+            //lowerStaminaImg.fillAmount = Mathf.Lerp(0, 1, 15);
 
             yield return null;
         }
@@ -97,11 +111,15 @@ public class DebuffManager : MonoBehaviour
         pVM.staminaSlider.maxValue = pVM.normalStamina;
 
         lowerStaminaCoro = null;
+
+        lowerStaminaImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
     }
 
     IEnumerator TimeTillSlowDebuffIsOver()
     {
         float timer = 0;
+
+        slowPlayerImg.gameObject.transform.parent.parent.gameObject.SetActive(true);
 
         while (timer < 15)
         {
@@ -115,6 +133,8 @@ public class DebuffManager : MonoBehaviour
             tPC._animator.speed = 1;
 
             ThirdPersonController.instance.MoveSpeed = ThirdPersonController.instance.normalMoveSpeed;
+
+            slowPlayerImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
         }
 
         slowPlayerDebuff = false;
@@ -126,12 +146,16 @@ public class DebuffManager : MonoBehaviour
     {
         float timer = 0;
 
+        lowerStrengthImg.gameObject.transform.parent.parent.gameObject.SetActive(true);
+
         while (timer < 15)
         {
             timer += Time.deltaTime;
 
             yield return null;
         }
+
+        lowerStrengthImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
 
         lowerStrengthDebuff = false;
 
@@ -140,6 +164,8 @@ public class DebuffManager : MonoBehaviour
 
     IEnumerator TimeTillBleedingDebuffIsOver()
     {
+        bleedingImg.gameObject.transform.parent.parent.gameObject.SetActive(true);
+
         if (UseItemManager.instance.foodHealingCoro != null)
         {
             UseItemManager.instance.StopFoodHealingWhenGotDamage();
@@ -155,6 +181,8 @@ public class DebuffManager : MonoBehaviour
         if (currBleedingTimes == bleedingTimes)
         {
             currBleedingTimes = 0;
+
+            bleedingImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
 
             bleedingDebuff = false;
 
