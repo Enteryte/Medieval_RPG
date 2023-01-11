@@ -56,12 +56,18 @@ public class PlayerValueManager : MonoBehaviour
     public float normalStrength;
     public float currStrength;
 
+    [Header("Armor")]
+    public float normalArmor;
+    public float currArmor;
+
     [Header("Tutorial")]
     public TutorialBaseProfile staminaTutorial;
 
     public void Awake()
     {
         instance = this;
+
+        currHP = normalHP;
 
         if(staminaSlider != null)
         {
