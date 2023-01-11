@@ -63,6 +63,9 @@ public class FightingActions : MonoBehaviour
         {
             OnEquipBow();
         }
+
+        Debug.Log(equippedWeaponR);
+        Debug.Log(equippedWeaponL);
     }
 
     private void OnEquipBow()

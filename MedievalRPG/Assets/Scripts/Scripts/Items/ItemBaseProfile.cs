@@ -40,6 +40,9 @@ public class ItemBaseProfile : ScriptableObject
     //[Tooltip("Indicates how often the item is currently in the inventory.")] [Min(0)] public int amountInInventory;
     [Tooltip("Determines whether an item in the inventory is stackable.")] [Min(0)] public bool stackable;
 
+    [Header("Needed Items For Buying")]
+    public ItemBaseProfile[] itemsNeededForBuying;
+
     #region NeededForMission Values
     [HideInInspector] [Tooltip("An array of missions, where the item is needed.")] [Min(0)] public GameObject[] missionsWhereItsNeeded; // MUSS DURCH MISSIONBASEPROFILES
                                                                                                                                         // ERSETZT WERDEN!
@@ -88,6 +91,31 @@ public class ItemBaseProfile : ScriptableObject
     [HideInInspector] public MissionTaskBase corresspondingMissionTask;
     [HideInInspector] public CutsceneProfile cutsceneToPlayAfterCloseReadScreen;
     #endregion
+
+    public bool CheckNeededItemsForBuying()
+    {
+        var hasItemNumbers = 0;
+
+        for (int i = 0; i < itemsNeededForBuying.Length; i++)
+        {
+            for (int y = 0; y < InventoryManager.instance.inventory.slots.Count; y++)
+            {
+                if (InventoryManager.instance.inventory.slots[y].itemBase == itemsNeededForBuying[i])
+                {
+                    hasItemNumbers += 1;
+                }
+            }
+        }
+
+        if (hasItemNumbers == itemsNeededForBuying.Length)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     [CustomEditor(typeof(ItemBaseProfile))]
     public class ItemBaseProfileEditor : Editor
@@ -175,7 +203,7 @@ public class ItemBaseProfile : ScriptableObject
                 serializedObject.ApplyModifiedProperties();
             }
 
-                CheckIfItemValueIsZero(iBP.buyPrice);
+            CheckIfItemValueIsZero(iBP.buyPrice);
             CheckIfItemValueIsZero(iBP.sellingPrice);
 
             if (iBP.sellingPrice > iBP.buyPrice)

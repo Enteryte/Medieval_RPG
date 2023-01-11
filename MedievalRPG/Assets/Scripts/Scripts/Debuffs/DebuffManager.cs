@@ -222,7 +222,9 @@ public class DebuffManager : MonoBehaviour
 
         currBleedingTimes += 1;
 
+        Debug.Log(pVM.CurrHP);
         pVM.CurrHP -= bleedingDamage;
+        Debug.Log(pVM.CurrHP);
         pVM.healthSlider.value = pVM.CurrHP;
 
         yield return new WaitForSecondsRealtime(1);

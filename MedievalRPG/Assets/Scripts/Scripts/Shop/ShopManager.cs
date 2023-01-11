@@ -417,6 +417,11 @@ public class ShopManager : MonoBehaviour
         {
             InventoryManager.instance.inventory.AddItem(itemBase, amount);
 
+            for (int i = 0; i < itemBase.itemsNeededForBuying.Length; i++)
+            {
+                InventoryManager.instance.inventory.RemoveItem(itemBase.itemsNeededForBuying[i], 1);
+            }
+
             Debug.Log("Bought: " + itemBase.itemName);
 
             PlayerValueManager.instance.money -= (itemBase.buyPrice * amount);
