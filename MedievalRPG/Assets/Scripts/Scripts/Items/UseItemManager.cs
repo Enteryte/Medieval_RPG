@@ -127,10 +127,10 @@ public class UseItemManager : MonoBehaviour
     public void UseHealPotion(ItemBaseProfile iBP) // Instant hp reg
     {
         PlayerValueManager.instance.healthSlider.maxValue = PlayerValueManager.instance.normalHP;
-        PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.currHP;
+        PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
 
         PlayerValueManager.instance.healthSlider.value += iBP.potionBuffValue;
-        PlayerValueManager.instance.currHP = PlayerValueManager.instance.healthSlider.value;
+        PlayerValueManager.instance.CurrHP = PlayerValueManager.instance.healthSlider.value;
     }
 
     public void UseStaminaPotion(ItemBaseProfile iBP) // Instant stamina reg
@@ -165,20 +165,20 @@ public class UseItemManager : MonoBehaviour
     IEnumerator TimeTillFoodHealed(ItemBaseProfile iBP) // ! -> Könnte sein, dass es auch weiterheilt, wenn der Spieler Damage bekommt. Ggf. sobald er DMG bekommt -> Coroutine abbrechen und Heilung beenden.
     {
         var time = 0f;
-        float startHealth = pVM.currHP;
+        float startHealth = pVM.CurrHP;
 
-        while (pVM.currHP < startHealth + iBP.foodHealValue)
+        while (pVM.CurrHP < startHealth + iBP.foodHealValue)
         {
             time += Time.deltaTime / 7;
-            pVM.currHP = Mathf.Lerp(startHealth, startHealth + iBP.foodHealValue, time);
-            pVM.healthSlider.value = pVM.currHP;
+            pVM.CurrHP = Mathf.Lerp(startHealth, startHealth + iBP.foodHealValue, time);
+            pVM.healthSlider.value = pVM.CurrHP;
 
             yield return null;
         }
 
-        if (pVM.currHP > pVM.normalHP)
+        if (pVM.CurrHP > pVM.normalHP)
         {
-            pVM.currHP = pVM.normalHP;
+            pVM.CurrHP = pVM.normalHP;
         }
 
         ateFood = false;

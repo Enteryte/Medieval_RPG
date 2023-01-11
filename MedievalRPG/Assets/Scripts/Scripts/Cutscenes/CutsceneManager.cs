@@ -344,7 +344,7 @@ public class CutsceneManager : MonoBehaviour
 
     public void CheckIfPlayerHasGotDamage()
     {
-        if (PlayerValueManager.instance.currHP == PlayerValueManager.instance.normalHP)
+        if (PlayerValueManager.instance.CurrHP == PlayerValueManager.instance.normalHP)
         {
             //playableDirector.Stop();
             currCP = currCP.cutsceneToChangeTo;

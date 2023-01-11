@@ -30,8 +30,8 @@ public class EnemyDamager : MonoBehaviour
     private void Attack()
     {
         //Do Damage to the Player Health here. The Debug is to be replaced with that.
-        PlayerValueManager.instance.currHP -= Damage;
-        PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.currHP;
+        PlayerValueManager.instance.CurrHP -= Damage;
+        PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
 
 
         Debug.Log($"{Damage} launched");

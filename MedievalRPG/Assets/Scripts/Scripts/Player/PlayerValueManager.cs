@@ -7,11 +7,40 @@ public class PlayerValueManager : MonoBehaviour
 {
     public static PlayerValueManager instance;
 
+    #region Properties
+    public float CurrHP
+    {
+        get { return currHP; }
+        set 
+        { 
+            if(invincible == false)
+            {
+                if (value < 0)
+                {
+                    value = 0;
+                }
+
+                if (currHP - value <= 0)
+                {
+                    currHP = 0;
+                    Die();
+                }
+
+                if (currHP - value > 0)
+                {
+                    currHP -= value;
+                }
+            }
+        }
+    }
+    #endregion
+
     public float money;
 
     [Header("Health")]
+    public bool invincible = false;
     public float normalHP;
-    public float currHP;
+    private float currHP;
     public Slider healthSlider;
 
     [Header("Stamina")]
@@ -107,5 +136,10 @@ public class PlayerValueManager : MonoBehaviour
         }
 
         currWaitingTime = 0;
+    }
+
+    public void Die()
+    {
+        //Sterbegedöns einfügen
     }
 }
