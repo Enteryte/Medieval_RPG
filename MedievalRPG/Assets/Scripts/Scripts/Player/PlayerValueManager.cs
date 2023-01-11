@@ -12,8 +12,8 @@ public class PlayerValueManager : MonoBehaviour
     {
         get { return currHP; }
         set 
-        { 
-            if(invincible == false)
+        {
+            if (invincible == false)
             {
                 if (value < 0)
                 {
@@ -28,7 +28,7 @@ public class PlayerValueManager : MonoBehaviour
 
                 if (currHP - value > 0)
                 {
-                    currHP -= value;
+                    currHP = value;
                 }
             }
         }
@@ -56,6 +56,10 @@ public class PlayerValueManager : MonoBehaviour
     public float normalStrength;
     public float currStrength;
 
+    [Header("Armor")]
+    public float normalArmor;
+    public float currArmor;
+
     [Header("Tutorial")]
     public TutorialBaseProfile staminaTutorial;
 
@@ -63,7 +67,9 @@ public class PlayerValueManager : MonoBehaviour
     {
         instance = this;
 
-        if(staminaSlider != null)
+        currHP = normalHP;
+
+        if (staminaSlider != null)
         {
             staminaSlider.maxValue = normalStamina;
             staminaSlider.value = currStamina;

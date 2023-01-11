@@ -9,8 +9,8 @@ public class FightingActions : MonoBehaviour
     public static FightingActions instance;
 
     public List<Collider> colls;
-    public GameObject equippedWeaponR;
-    public GameObject equippedWeaponL;
+    public static GameObject equippedWeaponR;
+    public static GameObject equippedWeaponL;
     public GameObject arrow;
     public GameObject holdArrow;
     public GameObject stone;
@@ -24,7 +24,7 @@ public class FightingActions : MonoBehaviour
     private StarterAssets.ThirdPersonController TPC;
     private DoDamage weaponScriptR;
     private DoDamage weaponScriptL;
-    private Animator anim;
+    public Animator anim;
     private int attackCount = 0;
     private int chanceToRepeatIdle = 10; //chance die Idle zu wechseln 
     private float time;
@@ -63,6 +63,9 @@ public class FightingActions : MonoBehaviour
         {
             OnEquipBow();
         }
+
+        Debug.Log(equippedWeaponR);
+        Debug.Log(equippedWeaponL);
     }
 
     private void OnEquipBow()
@@ -70,6 +73,9 @@ public class FightingActions : MonoBehaviour
         if (equippedWeaponR != null)
         {
             //FABIENNE: De-Equip left Weapon
+
+            anim.SetTrigger("DeequipGreatSword");
+            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
         }
 
         anim.SetTrigger("BowIdle");
@@ -80,6 +86,9 @@ public class FightingActions : MonoBehaviour
         if (equippedWeaponL != null)
         {
             //FABIENNE: De-Equip left Weapon
+
+            anim.SetTrigger("DeequipBow");
+            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
         }
 
         anim.SetTrigger("GreatSwordIdle");
@@ -157,12 +166,19 @@ public class FightingActions : MonoBehaviour
     
     public void EnableDisableWeapon()
     {
-        weaponScriptR.isActive = !weaponScriptR.isActive;
-        weaponScriptL.isActive = !weaponScriptL.isActive;
-
-        if (weaponScriptL.gameObject.CompareTag("Shield"))
+        if (weaponScriptR != null)
         {
-            weaponScriptL.gameObject.GetComponent<BoxCollider>().isTrigger = !weaponScriptL.gameObject.GetComponent<BoxCollider>().isTrigger;
+            weaponScriptR.isActive = !weaponScriptR.isActive;
+        }
+
+        if (weaponScriptL != null)
+        {
+            weaponScriptL.isActive = !weaponScriptL.isActive;
+
+            if (weaponScriptL.gameObject.CompareTag("Shield"))
+            {
+                weaponScriptL.gameObject.GetComponent<BoxCollider>().isTrigger = !weaponScriptL.gameObject.GetComponent<BoxCollider>().isTrigger;
+            }
         }
     }
 

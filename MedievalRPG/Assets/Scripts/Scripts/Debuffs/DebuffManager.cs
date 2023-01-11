@@ -14,20 +14,24 @@ public class DebuffManager : MonoBehaviour
 
     [HideInInspector] public float loweredMaxStamina;
     [HideInInspector] public float loweredNormalStrength;
+    [HideInInspector] public float loweredNormalArmor;
 
     public bool lowerStaminaDebuff = false;
     public bool slowPlayerDebuff = false;
     public bool lowerStrengthDebuff = false;
+    public bool lowerArmorDebuff = false;
     public bool bleedingDebuff = false;
 
     public Image lowerStaminaImg;
     public Image slowPlayerImg;
     public Image lowerStrengthImg;
+    public Image lowerArmorImg;
     public Image bleedingImg;
 
     public Coroutine lowerStaminaCoro;
     public Coroutine slowPlayerCoro;
     public Coroutine lowerStrengthCoro;
+    public Coroutine lowerArmorCoro;
     public Coroutine bleedingCoro;
 
     public float bleedingTimes = 12;
@@ -42,12 +46,13 @@ public class DebuffManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             LowerMaxStamina(60);
             LowerStrength(2);
             Bleeding();
             SlowPlayer();
+            LowerMaxArmor(40);
         }
     }
 
@@ -84,6 +89,19 @@ public class DebuffManager : MonoBehaviour
         lowerStrengthCoro = StartCoroutine(TimeTillLowerStrengthDebuffIsOver());
     }
 
+    public void LowerMaxArmor(float armorReduceAmount)
+    {
+        lowerArmorDebuff = true;
+
+        loweredNormalArmor = pVM.normalArmor - armorReduceAmount;
+
+        //pVM.staminaSlider.maxValue = loweredMaxStamina;
+
+        pVM.currArmor = loweredNormalArmor;
+
+        lowerArmorCoro = StartCoroutine(TimeTillArmorDebuffIsOver());
+    }
+
     public void Bleeding()
     {
         bleedingDebuff = true;
@@ -101,7 +119,7 @@ public class DebuffManager : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            //lowerStaminaImg.fillAmount = Mathf.Lerp(0, 1, 15);
+            lowerStaminaImg.fillAmount = Mathf.Lerp(0, 1, timer / 15);
 
             yield return null;
         }
@@ -124,6 +142,8 @@ public class DebuffManager : MonoBehaviour
         while (timer < 15)
         {
             timer += Time.deltaTime;
+
+            slowPlayerImg.fillAmount = Mathf.Lerp(0, 1, timer / 15);
 
             yield return null;
         }
@@ -152,6 +172,8 @@ public class DebuffManager : MonoBehaviour
         {
             timer += Time.deltaTime;
 
+            lowerStrengthImg.fillAmount = Mathf.Lerp(0, 1, timer / 15);
+
             yield return null;
         }
 
@@ -160,6 +182,31 @@ public class DebuffManager : MonoBehaviour
         lowerStrengthDebuff = false;
 
         lowerStrengthCoro = null;
+    }
+
+    IEnumerator TimeTillArmorDebuffIsOver()
+    {
+        float timer = 0;
+
+        lowerArmorImg.gameObject.transform.parent.parent.gameObject.SetActive(true);
+
+        while (timer < 15)
+        {
+            timer += Time.deltaTime;
+
+            lowerArmorImg.fillAmount = Mathf.Lerp(0, 1, timer / 15);
+
+            yield return null;
+        }
+
+        lowerArmorDebuff = false;
+
+        //pVM.staminaSlider.maxValue = pVM.normalStamina;
+        pVM.currArmor = pVM.normalArmor;
+
+        lowerArmorCoro = null;
+
+        lowerArmorImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
     }
 
     IEnumerator TimeTillBleedingDebuffIsOver()
@@ -171,9 +218,13 @@ public class DebuffManager : MonoBehaviour
             UseItemManager.instance.StopFoodHealingWhenGotDamage();
         }
 
+        bleedingImg.fillAmount += (1 / bleedingTimes);
+
         currBleedingTimes += 1;
 
+        Debug.Log(pVM.CurrHP);
         pVM.CurrHP -= bleedingDamage;
+        Debug.Log(pVM.CurrHP);
         pVM.healthSlider.value = pVM.CurrHP;
 
         yield return new WaitForSecondsRealtime(1);

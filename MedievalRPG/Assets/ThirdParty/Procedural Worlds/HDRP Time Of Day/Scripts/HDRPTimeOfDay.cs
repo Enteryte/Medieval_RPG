@@ -1910,16 +1910,16 @@ namespace ProceduralWorlds.HDRPTOD
             }
             bool hasBeenSet = false;
 #if UNITY_EDITOR
-            SceneView sceneView = SceneView.lastActiveSceneView;
-            if (sceneView != null)
-            {
-                if (sceneView.cameraSettings is { farClip: < 20000f })
-                {
-                    hasBeenSet = true;
-                    sceneView.cameraSettings.farClip = m_cameraSettings.m_farClipPlane;
-                    sceneView.camera.farClipPlane = m_cameraSettings.m_farClipPlane;
-                }
-            }
+            //            SceneView sceneView = SceneView.lastActiveSceneView;
+            //            if (sceneView != null)
+            //            {
+            //                if (sceneView.cameraSettings is { farClip: < 20000f })
+            //                {
+            //                    hasBeenSet = true;
+            //                    sceneView.cameraSettings.farClip = m_cameraSettings.m_farClipPlane;
+            //                    sceneView.camera.farClipPlane = m_cameraSettings.m_farClipPlane;
+            //                }
+            //            }
 #endif
             if (hasBeenSet)
             {

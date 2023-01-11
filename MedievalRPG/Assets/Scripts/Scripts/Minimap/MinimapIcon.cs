@@ -18,6 +18,9 @@ public class MinimapIcon : MonoBehaviour
 
     public List<MissionBaseProfile> currCorrMissions = new List<MissionBaseProfile>();
 
+    public bool isDoorOrGoToIcon = false;
+    public List<MissionTaskBase> corrMissionTasks;
+
     //// Start is called before the first frame update
     void Start()
     {
@@ -34,7 +37,10 @@ public class MinimapIcon : MonoBehaviour
 
         mMIconMissionTxt.text = "";
 
-        corrNPCMissionSymbol = this.gameObject.transform.parent.GetComponentInChildren<NPCMissionSymbol>();
+        if (!isDoorOrGoToIcon)
+        {
+            corrNPCMissionSymbol = this.gameObject.transform.parent.GetComponentInChildren<NPCMissionSymbol>();
+        }
 
         //for (int i = 0; i < MinimapManager.instance.allMinimapIcons.Count; i++)
         ////{
@@ -67,7 +73,10 @@ public class MinimapIcon : MonoBehaviour
         {
             mMIconMissionTxt.text = "";
 
-            currCorrMissions.Clear();
+            if (!isDoorOrGoToIcon)
+            {
+                currCorrMissions.Clear();
+            }
         }
         //else
         //{
@@ -108,6 +117,12 @@ public class MinimapIcon : MonoBehaviour
                                     SetMissionSymbolToHasSomethingToComplete();
                                 }
                             }
+                        }
+                        else if (isDoorOrGoToIcon && currCorrMissions.Contains(mBToCheck) && corrMissionTasks.Contains(mBToCheck.allMissionTasks[i].mTB))
+                        {
+                            //currCorrMissions.Add(mBToCheck);
+
+                            SetMissionSymbolToHasSomethingToComplete();
                         }
                         //else if (mBToCheck.allMissionTasks[i].mTB.missionTaskType == MissionTaskBase.MissionTaskType.)
                     }

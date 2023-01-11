@@ -117,7 +117,7 @@ public class InventoryManager : MonoBehaviour
 
                     if (currIBP == null)
                     {
-                        newInventorySlot.GetComponent<InventorySlotButton>().DisplayAllItemInformationsOnClick();
+                        newInventorySlot.GetComponent<ClickableInventorySlot>().DisplayAllItemInformationsOnClick();
                     }
                 }
             }

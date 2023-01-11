@@ -162,7 +162,10 @@ public class GameManager : MonoBehaviour
         {
             OpenInventory();
 
-            MissionLogScreenHandler.instance.DisplayMissions();
+            if (MissionLogScreenHandler.instance != null)
+            {
+                MissionLogScreenHandler.instance.DisplayMissions();
+            }
         }
 
         if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.shopScreen && !ShopManager.instance.mainShopScreen.activeSelf)
