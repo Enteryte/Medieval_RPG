@@ -5,6 +5,9 @@ using UnityEngine;
 public class BossKI : BaseEnemyKI
 {
     [SerializeField] private float MinDistanceForRangeMode;
+
+
+    private bool IsOnSides;
     public override void Init()
     {
         base.Init();
@@ -25,6 +28,11 @@ public class BossKI : BaseEnemyKI
         base.OnDrawGizmos();
     }
 
+    public void SetIsOnSides(bool _isOnSide)
+    {
+        IsOnSides = _isOnSide;
+    }
+    
     private IEnumerator AttackLoop()
     {
         yield return null;

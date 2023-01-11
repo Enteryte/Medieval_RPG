@@ -6,12 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b9a8b162-a686-480c-b4b1-69697e59fe7a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MedievalRPG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MedievalRPG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Enemies/Bosses/SpookyScaryLitschi.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Enemies/Bosses/SpookyScaryLitschi.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Enemies/Skellies/SpookyScarySkeleton.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Enemies/Skellies/SpookyScarySkeleton.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Enemies/Skellies/SpookyScarySkeletonArcher.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Enemies/Skellies/SpookyScarySkeletonArcher.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyDamager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyDamager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/BaseEnemyKi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/BaseEnemyKi.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Boss_Enemy_KI/BossKI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Boss_Enemy_KI/BossKI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/ArcherEnemyKI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/Enemy_KI/Generic_Archer_Enemy/ArcherEnemyKI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +25,8 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/BossScripts/BossDetectors/SideDetector.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/BossScripts/Spells/ShockWave.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyDamager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyHealth.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Scripts/Enemy/EnemyInitializer.cs" root0="FORCE_HIGHLIGHTING" />
@@ -46,23 +46,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Discover.Launch.Via.Unity": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Discover.Launch.Via.Unity&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "/home/hagius/.config/JetBrains/Rider2022.3/resharper-host/DecompilerCache",
-      "/home/hagius/.config/JetBrains/Rider2022.3/resharper-host/SourcesCache",
-      "/home/hagius/.local/share/Symbols/src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;/home/hagius/.config/JetBrains/Rider2022.3/resharper-host/DecompilerCache&quot;,
+      &quot;/home/hagius/.config/JetBrains/Rider2022.3/resharper-host/SourcesCache&quot;,
+      &quot;/home/hagius/.local/share/Symbols/src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$USER_HOME$/Unity/Hub/Editor/2021.3.11f1/Editor/Unity" />
@@ -122,6 +122,7 @@
       <workItem from="1672837896233" duration="5385000" />
       <workItem from="1673000080582" duration="6766000" />
       <workItem from="1673268654799" duration="8670000" />
+      <workItem from="1673451223533" duration="5556000" />
     </task>
     <servers />
   </component>

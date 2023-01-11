@@ -4,37 +4,34 @@ public class EnemyDamager : MonoBehaviour
 {
     private float Damage;
     private bool IsDamaging;
+
     private void OnTriggerEnter(Collider _collision)
     {
-        if(!IsDamaging)
+        if (!IsDamaging || _collision.gameObject == GameManager.instance.playerGO)
             return;
-        if (_collision.gameObject == GameManager.instance.playerGO)
-        {
-            Debug.Log("Player Hit");
-            _collision.gameObject.GetComponent<GotDamage>().GotHit(true);
-            Attack();
-        }
-    } 
+        Attack(_collision.gameObject);
+    }
+
     public void Init(float _damage)
     {
         Damage = _damage;
     }
+
     public void DamageOn()
     {
         IsDamaging = true;
     }
+
     public void DamageOff()
     {
         IsDamaging = false;
     }
-    private void Attack()
+
+    private void Attack(GameObject _playerGameObject)
     {
-        //Do Damage to the Player Health here. The Debug is to be replaced with that.
+        _playerGameObject.GetComponent<GotDamage>().GotHit(true);
         PlayerValueManager.instance.CurrHP -= Damage;
         PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
-
-
-        Debug.Log($"{Damage} launched");
         IsDamaging = false;
     }
 }
