@@ -87,6 +87,11 @@ public class FightingActions : MonoBehaviour
     #endregion
 
     #region AnimEvents
+    public void ToggleInvincibility()
+    {
+        PlayerValueManager.instance.invincible = !PlayerValueManager.instance.invincible;
+    }
+
     public void EnableDisableUnarmed()
     {
         for (int i = 0; i < colls.Count; i++)
