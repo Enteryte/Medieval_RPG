@@ -141,11 +141,59 @@ public class Interacting : MonoBehaviour
                         && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf && ThirdPersonController.instance.currSeatTrans == null
                         && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove && interactable.iOCanvas() != null)
                     {
-                        interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
-
-                        if (GameManager.instance.playtimeInSeconds > 5)
+                        if (interactableObj.TryGetComponent(out Door door) && door.neededItemsForOpening.Count > 0 && !door.isLocked)
                         {
-                            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
+                            door.canInteract = false;
+
+                            for (int x = 0; x < door.correspondingMissions.Length; x++)
+                            {
+                                if (MissionManager.instance.allCurrAcceptedMissions.Contains(door.correspondingMissions[x])
+                                    && !door.correspondingMissionTasks[x].missionTaskCompleted && door.correspondingMissionTasks[x].canBeDisplayed)
+                                {
+                                    interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
+
+                                    door.canInteract = true;
+
+                                    if (GameManager.instance.playtimeInSeconds > 5)
+                                    {
+                                        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
+                                    }
+                                }
+                            }
+                        }
+                        else if (interactableObj.TryGetComponent(out Door door2) && door2.neededItemsForOpening.Count <= 0 && door2.correspondingMissions.Length > 0)
+                        {
+                            door.canInteract = false;
+
+                            for (int x = 0; x < door.correspondingMissions.Length; x++)
+                            {
+                                if (MissionManager.instance.allCurrAcceptedMissions.Contains(door.correspondingMissions[x])
+                                    && !door.correspondingMissionTasks[x].missionTaskCompleted && door.correspondingMissionTasks[x].canBeDisplayed)
+                                {
+                                    interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
+
+                                    door.canInteract = true;
+
+                                    if (GameManager.instance.playtimeInSeconds > 5)
+                                    {
+                                        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
+
+                            if (interactableObj.TryGetComponent(out Item item) && item.isOpen)
+                            {
+                                interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
+                            }
+
+                            if (GameManager.instance.playtimeInSeconds > 5)
+                            {
+                                TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
+                            }
                         }
                     }
 
@@ -216,16 +264,76 @@ public class Interacting : MonoBehaviour
                     }
                     else if (!nearestObjTrans.TryGetComponent(out SeatingObject seatObj2))
                     {
-                        if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                            && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                        if (nearestObjTrans.TryGetComponent(out Door door) && door.neededItemsForOpening.Count > 0 && !door.isLocked)
                         {
-                            if (interactable.iOCanvas() != null)
+                            if (door.canInteract)
                             {
-                                howToInteractGO.SetActive(true);
+                                if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                                && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                                {
+                                    if (interactable.iOCanvas() != null)
+                                    {
+                                        howToInteractGO.SetActive(true);
 
-                                howToInteractTxt.text = interactable.GetInteractUIText();
+                                        howToInteractTxt.text = interactable.GetInteractUIText();
 
-                                timeTillInteract = interactable.GetTimeTillInteract();
+                                        timeTillInteract = interactable.GetTimeTillInteract();
+                                    }
+                                }
+                            }
+                        }
+                        else if (nearestObjTrans.TryGetComponent(out Door door2) && door2.neededItemsForOpening.Count <= 0)
+                        {
+                            if (door2.canInteract)
+                            {
+                                if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                                && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                                {
+                                    if (interactable.iOCanvas() != null)
+                                    {
+                                        howToInteractGO.SetActive(true);
+
+                                        howToInteractTxt.text = interactable.GetInteractUIText();
+
+                                        timeTillInteract = interactable.GetTimeTillInteract();
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                                && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                            {
+                                if (nearestObjTrans.TryGetComponent(out Item item) && item.itemsToGet.Length > 0 || nearestObjTrans.TryGetComponent(out Item item2) && item2.moneyAmount > 0)
+                                {
+                                    if (!item.isOpen)
+                                    {
+                                        if (interactable.iOCanvas() != null)
+                                        {
+                                            howToInteractGO.SetActive(true);
+
+                                            howToInteractTxt.text = interactable.GetInteractUIText();
+
+                                            timeTillInteract = interactable.GetTimeTillInteract();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
+                                    }
+                                }
+                                else
+                                {
+                                    if (interactable.iOCanvas() != null)
+                                    {
+                                        howToInteractGO.SetActive(true);
+
+                                        howToInteractTxt.text = interactable.GetInteractUIText();
+
+                                        timeTillInteract = interactable.GetTimeTillInteract();
+                                    }
+                                }
                             }
                         }
                     }

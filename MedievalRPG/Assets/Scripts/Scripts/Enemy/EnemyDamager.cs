@@ -27,12 +27,12 @@ public class EnemyDamager : MonoBehaviour
     {
         IsDamaging = false;
     }
+
     private void Attack()
     {
         //Do Damage to the Player Health here. The Debug is to be replaced with that.
         PlayerValueManager.instance.CurrHP -= Damage;
         PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
-
 
         Debug.Log($"{Damage} launched");
         IsDamaging = false;

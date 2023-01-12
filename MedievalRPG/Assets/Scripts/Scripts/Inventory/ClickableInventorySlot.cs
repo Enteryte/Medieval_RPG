@@ -348,11 +348,21 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
                         FightingActions.instance.GetWeapon();
 
+                        if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
+                        {
+                            if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+                            {
+                                //FightingActions.instance.anim.SetTrigger("DeequipBow");
+
+                                FightingActions.instance.anim.ResetTrigger("BowIdle");
+                                EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+
+                                Debug.Log("1" + storedItemBase);
+                            }                         
+                        }
+
                         if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
                         {
-                            //FightingActions.instance.anim.SetTrigger("DeequipBow");
-                            //FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
-
                             InventoryManager.instance.RemoveHoldingWeight(EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weight, 1);
                             InventoryManager.instance.inventory.AddItem(EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase, 1);
 
@@ -363,6 +373,16 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                                 {
                                     EquippingManager.instance.rightWeaponParentObj.transform.GetChild(x).gameObject.SetActive(false);
                                 }
+                            }
+
+                            //if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+                            //{
+                            //    FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+                            //}
+
+                            if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+                            {
+                                EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
                             }
                         }
 
@@ -403,11 +423,21 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
                         FightingActions.instance.GetWeapon();
 
+                        if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
+                        {
+                            if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+                            {
+                                //FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+
+                                FightingActions.instance.anim.ResetTrigger("GreatSwordIdle");
+                                EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+
+                                Debug.Log("1" + storedItemBase);
+                            }
+                        }
+
                         if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
                         {
-                            //FightingActions.instance.anim.SetTrigger("DeequipBow");
-                            //FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
-
                             InventoryManager.instance.RemoveHoldingWeight(EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weight, 1);
                             InventoryManager.instance.inventory.AddItem(EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase, 1);
 
@@ -416,10 +446,68 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                                 if (EquippingManager.instance.weaponParentObj.transform.GetChild(x).GetComponent<Item>().iBP ==
                                     EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase)
                                 {
-                                    EquippingManager.instance.leftWeaponES.transform.GetChild(x).gameObject.SetActive(false);
+                                    EquippingManager.instance.weaponParentObj.transform.GetChild(x).gameObject.SetActive(false);
                                 }
                             }
+
+                            if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+                            {
+                                FightingActions.instance.anim.SetTrigger("DeequipBow");
+                            }
                         }
+
+                        if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+                        {
+                            EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+                        }
+
+                        //if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
+                        //{
+                        //    //FightingActions.instance.anim.SetTrigger("DeequipBow");
+                        //    //FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+
+                        //    if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+                        //    {
+                        //        FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+
+                        //        if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
+                        //        {
+                        //            EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+                        //        }
+
+                        //        Debug.Log("1" + storedItemBase);
+                        //    }
+                        //    else if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+                        //    {
+                        //        FightingActions.instance.anim.SetTrigger("DeequipBow");
+
+                        //        if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
+                        //        {
+                        //            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+                        //        }
+
+                        //        Debug.Log("2" + storedItemBase);
+                        //    }
+                        //    else
+                        //    {
+                        //        FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+                        //        FightingActions.instance.anim.SetTrigger("DeequipBow");
+
+                        //        Debug.Log("3" + storedItemBase);
+                        //    }
+
+                        //    InventoryManager.instance.RemoveHoldingWeight(EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weight, 1);
+                        //    InventoryManager.instance.inventory.AddItem(EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase, 1);
+
+                        //    for (int x = 0; x < EquippingManager.instance.weaponParentObj.transform.childCount; x++)
+                        //    {
+                        //        if (EquippingManager.instance.weaponParentObj.transform.GetChild(x).GetComponent<Item>().iBP ==
+                        //            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase)
+                        //        {
+                        //            EquippingManager.instance.leftWeaponES.transform.GetChild(x).gameObject.SetActive(false);
+                        //        }
+                        //    }
+                        //}
 
                         EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = storedItemBase;
                         EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedAmount = 1;
@@ -438,6 +526,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                         //var eventSystem = EventSystem.current;
                         //eventSystem.SetSelectedGameObject(null);
                         //eventSystem.SetSelectedGameObject(EquippingManager.instance.rightWeaponES.gameObject, new BaseEventData(eventSystem));
+
+                        //FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
 
                         Debug.Log("IS HERE!2");
                         break;
@@ -520,22 +610,42 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
                     FightingActions.instance.GetWeapon();
 
+                    if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
+                    {
+                        if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+                        {
+                            //FightingActions.instance.anim.SetTrigger("DeequipBow");
+
+                            FightingActions.instance.anim.ResetTrigger("BowIdle");
+                            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+
+                            Debug.Log("1" + storedItemBase);
+                        }
+                    }
+
                     if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
                     {
-                        //FightingActions.instance.anim.SetTrigger("DeequipBow");
-                        //FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
-
                         InventoryManager.instance.RemoveHoldingWeight(EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weight, 1);
                         InventoryManager.instance.inventory.AddItem(EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase, 1);
 
-                        for (int x = 0; x < EquippingManager.instance.weaponParentObj.transform.childCount; x++)
+                        for (int x = 0; x < EquippingManager.instance.rightWeaponParentObj.transform.childCount; x++)
                         {
                             if (EquippingManager.instance.rightWeaponParentObj.transform.GetChild(x).GetComponent<Item>().iBP ==
                                 EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase)
                             {
-                                EquippingManager.instance.rightWeaponES.transform.GetChild(x).gameObject.SetActive(false);
+                                EquippingManager.instance.rightWeaponParentObj.transform.GetChild(x).gameObject.SetActive(false);
                             }
                         }
+
+                        //if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+                        //{
+                        //    FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+                        //}
+
+                        //if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+                        //{
+                        //    EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+                        //}
                     }
 
                     EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = storedItemBase;
@@ -556,6 +666,9 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     //eventSystem.SetSelectedGameObject(null);
                     //eventSystem.SetSelectedGameObject(EquippingManager.instance.rightWeaponES.gameObject, new BaseEventData(eventSystem));
                     Debug.Log("IS HERE!2");
+
+                    //FightingActions.instance.anim.SetTrigger("DeequipBow");
+
                     break;
                 }
             }
@@ -571,11 +684,21 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
                     FightingActions.instance.GetWeapon();
 
+                    if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
+                    {
+                        if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+                        {
+                            //FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+
+                            FightingActions.instance.anim.ResetTrigger("GreatSwordIdle");
+                            EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+
+                            Debug.Log("1" + storedItemBase);
+                        }
+                    }
+
                     if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
                     {
-                        //FightingActions.instance.anim.SetTrigger("DeequipBow");
-                        //FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
-
                         InventoryManager.instance.RemoveHoldingWeight(EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weight, 1);
                         InventoryManager.instance.inventory.AddItem(EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase, 1);
 
@@ -584,9 +707,19 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                             if (EquippingManager.instance.weaponParentObj.transform.GetChild(x).GetComponent<Item>().iBP ==
                                 EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase)
                             {
-                                EquippingManager.instance.leftWeaponES.transform.GetChild(x).gameObject.SetActive(false);
+                                EquippingManager.instance.weaponParentObj.transform.GetChild(x).gameObject.SetActive(false);
                             }
                         }
+
+                        if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+                        {
+                            FightingActions.instance.anim.SetTrigger("DeequipBow");
+                        }
+                    }
+
+                    if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+                    {
+                        EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
                     }
 
                     EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = storedItemBase;
@@ -607,6 +740,9 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     //eventSystem.SetSelectedGameObject(null);
                     //eventSystem.SetSelectedGameObject(EquippingManager.instance.rightWeaponES.gameObject, new BaseEventData(eventSystem));
                     Debug.Log("IS HERE!2");
+
+                    //FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+
                     break;
                 }
             }
@@ -838,6 +974,18 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
             this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
 
+            if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+            {
+                FightingActions.instance.anim.SetTrigger("DeequipBow");
+
+                Debug.Log("TRUEEEEEEEEEEEEEEEEEE");
+            }
+
+            if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+            {
+                FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+            }
+
             if (storedItemBase == EquippingManager.instance.glovesIB && EquippingManager.instance.glovesGO.activeSelf)
             {
                 EquippingManager.instance.glovesGO.SetActive(false);
@@ -919,8 +1067,22 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                         EquippingManager.instance.leftWeaponES.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
                         EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = null;
 
-                        FightingActions.instance.anim.SetTrigger("DeequipBow");
-                        FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+                        //if (storedItemBase != null)
+                        //{
+                        //    if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+                        //    {
+                        //        FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+                        //    }
+                        //    else if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+                        //    {
+                        //        FightingActions.instance.anim.SetTrigger("DeequipBow");
+                        //    }
+                        //    else
+                        //    {
+                        //        FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+                        //        FightingActions.instance.anim.SetTrigger("DeequipBow");
+                        //    }
+                        //}
 
                         break;
                     }

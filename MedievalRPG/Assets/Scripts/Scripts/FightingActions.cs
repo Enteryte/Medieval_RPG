@@ -63,9 +63,6 @@ public class FightingActions : MonoBehaviour
         {
             OnEquipBow();
         }
-
-        Debug.Log(equippedWeaponR);
-        Debug.Log(equippedWeaponL);
     }
 
     private void OnEquipBow()
@@ -74,8 +71,8 @@ public class FightingActions : MonoBehaviour
         {
             //FABIENNE: De-Equip left Weapon
 
-            anim.SetTrigger("DeequipGreatSword");
-            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+            //anim.SetTrigger("DeequipGreatSword");
+            EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
         }
 
         anim.SetTrigger("BowIdle");
@@ -87,7 +84,7 @@ public class FightingActions : MonoBehaviour
         {
             //FABIENNE: De-Equip left Weapon
 
-            anim.SetTrigger("DeequipBow");
+            //anim.SetTrigger("DeequipBow");
             EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
         }
 
@@ -196,6 +193,11 @@ public class FightingActions : MonoBehaviour
     #region Attacks
     private void OnLightAttackShoot()
     {
+        if (!TPC.canMove)
+        {
+            return;
+        }
+
         if (equippedWeaponR == null && equippedWeaponL == null)
         {
             anim.SetTrigger("LightAttackFist");
@@ -264,6 +266,11 @@ public class FightingActions : MonoBehaviour
 
     private void OnHeavyAttackZoom()
     {
+        if (!TPC.canMove)
+        {
+            return;
+        }
+
         if (equippedWeaponR == null && equippedWeaponL == null)
         {
             anim.SetTrigger("HeavyAttackFist");

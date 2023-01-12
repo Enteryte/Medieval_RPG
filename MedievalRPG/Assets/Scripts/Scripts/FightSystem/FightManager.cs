@@ -10,6 +10,10 @@ public class FightManager : MonoBehaviour
 
     public GameObject currTargetEnemy;
 
+    [Header("Tutorials")]
+    public TutorialBaseProfile doARollTutorial;
+    public TutorialBaseProfile shildBlockTutorial;
+
     public void Awake()
     {
         instance = this;

@@ -14,9 +14,20 @@ public class GotDamage : MonoBehaviour
     public void GotHit(bool enemyDamage)
     {
         Debug.Log("Hit");
+
         if(enemyDamage == true)
         {
             anim.SetTrigger("GotHit");
+
+            if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null 
+                && EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.shield)
+            {
+                TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(FightManager.instance.shildBlockTutorial);
+            }
+            else
+            {
+                TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(FightManager.instance.doARollTutorial);
+            }
         }
     }
 }
