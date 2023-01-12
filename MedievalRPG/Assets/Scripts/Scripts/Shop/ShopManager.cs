@@ -105,7 +105,7 @@ public class ShopManager : MonoBehaviour
                 mainShopScreen.SetActive(false);
             }
             else if (shopScreen.activeSelf)
-            {
+            {              
                 CloseMSScreenButton.CloseScreen();
             }
         }
