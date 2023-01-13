@@ -477,5 +477,31 @@ public class CutsceneManager : MonoBehaviour
         GameManager.instance.hotbarGO.SetActive(false);
         GameManager.instance.playerStatsGO.SetActive(false);
     }
+
+    public void SleepTillMorning()
+    {
+        // -------------------> HIER Zeit ändern -> zum Morgen.
+
+        DebuffManager.instance.StopAllDebuffs();
+
+        PlayerValueManager.instance.CurrHP = PlayerValueManager.instance.normalHP;
+        PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
+
+        PlayerValueManager.instance.currStamina = PlayerValueManager.instance.normalStamina;
+        PlayerValueManager.instance.staminaSlider.value = PlayerValueManager.instance.currStamina;
+    }
+
+    public void SleepTillEvening()
+    {
+        // -------------------> HIER Zeit ändern -> zum Abend.
+
+        DebuffManager.instance.StopAllDebuffs();
+
+        PlayerValueManager.instance.CurrHP = PlayerValueManager.instance.normalHP;
+        PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
+
+        PlayerValueManager.instance.currStamina = PlayerValueManager.instance.normalStamina;
+        PlayerValueManager.instance.staminaSlider.value = PlayerValueManager.instance.currStamina;
+    }
     #endregion
 }

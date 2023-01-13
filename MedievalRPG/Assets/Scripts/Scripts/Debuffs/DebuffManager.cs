@@ -244,4 +244,32 @@ public class DebuffManager : MonoBehaviour
             StartCoroutine(TimeTillBleedingDebuffIsOver());
         }
     }
+
+    public void StopAllDebuffs()
+    {
+        if (bleedingCoro != null)
+        {
+            StopCoroutine(bleedingCoro);
+        }
+
+        if (lowerArmorCoro != null)
+        {
+            StopCoroutine(lowerArmorCoro);
+        }
+
+        if (lowerStaminaCoro != null)
+        {
+            StopCoroutine(lowerStaminaCoro);
+        }
+
+        if (lowerStrengthCoro != null)
+        {
+            StopCoroutine(lowerStrengthCoro);
+        }
+
+        if (slowPlayerCoro != null && InventoryManager.instance.currHoldingWeight <= InventoryManager.instance.maxHoldingWeight)
+        {
+            StopCoroutine(slowPlayerCoro);
+        }
+    }
 }

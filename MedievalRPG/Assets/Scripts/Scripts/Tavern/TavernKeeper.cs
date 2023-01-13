@@ -35,6 +35,10 @@ public class TavernKeeper : MonoBehaviour, IInteractable
     public GameObject getBeerScreen;
     public GameObject missionButton;// if tk has a second mission
 
+    [Header("Sleep In Tavern")]
+    public GameObject sleepInTavernBtnPrefab;
+    public CutsceneProfile startTalkAboutSITCP;
+
     [Header("Missions")]
     public List<MissionBaseProfile> allCorrMissions;
     public MissionTaskBase currCorrTask;
@@ -140,6 +144,13 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         CutsceneManager.instance.cutsceneCam.SetActive(false);
     }
 
+    public void TriggerSleepInTavernDialogue()
+    {
+        CutsceneManager.instance.currCP = startTalkAboutSITCP;
+        CutsceneManager.instance.playableDirector.playableAsset = startTalkAboutSITCP.cutscene;
+        CutsceneManager.instance.playableDirector.Play();
+    }
+
     public void DontBuyBeer()
     {
         GameManager.instance.playerGO.transform.parent = CutsceneManager.instance.playerBaseMeshParentTrans;
@@ -195,6 +206,10 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         {
             Destroy(buttonParentTrans.GetChild(i).gameObject);
         }
+
+        var tavernTriggerSITCPButton = Instantiate(sleepInTavernBtnPrefab, buttonParentTrans);
+
+        tavernTriggerSITCPButton.GetComponent<Button>().onClick.AddListener(TriggerSleepInTavernDialogue);
 
         for (int i = 0; i < allCurrCorrTasks.Count; i++)
         {
