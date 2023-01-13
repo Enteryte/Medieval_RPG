@@ -8,11 +8,13 @@ public class EnemyHealth : MonoBehaviour
     private EnemyBaseProfile Stats;
     private Animator Anim;
     private BaseEnemyKI AI;
-    private float LifePoints;
+    private float MaxLifePoints;
+    public float LifePoints { get; private set; }
 
     public void Initialize(EnemyBaseProfile _stats, Animator _anim, BaseEnemyKI _ai)
     {
         Stats = _stats;
+        MaxLifePoints = Stats.normalHealth;
         LifePoints = Stats.normalHealth;
         Anim = _anim;
         AI = _ai;
@@ -39,5 +41,10 @@ public class EnemyHealth : MonoBehaviour
         if(LifePoints > 0)
             return;
         AI.Death();
+    }
+
+    public void BossHeal()
+    {
+        LifePoints = MaxLifePoints;
     }
 }

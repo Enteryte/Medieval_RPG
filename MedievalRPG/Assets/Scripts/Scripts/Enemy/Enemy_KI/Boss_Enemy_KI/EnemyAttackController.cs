@@ -5,7 +5,11 @@ using UnityEngine;
 
 public class EnemyAttackController : MonoBehaviour
 {
+    [SerializeField] private SideSwiperSpawner SideSwiperSpawner;
+    [SerializeField] private ShockWave ShockWavePrefab;
+    [SerializeField] private EnemyDamager MeteorPrefab;
 
+    
     public void FireShockWave()
     {
         
