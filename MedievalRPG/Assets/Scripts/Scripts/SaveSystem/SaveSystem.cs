@@ -27,6 +27,26 @@ public class SaveSystem : MonoBehaviour
         instance = this;
     }
 
+    public void Start()
+    {
+        if (!Directory.Exists(Application.persistentDataPath + "/OptionsData"))
+        {
+            SaveOptions();
+        }
+        else
+        {
+            LoadOptionsData();
+        }
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            SaveOptions();
+        }
+    }
+
     public void Save()
     {
         path = System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")/* + "_" + GameManager.instance.playtimeInSeconds*/;
@@ -57,6 +77,41 @@ public class SaveSystem : MonoBehaviour
         //SaveInventory();
         //SaveNPCs();
         //SaveMissions();
+    }
+
+    public void SaveOptions()
+    {
+        path = System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")/* + "_" + GameManager.instance.playtimeInSeconds*/;
+
+        if (!Directory.Exists(Application.persistentDataPath + "/OptionsData"))
+        {
+            // Set Start-Option-Values
+            OptionManager.instance.masterSlider.value = 0.5f;
+            OptionManager.instance.environmentSlider.value = 0.5f;
+            OptionManager.instance.voiceSlider.value = 0.5f;
+            OptionManager.instance.musicSlider.value = 0.5f;
+            OptionManager.instance.sfxSlider.value = 0.5f;
+
+            OptionManager.instance.windowModeToggle.isOn = false;
+            OptionManager.instance.resolutionDropdown.value = 0;
+            OptionManager.instance.subtitleToggle.isOn = true;
+
+            OptionManager.instance.cameraSensiSlider.value = 0.5f;
+            OptionManager.instance.mouseSensiSlider.value = 0.5f;
+
+            OptionManager.instance.controllerToggle.isOn = false;
+
+            Directory.CreateDirectory(Application.persistentDataPath + "/OptionsData");
+        }
+
+        SaveGameObject sGO = createOptionsSaveGameObject();
+
+        string JsonString = JsonUtility.ToJson(sGO);
+
+        StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/OptionsData/" +/* path + */"/" + path + "_optionsData.text");
+
+        sw.Write(JsonString);
+        sw.Close();
     }
 
     // Immer nach einer bestimmten Zeit
@@ -106,6 +161,15 @@ public class SaveSystem : MonoBehaviour
         return sGO;
     }
 
+    public SaveGameObject createOptionsSaveGameObject()
+    {
+        SaveGameObject sGO = new SaveGameObject();
+
+        SaveOptions(sGO);
+
+        return sGO;
+    }
+
     public void Load()
     {
         if (Directory.Exists(StartScreenManager.currSelectedLoadSlotBtn.correspondingSaveDataDirectory))
@@ -133,6 +197,64 @@ public class SaveSystem : MonoBehaviour
             LoadEnemies(sGO);
             LoadInventory(sGO);
             LoadInteractableObjects(sGO);
+
+            Debug.Log("nhjmkklsssssssssssss");
+            //LoadInteractableObjects();
+            //LoadInventory();
+            //LoadNPCs();
+            //LoadMissions();
+        }
+    }
+
+    public void LoadOptionsData()
+    {
+        if (Directory.Exists(Application.persistentDataPath + "/OptionsData/"))
+        {
+            var dirInfo = Directory.GetFiles(Application.persistentDataPath + "/OptionsData/");
+
+            //continueTxtFileDirectory.GetFiles(dirInfo[dirInfo.Length])
+
+            //for (int i = dirInfo.Length - 1; i > -1; i--)
+            //{
+            //    var gameDataFolder = Directory.GetFiles(dirInfo[i]);
+            //}
+
+            //if (dirInfo.Length > 0)
+            //{
+            //    var optionsDataFolder = Directory.GetFiles(dirInfo[dirInfo.Length - 1]);
+
+            //    continuePath = dirInfo[dirInfo.Length - 1];
+            //    continueTxtFile = optionsDataFolder[0];
+            //}
+            //else
+            //{
+            //    var optionsDataFolder = Directory.GetFiles(dirInfo[dirInfo.Length]);
+
+            //    continuePath = dirInfo[dirInfo.Length];
+            //    continueTxtFile = optionsDataFolder[0];
+            //}
+
+            continueTxtFile = dirInfo[dirInfo.Length - 1];
+        }
+
+        if (Directory.Exists(Application.persistentDataPath + "/OptionsData/"))
+        {
+            StreamReader sr = new StreamReader(continueTxtFile);
+
+            string JsonString = sr.ReadToEnd();
+
+            sr.Close();
+
+            //GameManager.instance.displayInventory.inventory.database = Resources.Load<ItemDatabaseBase>("Database");
+            //GameManager.Instance.enemyDatabase = Resources.Load<EnemyDatabase>("EnemyDatabase");
+            //#endif
+
+            SaveGameObject sGO = JsonUtility.FromJson<SaveGameObject>(JsonString);
+
+            // Playtime
+            //GameManager.instance.playtimeInSeconds = sGO.playtimeInSeconds;
+
+            LoadOptions(sGO);
 
             Debug.Log("nhjmkklsssssssssssss");
             //LoadInteractableObjects();
@@ -377,6 +499,25 @@ public class SaveSystem : MonoBehaviour
             sGO.isDoorOpen.Add(GameManager.instance.allInteractableDoors[i].isOpen);
         }
     }
+
+    public void SaveOptions(SaveGameObject sGO)
+    {
+        // Audio
+        sGO.masterSlValue = OptionManager.instance.masterSlider.value;
+        sGO.environmentSlValue = OptionManager.instance.environmentSlider.value;
+        sGO.voiceSlValue = OptionManager.instance.voiceSlider.value;
+        sGO.musicSlValue = OptionManager.instance.musicSlider.value;
+        sGO.sfxSlValue = OptionManager.instance.sfxSlider.value;
+
+        // Video
+        sGO.isWindowed = OptionManager.instance.windowModeToggle.isOn;
+        sGO.resolutionDDValue = OptionManager.instance.resolutionDropdown.value;
+        sGO.displaySubtitle = OptionManager.instance.subtitleToggle.isOn;
+
+        // Controls
+        sGO.camSensiSlValue = OptionManager.instance.cameraSensiSlider.value;
+        sGO.mouseSensiSlValue = OptionManager.instance.mouseSensiSlider.value;
+    }
     #endregion
 
     #region Loading
@@ -553,6 +694,33 @@ public class SaveSystem : MonoBehaviour
         {
             GameManager.instance.allInteractableDoors[i].isOpen = sGO.isDoorOpen[i];
         }
+    }
+
+    public void LoadOptions(SaveGameObject sGO)
+    {
+        OptionManager.instance.masterSlider.value = sGO.masterSlValue;
+        OptionManager.instance.environmentSlider.value = sGO.environmentSlValue;
+        OptionManager.instance.voiceSlider.value = sGO.voiceSlValue;
+        OptionManager.instance.musicSlider.value = sGO.musicSlValue;
+        OptionManager.instance.sfxSlider.value = sGO.sfxSlValue;
+
+        OptionManager.instance.windowModeToggle.isOn = sGO.isWindowed;
+        OptionManager.instance.resolutionDropdown.value = sGO.resolutionDDValue;
+        OptionManager.instance.subtitleToggle.isOn = sGO.displaySubtitle;
+
+        OptionManager.instance.cameraSensiSlider.value = sGO.camSensiSlValue;
+        OptionManager.instance.mouseSensiSlider.value = sGO.mouseSensiSlValue;
+
+        OptionManager.instance.MasterSliderOnValueChange();
+        OptionManager.instance.EnvironmentSliderOnValueChange();
+        OptionManager.instance.VoiceSliderOnValueChange();
+        OptionManager.instance.MusicSliderOnValueChange();
+        OptionManager.instance.SFXSliderOnValueChange();
+
+        OptionManager.instance.CameraSensiSliderOnValueChange();
+        OptionManager.instance.MouseSensiSliderOnValueChange();
+
+        OptionManager.instance.controllerToggle.isOn = false;
     }
     #endregion
 }

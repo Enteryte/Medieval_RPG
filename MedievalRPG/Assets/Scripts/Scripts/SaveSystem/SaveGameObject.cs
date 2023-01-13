@@ -73,4 +73,23 @@ public class SaveGameObject
     public List<string> allInteractableObjectNames = new List<string>();
 
     public List<bool> isDoorOpen = new List<bool>();
+
+    // Options
+    // - Audio
+    public float masterSlValue;
+    public float environmentSlValue;
+    public float voiceSlValue;
+    public float musicSlValue;
+    public float sfxSlValue;
+
+    // - Video
+    public bool isWindowed;
+    public int resolutionDDValue;
+    public bool displaySubtitle;
+
+    // - Controls
+    public float camSensiSlValue;
+    public float mouseSensiSlValue;
+
+    // -------------------------------> WIP: Save Keys ( Walk, Run, Jump, ( ... ) )
 }
