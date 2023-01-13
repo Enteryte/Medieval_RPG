@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenuScreen;
     public bool gameIsPaused = false;
 
+    public GameObject arrowHUDDisplayGO;
+
     [Header("Saving/Loading")]
     public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
@@ -397,6 +399,21 @@ public class GameManager : MonoBehaviour
     public void OpenInventory()
     {
         InventoryManager.instance.inventoryScreen.SetActive(!InventoryManager.instance.inventoryScreen.activeSelf);
+
+        if (InventoryManager.instance.inventoryScreen.activeSelf)
+        {
+            ThirdPersonController.instance._animator.Play("Inventory Pose");
+
+            Debug.Log("fghbj");
+        }
+        else
+        {
+            ThirdPersonController.instance._animator.enabled = false;
+            ThirdPersonController.instance._animator.Rebind();
+            ThirdPersonController.instance._animator.enabled = true;
+
+            Debug.Log("fghbj2");
+        }
 
         ThirdPersonController.instance.canMove = !InventoryManager.instance.inventoryScreen.activeSelf;
         //InventoryManager.instance.DisplayItemsOfCategory();

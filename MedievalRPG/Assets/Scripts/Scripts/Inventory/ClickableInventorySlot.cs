@@ -459,6 +459,9 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                         if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
                         {
                             EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+
+                            FightManager.instance.UpdateArrowHUDDisplay();
+                            GameManager.instance.arrowHUDDisplayGO.SetActive(true);
                         }
 
                         //if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
@@ -720,6 +723,9 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
                     {
                         EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+
+                        FightManager.instance.UpdateArrowHUDDisplay();
+                        GameManager.instance.arrowHUDDisplayGO.SetActive(true);
                     }
 
                     EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = storedItemBase;
@@ -978,7 +984,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             {
                 FightingActions.instance.anim.SetTrigger("DeequipBow");
 
-                Debug.Log("TRUEEEEEEEEEEEEEEEEEE");
+                GameManager.instance.arrowHUDDisplayGO.SetActive(false);
             }
 
             if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
