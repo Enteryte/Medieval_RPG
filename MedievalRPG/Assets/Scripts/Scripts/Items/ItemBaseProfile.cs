@@ -60,7 +60,7 @@ public class ItemBaseProfile : ScriptableObject
         sword,
         shield,
         bow,
-        halberd,
+        greatsword,
         axe,
         torch,
         stone

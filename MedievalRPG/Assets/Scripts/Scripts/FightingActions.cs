@@ -63,9 +63,6 @@ public class FightingActions : MonoBehaviour
         {
             OnEquipBow();
         }
-
-        Debug.Log(equippedWeaponR);
-        Debug.Log(equippedWeaponL);
     }
 
     private void OnEquipBow()
@@ -74,8 +71,8 @@ public class FightingActions : MonoBehaviour
         {
             //FABIENNE: De-Equip left Weapon
 
-            anim.SetTrigger("DeequipGreatSword");
-            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+            //anim.SetTrigger("DeequipGreatSword");
+            EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
         }
 
         anim.SetTrigger("BowIdle");
@@ -87,7 +84,7 @@ public class FightingActions : MonoBehaviour
         {
             //FABIENNE: De-Equip left Weapon
 
-            anim.SetTrigger("DeequipBow");
+            //anim.SetTrigger("DeequipBow");
             EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
         }
 
@@ -196,74 +193,119 @@ public class FightingActions : MonoBehaviour
     #region Attacks
     private void OnLightAttackShoot()
     {
+        if (!TPC.canMove)
+        {
+            return;
+        }
+
         if (equippedWeaponR == null && equippedWeaponL == null)
         {
             anim.SetTrigger("LightAttackFist");
             return;
         }
 
-        if(equippedWeaponL != null)
+        if (equippedWeaponL != null)
         {
-            if (equippedWeaponL.CompareTag("Bow") && aims == true)
+            if (equippedWeaponL.CompareTag("Bow") && aims == true && CheckIfHasArrows() && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 anim.SetTrigger("Shoot");
                 TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
                 GameObject Arrow = Instantiate(arrow);
                 Arrow.transform.position = equippedWeaponL.transform.position;
-                Arrow.transform.rotation = Quaternion.LookRotation(transform.forward, new Vector3(0,0,0));
+                Arrow.transform.rotation = Quaternion.LookRotation(transform.forward, new Vector3(0, 0, 0));
                 Arrow.GetComponent<Rigidbody>().AddForce(transform.forward * shotSpeed, ForceMode.Impulse);
                 Arrow = null;
                 aims = !aims;
                 TPC.transform.rotation = Quaternion.Euler(0, TPC.transform.rotation.eulerAngles.y, 0);
 
-                //FABIENNE: Pfeile aus inventar entfernen
+                for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
+                {
+                    if (InventoryManager.instance.inventory.slots[i].itemBase == FightManager.instance.arrowIB)
+                    {
+                        InventoryManager.instance.inventory.RemoveItem(InventoryManager.instance.inventory.slots[i].itemBase, 1);
+
+                        FightManager.instance.UpdateArrowHUDDisplay();
+                    }
+                }
+
+                PlayerValueManager.instance.RemoveStamina(15);
             }
-            if(equippedWeaponL.CompareTag("Shield") && holdBlock == true)
+            if (equippedWeaponL.CompareTag("Shield") && holdBlock == true && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 weaponScriptL.heavyAttack = false;
                 weaponScriptL.lightAttack = true;
                 anim.SetTrigger("ShieldSmack");
+
+                PlayerValueManager.instance.RemoveStamina(15);
             }
         }
 
-        if(equippedWeaponR != null)
+        if (equippedWeaponR != null)
         {
             //FABIENNE: Stamina loss bei Angriffen
-            if (equippedWeaponR.CompareTag("SwordOnehanded") && holdBlock == false)
+            if (equippedWeaponR.CompareTag("SwordOnehanded") && holdBlock == false && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 weaponScriptR.heavyAttack = false;
                 weaponScriptR.lightAttack = true;
                 anim.SetInteger("AttackCount", attackCount);
                 anim.SetTrigger("LightAttackSword");
+
+                PlayerValueManager.instance.RemoveStamina(15);
             }
-            if (equippedWeaponR.CompareTag("Axe"))
+            if (equippedWeaponR.CompareTag("Axe") && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 weaponScriptR.heavyAttack = false;
                 weaponScriptR.lightAttack = true;
                 anim.SetInteger("AttackCount", attackCount);
                 anim.SetTrigger("LightAttackAxe");
+
+                PlayerValueManager.instance.RemoveStamina(15);
             }
-            if (equippedWeaponR.CompareTag("GreatSword"))
+            if (equippedWeaponR.CompareTag("GreatSword") && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 weaponScriptR.heavyAttack = false;
                 weaponScriptR.lightAttack = true;
                 anim.SetTrigger("GreatSwordKick");
+
+                PlayerValueManager.instance.RemoveStamina(15);
             }
-            if (equippedWeaponR.CompareTag("Club"))
+            if (equippedWeaponR.CompareTag("Club") && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 weaponScriptR.heavyAttack = false;
                 weaponScriptR.lightAttack = true;
                 anim.SetTrigger("ClubAttack");
+
+                PlayerValueManager.instance.RemoveStamina(15);
             }
-            if(equippedWeaponR.CompareTag("Stone"))
+            if (equippedWeaponR.CompareTag("Stone") && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 anim.SetTrigger("ThrowStone");
+
+                PlayerValueManager.instance.RemoveStamina(15);
             }
         }
     }
 
+    public bool CheckIfHasArrows()
+    {
+        for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
+        {
+            if (InventoryManager.instance.inventory.slots[i].itemBase == FightManager.instance.arrowIB)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private void OnHeavyAttackZoom()
     {
+        if (!TPC.canMove)
+        {
+            return;
+        }
+
         if (equippedWeaponR == null && equippedWeaponL == null)
         {
             anim.SetTrigger("HeavyAttackFist");
@@ -276,31 +318,39 @@ public class FightingActions : MonoBehaviour
         }
 
         //FABIENNE: Stamina loss bei Angriffen
-        if (equippedWeaponR.CompareTag("SwordOnehanded"))
+        if (equippedWeaponR.CompareTag("SwordOnehanded") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
             weaponScriptR.lightAttack = false;
             weaponScriptR.heavyAttack = true;
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("HeavyAttackSword");
+
+            PlayerValueManager.instance.RemoveStamina(15);
         }
-        if (equippedWeaponR.CompareTag("Axe"))
+        if (equippedWeaponR.CompareTag("Axe") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
             weaponScriptR.lightAttack = false;
             weaponScriptR.heavyAttack = true;
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("HeavyAttackAxe");
+
+            PlayerValueManager.instance.RemoveStamina(15);
         }
-        if (equippedWeaponR.CompareTag("GreatSword"))
+        if (equippedWeaponR.CompareTag("GreatSword") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
             weaponScriptR.lightAttack = false;
             weaponScriptR.heavyAttack = true;
             anim.SetTrigger("GreatSwordSlash");
+
+            PlayerValueManager.instance.RemoveStamina(15);
         }
-        if (equippedWeaponR.CompareTag("Club"))
+        if (equippedWeaponR.CompareTag("Club") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
             weaponScriptR.heavyAttack = true;
             weaponScriptR.lightAttack = false;
             anim.SetTrigger("ClubAttack");
+
+            PlayerValueManager.instance.RemoveStamina(15);
         }
     }
 
@@ -311,12 +361,14 @@ public class FightingActions : MonoBehaviour
             return;
         }
 
-        if (equippedWeaponL.CompareTag("Shield"))
+        if (equippedWeaponL.CompareTag("Shield") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
             holdBlock = !holdBlock;
             TPC.canMove = !holdBlock;
             anim.SetBool("HoldBlock", holdBlock);
             //FABIENNE: Stamina ziehen
+
+            PlayerValueManager.instance.RemoveStamina(15);
         }
         if (equippedWeaponL.CompareTag("Torch"))
         {
@@ -356,8 +408,11 @@ public class FightingActions : MonoBehaviour
     #region Miscellaneous
      private void OnRoll()
     {
-        StartCoroutine(GameManager.instance.playerGO.GetComponent<ThirdPersonController>().Roll());
-        anim.SetTrigger("RollNew");
+        if (PlayerValueManager.instance.currStamina - TPC.rollStaminaReduceValue >= 0)
+        {
+            StartCoroutine(GameManager.instance.playerGO.GetComponent<ThirdPersonController>().Roll());
+            anim.SetTrigger("RollNew");
+        }
     }
 
     private void Update()
