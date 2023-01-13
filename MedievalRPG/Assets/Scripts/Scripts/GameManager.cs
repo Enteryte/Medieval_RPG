@@ -412,7 +412,9 @@ public class GameManager : MonoBehaviour
             ThirdPersonController.instance._animator.Rebind();
             ThirdPersonController.instance._animator.enabled = true;
 
-            Debug.Log("fghbj2");
+            FightingActions.instance.GetWeapon();
+
+            //Debug.Log("fghbj2");
         }
 
         ThirdPersonController.instance.canMove = !InventoryManager.instance.inventoryScreen.activeSelf;

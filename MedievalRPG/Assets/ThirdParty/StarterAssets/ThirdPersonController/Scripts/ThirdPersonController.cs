@@ -196,6 +196,11 @@ namespace StarterAssets
 
         private void Update()
         {
+            if (_animator.GetBool("DoPush"))
+            {
+                return;
+            }
+
             //Debug.Log(_animator.speed);
 
             //_hasAnimator = TryGetComponent(out _animator);
