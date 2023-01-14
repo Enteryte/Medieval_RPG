@@ -29,21 +29,26 @@ public class SaveSystem : MonoBehaviour
 
     public void Start()
     {
-        if (!Directory.Exists(Application.persistentDataPath + "/OptionsData"))
-        {
-            SaveOptions();
-        }
-        else
-        {
-            LoadOptionsData();
-        }
+        //if (!Directory.Exists(Application.persistentDataPath + "/OptionsData"))
+        //{
+        //    SaveOptions();
+        //}
+        //else
+        //{
+        //    LoadOptionsData();
+        //}
     }
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.H))
         {
-            SaveOptions();
+            Save();
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            LoadContinueData();
         }
     }
 
@@ -385,6 +390,33 @@ public class SaveSystem : MonoBehaviour
         {
             sGO.currRightHandWeaponID = -1;
         }
+
+        if (EquippingManager.instance.glovesES.GetComponent<ClickableInventorySlot>().storedItemBase == null)
+        {
+            sGO.usesGloves = false;
+        }
+        else
+        {
+            sGO.usesGloves = true;
+        }
+
+        if (EquippingManager.instance.pauldronsES.GetComponent<ClickableInventorySlot>().storedItemBase == null)
+        {
+            sGO.usesPauldrons = false;
+        }
+        else
+        {
+            sGO.usesPauldrons = true;
+        }
+
+        if (EquippingManager.instance.poleynsES.GetComponent<ClickableInventorySlot>().storedItemBase == null)
+        {
+            sGO.usesPoleyns = false;
+        }
+        else
+        {
+            sGO.usesPoleyns = true;
+        }
     }
 
     //public void CheckIfEquipmentIsNull(int idToSet, ClickableInventorySlot invSlotToCheck)
@@ -517,6 +549,12 @@ public class SaveSystem : MonoBehaviour
         // Controls
         sGO.camSensiSlValue = OptionManager.instance.cameraSensiSlider.value;
         sGO.mouseSensiSlValue = OptionManager.instance.mouseSensiSlider.value;
+
+        // - Keys
+        for (int i = 0; i < OptionManager.instance.keyTxts.Length; i++)
+        {
+            sGO.keyTxtStrings.Add(OptionManager.instance.keyTxts[i].text);
+        }
     }
     #endregion
 
@@ -563,6 +601,9 @@ public class SaveSystem : MonoBehaviour
 
         EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
         EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+        EquippingManager.instance.glovesES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+        EquippingManager.instance.pauldronsES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+        EquippingManager.instance.poleynsES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
 
         InventoryManager.instance.inventory.slots.Clear();
 
@@ -587,6 +628,23 @@ public class SaveSystem : MonoBehaviour
         if (sGO.currRightHandWeaponID != -1)
         {
             EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(InventoryManager.instance.inventory.database.GetItem[sGO.currRightHandWeaponID], 1);
+        }
+
+        if (sGO.usesGloves)
+        {
+            EquippingManager.instance.glovesES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(EquippingManager.instance.glovesIB, 1);
+        }
+
+        if (sGO.usesPauldrons)
+        {
+            EquippingManager.instance.pauldronsES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(EquippingManager.instance.pauldronsIB, 1);
+        }
+
+        if (sGO.usesPoleyns)
+        {
+            EquippingManager.instance.poleynsES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(EquippingManager.instance.poleynsIB, 1);
+
+            Debug.Log("ßßßßßßßßßßßßßßßßßßßßßßßß");
         }
     }
 
@@ -721,6 +779,11 @@ public class SaveSystem : MonoBehaviour
         OptionManager.instance.MouseSensiSliderOnValueChange();
 
         OptionManager.instance.controllerToggle.isOn = false;
+
+        for (int i = 0; i < sGO.keyTxtStrings.Count; i++)
+        {
+            OptionManager.instance.keyTxts[i].text = sGO.keyTxtStrings[i];
+        }
     }
     #endregion
 }

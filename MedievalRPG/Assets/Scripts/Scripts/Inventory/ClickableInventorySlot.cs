@@ -587,6 +587,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
                     EquippingManager.instance.poleynsES.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                     EquippingManager.instance.poleynsES.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = EquippingManager.instance.poleynsIB.itemSprite;
+
+                    Debug.Log("ßßßßßßßßßßßßßßßßßßßßßßßß");
                 }
             }
         }
@@ -753,14 +755,14 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                 }
             }
 
-            if (storedItemBase == EquippingManager.instance.glovesIB && !EquippingManager.instance.glovesGO.activeSelf)
+            if (ibToUse == EquippingManager.instance.glovesIB && !EquippingManager.instance.glovesGO.activeSelf)
             {
                 EquippingManager.instance.glovesGO.SetActive(true);
                 EquippingManager.instance.glovesGO2.SetActive(true);
 
-                InventoryManager.instance.AddHoldingWeight(storedItemBase.weight, 1);
+                InventoryManager.instance.AddHoldingWeight(ibToUse.weight, 1);
 
-                InventoryManager.instance.inventory.RemoveItem(storedItemBase, 1);
+                InventoryManager.instance.inventory.RemoveItem(ibToUse, 1);
 
                 EquippingManager.instance.glovesES.gameObject.GetComponent<ClickableInventorySlot>().storedItemBase = EquippingManager.instance.glovesIB;
                 EquippingManager.instance.glovesES.GetComponent<ClickableInventorySlot>().storedAmount = 1;
@@ -768,14 +770,14 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                 EquippingManager.instance.glovesES.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                 EquippingManager.instance.glovesES.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = EquippingManager.instance.glovesIB.itemSprite;
             }
-            else if (storedItemBase == EquippingManager.instance.pauldronsIB && !EquippingManager.instance.pauldronsGO.activeSelf)
+            else if (ibToUse == EquippingManager.instance.pauldronsIB && !EquippingManager.instance.pauldronsGO.activeSelf)
             {
                 EquippingManager.instance.pauldronsGO.SetActive(true);
                 EquippingManager.instance.pauldronsGO2.SetActive(true);
 
-                InventoryManager.instance.AddHoldingWeight(storedItemBase.weight, 1);
+                InventoryManager.instance.AddHoldingWeight(ibToUse.weight, 1);
 
-                InventoryManager.instance.inventory.RemoveItem(storedItemBase, 1);
+                InventoryManager.instance.inventory.RemoveItem(ibToUse, 1);
 
                 EquippingManager.instance.pauldronsES.gameObject.GetComponent<ClickableInventorySlot>().storedItemBase = EquippingManager.instance.pauldronsIB;
                 EquippingManager.instance.pauldronsES.GetComponent<ClickableInventorySlot>().storedAmount = 1;
@@ -783,20 +785,22 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                 EquippingManager.instance.pauldronsES.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                 EquippingManager.instance.pauldronsES.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = EquippingManager.instance.pauldronsIB.itemSprite;
             }
-            else if (storedItemBase == EquippingManager.instance.poleynsIB && !EquippingManager.instance.poleynsGO.activeSelf)
+            else if (ibToUse == EquippingManager.instance.poleynsIB && !EquippingManager.instance.poleynsGO.activeSelf)
             {
                 EquippingManager.instance.poleynsGO.SetActive(true);
                 EquippingManager.instance.poleynsGO2.SetActive(true);
 
-                InventoryManager.instance.AddHoldingWeight(storedItemBase.weight, 1);
+                InventoryManager.instance.AddHoldingWeight(ibToUse.weight, 1);
 
-                InventoryManager.instance.inventory.RemoveItem(storedItemBase, 1);
+                InventoryManager.instance.inventory.RemoveItem(ibToUse, 1);
 
                 EquippingManager.instance.poleynsES.gameObject.GetComponent<ClickableInventorySlot>().storedItemBase = EquippingManager.instance.poleynsIB;
                 EquippingManager.instance.poleynsES.GetComponent<ClickableInventorySlot>().storedAmount = 1;
 
                 EquippingManager.instance.poleynsES.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                 EquippingManager.instance.poleynsES.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = EquippingManager.instance.poleynsIB.itemSprite;
+
+                Debug.Log("ßßßßßßßßßßßßßßßßßßßßßßßß");
             }
         }
 

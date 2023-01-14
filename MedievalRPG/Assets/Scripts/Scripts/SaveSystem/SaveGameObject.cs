@@ -65,6 +65,10 @@ public class SaveGameObject
     public int currLeftHandWeaponID;
     public int currRightHandWeaponID;
 
+    public bool usesGloves;
+    public bool usesPauldrons;
+    public bool usesPoleyns;
+
     // Hotbar
     public List<int> storedItemID = new List<int>();
     public List<int> storedItemAmount = new List<int>();
@@ -73,6 +77,8 @@ public class SaveGameObject
     public List<string> allInteractableObjectNames = new List<string>();
 
     public List<bool> isDoorOpen = new List<bool>();
+
+    // Debuffs
 
     // Options
     // - Audio
@@ -90,6 +96,8 @@ public class SaveGameObject
     // - Controls
     public float camSensiSlValue;
     public float mouseSensiSlValue;
+
+    public List<string> keyTxtStrings = new List<string>();
 
     // -------------------------------> WIP: Save Keys ( Walk, Run, Jump, ( ... ) )
 }
