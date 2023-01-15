@@ -9,8 +9,8 @@ public class FightingActions : MonoBehaviour
     public static FightingActions instance;
 
     public List<Collider> colls;
-    public static GameObject equippedWeaponR;
-    public static GameObject equippedWeaponL;
+    public GameObject equippedWeaponR;
+    public GameObject equippedWeaponL;
     public GameObject arrow;
     public GameObject holdArrow;
     public GameObject stone;
@@ -40,6 +40,22 @@ public class FightingActions : MonoBehaviour
         anim = this.gameObject.GetComponent<Animator>();
         TPC = this.gameObject.GetComponent<StarterAssets.ThirdPersonController>();
         GetWeapon(); 
+    }
+
+
+    public void PlayerCanMove()
+    {
+        ThirdPersonController.instance.canMove = true;
+        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+        this.gameObject.GetComponent<Animator>().applyRootMotion = false;
+    }
+
+    public void PlayerCantMove()
+    {
+        ThirdPersonController.instance.canMove = false;
+
+        this.gameObject.GetComponent<Animator>().applyRootMotion = true;
     }
 
     #region WeaponHandling

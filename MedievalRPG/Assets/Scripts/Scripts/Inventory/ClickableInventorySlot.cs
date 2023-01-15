@@ -344,7 +344,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                         storedItemBase = InventoryManager.instance.currClickedBtn.storedItemBase;
 
                         EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
-                        FightingActions.equippedWeaponR = EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject;
+                        FightingActions.instance.equippedWeaponR = EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject;
 
                         FightingActions.instance.GetWeapon();
 
@@ -419,7 +419,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                         storedItemBase = InventoryManager.instance.currClickedBtn.storedItemBase;
 
                         EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
-                        FightingActions.equippedWeaponL = EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject;
+                        FightingActions.instance.equippedWeaponL = EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject;
 
                         FightingActions.instance.GetWeapon();
 
@@ -611,7 +611,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     storedItemBase = ibToUse;
 
                     EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
-                    FightingActions.equippedWeaponR = EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject;
+                    FightingActions.instance.equippedWeaponR = EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject;
 
                     FightingActions.instance.GetWeapon();
 
@@ -685,7 +685,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     storedItemBase = ibToUse;
 
                     EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
-                    FightingActions.equippedWeaponL = EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject;
+                    FightingActions.instance.equippedWeaponL = EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject;
 
                     FightingActions.instance.GetWeapon();
 
@@ -1045,7 +1045,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     if (EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).GetComponent<Item>().iBP == storedItemBase)
                     {
                         EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject.SetActive(false);
-                        FightingActions.equippedWeaponR = null;
+                        FightingActions.instance.equippedWeaponR = null;
 
                         //FightingActions.instance.GetWeapon();
 
@@ -1068,7 +1068,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     if (EquippingManager.instance.weaponParentObj.transform.GetChild(i).GetComponent<Item>().iBP == storedItemBase)
                     {
                         EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(false);
-                        FightingActions.equippedWeaponL = null;
+                        FightingActions.instance.equippedWeaponL = null;
 
                         //FightingActions.instance.GetWeapon();
 
