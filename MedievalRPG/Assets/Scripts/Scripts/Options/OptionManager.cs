@@ -34,6 +34,8 @@ public class OptionManager : MonoBehaviour
     public TMP_Text cameraSensiSliderTxt;
     public TMP_Text mouseSensiSliderTxt;
 
+    public TMP_Text[] keyTxts;
+
     public void Awake()
     {
         instance = this;

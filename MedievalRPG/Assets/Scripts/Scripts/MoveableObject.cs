@@ -115,6 +115,8 @@ public class MoveableObject : MonoBehaviour, IInteractable
         ThirdPersonController.instance._animator.enabled = true;
 
         FightingActions.instance.GetWeapon();
+
+        moveObject = false;
     }
 
     public void InstantiateIOCanvas()

@@ -36,6 +36,9 @@ public class StartScreenManager : MonoBehaviour
     public GameObject saveGameSlotParentObj;
     public Image saveGameScreenshot;
 
+    public Button continueBtn;
+    public Button loadSaveDataBtn;
+
     public void Awake()
     {
         if (instance == null)
