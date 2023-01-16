@@ -24,7 +24,7 @@ public class MinimapManager : MonoBehaviour
 
     public void Awake()
     {
-        if (instance == this)
+        if (instance == null)
         {
             instance = this;
         }

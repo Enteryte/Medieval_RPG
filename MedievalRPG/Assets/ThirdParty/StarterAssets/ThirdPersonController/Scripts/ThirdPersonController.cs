@@ -217,7 +217,7 @@ namespace StarterAssets
 
         private void Update()
         {
-            if (_animator.GetBool("DoPush"))
+            if (_animator.GetBool("DoPush") && !SceneChangeManager.instance.wentThroughTrigger)
             {
                 return;
             }
