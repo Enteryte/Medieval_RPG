@@ -27,6 +27,37 @@ public class SaveSystem : MonoBehaviour
         instance = this;
     }
 
+    public void Start()
+    {
+        if (!Directory.Exists(Application.persistentDataPath + "/OptionsData"))
+        {
+            SaveOptions();
+        }
+        else
+        {
+            LoadOptionsData();
+        }
+
+        if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
+        {
+            StartScreenManager.instance.continueBtn.interactable = true;
+            StartScreenManager.instance.loadSaveDataBtn.interactable = true;
+        }
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Save();
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            LoadContinueData();
+        }
+    }
+
     public void Save()
     {
         path = System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")/* + "_" + GameManager.instance.playtimeInSeconds*/;
@@ -57,6 +88,41 @@ public class SaveSystem : MonoBehaviour
         //SaveInventory();
         //SaveNPCs();
         //SaveMissions();
+    }
+
+    public void SaveOptions()
+    {
+        path = System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")/* + "_" + GameManager.instance.playtimeInSeconds*/;
+
+        if (!Directory.Exists(Application.persistentDataPath + "/OptionsData"))
+        {
+            // Set Start-Option-Values
+            OptionManager.instance.masterSlider.value = 0.5f;
+            OptionManager.instance.environmentSlider.value = 0.5f;
+            OptionManager.instance.voiceSlider.value = 0.5f;
+            OptionManager.instance.musicSlider.value = 0.5f;
+            OptionManager.instance.sfxSlider.value = 0.5f;
+
+            OptionManager.instance.windowModeToggle.isOn = false;
+            OptionManager.instance.resolutionDropdown.value = 0;
+            OptionManager.instance.subtitleToggle.isOn = true;
+
+            OptionManager.instance.cameraSensiSlider.value = 0.5f;
+            OptionManager.instance.mouseSensiSlider.value = 0.5f;
+
+            OptionManager.instance.controllerToggle.isOn = false;
+
+            Directory.CreateDirectory(Application.persistentDataPath + "/OptionsData");
+        }
+
+        SaveGameObject sGO = createOptionsSaveGameObject();
+
+        string JsonString = JsonUtility.ToJson(sGO);
+
+        StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/OptionsData/" +/* path + */"/" + path + "_optionsData.text");
+
+        sw.Write(JsonString);
+        sw.Close();
     }
 
     // Immer nach einer bestimmten Zeit
@@ -106,6 +172,15 @@ public class SaveSystem : MonoBehaviour
         return sGO;
     }
 
+    public SaveGameObject createOptionsSaveGameObject()
+    {
+        SaveGameObject sGO = new SaveGameObject();
+
+        SaveOptions(sGO);
+
+        return sGO;
+    }
+
     public void Load()
     {
         if (Directory.Exists(StartScreenManager.currSelectedLoadSlotBtn.correspondingSaveDataDirectory))
@@ -133,6 +208,64 @@ public class SaveSystem : MonoBehaviour
             LoadEnemies(sGO);
             LoadInventory(sGO);
             LoadInteractableObjects(sGO);
+
+            Debug.Log("nhjmkklsssssssssssss");
+            //LoadInteractableObjects();
+            //LoadInventory();
+            //LoadNPCs();
+            //LoadMissions();
+        }
+    }
+
+    public void LoadOptionsData()
+    {
+        if (Directory.Exists(Application.persistentDataPath + "/OptionsData/"))
+        {
+            var dirInfo = Directory.GetFiles(Application.persistentDataPath + "/OptionsData/");
+
+            //continueTxtFileDirectory.GetFiles(dirInfo[dirInfo.Length])
+
+            //for (int i = dirInfo.Length - 1; i > -1; i--)
+            //{
+            //    var gameDataFolder = Directory.GetFiles(dirInfo[i]);
+            //}
+
+            //if (dirInfo.Length > 0)
+            //{
+            //    var optionsDataFolder = Directory.GetFiles(dirInfo[dirInfo.Length - 1]);
+
+            //    continuePath = dirInfo[dirInfo.Length - 1];
+            //    continueTxtFile = optionsDataFolder[0];
+            //}
+            //else
+            //{
+            //    var optionsDataFolder = Directory.GetFiles(dirInfo[dirInfo.Length]);
+
+            //    continuePath = dirInfo[dirInfo.Length];
+            //    continueTxtFile = optionsDataFolder[0];
+            //}
+
+            continueTxtFile = dirInfo[dirInfo.Length - 1];
+        }
+
+        if (Directory.Exists(Application.persistentDataPath + "/OptionsData/"))
+        {
+            StreamReader sr = new StreamReader(continueTxtFile);
+
+            string JsonString = sr.ReadToEnd();
+
+            sr.Close();
+
+            //GameManager.instance.displayInventory.inventory.database = Resources.Load<ItemDatabaseBase>("Database");
+            //GameManager.Instance.enemyDatabase = Resources.Load<EnemyDatabase>("EnemyDatabase");
+            //#endif
+
+            SaveGameObject sGO = JsonUtility.FromJson<SaveGameObject>(JsonString);
+
+            // Playtime
+            //GameManager.instance.playtimeInSeconds = sGO.playtimeInSeconds;
+
+            LoadOptions(sGO);
 
             Debug.Log("nhjmkklsssssssssssss");
             //LoadInteractableObjects();
@@ -263,6 +396,33 @@ public class SaveSystem : MonoBehaviour
         {
             sGO.currRightHandWeaponID = -1;
         }
+
+        if (EquippingManager.instance.glovesES.GetComponent<ClickableInventorySlot>().storedItemBase == null)
+        {
+            sGO.usesGloves = false;
+        }
+        else
+        {
+            sGO.usesGloves = true;
+        }
+
+        if (EquippingManager.instance.pauldronsES.GetComponent<ClickableInventorySlot>().storedItemBase == null)
+        {
+            sGO.usesPauldrons = false;
+        }
+        else
+        {
+            sGO.usesPauldrons = true;
+        }
+
+        if (EquippingManager.instance.poleynsES.GetComponent<ClickableInventorySlot>().storedItemBase == null)
+        {
+            sGO.usesPoleyns = false;
+        }
+        else
+        {
+            sGO.usesPoleyns = true;
+        }
     }
 
     //public void CheckIfEquipmentIsNull(int idToSet, ClickableInventorySlot invSlotToCheck)
@@ -377,6 +537,31 @@ public class SaveSystem : MonoBehaviour
             sGO.isDoorOpen.Add(GameManager.instance.allInteractableDoors[i].isOpen);
         }
     }
+
+    public void SaveOptions(SaveGameObject sGO)
+    {
+        // Audio
+        sGO.masterSlValue = OptionManager.instance.masterSlider.value;
+        sGO.environmentSlValue = OptionManager.instance.environmentSlider.value;
+        sGO.voiceSlValue = OptionManager.instance.voiceSlider.value;
+        sGO.musicSlValue = OptionManager.instance.musicSlider.value;
+        sGO.sfxSlValue = OptionManager.instance.sfxSlider.value;
+
+        // Video
+        sGO.isWindowed = OptionManager.instance.windowModeToggle.isOn;
+        sGO.resolutionDDValue = OptionManager.instance.resolutionDropdown.value;
+        sGO.displaySubtitle = OptionManager.instance.subtitleToggle.isOn;
+
+        // Controls
+        sGO.camSensiSlValue = OptionManager.instance.cameraSensiSlider.value;
+        sGO.mouseSensiSlValue = OptionManager.instance.mouseSensiSlider.value;
+
+        // - Keys
+        for (int i = 0; i < OptionManager.instance.keyTxts.Length; i++)
+        {
+            sGO.keyTxtStrings.Add(OptionManager.instance.keyTxts[i].text);
+        }
+    }
     #endregion
 
     #region Loading
@@ -422,6 +607,9 @@ public class SaveSystem : MonoBehaviour
 
         EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
         EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+        EquippingManager.instance.glovesES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+        EquippingManager.instance.pauldronsES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+        EquippingManager.instance.poleynsES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
 
         InventoryManager.instance.inventory.slots.Clear();
 
@@ -446,6 +634,23 @@ public class SaveSystem : MonoBehaviour
         if (sGO.currRightHandWeaponID != -1)
         {
             EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(InventoryManager.instance.inventory.database.GetItem[sGO.currRightHandWeaponID], 1);
+        }
+
+        if (sGO.usesGloves)
+        {
+            EquippingManager.instance.glovesES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(EquippingManager.instance.glovesIB, 1);
+        }
+
+        if (sGO.usesPauldrons)
+        {
+            EquippingManager.instance.pauldronsES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(EquippingManager.instance.pauldronsIB, 1);
+        }
+
+        if (sGO.usesPoleyns)
+        {
+            EquippingManager.instance.poleynsES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(EquippingManager.instance.poleynsIB, 1);
+
+            Debug.Log("ßßßßßßßßßßßßßßßßßßßßßßßß");
         }
     }
 
@@ -552,6 +757,38 @@ public class SaveSystem : MonoBehaviour
         for (int i = 0; i < GameManager.instance.allInteractableDoors.Count; i++)
         {
             GameManager.instance.allInteractableDoors[i].isOpen = sGO.isDoorOpen[i];
+        }
+    }
+
+    public void LoadOptions(SaveGameObject sGO)
+    {
+        OptionManager.instance.masterSlider.value = sGO.masterSlValue;
+        OptionManager.instance.environmentSlider.value = sGO.environmentSlValue;
+        OptionManager.instance.voiceSlider.value = sGO.voiceSlValue;
+        OptionManager.instance.musicSlider.value = sGO.musicSlValue;
+        OptionManager.instance.sfxSlider.value = sGO.sfxSlValue;
+
+        OptionManager.instance.windowModeToggle.isOn = sGO.isWindowed;
+        OptionManager.instance.resolutionDropdown.value = sGO.resolutionDDValue;
+        OptionManager.instance.subtitleToggle.isOn = sGO.displaySubtitle;
+
+        OptionManager.instance.cameraSensiSlider.value = sGO.camSensiSlValue;
+        OptionManager.instance.mouseSensiSlider.value = sGO.mouseSensiSlValue;
+
+        OptionManager.instance.MasterSliderOnValueChange();
+        OptionManager.instance.EnvironmentSliderOnValueChange();
+        OptionManager.instance.VoiceSliderOnValueChange();
+        OptionManager.instance.MusicSliderOnValueChange();
+        OptionManager.instance.SFXSliderOnValueChange();
+
+        OptionManager.instance.CameraSensiSliderOnValueChange();
+        OptionManager.instance.MouseSensiSliderOnValueChange();
+
+        OptionManager.instance.controllerToggle.isOn = false;
+
+        for (int i = 0; i < sGO.keyTxtStrings.Count; i++)
+        {
+            OptionManager.instance.keyTxts[i].text = sGO.keyTxtStrings[i];
         }
     }
     #endregion

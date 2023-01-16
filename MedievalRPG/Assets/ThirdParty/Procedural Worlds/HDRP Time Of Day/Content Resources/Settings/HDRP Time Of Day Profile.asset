@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HDRP Time Of Day Profile
   m_EditorClassIdentifier: 
   m_timeOfDayData:
-    m_durationSettings: 0
+    m_durationSettings: 1
     m_dayDuration: 600
     m_nightDuration: 240
     m_sunSettings: 0
@@ -610,7 +610,7 @@ MonoBehaviour:
     m_denoisingQuality: 1
     m_fogColor:
       serializedVersion: 2
-      key0: {r: 0.12793697, g: 0.15051888, b: 0.21698111, a: 1}
+      key0: {r: 0.24483801, g: 0.27924448, b: 0.3962264, a: 1}
       key1: {r: 0.7264151, g: 0.545091, b: 0.4488697, a: 1}
       key2: {r: 0.768, g: 0.8347826, b: 0.96, a: 0}
       key3: {r: 0.7, g: 0.8210526, b: 1, a: 0}
@@ -986,8 +986,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     m_globalFogMultiplier: 1
-    m_cloudSettings: 0
-    m_globalCloudType: 3
+    m_cloudSettings: 1
+    m_globalCloudType: 1
     m_useLocalClouds: 1
     m_cloudPresets: 4
     m_volumetricDensityMultiplier:
@@ -1660,7 +1660,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_cloudLayers: 1
     m_cloudResolution: 0
-    m_useCloudShadows: 0
+    m_useCloudShadows: 1
     m_cloudOpacity:
       serializedVersion: 2
       m_Curve:
@@ -2223,10 +2223,10 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_advancedLightingSettings: 0
+    m_advancedLightingSettings: 1
     m_useSSGI: 1
     m_ambientSSGICompensation: 1
-    m_ambientCompensationAmount: 1
+    m_ambientCompensationAmount: 0
     m_compensationMode: 1
     m_ssgiQuality: 0
     m_ssgiRenderMode: 2

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6363657790122724983}
   - component: {fileID: 9105883319984071342}
+  - component: {fileID: 1370663461306054007}
   m_Layer: 0
   m_Name: DayNightCicle
   m_TagString: Untagged
@@ -45,10 +46,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae3bd2e3d4b2aa4e8c27f6436667983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lengthOfDay: 30
-  lengthOfNight: 30
+  lengthOfDay: 0.5
+  lengthOfNight: 0.5
+  dayDestinationTemperature: 6413
+  dayDestinationIntensityV: 10000
+  dayDestinationIntensityL: 100000
+  dayDestinationWeigh: 1
+  dayStartTemperature: 8170
+  dayStartIntensityV: 300
+  dayStartIntensityL: 190
+  dayStartWeigh: 0.55
+  nightDestinationTemperature: 20000
+  nightDestinationIntensityV: 200
+  nightDestinationIntensityL: 190
+  nightDestinationWeigh: 0.01
+  nightStartTemperature: 8170
+  nightStartIntensityV: 300
+  nightStartIntensityL: 88
+  nightStartWeigh: 0.55
   dayLight: {fileID: 6938501747300588396}
+  lightData: {fileID: 6938501747300588398}
+  vol: {fileID: 1370663461306054007}
+  lightObject: {fileID: 6938501747300588395}
   stopTime: 1
+  currentDayTime: 0
+  timeInHoursAndMinutes: 0
+--- !u!114 &1370663461306054007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6478782709164099959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 0.55
+  sharedProfile: {fileID: 11400000, guid: 88cb89abbd7a6be4781b21e9cfe89fdf, type: 2}
 --- !u!1 &6938501747300588395
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,14 +113,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6938501747300588395}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6363657790122724983}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!108 &6938501747300588396
 Light:
   m_ObjectHideFlags: 0
@@ -93,8 +132,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 100000
+  m_Color: {r: 1, g: 0.9452581, b: 0.80566037, a: 1}
+  m_Intensity: 190
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -137,7 +176,7 @@ Light:
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 0.5, y: 0.5}
   m_BounceIntensity: 1
-  m_ColorTemperature: 6570
+  m_ColorTemperature: 8170
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -156,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 100000
+  m_Intensity: 190
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
