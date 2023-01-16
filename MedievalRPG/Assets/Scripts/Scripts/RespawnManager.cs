@@ -16,7 +16,10 @@ public class RespawnManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == this)
+        {
+            instance = this;
+        }
     }
 
     public void Update()
@@ -33,6 +36,15 @@ public class RespawnManager : MonoBehaviour
     {
         GameManager.instance.playerGO.transform.position = respawnTrans.position;
         GameManager.instance.playerGO.transform.rotation = respawnTrans.rotation;
+
+        GameManager.instance.playerGO.GetComponent<ThirdPersonController>().enabled = false;
+        GameManager.instance.playerGO.GetComponent<ThirdPersonController>().enabled = true;
+    }
+
+    public void RespawnPlayer(Vector3 respawnPos, Quaternion respawnRot)
+    {
+        GameManager.instance.playerGO.transform.position = respawnPos;
+        GameManager.instance.playerGO.transform.rotation = respawnRot;
 
         GameManager.instance.playerGO.GetComponent<ThirdPersonController>().enabled = false;
         GameManager.instance.playerGO.GetComponent<ThirdPersonController>().enabled = true;

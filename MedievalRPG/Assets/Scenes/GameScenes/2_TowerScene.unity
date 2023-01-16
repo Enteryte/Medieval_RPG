@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 10709.068, g: 9009.654, b: 8180.461, a: 1}
+  m_IndirectSpecularColor: {r: 1481.7754, g: 1835.8867, b: 2430.4492, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -493,7 +493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &43552021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2763,7 +2763,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409498, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
       propertyPath: m_RootOrder
@@ -3026,7 +3026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177671, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_RootOrder
@@ -3619,6 +3619,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1877430108227647712, guid: d6fbd48a3f6124e48a9f13cc9098bffa, type: 3}
+      propertyPath: playerSpawnPos.z
+      value: -11.98
+      objectReference: {fileID: 0}
     - target: {fileID: 1877430108227647712, guid: d6fbd48a3f6124e48a9f13cc9098bffa, type: 3}
       propertyPath: possibleLSProfiles.Array.data[0]
       value: 
@@ -4506,6 +4510,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1877430108227647712, guid: d6fbd48a3f6124e48a9f13cc9098bffa, type: 3}
+      propertyPath: playerSpawnPos.x
+      value: 30.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1877430108227647712, guid: d6fbd48a3f6124e48a9f13cc9098bffa, type: 3}
+      propertyPath: playerSpawnPos.y
+      value: -3.398
+      objectReference: {fileID: 0}
+    - target: {fileID: 1877430108227647712, guid: d6fbd48a3f6124e48a9f13cc9098bffa, type: 3}
+      propertyPath: playerSpawnPos.z
+      value: 24.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1877430108227647712, guid: d6fbd48a3f6124e48a9f13cc9098bffa, type: 3}
+      propertyPath: playerSpawnRot.w
+      value: 0.5782137
+      objectReference: {fileID: 0}
+    - target: {fileID: 1877430108227647712, guid: d6fbd48a3f6124e48a9f13cc9098bffa, type: 3}
+      propertyPath: playerSpawnRot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1877430108227647712, guid: d6fbd48a3f6124e48a9f13cc9098bffa, type: 3}
+      propertyPath: playerSpawnRot.y
+      value: -0.81588537
+      objectReference: {fileID: 0}
+    - target: {fileID: 1877430108227647712, guid: d6fbd48a3f6124e48a9f13cc9098bffa, type: 3}
+      propertyPath: playerSpawnRot.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1877430108227647712, guid: d6fbd48a3f6124e48a9f13cc9098bffa, type: 3}
       propertyPath: possibleLSProfiles.Array.data[0]
       value: 
@@ -7672,7 +7704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177671, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_RootOrder
@@ -9884,7 +9916,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177671, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_RootOrder
@@ -14296,7 +14328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &2004315091
 AudioSource:
   m_ObjectHideFlags: 0
@@ -17952,6 +17984,7 @@ MonoBehaviour:
   pauseMenuScreen: {fileID: 0}
   gameIsPaused: 0
   arrowHUDDisplayGO: {fileID: 0}
+  canvasParentGO: {fileID: 0}
   saveGameSlotPrefab: {fileID: 2249816677866161133, guid: 92c06981cb44ad84cbff4d4af2eb72cd, type: 3}
   saveGameSlotParentObj: {fileID: 0}
   autoSaveTime: 3600

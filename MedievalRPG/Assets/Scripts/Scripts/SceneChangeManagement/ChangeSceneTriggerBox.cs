@@ -7,6 +7,9 @@ public class ChangeSceneTriggerBox : MonoBehaviour
 {
     public LoadingScreenProfile[] possibleLSProfiles;
 
+    public Vector3 playerSpawnPos;
+    public Quaternion playerSpawnRot;
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == GameManager.instance.playerGO || other.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -17,6 +20,8 @@ public class ChangeSceneTriggerBox : MonoBehaviour
             if (LoadingScreen.instance != null)
             {
                 LoadingScreen.currLSP = randomLSP;
+                LoadingScreen.currSpawnPos = playerSpawnPos;
+                LoadingScreen.currSpawnRot = playerSpawnRot;
 
                 LoadingScreen.instance.placeNameTxt.text = randomLSP.placeName;
                 LoadingScreen.instance.backgroundImg.sprite = randomLSP.backgroundSprite;

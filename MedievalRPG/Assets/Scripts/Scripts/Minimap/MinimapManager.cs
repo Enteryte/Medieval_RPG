@@ -24,7 +24,10 @@ public class MinimapManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == this)
+        {
+            instance = this;
+        }
     }
 
     // Start is called before the first frame update

@@ -95,6 +95,8 @@ public class SceneChangeManager : MonoBehaviour
         else
         {
             wentThroughTrigger = false;
+
+            RespawnManager.instance.RespawnPlayer(LoadingScreen.currSpawnPos, LoadingScreen.currSpawnRot);
         }
         
         if (GameManager.instance != null && GameManager.instance.cutsceneBlackFadeGO != null)

@@ -21,6 +21,8 @@ public class NPCHeadTracking : MonoBehaviour
         //playerGO = GameManager.instance.playerGO;
 
         radiusSqr = radius * radius;
+
+        playerGO = GameManager.instance.playerGO;
     }
 
     // Update is called once per frame

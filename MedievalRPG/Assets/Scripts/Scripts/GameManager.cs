@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject arrowHUDDisplayGO;
 
+    public GameObject canvasParentGO;
+
     [Header("Saving/Loading")]
     public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
@@ -93,7 +95,18 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+
+            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(canvasParentGO);
+        }
+        else
+        {
+            Destroy(canvasParentGO);
+            Destroy(this.gameObject);
+        }
 
         for (int i = 0; i < cutscenesToReset.Count; i++)
         {

@@ -15,6 +15,8 @@ public class LoadingScreen : MonoBehaviour
 
     [Header("LoadingScreen-Profile")]
     public static LoadingScreenProfile currLSP;
+    public static Vector3 currSpawnPos;
+    public static Quaternion currSpawnRot;
 
     public void Awake()
     {
