@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LoadingScreen : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class LoadingScreen : MonoBehaviour
     public TMP_Text placeNameTxt;
     public Image backgroundImg;
     public TMP_Text descriptionTxt;
+
+    [Header("LoadingScreen-Profile")]
+    public static LoadingScreenProfile currLSP;
+    public static Vector3 currSpawnPos;
+    public static Quaternion currSpawnRot;
 
     public void Awake()
     {
@@ -25,5 +31,10 @@ public class LoadingScreen : MonoBehaviour
     public void Start()
     {
    
+    }
+
+    public void ChangeToNewScene()
+    {
+        SceneManager.LoadScene(currLSP.sceneToLoadIndex);
     }
 }

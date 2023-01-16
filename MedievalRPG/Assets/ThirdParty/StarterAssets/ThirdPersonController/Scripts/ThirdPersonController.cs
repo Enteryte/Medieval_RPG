@@ -165,7 +165,28 @@ namespace StarterAssets
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
 
-            instance = this;
+            if (instance == null)
+            {
+                instance = this;
+
+                //GameManager.instance.playerGO = this.gameObject;
+
+                DontDestroyOnLoad(this.gameObject.transform.parent.parent.gameObject);
+
+                DontDestroyOnLoad(_bowAimingVCamera);
+                DontDestroyOnLoad(_bowAimingZoomVCamera);
+                DontDestroyOnLoad(_normalVCamera);
+                DontDestroyOnLoad(_mainCamera);
+            }
+            else
+            {
+                Destroy(_bowAimingVCamera);
+                Destroy(_bowAimingZoomVCamera);
+                Destroy(_normalVCamera);
+                Destroy(_mainCamera);
+
+                Destroy(this.gameObject.transform.parent.parent.gameObject);
+            }
         }
 
         private void Start()
@@ -196,7 +217,7 @@ namespace StarterAssets
 
         private void Update()
         {
-            if (_animator.GetBool("DoPush"))
+            if (_animator.GetBool("DoPush") && !SceneChangeManager.instance.wentThroughTrigger)
             {
                 return;
             }
