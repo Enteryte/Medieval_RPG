@@ -10,6 +10,8 @@ public class EnemyHealth : MonoBehaviour
     private BaseEnemyKI AI;
     private float LifePoints;
 
+    public bool isDead = false;
+
     public void Initialize(EnemyBaseProfile _stats, Animator _anim, BaseEnemyKI _ai)
     {
         Stats = _stats;

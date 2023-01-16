@@ -501,23 +501,35 @@ namespace StarterAssets
 
         private void CameraRotation()
         {
+            //if (FightManager.instance.currTargetEnemy == null)
+            //{
+            //    // if there is an input and camera position is not fixed
+            //    if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
+            //    {
+            //        //Don't multiply mouse input by Time.deltaTime;
+            //        float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+
+            //        _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * lookSensitivity;
+            //        _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * lookSensitivity;
+            //    }
+
+            //    // clamp our rotations so our values are limited 360 degrees
+            //    _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+            //    _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+
+            //    // Cinemachine will follow this target
+            //    CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+            //        _cinemachineTargetYaw, 0.0f);
+            //}
+
             // if there is an input and camera position is not fixed
-            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
-            {
-                //Don't multiply mouse input by Time.deltaTime;
-                float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+            //Vector3 current = pivotPoint;
+            //Vector3 target = player.transform.position + Vector3.up;
+            //pivotPoint = Vector3.MoveTowards(current, target, Vector3.Distance(current, target) * cameraSlack);
 
-                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * lookSensitivity;
-                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * lookSensitivity;
-            }
-
-            // clamp our rotations so our values are limited 360 degrees
-            _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
-
-            // Cinemachine will follow this target
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-                _cinemachineTargetYaw, 0.0f);
+            //transform.position = pivotPoint;
+            //transform.LookAt((enemy.position + player.position) / 2);
+            //transform.position -= transform.forward * cameraDistance;
         }
 
         private void Move()

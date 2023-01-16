@@ -1,6 +1,8 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class PlayerValueManager : MonoBehaviour
@@ -15,18 +17,18 @@ public class PlayerValueManager : MonoBehaviour
         {
             if (invincible == false)
             {
-                if (value < 0)
-                {
-                    value = 0;
-                }
-
-                if (currHP - value <= 0)
+                if (value <= 0)
                 {
                     currHP = 0;
                     Die();
                 }
 
                 if (currHP - value > 0)
+                {
+                    currHP = value;
+                }
+
+                if (value > currHP)
                 {
                     currHP = value;
                 }
@@ -62,6 +64,9 @@ public class PlayerValueManager : MonoBehaviour
 
     [Header("Tutorial")]
     public TutorialBaseProfile staminaTutorial;
+
+    [Header("Death")]
+    public TimelineAsset whenDeathTL;
 
     public void Awake()
     {
@@ -130,6 +135,12 @@ public class PlayerValueManager : MonoBehaviour
         {
             TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(staminaTutorial);
         }
+
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    CurrHP = 0;
+        //    Debug.Log(CurrHP);
+        //}
     }
 
     public void RemoveStamina(float staminaAmountToRemove)
@@ -147,5 +158,12 @@ public class PlayerValueManager : MonoBehaviour
     public void Die()
     {
         //Sterbegedöns einfügen
+
+        //ThirdPersonController.instance._animator.Play("Death");
+
+        CutsceneManager.instance.playableDirector.playableAsset = whenDeathTL;
+        CutsceneManager.instance.playableDirector.Play();
+
+        // -----------------> WIP: SceneManagement einfügen ( Wechsel zur Dorf-Scene )
     }
 }

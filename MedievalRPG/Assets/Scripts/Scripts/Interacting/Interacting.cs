@@ -248,7 +248,23 @@ public class Interacting : MonoBehaviour
         {
             if (nearestObjTrans != null)
             {
-                if (nearestObjTrans.TryGetComponent(out IInteractable interactable) && !ThirdPersonController.instance._animator.GetBool("Jump"))
+                Debug.Log(nearestObjTrans.gameObject);
+                if (nearestObjTrans.TryGetComponent(out Enemy enemy))
+                {
+                    Debug.Log("ENEMYYYYYYYYYYYYYYYYYY");
+
+                    if (!enemy.isDead)
+                    {
+                        Debug.Log("ENEMY");
+
+                        if (Input.GetKeyDown(KeyCode.Q))
+                        {
+                            // ---------------------------------------------- WIP: Hier Target-Enemy einfügen!
+                            FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
+                        }
+                    }
+                }
+                else if (nearestObjTrans.TryGetComponent(out IInteractable interactable) && !ThirdPersonController.instance._animator.GetBool("Jump"))
                 {
                     if (nearestObjTrans.TryGetComponent(out SeatingObject seatObj) && Vector3.Distance(seatObj.iOCanvasLookAtSitPlaceObj.transform.position, this.gameObject.transform.position) < 0.7f)
                     {
@@ -422,20 +438,7 @@ public class Interacting : MonoBehaviour
                             }
                         }
                     }
-                }
-                else if (nearestObjTrans.TryGetComponent(out Enemy enemy))
-                {
-                    if (!enemy.isDead)
-                    {
-                        Debug.Log("ENEMY");
-
-                        if (Input.GetKeyDown(KeyCode.Q))
-                        {
-                            // ---------------------------------------------- WIP: Hier Target-Enemy einfügen!
-                            //FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);                            
-                        }
-                    }
-                }
+                }                
 
                 if (rightHandParentRig.weight != 0)
                 {

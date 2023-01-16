@@ -30,23 +30,23 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
-    public void Start()
-    {
-        if (!Directory.Exists(Application.persistentDataPath + "/OptionsData"))
-        {
-            SaveOptions();
-        }
-        else
-        {
-            LoadOptionsData();
-        }
+    //public void Start()
+    //{
+    //    if (!Directory.Exists(Application.persistentDataPath + "/OptionsData"))
+    //    {
+    //        SaveOptions();
+    //    }
+    //    else
+    //    {
+    //        LoadOptionsData();
+    //    }
 
-        if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
-        {
-            StartScreenManager.instance.continueBtn.interactable = true;
-            StartScreenManager.instance.loadSaveDataBtn.interactable = true;
-        }
-    }
+    //    if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
+    //    {
+    //        StartScreenManager.instance.continueBtn.interactable = true;
+    //        StartScreenManager.instance.loadSaveDataBtn.interactable = true;
+    //    }
+    //}
 
     public void Update()
     {
