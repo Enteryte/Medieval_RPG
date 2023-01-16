@@ -67,7 +67,10 @@ public class ShopManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Update is called once per frame

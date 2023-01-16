@@ -110,8 +110,6 @@ public class UIManager : MonoBehaviour
         newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = newMissionBase;
         newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(taskDescrption, false);
 
-        Debug.Log(newMissionTaskObj);
-
         newMissionTaskObj.name = UIAnimationHandler.instance.goNameToAnim2;
 
         newMissionTaskObj.SetActive(false);

@@ -29,7 +29,7 @@ public class TutorialManager : MonoBehaviour
 
     public void Awake()
     {
-        if (this.enabled)
+        if (this.enabled && instance == null)
         {
             instance = this;
         }

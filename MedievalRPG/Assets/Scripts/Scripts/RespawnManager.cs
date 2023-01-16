@@ -24,12 +24,12 @@ public class RespawnManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            //RespawnPlayer(playerDeathSpawnTrans);
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    RespawnPlayer(playerDeathSpawnTrans);
 
-            RespawnPlayerAfterDeath();
-        }
+        //    RespawnPlayerAfterDeath();
+        //}
     }
 
     public void RespawnPlayer(Transform respawnTrans)

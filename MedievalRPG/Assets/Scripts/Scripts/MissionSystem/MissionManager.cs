@@ -61,8 +61,6 @@ public class MissionManager : MonoBehaviour
 
                 allMissions[i].allMissionTasks[y].mTB.missionTaskCompleted = false;
             }
-
-            Debug.Log("NJMK");
         }
 
         MinimapManager.instance.CheckAllMinimapSymbols();
@@ -95,7 +93,6 @@ public class MissionManager : MonoBehaviour
 
         if (UIManager.missionToDisplay == null && missionToAdd.missionType == MissionBaseProfile.MissionType.main)
         {
-            Debug.Log("000000000000000000000000000000");
             UIManager.missionToDisplay = missionToAdd;
 
             UIManager.instance.CreateMissionDisplay();

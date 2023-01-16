@@ -160,8 +160,6 @@ public class MinimapIcon : MonoBehaviour
                 {
                     mMIconMissionTxt.text = "";
                 }
-
-                Debug.Log(mBToCheck.missionName);
             }
 
             if (corrNPCMissionSymbol != null)
@@ -238,8 +236,6 @@ public class MinimapIcon : MonoBehaviour
                 {
                     mMIconMissionTxt.text = "";
                 }
-
-                Debug.Log(mBToCheck.missionName);
             }
 
             if (corrNPCMissionSymbol != null)
