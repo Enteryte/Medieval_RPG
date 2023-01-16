@@ -18,6 +18,11 @@ public class SceneChangeManager : MonoBehaviour
     public List<GameObject> allGOsToDeactivate;
     public List<GameObject> allGosToActivate;
 
+    [Header("Ingame-Scene-Change")]
+    public AnimationClip openOtherGameSceneOpenLSAnim;
+
+    public bool wentThroughTrigger = false;
+
     public void Awake()
     {
         if (instance == null)
@@ -37,15 +42,19 @@ public class SceneChangeManager : MonoBehaviour
     {
         if (startedNewGame)
         {
-            Debug.Log("NS");
+            SceneManager.LoadScene(1);
+        }
+        else if (wentThroughTrigger)
+        {
+            //wentThroughTrigger = false;
 
-            SceneManager.LoadScene("Fabienne_TestingScene");
+            SceneManager.LoadScene(LoadingScreen.currLSP.sceneToLoadIndex);
         }
         else
         {
             // Load
 
-            SceneManager.LoadScene("Fabienne_TestingScene");
+            SceneManager.LoadScene(1);
         }
     }
 
@@ -79,12 +88,19 @@ public class SceneChangeManager : MonoBehaviour
         {
             SaveSystem.instance.LoadContinueData();
         }
-        else
+        else if (!wentThroughTrigger)
         {
             SaveSystem.instance.Load();
         }
+        else
+        {
+            wentThroughTrigger = false;
+        }
         
-        GameManager.instance.cutsceneBlackFadeGO.SetActive(false);
+        if (GameManager.instance != null && GameManager.instance.cutsceneBlackFadeGO != null)
+        {
+            GameManager.instance.cutsceneBlackFadeGO.SetActive(false);
+        }
     }
 
     public void DeactivateMainObjectAnimator()
@@ -104,13 +120,11 @@ public class SceneChangeManager : MonoBehaviour
 
     public void OnLevelWasLoaded(int level)
     {
-        if (level == 2 && startedNewGame)
+        if (level == 1 && startedNewGame)
         {
-            Debug.Log(StartScreenManager.instance.mainObjectAnimator);
-            Debug.Log(StartScreenManager.instance.gameObject.name);
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim");
         }
-        else if (level == 2)
+        else if (level != 0)
         {
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_2");
         }
@@ -118,7 +132,5 @@ public class SceneChangeManager : MonoBehaviour
         GameManager.instance.pauseMenuScreen = this.gameObject;
 
         StartScreenManager.instance.mainAnimator.enabled = false;
-
-        Debug.Log("LOADED");
     }
 }

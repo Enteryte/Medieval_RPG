@@ -11,4 +11,6 @@ public class LoadingScreenProfile : ScriptableObject
     public Sprite backgroundSprite;
 
     public string descriptionTextString;
+
+    public int sceneToLoadIndex;
 }

@@ -70,8 +70,6 @@ public class MinimapManager : MonoBehaviour
                 else
                 {
                     MinimapManager.instance.allMinimapIcons[i].CheckIfIsNeededForMission(MissionManager.instance.allCurrAcceptedMissions[y], false, false);
-
-                    Debug.Log(y);
                 }
             }
 
@@ -88,12 +86,8 @@ public class MinimapManager : MonoBehaviour
                 else
                 {
                     MinimapManager.instance.allMinimapIcons[i].CheckIfIsNeededForMission(MissionManager.instance.allCurrOpenNotAcceptedMissions[y], false, false);
-
-                    Debug.Log(y);
                 }
             }
-
-            Debug.Log("0000000000000000000000");
         }
     }
 }

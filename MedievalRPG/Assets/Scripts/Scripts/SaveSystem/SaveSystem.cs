@@ -209,7 +209,6 @@ public class SaveSystem : MonoBehaviour
             LoadInventory(sGO);
             LoadInteractableObjects(sGO);
 
-            Debug.Log("nhjmkklsssssssssssss");
             //LoadInteractableObjects();
             //LoadInventory();
             //LoadNPCs();
@@ -267,7 +266,6 @@ public class SaveSystem : MonoBehaviour
 
             LoadOptions(sGO);
 
-            Debug.Log("nhjmkklsssssssssssss");
             //LoadInteractableObjects();
             //LoadInventory();
             //LoadNPCs();
@@ -318,7 +316,6 @@ public class SaveSystem : MonoBehaviour
             LoadInventory(sGO);
             LoadInteractableObjects(sGO);
 
-            Debug.Log("nhjmkklsssssssssssss");
             //LoadInteractableObjects();
             //LoadInventory();
             //LoadNPCs();
@@ -649,8 +646,6 @@ public class SaveSystem : MonoBehaviour
         if (sGO.usesPoleyns)
         {
             EquippingManager.instance.poleynsES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(EquippingManager.instance.poleynsIB, 1);
-
-            Debug.Log("ßßßßßßßßßßßßßßßßßßßßßßßß");
         }
     }
 

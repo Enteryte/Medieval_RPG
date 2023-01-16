@@ -166,6 +166,8 @@ namespace StarterAssets
             }
 
             instance = this;
+
+            //GameManager.instance.playerGO = this.gameObject;
         }
 
         private void Start()
