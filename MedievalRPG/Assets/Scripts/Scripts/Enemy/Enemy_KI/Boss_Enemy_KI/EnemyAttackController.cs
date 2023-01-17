@@ -8,11 +8,12 @@ public class EnemyAttackController : MonoBehaviour
     [SerializeField] private SideSwiperSpawner SideSwiperSpawner;
     [SerializeField] private ShockWave ShockWavePrefab;
     [SerializeField] private EnemyDamager MeteorPrefab;
-
     
+
     public void FireShockWave()
     {
-        
+        ShockWave shockWave = Instantiate(ShockWavePrefab);
+        // shockWave.Initialize();
     }
 
     public void AOESweep()
@@ -39,6 +40,11 @@ public class EnemyAttackController : MonoBehaviour
     }
 
     public void BitchSlap()
+    {
+        
+    }
+
+    public void DoubleSweep()
     {
         
     }
