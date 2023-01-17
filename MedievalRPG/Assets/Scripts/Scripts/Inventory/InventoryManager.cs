@@ -67,7 +67,10 @@ public class InventoryManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Start is called before the first frame update

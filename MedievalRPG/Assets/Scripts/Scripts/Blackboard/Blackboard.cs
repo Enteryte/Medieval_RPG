@@ -14,12 +14,18 @@ public class Blackboard : MonoBehaviour, IInteractable
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     public void Start()
     {
-        InstantiateIOCanvas();
+        if (instance == this)
+        {
+            InstantiateIOCanvas();
+        }
     }
 
     public void Update()

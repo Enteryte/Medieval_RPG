@@ -56,7 +56,10 @@ public class FightManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Start is called before the first frame update
@@ -106,12 +109,18 @@ public class FightManager : MonoBehaviour
             currTargetEnemy = null;
 
             targetEnemyCanvasObj.SetActive(false);
+
+            Debug.Log("TARGETED ENEMY 1");
         }
         else
         {
             currTargetEnemy = currInteractTarget;
 
             targetEnemyCanvasObj.SetActive(true);
+
+            Debug.Log("TARGETED ENEMY 2");
         }
+
+        Debug.Log("TARGETED ENEMY - ");
     }
 }

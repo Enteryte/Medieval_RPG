@@ -88,6 +88,11 @@ public class NPC : MonoBehaviour, IInteractable
         }
 
         nPCAudioSource = this.gameObject.GetComponent<AudioSource>();
+
+        //if (nPCCVC != null && nPCCVC.m_Follow == null)
+        //{
+        //    nPCCVC.m_Follow = GameManager.instance.playerGO.transform;
+        //}
     }
 
     public void Update()
@@ -243,11 +248,11 @@ public class NPC : MonoBehaviour, IInteractable
                 for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
                 {
                     if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To
-                        && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskCompleted)
+                        && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskCompleted)
                     {
                         if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP)
                         {
-                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.completeAfterInteracted)
+                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.completeAfterInteracted)
                             {
                                 MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
                             }

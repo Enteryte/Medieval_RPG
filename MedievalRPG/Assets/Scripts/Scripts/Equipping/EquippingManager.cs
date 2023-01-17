@@ -29,6 +29,9 @@ public class EquippingManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 }

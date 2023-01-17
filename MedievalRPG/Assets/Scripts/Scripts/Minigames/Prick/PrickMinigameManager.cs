@@ -66,6 +66,15 @@ public class PrickMinigameManager : MonoBehaviour
 
     public void OnEnable()
     {
+        //if (instance != this || instance != null)
+        //{
+        //    //instance.prickUI = this.prickUI;
+
+        //    return;
+        //}
+
+        prickUI = GameManager.instance.prickMGUI;
+
         playerPoints = 0;
         enemyPoints = 0;
 
@@ -88,7 +97,16 @@ public class PrickMinigameManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        //if (instance == null)
+        //{
+            instance = this;
+
+        prickUI = GameManager.instance.prickMGUI;
+        //}
+        //else
+        //{
+        //    instance.prickUI = this.prickUI;
+        //}
     }
 
     public void Start()

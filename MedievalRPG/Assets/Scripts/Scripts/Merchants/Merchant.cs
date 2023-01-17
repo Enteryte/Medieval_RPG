@@ -13,6 +13,8 @@ public class Merchant : MonoBehaviour, IInteractable
 
     public GameObject iOCanvasLookAtObj;
 
+    public CinemachineVirtualCamera[] cVCs;
+
     [Header("Missions")]
     public List<MissionBaseProfile> allCorrMissions;
     public MissionTaskBase currCorrTask;
@@ -46,6 +48,14 @@ public class Merchant : MonoBehaviour, IInteractable
         InstantiateIOCanvas();
 
         GameManager.instance.allMerchants.Add(this);
+
+        for (int i = 0; i < cVCs.Length; i++)
+        {
+            if (cVCs[i].m_Follow == null)
+            {
+                cVCs[i].m_Follow = GameManager.instance.playerGO.transform;
+            }
+        }
     }
 
     public void SetShopAudioFile(PlayableAsset[] timelinesToChooseFrom)

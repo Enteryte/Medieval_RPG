@@ -53,7 +53,10 @@ public class Interacting : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Start is called before the first frame update
@@ -137,7 +140,7 @@ public class Interacting : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToObj, distanceToObj, obstacleMask))
                 {
-                    if (interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf
+                    if (interactableObj != null && interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf
                         && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf && ThirdPersonController.instance.currSeatTrans == null
                         && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove && interactable.iOCanvas() != null)
                     {
@@ -197,11 +200,16 @@ public class Interacting : MonoBehaviour
                         }
                     }
 
-                    if (interactableObj.GetComponent<Enemy>())
+                    if (interactableObj != null && interactableObj.GetComponent<Enemy>())
                     {
-                        Debug.Log(interactableObj.gameObject.name);
+                        //Debug.Log(interactableObj.gameObject.name);
 
                         TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
+
+                        if (Input.GetKeyDown(KeyCode.Q))
+                        {
+                            FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                        }
                     }
                 }
             }
@@ -409,6 +417,9 @@ public class Interacting : MonoBehaviour
                         {
                             if (Input.GetKeyDown(KeyCode.E) && interactable != null && nearestObjTrans != null)
                             {
+                                Debug.Log(interactable);
+                                Debug.Log(nearestObjTrans);
+
                                 interactable.Interact(nearestObjTrans);
 
                                 currClickedTime = 0;
@@ -423,21 +434,21 @@ public class Interacting : MonoBehaviour
                         }
                     }
                 }
-                else if (nearestObjTrans.TryGetComponent(out Enemy enemy))
-                {
-                    Debug.Log("ENEMYYYYYYYYYYYYYYYYYY");
+                //else if (nearestObjTrans.TryGetComponent(out Enemy enemy))
+                //{
+                //    Debug.Log("ENEMYYYYYYYYYYYYYYYYYY");
 
-                    if (!enemy.isDead)
-                    {
-                        Debug.Log("ENEMY");
+                //    if (!enemy.isDead)
+                //    {
+                //        Debug.Log("ENEMY");
 
-                        if (Input.GetKeyDown(KeyCode.Q))
-                        {
-                            // ---------------------------------------------- WIP: Hier Target-Enemy einfügen!
-                            FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
-                        }
-                    }
-                }
+                //        if (Input.GetKeyDown(KeyCode.Q))
+                //        {
+                //            // ---------------------------------------------- WIP: Hier Target-Enemy einfügen!
+                //            FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
+                //        }
+                //    }
+                //}
 
                 if (rightHandParentRig.weight != 0)
                 {
