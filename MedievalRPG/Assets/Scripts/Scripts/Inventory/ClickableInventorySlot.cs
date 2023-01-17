@@ -1220,6 +1220,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("GHBJNK");
+
         SelectInventorySlot();
 
         if (clickableSlotType == ClickableSlotType.inventorySlot && storedItemBase != null && storedItemBase.itemType == ItemBaseProfile.ItemType.weapon)
@@ -1286,5 +1288,5 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         }
 
         //this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = true;
-    }
+    }   
 }

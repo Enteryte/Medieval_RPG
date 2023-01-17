@@ -157,62 +157,68 @@ namespace StarterAssets
 
         private void Awake()
         {
-            _hasAnimator = true;
-
-            // get a reference to our main camera
-            if (_mainCamera == null)
-            {
-                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            }
-
-            if (instance == null)
-            {
+            //if (instance == null)
+            //{
                 instance = this;
 
-                //GameManager.instance.playerGO = this.gameObject;
+                _hasAnimator = true;
 
-                DontDestroyOnLoad(this.gameObject.transform.parent.parent.gameObject);
+                // get a reference to our main camera
+                if (_mainCamera == null)
+                {
+                    _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                }
 
-                DontDestroyOnLoad(_bowAimingVCamera);
-                DontDestroyOnLoad(_bowAimingZoomVCamera);
-                DontDestroyOnLoad(_normalVCamera);
-                DontDestroyOnLoad(_mainCamera);
-            }
-            else
-            {
-                Destroy(_bowAimingVCamera);
-                Destroy(_bowAimingZoomVCamera);
-                Destroy(_normalVCamera);
-                Destroy(_mainCamera);
+            //    //GameManager.instance.playerGO = this.gameObject;
 
-                Destroy(this.gameObject.transform.parent.parent.gameObject);
-            }
+            //    DontDestroyOnLoad(this.gameObject.transform.parent.parent.gameObject);
+
+            //    DontDestroyOnLoad(_bowAimingVCamera);
+            //    DontDestroyOnLoad(_bowAimingZoomVCamera);
+            //    DontDestroyOnLoad(_normalVCamera);
+            //    DontDestroyOnLoad(_mainCamera);
+            //}
+            //else
+            //{
+            //    //GuessTheCardMinigameManager.instance.gTCUI = this.gTCMM.gTCUI;
+            //    //PrickMinigameManager.instance.prickUI = this.pMM.prickUI;
+
+            //    Destroy(_bowAimingVCamera);
+            //    Destroy(_bowAimingZoomVCamera);
+            //    Destroy(_normalVCamera);
+            //    Destroy(_mainCamera);
+
+            //    Destroy(this.gameObject.transform.parent.parent.gameObject);
+            //}
         }
 
         private void Start()
         {
-            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+            if (instance == this)
+            {
+                _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
-            //_hasAnimator = TryGetComponent(out _animator);
-            _controller = GetComponent<CharacterController>();
-            _input = GetComponent<StarterAssetsInputs>();
+                //_hasAnimator = TryGetComponent(out _animator);
+                _controller = GetComponent<CharacterController>();
+                _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-            _playerInput = GetComponent<PlayerInput>();
+                _playerInput = GetComponent<PlayerInput>();
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
 
-            AssignAnimationIDs();
+                AssignAnimationIDs();
 
-            // reset our timeouts on start
-            _jumpTimeoutDelta = JumpTimeout;
-            _fallTimeoutDelta = FallTimeout;
+                // reset our timeouts on start
+                _jumpTimeoutDelta = JumpTimeout;
+                _fallTimeoutDelta = FallTimeout;
 
-            //Keyframe roll_lastFrame = rollCurve[rollCurve.length - 1];
-            //rollTimer = roll_lastFrame.time;
+                //Keyframe roll_lastFrame = rollCurve[rollCurve.length - 1];
+                //rollTimer = roll_lastFrame.time;
 
-            //Keyframe slowedRoll_lastFrame = slowedRollCurve[slowedRollCurve.length - 1];
-            //slowedRollTimer = slowedRoll_lastFrame.time;
+                //Keyframe slowedRoll_lastFrame = slowedRollCurve[slowedRollCurve.length - 1];
+                //slowedRollTimer = slowedRoll_lastFrame.time;
+            }
         }
 
         private void Update()
@@ -372,7 +378,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!GameManager.instance.gameIsPaused)
+            if (!GameManager.instance.gameIsPaused && canMove /* && !SceneChangeManager.instance.wentThroughTrigger*/)
             {
                 CameraRotation();
             }

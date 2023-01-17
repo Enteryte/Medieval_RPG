@@ -38,7 +38,10 @@ public class UIAnimationHandler : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     public void AnimateUpdatedMissionTask(GameObject missionTaskHolderObj)

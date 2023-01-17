@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public GameObject TEST;
+
     [HideInInspector] public float playtimeInSeconds;
 
     public GameObject playerGOParent;
@@ -52,6 +54,9 @@ public class GameManager : MonoBehaviour
     public GameObject arrowHUDDisplayGO;
 
     public GameObject canvasParentGO;
+
+    public GameObject prickMGUI;
+    public GameObject gTCMGUI;
 
     [Header("Saving/Loading")]
     public GameObject saveGameSlotPrefab;
@@ -95,18 +100,18 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
-        if (instance == null)
-        {
+        //if (instance == null)
+        //{
             instance = this;
 
-            DontDestroyOnLoad(this.gameObject);
-            DontDestroyOnLoad(canvasParentGO);
-        }
-        else
-        {
-            Destroy(canvasParentGO);
-            Destroy(this.gameObject);
-        }
+            //DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(canvasParentGO);
+        //}
+        //else
+        //{
+        //    Destroy(canvasParentGO);
+        //    Destroy(this.gameObject);
+        //}
 
         for (int i = 0; i < cutscenesToReset.Count; i++)
         {
@@ -326,7 +331,10 @@ public class GameManager : MonoBehaviour
             allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = true;
         }
 
-        PrickMinigameManager.instance.prickCardAnimator.speed = 0;
+        if (PrickMinigameManager.instance != null)
+        {
+            PrickMinigameManager.instance.prickCardAnimator.speed = 0;
+        }
 
         if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid())
         {
@@ -388,7 +396,10 @@ public class GameManager : MonoBehaviour
             allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = false;
         }
 
-        PrickMinigameManager.instance.prickCardAnimator.speed = 1;
+        if (PrickMinigameManager.instance != null)
+        {
+            PrickMinigameManager.instance.prickCardAnimator.speed = 1;
+        }
 
         if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid())
         {
@@ -580,4 +591,15 @@ public class GameManager : MonoBehaviour
 
         return null;
     }
+
+    //public void OnLevelWasLoaded(int level)
+    //{
+    //    allVillageNPCs.Clear();
+    //    allNPCScreamingHandler.Clear();
+    //    allMerchants.Clear();
+    //    allWalkingNPCs.Clear();
+    //    allMeleeEnemies.Clear();
+    //    allInteractableObjects.Clear();
+    //    allInteractableDoors.Clear();
+    //}
 }

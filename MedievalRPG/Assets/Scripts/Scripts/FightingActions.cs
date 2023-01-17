@@ -216,6 +216,8 @@ public class FightingActions : MonoBehaviour
             return;
         }
 
+        //transform.LookAt(GameManager.instance.TEST.transform);
+
         if (equippedWeaponR == null && equippedWeaponL == null)
         {
             anim.SetTrigger("LightAttackFist");
