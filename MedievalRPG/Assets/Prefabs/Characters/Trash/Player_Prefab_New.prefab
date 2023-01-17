@@ -3260,8 +3260,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e8966df026f5e47852356d10560400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colls: []
   equippedWeaponR: {fileID: 0}
   equippedWeaponL: {fileID: 0}
+  arrow: {fileID: 0}
+  holdArrow: {fileID: 0}
+  stone: {fileID: 0}
+  foot: {fileID: 0}
+  shotSpeed: 6
+  throwSpeed: 10
+  rollSpeed: 10
+  aims: 0
+  holdBlock: 0
+  anim: {fileID: 0}
 --- !u!208 &265335177927002510
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -3360,6 +3371,8 @@ MonoBehaviour:
   headRig: {fileID: 4202915386943291387}
   playerHeadObj: {fileID: 1170597989633803892}
   playerHandObj: {fileID: 7162586906447917798}
+  interactingTutorial: {fileID: 0}
+  selectingAndParryTutorial: {fileID: 0}
 --- !u!114 &1078463935142808447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11454,6 +11467,10 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  itemsToGet: []
+  amountsToGet: 
+  moneyAmount: 0
+  isOpen: 0
 --- !u!1001 &721434456106483361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11558,6 +11575,10 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  itemsToGet: []
+  amountsToGet: 
+  moneyAmount: 0
+  isOpen: 0
 --- !u!1001 &787887981826082107
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11645,6 +11666,10 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  itemsToGet: []
+  amountsToGet: 
+  moneyAmount: 0
+  isOpen: 0
 --- !u!4 &965347623663198928 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dd6e69bf5d688d443b8f4249112d54a4, type: 3}
@@ -11742,6 +11767,10 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  itemsToGet: []
+  amountsToGet: 
+  moneyAmount: 0
+  isOpen: 0
 --- !u!1001 &2424902366283196027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12333,6 +12362,10 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  itemsToGet: []
+  amountsToGet: 
+  moneyAmount: 0
+  isOpen: 0
 --- !u!1001 &8470130304457449958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12420,6 +12453,10 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  itemsToGet: []
+  amountsToGet: 
+  moneyAmount: 0
+  isOpen: 0
 --- !u!4 &7442563427412759846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1351852448191706304, guid: 6bbedce7f356a2e47af141ec4a3dafb9, type: 3}

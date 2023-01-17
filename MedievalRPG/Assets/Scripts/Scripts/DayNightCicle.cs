@@ -22,6 +22,12 @@ public class DayNightCicle : MonoBehaviour
     [SerializeField] private float dayStartIntensityL;
     [SerializeField] private float dayStartWeigh;
 
+    [SerializeField] private float dayStartRotAngleX;
+    [SerializeField] private float dayStartRotAngleY;
+
+    [SerializeField] private float dayDestRotAngleX;
+    [SerializeField] private float dayDestRotAngleY;
+
     [Header("Night")]
     [SerializeField] private float nightDestinationTemperature;
     [SerializeField] private float nightDestinationIntensityV;
@@ -32,6 +38,12 @@ public class DayNightCicle : MonoBehaviour
     [SerializeField] private float nightStartIntensityV;
     [SerializeField] private float nightStartIntensityL;
     [SerializeField] private float nightStartWeigh;
+
+    [SerializeField] private float nightStartRotAngleX;
+    [SerializeField] private float nightStartRotAngleY;
+
+    [SerializeField] private float nightDestRotAngleX;
+    [SerializeField] private float nightDestRotAngleY;
 
     [Header("Objects")]
     [SerializeField]
@@ -118,13 +130,15 @@ public class DayNightCicle : MonoBehaviour
 
     private void NightToMorning()
     {
-        dayLight.colorTemperature = nightDestinationTemperature - (currentDayTime * ((nightDestinationTemperature - nightStartTemperature) / (86400 / 4)));
-        lightData.intensity = nightDestinationIntensityL - (currentDayTime * ((nightDestinationIntensityL - nightStartIntensityL) / (86400 / 4)));
-        vIntensity.multiplier.value = nightDestinationIntensityV - (currentDayTime * ((nightDestinationIntensityV - nightStartIntensityV) / (86400 / 4)));
-        vol.weight = nightDestinationWeigh - (currentDayTime * ((nightDestinationWeigh - nightStartWeigh) / (86400 / 4)));
+        dayLight.colorTemperature = nightDestinationTemperature - (currentDayTime * ((nightDestinationTemperature - dayStartTemperature) / (86400 / 4)));
+        lightData.intensity = nightDestinationIntensityL - (currentDayTime * ((nightDestinationIntensityL - dayStartIntensityL) / (86400 / 4)));
+        vIntensity.multiplier.value = nightDestinationIntensityV - (currentDayTime * ((nightDestinationIntensityV - dayStartIntensityV) / (86400 / 4)));
+        vol.weight = nightDestinationWeigh - (currentDayTime * ((nightDestinationWeigh - dayStartWeigh) / (86400 / 4)));
 
-        //float speed = 180 / (lengthOfNight * 60);
-        //lightObject.transform.Rotate(new Vector3(1, 1, 0), -(speed * Time.deltaTime));
+        float currRotAngleX = nightDestRotAngleX - (currentDayTime * ((nightDestRotAngleX - dayStartRotAngleX) / (86400 / 4)));
+        float currRotAngleY = nightDestRotAngleY - (currentDayTime * ((nightDestRotAngleY - dayStartRotAngleY) / (86400 / 4)));
+        Vector3 eulers = new Vector3(currRotAngleX, currRotAngleY, 0);
+        lightObject.transform.rotation = Quaternion.Euler(eulers);
 
         #region Kommentar
         /*float temperatureValue = 0;
@@ -150,13 +164,15 @@ public class DayNightCicle : MonoBehaviour
     }
     private void MorningToMidday()
     {
-        dayLight.colorTemperature = dayStartTemperature + (((currentDayTime / 2)) * ((dayDestinationTemperature - dayStartTemperature) / (86400 / 4)));
-        lightData.intensity = dayStartIntensityL + (((currentDayTime / 2)) * ((dayDestinationIntensityL - dayStartIntensityL) / (86400 / 4)));
-        vIntensity.multiplier.value = dayStartIntensityV + (((currentDayTime / 2)) * ((dayDestinationIntensityV - dayStartIntensityV) / (86400 / 4)));
-        vol.weight = dayStartWeigh + (((currentDayTime / 2)) * ((dayDestinationWeigh - dayStartWeigh) / (86400 / 4)));
+        dayLight.colorTemperature = dayStartTemperature + (((currentDayTime - (86400 / 4))) * ((dayDestinationTemperature - dayStartTemperature) / (86400 / 4)));
+        lightData.intensity = dayStartIntensityL + (((currentDayTime - (86400 / 4))) * ((dayDestinationIntensityL - dayStartIntensityL) / (86400 / 4)));
+        vIntensity.multiplier.value = dayStartIntensityV + (((currentDayTime - (86400 / 4))) * ((dayDestinationIntensityV - dayStartIntensityV) / (86400 / 4)));
+        vol.weight = dayStartWeigh + (((currentDayTime - (86400 / 4))) * ((dayDestinationWeigh - dayStartWeigh) / (86400 / 4)));
 
-        //float speed = 180 / (lengthOfNight * 60);
-        //lightObject.transform.Rotate(new Vector3(1, 1, 0), -(speed * Time.deltaTime));
+        float currRotAngleX = dayStartRotAngleX + ((currentDayTime - (86400 / 4)) * ((dayDestRotAngleX - dayStartRotAngleX) / (86400 / 4)));
+        float currRotAngleY = dayStartRotAngleY + ((currentDayTime - (86400 / 4)) * ((dayDestRotAngleY - dayStartRotAngleY) / (86400 / 4)));
+        Vector3 eulers = new Vector3(currRotAngleX, currRotAngleY, 0);
+        lightObject.transform.rotation = Quaternion.Euler(eulers);
 
         #region Kommentar
         /*float temperatureValue = 0;
@@ -182,13 +198,15 @@ public class DayNightCicle : MonoBehaviour
     }
     private void MiddayToEvening()
     {
-        dayLight.colorTemperature = dayDestinationTemperature - ((currentDayTime / 3) * ((dayDestinationTemperature - dayStartTemperature) / (86400 / 4)));
-        lightData.intensity = dayDestinationIntensityL - ((currentDayTime / 3) * ((dayDestinationIntensityL - dayStartIntensityL) / (86400 / 4)));
-        vIntensity.multiplier.value = dayDestinationIntensityV - ((currentDayTime / 3) * ((dayDestinationIntensityV - dayStartIntensityV) / (86400 / 4)));
-        vol.weight = dayDestinationWeigh - ((currentDayTime / 3) * ((dayDestinationWeigh - dayStartWeigh) / (86400 / 4)));
+        dayLight.colorTemperature = dayDestinationTemperature - ((currentDayTime - ((86400 / 4) * 2)) * ((dayDestinationTemperature - nightStartTemperature) / (86400 / 4)));
+        lightData.intensity = dayDestinationIntensityL - ((currentDayTime - ((86400 / 4) * 2)) * ((dayDestinationIntensityL - nightStartIntensityL) / (86400 / 4)));
+        vIntensity.multiplier.value = dayDestinationIntensityV - ((currentDayTime - ((86400 / 4) * 2)) * ((dayDestinationIntensityV - nightStartIntensityV) / (86400 / 4)));
+        vol.weight = dayDestinationWeigh - ((currentDayTime - ((86400 / 4) * 2)) * ((dayDestinationWeigh - nightStartWeigh) / (86400 / 4)));
 
-        //float speed = 180 / (lengthOfNight * 60);
-        //lightObject.transform.Rotate(new Vector3(1, 1, 0), -(speed * Time.deltaTime));
+        float currRotAngleX = dayDestRotAngleX - ((currentDayTime - ((86400 / 4) * 2)) * ((dayDestRotAngleX - nightStartRotAngleX) / (86400 / 4)));
+        float currRotAngleY = dayDestRotAngleY - ((currentDayTime - ((86400 / 4) * 2)) * ((dayDestRotAngleY - nightStartRotAngleY) / (86400 / 4)));
+        Vector3 eulers = new Vector3(currRotAngleX, currRotAngleY, 0);
+        lightObject.transform.rotation = Quaternion.Euler(eulers);
 
         #region Kommentar
         /*float temperatureValue = 0;
@@ -214,13 +232,15 @@ public class DayNightCicle : MonoBehaviour
     }
     private void EveningToNight()
     {
-        dayLight.colorTemperature = nightStartTemperature + ((currentDayTime / 4) * ((nightDestinationTemperature - nightStartTemperature) / (86400 / 4)));
-        lightData.intensity = nightStartIntensityL + ((currentDayTime / 4) * ((nightDestinationIntensityL - nightStartIntensityL) / (86400 / 4)));
-        vIntensity.multiplier.value = nightStartIntensityV + ((currentDayTime / 4) * ((nightDestinationIntensityV - nightStartIntensityV) / (86400 / 4)));
-        vol.weight = nightStartWeigh + ((currentDayTime / 4) * ((nightDestinationWeigh - nightStartWeigh) / (86400 / 4)));
+        dayLight.colorTemperature = nightStartTemperature + ((currentDayTime - ((86400 / 4) * 3)) * ((nightDestinationTemperature - nightStartTemperature) / (86400 / 4)));
+        lightData.intensity = nightStartIntensityL + ((currentDayTime - ((86400 / 4) * 3)) * ((nightDestinationIntensityL - nightStartIntensityL) / (86400 / 4)));
+        vIntensity.multiplier.value = nightStartIntensityV + ((currentDayTime - ((86400 / 4) * 3)) * ((nightDestinationIntensityV - nightStartIntensityV) / (86400 / 4)));
+        vol.weight = nightStartWeigh + ((currentDayTime - ((86400 / 4) * 3)) * ((nightDestinationWeigh - nightStartWeigh) / (86400 / 4)));
 
-        //float speed = 180 / (lengthOfNight * 60);
-        //lightObject.transform.Rotate(new Vector3(1, 1, 0), -(speed * Time.deltaTime));
+        float currRotAngleX = nightStartRotAngleX + ((currentDayTime - ((86400 / 4) * 3)) * ((nightDestRotAngleX - nightStartRotAngleX) / (86400 / 4)));
+        float currRotAngleY = nightStartRotAngleY + ((currentDayTime - ((86400 / 4) * 3)) * ((nightDestRotAngleY - nightStartRotAngleY) / (86400 / 4)));
+        Vector3 eulers = new Vector3(currRotAngleX, currRotAngleY, 0);
+        lightObject.transform.rotation = Quaternion.Euler(eulers);
     }
 
     private void Update()

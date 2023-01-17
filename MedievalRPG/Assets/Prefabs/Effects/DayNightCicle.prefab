@@ -46,16 +46,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae3bd2e3d4b2aa4e8c27f6436667983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lengthOfDay: 0.5
-  lengthOfNight: 0.5
+  lengthOfDay: 1
+  lengthOfNight: 1
   dayDestinationTemperature: 6413
   dayDestinationIntensityV: 10000
   dayDestinationIntensityL: 100000
   dayDestinationWeigh: 1
   dayStartTemperature: 8170
   dayStartIntensityV: 300
-  dayStartIntensityL: 190
+  dayStartIntensityL: 88
   dayStartWeigh: 0.55
+  dayStartRotAngleX: 5
+  dayStartRotAngleY: -90
+  dayDestRotAngleX: 65
+  dayDestRotAngleY: 0
   nightDestinationTemperature: 20000
   nightDestinationIntensityV: 200
   nightDestinationIntensityL: 190
@@ -64,11 +68,15 @@ MonoBehaviour:
   nightStartIntensityV: 300
   nightStartIntensityL: 88
   nightStartWeigh: 0.55
+  nightStartRotAngleX: 5
+  nightStartRotAngleY: 90
+  nightDestRotAngleX: 65
+  nightDestRotAngleY: 0
   dayLight: {fileID: 6938501747300588396}
   lightData: {fileID: 6938501747300588398}
   vol: {fileID: 1370663461306054007}
   lightObject: {fileID: 6938501747300588395}
-  stopTime: 1
+  stopTime: 0
   currentDayTime: 0
   timeInHoursAndMinutes: 0
 --- !u!114 &1370663461306054007
@@ -86,7 +94,7 @@ MonoBehaviour:
   m_IsGlobal: 1
   priority: 0
   blendDistance: 0
-  weight: 0.55
+  weight: 0.048
   sharedProfile: {fileID: 11400000, guid: 88cb89abbd7a6be4781b21e9cfe89fdf, type: 2}
 --- !u!1 &6938501747300588395
 GameObject:
@@ -113,14 +121,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6938501747300588395}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6363657790122724983}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &6938501747300588396
 Light:
   m_ObjectHideFlags: 0
@@ -133,7 +141,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.9452581, b: 0.80566037, a: 1}
-  m_Intensity: 190
+  m_Intensity: 78197.45
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -195,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 190
+  m_Intensity: 78197.45
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0

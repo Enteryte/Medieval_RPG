@@ -36,7 +36,10 @@ public class CutsceneManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Start is called before the first frame update
@@ -52,8 +55,6 @@ public class CutsceneManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape) && currCP.isNotADialogue && !currCP.cantBeSkipped)
             {
-                Debug.Log("is pressing: " + pressedTime);
-
                 cutsceneUIAnimator.Rebind();
                 cutsceneUIAnimator.enabled = true;
 
@@ -182,7 +183,6 @@ public class CutsceneManager : MonoBehaviour
 
         //    if (cutsceneBlackBackground.color.a >= 1)
         //    {
-                Debug.Log(cutsceneBlackBackground.color.a);
 
                 playableDirector.playableAsset = currCP.cutscene;
                 playableDirector.Play();
@@ -311,8 +311,6 @@ public class CutsceneManager : MonoBehaviour
     #region TimelineSignals: Optional
     public void CheckIfPlayerWasAlreadyAtThava()
     {
-        Debug.Log(currCP);
-
         if (currCP.mBTToCheck != null && !currCP.mBTToCheck.missionTaskCompleted)
         {
             playableDirector.time = 0;
@@ -370,9 +368,6 @@ public class CutsceneManager : MonoBehaviour
                 {
                     taskNumber = i;
 
-                    Debug.Log(currCP.missionTaskToActivate);
-                    Debug.Log(currCP);
-
                     break;
                 }
             }
@@ -395,8 +390,6 @@ public class CutsceneManager : MonoBehaviour
 
     public void OpenBeerScreen()
     {
-        Debug.Log("HJN33333333333333333333333KL");
-
         //BeerScreenMissionButton.instance.gameObject.SetActive(TavernKeeper.instance.CheckIfNeededForMission());
         TavernKeeper.instance.getBeerScreen.SetActive(true);
 

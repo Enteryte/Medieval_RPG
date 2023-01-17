@@ -16,23 +16,35 @@ public class RespawnManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            //RespawnPlayer(playerDeathSpawnTrans);
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    RespawnPlayer(playerDeathSpawnTrans);
 
-            RespawnPlayerAfterDeath();
-        }
+        //    RespawnPlayerAfterDeath();
+        //}
     }
 
     public void RespawnPlayer(Transform respawnTrans)
     {
         GameManager.instance.playerGO.transform.position = respawnTrans.position;
         GameManager.instance.playerGO.transform.rotation = respawnTrans.rotation;
+
+        GameManager.instance.playerGO.GetComponent<ThirdPersonController>().enabled = false;
+        GameManager.instance.playerGO.GetComponent<ThirdPersonController>().enabled = true;
+    }
+
+    public void RespawnPlayer(Vector3 respawnPos, Quaternion respawnRot)
+    {
+        GameManager.instance.playerGO.transform.position = respawnPos;
+        GameManager.instance.playerGO.transform.rotation = respawnRot;
 
         GameManager.instance.playerGO.GetComponent<ThirdPersonController>().enabled = false;
         GameManager.instance.playerGO.GetComponent<ThirdPersonController>().enabled = true;

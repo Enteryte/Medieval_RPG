@@ -29,6 +29,7 @@ public class FightingActions : MonoBehaviour
     private int chanceToRepeatIdle = 10; //chance die Idle zu wechseln 
     private float time;
     private bool isRolling = false;
+    private bool mayRemoveStamina = true;
 
     public void Awake()
     {
@@ -41,7 +42,6 @@ public class FightingActions : MonoBehaviour
         TPC = this.gameObject.GetComponent<StarterAssets.ThirdPersonController>();
         GetWeapon(); 
     }
-
 
     public void PlayerCanMove()
     {
@@ -182,11 +182,13 @@ public class FightingActions : MonoBehaviour
         if (weaponScriptR != null)
         {
             weaponScriptR.isActive = !weaponScriptR.isActive;
+            mayRemoveStamina = !mayRemoveStamina;
         }
 
         if (weaponScriptL != null)
         {
             weaponScriptL.isActive = !weaponScriptL.isActive;
+            mayRemoveStamina = !mayRemoveStamina;
 
             if (weaponScriptL.gameObject.CompareTag("Shield"))
             {
@@ -252,7 +254,10 @@ public class FightingActions : MonoBehaviour
                 weaponScriptL.lightAttack = true;
                 anim.SetTrigger("ShieldSmack");
 
-                PlayerValueManager.instance.RemoveStamina(15);
+                if(mayRemoveStamina == true)
+                {
+                    PlayerValueManager.instance.RemoveStamina(15);
+                }
             }
         }
 
@@ -266,7 +271,10 @@ public class FightingActions : MonoBehaviour
                 anim.SetInteger("AttackCount", attackCount);
                 anim.SetTrigger("LightAttackSword");
 
-                PlayerValueManager.instance.RemoveStamina(15);
+                if (mayRemoveStamina == true)
+                {
+                    PlayerValueManager.instance.RemoveStamina(15);
+                }
             }
             if (equippedWeaponR.CompareTag("Axe") && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
@@ -275,7 +283,10 @@ public class FightingActions : MonoBehaviour
                 anim.SetInteger("AttackCount", attackCount);
                 anim.SetTrigger("LightAttackAxe");
 
-                PlayerValueManager.instance.RemoveStamina(15);
+                if (mayRemoveStamina == true)
+                {
+                    PlayerValueManager.instance.RemoveStamina(15);
+                }
             }
             if (equippedWeaponR.CompareTag("GreatSword") && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
@@ -283,7 +294,10 @@ public class FightingActions : MonoBehaviour
                 weaponScriptR.lightAttack = true;
                 anim.SetTrigger("GreatSwordKick");
 
-                PlayerValueManager.instance.RemoveStamina(15);
+                if (mayRemoveStamina == true)
+                {
+                    PlayerValueManager.instance.RemoveStamina(15);
+                }
             }
             if (equippedWeaponR.CompareTag("Club") && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
@@ -291,13 +305,17 @@ public class FightingActions : MonoBehaviour
                 weaponScriptR.lightAttack = true;
                 anim.SetTrigger("ClubAttack");
 
-                PlayerValueManager.instance.RemoveStamina(15);
+                if (mayRemoveStamina == true)
+                {
+                    PlayerValueManager.instance.RemoveStamina(15);
+                }
             }
             if (equippedWeaponR.CompareTag("Stone") && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 anim.SetTrigger("ThrowStone");
 
                 PlayerValueManager.instance.RemoveStamina(15);
+                
             }
         }
     }
@@ -341,7 +359,10 @@ public class FightingActions : MonoBehaviour
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("HeavyAttackSword");
 
-            PlayerValueManager.instance.RemoveStamina(15);
+            if (mayRemoveStamina == true)
+            {
+                PlayerValueManager.instance.RemoveStamina(15);
+            }
         }
         if (equippedWeaponR.CompareTag("Axe") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
@@ -350,7 +371,10 @@ public class FightingActions : MonoBehaviour
             anim.SetInteger("AttackCount", attackCount);
             anim.SetTrigger("HeavyAttackAxe");
 
-            PlayerValueManager.instance.RemoveStamina(15);
+            if (mayRemoveStamina == true)
+            {
+                PlayerValueManager.instance.RemoveStamina(15);
+            }
         }
         if (equippedWeaponR.CompareTag("GreatSword") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
@@ -358,7 +382,10 @@ public class FightingActions : MonoBehaviour
             weaponScriptR.heavyAttack = true;
             anim.SetTrigger("GreatSwordSlash");
 
-            PlayerValueManager.instance.RemoveStamina(15);
+            if (mayRemoveStamina == true)
+            {
+                PlayerValueManager.instance.RemoveStamina(15);
+            }
         }
         if (equippedWeaponR.CompareTag("Club") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
@@ -366,7 +393,10 @@ public class FightingActions : MonoBehaviour
             weaponScriptR.lightAttack = false;
             anim.SetTrigger("ClubAttack");
 
-            PlayerValueManager.instance.RemoveStamina(15);
+            if (mayRemoveStamina == true)
+            {
+                PlayerValueManager.instance.RemoveStamina(15);
+            }
         }
     }
 

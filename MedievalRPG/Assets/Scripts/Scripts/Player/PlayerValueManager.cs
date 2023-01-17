@@ -1,6 +1,8 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class PlayerValueManager : MonoBehaviour
@@ -15,18 +17,18 @@ public class PlayerValueManager : MonoBehaviour
         {
             if (invincible == false)
             {
-                if (value < 0)
-                {
-                    value = 0;
-                }
-
-                if (currHP - value <= 0)
+                if (value <= 0)
                 {
                     currHP = 0;
                     Die();
                 }
 
                 if (currHP - value > 0)
+                {
+                    currHP = value;
+                }
+
+                if (value > currHP)
                 {
                     currHP = value;
                 }
@@ -63,26 +65,35 @@ public class PlayerValueManager : MonoBehaviour
     [Header("Tutorial")]
     public TutorialBaseProfile staminaTutorial;
 
+    [Header("Death")]
+    public TimelineAsset whenDeathTL;
+    public LoadingScreenProfile deathLSP;
+
+    public bool isDead = false;
+
     public void Awake()
     {
-        instance = this;
-
-        currHP = normalHP;
-
-        if (staminaSlider != null)
+        if (instance == null)
         {
-            staminaSlider.maxValue = normalStamina;
-            staminaSlider.value = currStamina;
+            instance = this;
 
-            healthSlider.maxValue = normalHP;
-            healthSlider.value = currHP;
+            currHP = normalHP;
+
+            if (staminaSlider != null)
+            {
+                staminaSlider.maxValue = normalStamina;
+                staminaSlider.value = currStamina;
+
+                healthSlider.maxValue = normalHP;
+                healthSlider.value = currHP;
+            }
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -130,6 +141,17 @@ public class PlayerValueManager : MonoBehaviour
         {
             TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(staminaTutorial);
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            CurrHP = 0;
+        }
+
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    CurrHP = 0;
+        //    Debug.Log(CurrHP);
+        //}
     }
 
     public void RemoveStamina(float staminaAmountToRemove)
@@ -147,5 +169,31 @@ public class PlayerValueManager : MonoBehaviour
     public void Die()
     {
         //Sterbegedöns einfügen
+
+        //ThirdPersonController.instance._animator.Play("Death");
+
+        isDead = true;
+
+        CutsceneManager.instance.playableDirector.playableAsset = whenDeathTL;
+        CutsceneManager.instance.playableDirector.Play();
+
+        LoadingScreen.currLSP = deathLSP;
+        LoadingScreen.currSpawnPos = new Vector3(0, 0, 0);
+        LoadingScreen.currSpawnRot = Quaternion.identity;
+
+        LoadingScreen.instance.placeNameTxt.text = deathLSP.placeName;
+        LoadingScreen.instance.backgroundImg.sprite = deathLSP.backgroundSprite;
+        LoadingScreen.instance.descriptionTxt.text = deathLSP.descriptionTextString;
+
+        SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
+        SceneChangeManager.instance.GetComponent<Animator>().Rebind();
+        SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
+
+        SceneChangeManager.instance.loadingScreen.SetActive(true);
+        SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
+
+        SceneChangeManager.instance.wentThroughTrigger = true;
+
+        // -----------------> WIP: SceneManagement einfügen ( Wechsel zur Dorf-Scene )
     }
 }

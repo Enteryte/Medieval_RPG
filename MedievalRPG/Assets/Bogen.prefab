@@ -212,7 +212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5141932242606484053
 Transform:
   m_ObjectHideFlags: 0
@@ -220,7 +220,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3296961171139395350}
-  m_LocalRotation: {x: -0.5794196, y: -0.1789886, z: 0.372195, w: 0.70264286}
+  m_LocalRotation: {x: -0.5794197, y: -0.17898709, z: 0.37219435, w: 0.7026435}
   m_LocalPosition: {x: -0.0667, y: 0.033, z: 0.0506}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e27521b8834e7499238d485a9fef7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iBP: {fileID: 0}
+  iBP: {fileID: 11400000, guid: 668636e4928ae9545ab03c209db24d3f, type: 2}
   iOCanvas: {fileID: 0}
   amountToGet: 1
   whereToGrabItemTrans: {fileID: 0}
@@ -253,6 +253,10 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  itemsToGet: []
+  amountsToGet: 
+  moneyAmount: 0
+  isOpen: 0
 --- !u!1 &4893811072455507970
 GameObject:
   m_ObjectHideFlags: 0

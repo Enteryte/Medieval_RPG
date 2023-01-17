@@ -425,6 +425,8 @@ public class Interacting : MonoBehaviour
                 }
                 else if (nearestObjTrans.TryGetComponent(out Enemy enemy))
                 {
+                    Debug.Log("ENEMYYYYYYYYYYYYYYYYYY");
+
                     if (!enemy.isDead)
                     {
                         Debug.Log("ENEMY");
@@ -432,7 +434,7 @@ public class Interacting : MonoBehaviour
                         if (Input.GetKeyDown(KeyCode.Q))
                         {
                             // ---------------------------------------------- WIP: Hier Target-Enemy einfügen!
-                            //FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);                            
+                            FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
                         }
                     }
                 }

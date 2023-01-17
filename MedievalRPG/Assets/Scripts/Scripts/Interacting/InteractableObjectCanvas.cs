@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using StarterAssets;
 
 public class InteractableObjectCanvas : MonoBehaviour
 { 
@@ -67,6 +68,8 @@ public class InteractableObjectCanvas : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(Camera.main);
+
         if (correspondingGO == null)
         {
             Destroy(this.gameObject);
@@ -88,5 +91,10 @@ public class InteractableObjectCanvas : MonoBehaviour
         {
             this.gameObject.transform.position = Camera.main.WorldToScreenPoint(doorChildGO.transform.position);
         }
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        Destroy(this.gameObject);
     }
 }

@@ -165,7 +165,28 @@ namespace StarterAssets
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
 
-            instance = this;
+            if (instance == null)
+            {
+                instance = this;
+
+                //GameManager.instance.playerGO = this.gameObject;
+
+                DontDestroyOnLoad(this.gameObject.transform.parent.parent.gameObject);
+
+                DontDestroyOnLoad(_bowAimingVCamera);
+                DontDestroyOnLoad(_bowAimingZoomVCamera);
+                DontDestroyOnLoad(_normalVCamera);
+                DontDestroyOnLoad(_mainCamera);
+            }
+            else
+            {
+                Destroy(_bowAimingVCamera);
+                Destroy(_bowAimingZoomVCamera);
+                Destroy(_normalVCamera);
+                Destroy(_mainCamera);
+
+                Destroy(this.gameObject.transform.parent.parent.gameObject);
+            }
         }
 
         private void Start()
@@ -196,7 +217,7 @@ namespace StarterAssets
 
         private void Update()
         {
-            if (_animator.GetBool("DoPush"))
+            if (_animator.GetBool("DoPush") && !SceneChangeManager.instance.wentThroughTrigger)
             {
                 return;
             }
@@ -480,23 +501,26 @@ namespace StarterAssets
 
         private void CameraRotation()
         {
-            // if there is an input and camera position is not fixed
-            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
-            {
-                //Don't multiply mouse input by Time.deltaTime;
-                float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+            //if (FightManager.instance.currTargetEnemy == null)
+            //{
+                // if there is an input and camera position is not fixed
+                if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
+                {
+                    //Don't multiply mouse input by Time.deltaTime;
+                    float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * lookSensitivity;
-                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * lookSensitivity;
-            }
+                    _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * lookSensitivity;
+                    _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * lookSensitivity;
+                }
 
-            // clamp our rotations so our values are limited 360 degrees
-            _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+                // clamp our rotations so our values are limited 360 degrees
+                _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+                _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
-            // Cinemachine will follow this target
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-                _cinemachineTargetYaw, 0.0f);
+                // Cinemachine will follow this target
+                CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+                    _cinemachineTargetYaw, 0.0f);
+            //}
         }
 
         private void Move()
