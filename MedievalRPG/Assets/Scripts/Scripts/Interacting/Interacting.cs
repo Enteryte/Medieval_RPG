@@ -204,11 +204,24 @@ public class Interacting : MonoBehaviour
                     {
                         //Debug.Log(interactableObj.gameObject.name);
 
-                        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
-
-                        if (Input.GetKeyDown(KeyCode.Q))
+                        if (FightingActions.instance.equippedWeaponL != null
+                        && FightingActions.instance.equippedWeaponL.gameObject.GetComponent<Item>().iBP.weaponType != ItemBaseProfile.WeaponType.bow)
                         {
-                            FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
+
+                            if (Input.GetKeyDown(KeyCode.Q))
+                            {
+                                FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                            }
+                        }
+                        else if (FightingActions.instance.equippedWeaponL == null)
+                        {
+                            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
+
+                            if (Input.GetKeyDown(KeyCode.Q))
+                            {
+                                FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                            }
                         }
                     }
                 }
