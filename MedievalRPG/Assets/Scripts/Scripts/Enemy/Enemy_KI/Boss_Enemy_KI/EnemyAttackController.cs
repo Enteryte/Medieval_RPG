@@ -15,17 +15,30 @@ public class EnemyAttackController : MonoBehaviour
         
     }
 
+    public void AOESweep()
+    {
+        
+    }
     public void DropMeteor()
     {
         
     }
 
+    public void ConeBoneZone()
+    {
+        
+    }
     public void SideCleaning()
     {
         
     }
 
     public void TargetedFire()
+    {
+        
+    }
+
+    public void BitchSlap()
     {
         
     }
