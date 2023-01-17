@@ -30,6 +30,7 @@ public class FightingActions : MonoBehaviour
     private float time;
     private bool isRolling = false;
     private bool mayRemoveStamina = true;
+    private bool zooms = false;
 
     public void Awake()
     {
@@ -231,6 +232,7 @@ public class FightingActions : MonoBehaviour
                 anim.SetTrigger("Shoot");
                 TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
                 GameObject Arrow = Instantiate(arrow);
+
                 Arrow.transform.position = equippedWeaponL.transform.position;
                 Arrow.transform.rotation = Quaternion.LookRotation(transform.forward, new Vector3(0, 0, 0));
                 Arrow.GetComponent<Rigidbody>().AddForce(transform.forward * shotSpeed, ForceMode.Impulse);
@@ -350,7 +352,20 @@ public class FightingActions : MonoBehaviour
 
         if (equippedWeaponL != null && equippedWeaponL.CompareTag("Bow"))
         {
-            TPC.HandleBowAimingCameras(TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera, TPC._normalVCamera);
+            if (aims && !zooms)
+            {
+                TPC.HandleBowAimingCameras(TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera, TPC._normalVCamera);
+
+                zooms = !zooms;
+            }
+            else if (aims && zooms)
+            {
+                TPC.HandleBowAimingCameras(TPC._bowAimingVCamera, TPC._bowAimingZoomVCamera, TPC._normalVCamera);
+
+                zooms = !zooms;
+            }
+
+            return;
         }
 
         //FABIENNE: Stamina loss bei Angriffen
@@ -431,6 +446,7 @@ public class FightingActions : MonoBehaviour
                 TPC.HandleBowAimingCameras(TPC._bowAimingVCamera, TPC._bowAimingZoomVCamera, TPC._normalVCamera);
                 //holdArrow.SetActive(true);
             }
+
             if (aims == true)
             {
                 TPC.transform.rotation = Quaternion.Euler(0, TPC.transform.rotation.eulerAngles.y, 0);
@@ -465,7 +481,14 @@ public class FightingActions : MonoBehaviour
 
     private void Update()
     {
-        if(isRolling)
+        if (FightManager.instance.currTargetEnemy != null && !ThirdPersonController.instance.canMove && !isRolling && ThirdPersonController.instance.Grounded)
+        {
+            transform.LookAt(FightManager.instance.currTargetEnemy.transform);
+
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        }
+
+        if (isRolling)
         {
             time += Time.deltaTime;
             float desiredDuration = time / rollSpeed;

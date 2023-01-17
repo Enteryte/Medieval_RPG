@@ -378,7 +378,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!GameManager.instance.gameIsPaused && canMove /* && !SceneChangeManager.instance.wentThroughTrigger*/)
+            if (!GameManager.instance.gameIsPaused && canMove && !SceneChangeManager.instance.wentThroughTrigger)
             {
                 CameraRotation();
             }
@@ -509,23 +509,32 @@ namespace StarterAssets
         {
             //if (FightManager.instance.currTargetEnemy == null)
             //{
-                // if there is an input and camera position is not fixed
-                if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
-                {
-                    //Don't multiply mouse input by Time.deltaTime;
-                    float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+            // if there is an input and camera position is not fixed
+            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
+            {
+                //Don't multiply mouse input by Time.deltaTime;
+                float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                    _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * lookSensitivity;
-                    _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * lookSensitivity;
-                }
+                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * lookSensitivity;
+                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * lookSensitivity;
+            }
 
-                // clamp our rotations so our values are limited 360 degrees
+            // clamp our rotations so our values are limited 360 degrees
+
+            if (_normalVCamera.m_Priority >= 12)
+            {
                 _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
                 _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+            }
+            else
+            {
+                _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+                _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, -20, 20);
+            }
 
-                // Cinemachine will follow this target
-                CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-                    _cinemachineTargetYaw, 0.0f);
+            // Cinemachine will follow this target
+            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
+                _cinemachineTargetYaw, 0.0f);
             //}
         }
 
@@ -604,7 +613,7 @@ namespace StarterAssets
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y + 5, _targetRotation, ref _rotationVelocity,
                     RotationSmoothTime);
 
                 float rotationX = 0;
@@ -838,6 +847,27 @@ namespace StarterAssets
 
         public void HandleBowAimingCameras(CinemachineVirtualCamera newMainCam, CinemachineVirtualCamera newNotMainCam, CinemachineVirtualCamera newNotMainCam2)
         {
+            //if (FightManager.instance.currTargetEnemy != null)
+            //{
+            //    if (newMainCam == _normalVCamera)
+            //    {
+            //        FightManager.instance.targetCVC.gameObject.SetActive(true);
+            //    }
+            //    else
+            //    {
+            //        FightManager.instance.targetCVC.gameObject.SetActive(false);
+            //    }
+            //}
+
+            if (newMainCam != _normalVCamera)
+            {
+                FightManager.instance.crosshairGO.gameObject.SetActive(true);
+            }
+            else
+            {
+                FightManager.instance.crosshairGO.gameObject.SetActive(false);
+            }
+
             newMainCam.Priority = 12;
             newNotMainCam.Priority = 11;
             newNotMainCam2.Priority = 10;

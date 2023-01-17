@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using StarterAssets;
+using Cinemachine;
 
 public class FightManager : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class FightManager : MonoBehaviour
     public GameObject targetEnemyCanvasObj;
 
     public GameObject currTargetEnemy;
+
+    public CinemachineVirtualCamera targetCVC;
+
+    public GameObject crosshairGO;
 
     //public int CurrArrowAmount
     //{
@@ -74,11 +79,13 @@ public class FightManager : MonoBehaviour
         if (currTargetEnemy != null)
         {
             if (Vector3.Distance(currTargetEnemy.transform.position, GameManager.instance.playerGO.transform.position) 
-                > GameManager.instance.playerGO.GetComponent<Interacting>().viewRadius)
-                             {
+                > 7)
+            {
                 currTargetEnemy = null;
 
                 targetEnemyCanvasObj.SetActive(false);
+
+                targetCVC.gameObject.SetActive(false);
             }
         }
     }
@@ -110,6 +117,8 @@ public class FightManager : MonoBehaviour
 
             targetEnemyCanvasObj.SetActive(false);
 
+            targetCVC.gameObject.SetActive(false);
+
             Debug.Log("TARGETED ENEMY 1");
         }
         else
@@ -117,6 +126,8 @@ public class FightManager : MonoBehaviour
             currTargetEnemy = currInteractTarget;
 
             targetEnemyCanvasObj.SetActive(true);
+
+            targetCVC.gameObject.SetActive(true);
 
             Debug.Log("TARGETED ENEMY 2");
         }
