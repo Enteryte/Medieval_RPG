@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveSystem : MonoBehaviour
 {
     public static SaveSystem instance;
 
     [Tooltip("")] public static string path;
+    [Tooltip("")] public static string pathEnd;
 
     public enum SavingType
     {
@@ -20,7 +22,9 @@ public class SaveSystem : MonoBehaviour
     public SavingType currSavingType = SavingType.manual;
 
     public static string continuePath;
+    public static string continuePath2;
     public static string continueTxtFile;
+    public static string continueTxtFile2;
 
     public void Awake()
     {
@@ -65,16 +69,50 @@ public class SaveSystem : MonoBehaviour
     {
         path = System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")/* + "_" + GameManager.instance.playtimeInSeconds*/;
 
-        if (!Directory.Exists(Application.persistentDataPath + "/SaveData/" + path))
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            Directory.CreateDirectory(Application.persistentDataPath + "/SaveData/" + path);
+            pathEnd = "_V";
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            pathEnd = "_T";
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            pathEnd = "_D1";
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 4)
+        {
+            pathEnd = "_D2";
+        }
+
+        if (!Directory.Exists(Application.persistentDataPath + "/SaveData/" + path + pathEnd))
+        {
+            Directory.CreateDirectory(Application.persistentDataPath + "/SaveData/" + path + pathEnd);
         }
 
         SaveGameObject sGO = createSaveGameObject();
 
         string JsonString = JsonUtility.ToJson(sGO);
 
-        StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/SaveData/" + path + "/" + path + "_gameData.text");
+        StreamWriter sw = null;
+
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            sw = new StreamWriter(Application.persistentDataPath + "/SaveData/" + path + pathEnd + "/" + path + "_gameData_V.text");
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            sw = new StreamWriter(Application.persistentDataPath + "/SaveData/" + path + pathEnd + "/" + path + "_gameData_T.text");
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            sw = new StreamWriter(Application.persistentDataPath + "/SaveData/" + path + pathEnd + "/" + path + "_gameData_D1.text");
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 4)
+        {
+            sw = new StreamWriter(Application.persistentDataPath + "/SaveData/" + path + pathEnd + "/" + path + "_gameData_D2.text");
+        }
 
         sw.Write(JsonString);
         sw.Close();
@@ -161,6 +199,8 @@ public class SaveSystem : MonoBehaviour
             sGO.savingType = "Checkpoint";
         }
 
+        sGO.currSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
         SaveGameData(sGO);
         SaveTutorial(sGO);
         SavePlayer(sGO);
@@ -202,6 +242,8 @@ public class SaveSystem : MonoBehaviour
 
             // Playtime
             //GameManager.instance.playtimeInSeconds = sGO.playtimeInSeconds;
+
+            //SceneManager.LoadScene(sGO.currSceneIndex);
 
             LoadGameData(sGO);
             LoadTutorial(sGO);
@@ -310,6 +352,8 @@ public class SaveSystem : MonoBehaviour
             // Playtime
             //GameManager.instance.playtimeInSeconds = sGO.playtimeInSeconds;
 
+            //SceneManager.LoadScene(sGO.currSceneIndex);
+
             LoadGameData(sGO);
             LoadTutorial(sGO);
             LoadPlayer(sGO);
@@ -326,6 +370,204 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
+    public void LoadAfterChangedSceneIG()
+    {
+        if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
+        {
+            continuePath = "";
+
+            continueTxtFile = "";
+
+            var dirInfo = Directory.GetDirectories(Application.persistentDataPath + "/SaveData/");
+
+            //for (int i = dirInfo.Length - 1; i > -1; i--)
+            //{
+            //    var gameDataFolder = Directory.GetFiles(dirInfo[i]);
+            //}
+
+            var gameDataFolder = Directory.GetFiles(dirInfo[dirInfo.Length - 1]);
+
+            for (int i = 0; i < dirInfo.Length - 1; i++)
+            {
+                if (dirInfo[i].Contains("_V") && LoadingScreen.currLSP.sceneToLoadIndex == 1)
+                {
+                    continuePath = dirInfo[i];
+
+                    gameDataFolder = Directory.GetFiles(dirInfo[i]);
+
+                    Debug.Log(i);
+                    Debug.Log(dirInfo[i]);
+   
+                    continueTxtFile = gameDataFolder[0];
+
+                    break;
+                }
+                else if(dirInfo[i].Contains("_T") && LoadingScreen.currLSP.sceneToLoadIndex == 2)
+                {
+                    continuePath = dirInfo[i];
+
+                    gameDataFolder = Directory.GetFiles(dirInfo[i]);
+
+                    continueTxtFile = gameDataFolder[0];
+
+                    break;
+                }
+                else if (dirInfo[i].Contains("_D1") && LoadingScreen.currLSP.sceneToLoadIndex == 3)
+                {
+                    continuePath = dirInfo[i];
+
+                    gameDataFolder = Directory.GetFiles(dirInfo[i]);
+
+                    continueTxtFile = gameDataFolder[0];
+
+                    break;
+                }
+                else if (dirInfo[i].Contains("_D2") && LoadingScreen.currLSP.sceneToLoadIndex == 4)
+                {
+                    continuePath = dirInfo[i];
+
+                    gameDataFolder = Directory.GetFiles(dirInfo[i]);
+
+                    continueTxtFile = gameDataFolder[0];
+
+                    break;
+                }
+            }
+
+            var dirInfo2 = Directory.GetDirectories(Application.persistentDataPath + "/SaveData/");
+
+            var gameDataFolder2 = Directory.GetFiles(dirInfo2[dirInfo2.Length - 1]);
+
+            //if (continueTxtFile == "")
+            //{
+
+                //for (int i = dirInfo.Length - 1; i > -1; i--)
+                //{
+                //    var gameDataFolder = Directory.GetFiles(dirInfo[i]);
+                //}
+
+                gameDataFolder2 = Directory.GetFiles(dirInfo2[dirInfo2.Length - 1]);
+
+                continuePath2 = dirInfo2[dirInfo2.Length - 1];
+                continueTxtFile2 = gameDataFolder2[0];
+            //}
+        }
+
+        if (continuePath != "" && Directory.Exists(continuePath))
+        {
+            Debug.Log("HHHHHHHHHHHHHHHHIER");
+
+            StreamReader sr = new StreamReader(continueTxtFile);
+
+            string JsonString = sr.ReadToEnd();
+
+            sr.Close();
+
+            //GameManager.instance.displayInventory.inventory.database = Resources.Load<ItemDatabaseBase>("Database");
+            //GameManager.Instance.enemyDatabase = Resources.Load<EnemyDatabase>("EnemyDatabase");
+            //#endif
+
+            SaveGameObject sGO = JsonUtility.FromJson<SaveGameObject>(JsonString);
+
+            // Playtime
+            //GameManager.instance.playtimeInSeconds = sGO.playtimeInSeconds;
+
+            //LoadGameData(sGO);
+            //LoadTutorial(sGO);
+            //LoadPlayer(sGO);
+
+            //PlayerValueManager.instance.money = sGO.currPlayerMoney;
+            //PlayerValueManager.instance.healthSlider.value = sGO.currPlayerHealth;
+            //PlayerValueManager.instance.staminaSlider.value = sGO.currPlayerStamina;
+
+            //LoadMissions(sGO);
+            LoadNPCs(sGO);
+            LoadEnemies(sGO);
+            //LoadInventory(sGO);
+            LoadInteractableObjects(sGO);
+
+            //LoadInteractableObjects();
+            //LoadInventory();
+            //LoadNPCs();
+            //LoadMissions();
+        }
+
+        if (Directory.Exists(continuePath2))
+        {
+            Debug.Log("HHHHHHHHHHHHHHHHIER");
+
+            StreamReader sr = new StreamReader(continueTxtFile2);
+
+            string JsonString = sr.ReadToEnd();
+
+            sr.Close();
+
+            //GameManager.instance.displayInventory.inventory.database = Resources.Load<ItemDatabaseBase>("Database");
+            //GameManager.Instance.enemyDatabase = Resources.Load<EnemyDatabase>("EnemyDatabase");
+            //#endif
+
+            SaveGameObject sGO = JsonUtility.FromJson<SaveGameObject>(JsonString);
+
+            // Playtime
+            //GameManager.instance.playtimeInSeconds = sGO.playtimeInSeconds;
+
+            LoadGameData(sGO);
+            LoadTutorial(sGO);
+            //LoadPlayer(sGO);
+
+            PlayerValueManager.instance.money = sGO.currPlayerMoney;
+            PlayerValueManager.instance.healthSlider.value = sGO.currPlayerHealth;
+            PlayerValueManager.instance.staminaSlider.value = sGO.currPlayerStamina;
+
+            LoadMissions(sGO);
+            //LoadNPCs(sGO);
+            //LoadEnemies(sGO);
+            LoadInventory(sGO);
+            //LoadInteractableObjects(sGO);
+
+            //LoadInteractableObjects();
+            //LoadInventory();
+            //LoadNPCs();
+            //LoadMissions();
+        }
+        //else
+        //{
+        //    StreamReader sr = new StreamReader(continueTxtFile);
+
+        //    string JsonString = sr.ReadToEnd();
+
+        //    sr.Close();
+
+        //    //GameManager.instance.displayInventory.inventory.database = Resources.Load<ItemDatabaseBase>("Database");
+        //    //GameManager.Instance.enemyDatabase = Resources.Load<EnemyDatabase>("EnemyDatabase");
+        //    //#endif
+
+        //    SaveGameObject sGO = JsonUtility.FromJson<SaveGameObject>(JsonString);
+
+        //    // Playtime
+        //    //GameManager.instance.playtimeInSeconds = sGO.playtimeInSeconds;
+
+        //    LoadGameData(sGO);
+        //    LoadTutorial(sGO);
+        //    //LoadPlayer(sGO);
+
+        //    PlayerValueManager.instance.money = sGO.currPlayerMoney;
+        //    PlayerValueManager.instance.healthSlider.value = sGO.currPlayerHealth;
+        //    PlayerValueManager.instance.staminaSlider.value = sGO.currPlayerStamina;
+
+        //    LoadMissions(sGO);
+        //    LoadNPCs(sGO);
+        //    LoadEnemies(sGO);
+        //    LoadInventory(sGO);
+        //    LoadInteractableObjects(sGO);
+
+        //    //LoadInteractableObjects();
+        //    //LoadInventory();
+        //    //LoadNPCs();
+        //    //LoadMissions();
+        //}
+    }
+
     #region Saving
     public void SaveGameData(SaveGameObject sGO)
     {
@@ -333,7 +575,7 @@ public class SaveSystem : MonoBehaviour
         sGO.dayOfSaving = System.DateTime.Now.ToString();
 
         var screenshotName = "Screenshot_" + System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss") + ".png";
-        ScreenCapture.CaptureScreenshot(System.IO.Path.Combine(Application.persistentDataPath + "/SaveData/" + path, screenshotName), 2);
+        ScreenCapture.CaptureScreenshot(System.IO.Path.Combine(Application.persistentDataPath + "/SaveData/" + path + pathEnd, screenshotName), 2);
     }
 
     public void SaveTutorial(SaveGameObject sGO)
@@ -665,14 +907,36 @@ public class SaveSystem : MonoBehaviour
 
         for (int i = 0; i < MissionManager.instance.allMissions.Count; i++)
         {
+            for (int y = 0; y < MissionManager.instance.allMissions[i].allMissionTasks.Length; y++)
+            {
+                if (MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.canNormallyBeDisplayed)
+                {
+                    MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.canBeDisplayed = true;
+                }
+                else
+                {
+                    MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.canBeDisplayed = false;
+                }
+
+                MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.howManyAlreadyCollected = 0;
+                MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.howManyAlreadyKilled = 0;
+                MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.howManyAlreadyExamined = 0;
+                MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.currGainedPoints = 0;
+
+                MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.missionTaskCompleted = false;
+            }
+        }
+
+        for (int i = 0; i < MissionManager.instance.allMissions.Count; i++)
+        {
             if (sGO.allCurrAcceptedMissionNumbers.Contains(i))
             {
                 MissionManager.instance.allCurrAcceptedMissions.Add(MissionManager.instance.allMissions[i]);
 
                 for (int y = 0; y < MissionManager.instance.allMissions[i].allMissionTasks.Length; y++)
                 {
-                    MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.missionTaskCompleted = sGO.allAcceptedMissionTaskIsCompletedStates[i];
-                    MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.canBeDisplayed = sGO.allAcceptedMissionTaskIsDisplayableStates[i];
+                    MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.missionTaskCompleted = sGO.allAcceptedMissionTaskIsCompletedStates[y];
+                    MissionManager.instance.allMissions[i].allMissionTasks[y].mTB.canBeDisplayed = sGO.allAcceptedMissionTaskIsDisplayableStates[y];
 
                     taskNumber += 1;
 
@@ -695,6 +959,22 @@ public class SaveSystem : MonoBehaviour
 
                         examineNumber += 1;
                     }
+                }
+
+                if (MissionManager.instance.allMissions[i].missionName == sGO.currentMainMissionName)
+                {
+                    //if (UIManager.missionToDisplay == null && missionToAdd.missionType == MissionBaseProfile.MissionType.main)
+                    //{
+                    UIManager.missionToDisplay = MissionManager.instance.allMissions[i];
+
+                        UIManager.instance.CreateMissionDisplay();
+
+                    //UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.addedMissionString;
+                    //UIAnimationHandler.instance.addedMissionTxt.text = MissionManager.instance.allCurrAcceptedMissions[i].missionName;
+                    //UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+
+                    MinimapManager.instance.CheckAllMinimapSymbols();
+                    //}
                 }
             }
 

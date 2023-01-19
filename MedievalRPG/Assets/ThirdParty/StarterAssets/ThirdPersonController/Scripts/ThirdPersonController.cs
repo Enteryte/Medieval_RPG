@@ -613,7 +613,7 @@ namespace StarterAssets
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y + 5, _targetRotation, ref _rotationVelocity,
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y /*+ 5*/, _targetRotation, ref _rotationVelocity,
                     RotationSmoothTime);
 
                 float rotationX = 0;

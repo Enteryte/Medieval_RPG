@@ -37,7 +37,7 @@ public class MissionTaskBase : ScriptableObject
 
     [Header("Can be displayed")]
     public bool canNormallyBeDisplayed = true;
-    public bool canBeDisplayed = true;
+    public bool canBeDisplayed;
 
     public MissionTaskBase missionTaskToActivate;
     public MissionTaskBase missionTaskToActivate2;
