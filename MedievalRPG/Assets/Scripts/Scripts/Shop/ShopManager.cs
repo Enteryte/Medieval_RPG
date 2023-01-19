@@ -27,7 +27,8 @@ public class ShopManager : MonoBehaviour
     public TMP_Text weightTxt;
     public TMP_Text moneyTxt;
 
-    public GameObject itemInfoPopUp;
+    public GameObject itemInfoPopUpLeft;
+    public GameObject itemInfoPopUpRight;
 
     public static ItemBaseProfile currClickedItem;
 
@@ -93,9 +94,13 @@ public class ShopManager : MonoBehaviour
             }
         }
 
-        if (itemInfoPopUp.activeSelf)
+        if (itemInfoPopUpLeft.activeSelf)
         {
-            itemInfoPopUp.transform.position = Input.mousePosition;
+            itemInfoPopUpLeft.transform.position = Input.mousePosition;
+        }
+        else if (itemInfoPopUpRight.activeSelf)
+        {
+            itemInfoPopUpRight.transform.position = Input.mousePosition;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && !hMScreen.gameObject.activeSelf)

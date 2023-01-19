@@ -45,14 +45,14 @@ public class NPCWaypoint : MonoBehaviour
     {
         if (other.gameObject == correspondingNPCObj && correspondingNPCObj.GetComponent<NPC>().currWaypoint == this)
         {
-            if (stayForSpecificTime)
-            {
-                StartCoroutine(StartStayingForSpecificTime());
-            }
-            else
-            {
+            //if (stayForSpecificTime)
+            //{
+            //    StartCoroutine(StartStayingForSpecificTime());
+            //}
+            //else
+            //{
                 correspondingNPCObj.GetComponent<NPC>().SetNewWaypointWithoutStopping(nextWaypoint.GetComponent<NPCWaypoint>());
-            }
+            //}
         }
     }
 }

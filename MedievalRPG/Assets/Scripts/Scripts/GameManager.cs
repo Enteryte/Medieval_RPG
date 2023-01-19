@@ -178,6 +178,12 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape) && UIManager.instance.readTombstoneUI.activeSelf)
+        {
+            UIManager.instance.readTombstoneUI.SetActive(false);
+            gameIsPaused = false;
+        }
+
         if (Input.GetKeyDown(KeyCode.I) && !ShopManager.instance.shopScreen.activeSelf)
         {
             OpenInventory();

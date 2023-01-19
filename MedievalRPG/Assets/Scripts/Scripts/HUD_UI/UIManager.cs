@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,6 +18,11 @@ public class UIManager : MonoBehaviour
     [Header("NPC Mission Display")]
     public Transform npcMissionButtonParentObjTrans;
     public GameObject npcMissionButtonPrefab;
+
+    [Header("Tombstones")]
+    public TMP_Text tombstoneTextToDisplayTxt;
+
+    public GameObject readTombstoneUI;
 
     public void Awake()
     {

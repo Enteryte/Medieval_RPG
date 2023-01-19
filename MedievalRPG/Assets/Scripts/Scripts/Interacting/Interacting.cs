@@ -323,8 +323,8 @@ public class Interacting : MonoBehaviour
                         }
                         else
                         {
-                            if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                                && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                            if (!ShopManager.instance.shopScreen.activeSelf /*&&*/ /*!GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf*/
+                               /* && !Blackboard.instance.blackboardCam.enabled*/ && ThirdPersonController.instance.canMove && !GameManager.instance.gameIsPaused)
                             {
                                 if (nearestObjTrans.TryGetComponent(out Item item) && item.itemsToGet.Length > 0 || nearestObjTrans.TryGetComponent(out Item item2) && item2.moneyAmount > 0)
                                 {
