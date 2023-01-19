@@ -87,7 +87,10 @@ public class NPC : MonoBehaviour, IInteractable
             SetOneLiner();
         }
 
-        nPCAudioSource = this.gameObject.GetComponent<AudioSource>();
+        if (this.gameObject.GetComponent<NPCScreamingHandler>() == null)
+        {
+            nPCAudioSource = this.gameObject.GetComponent<AudioSource>();
+        }
 
         //if (nPCCVC != null && nPCCVC.m_Follow == null)
         //{
@@ -352,7 +355,7 @@ public class NPC : MonoBehaviour, IInteractable
             }
         }
 
-        if (npcAudioType != NPCAudioType.none && !isNeeded)
+        if (npcAudioType != NPCAudioType.none && !isNeeded && nPCAudioSource != null)
         {
             PlayOneLiner();
         }

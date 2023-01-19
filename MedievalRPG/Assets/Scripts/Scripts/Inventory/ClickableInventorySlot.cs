@@ -82,7 +82,17 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             if (storedItemBase != null)
             {
                 this.gameObject.GetComponent<Image>().sprite = storedItemBase.itemSprite;
-                storedAmountTxt.text = storedAmount.ToString();
+
+                if (storedAmount == 0)
+                {
+                    storedAmountTxt.text = storedAmount.ToString();
+                }
+                //else
+                //{
+                //    // --------------------------------------------------------------> HIER wurde es geändert! <---------------------------------------------------------------------
+                //    storedAmount = 1;
+                //    storedAmountTxt.text = storedAmount.ToString();
+                //}
 
                 if (correspondingMainScreenHotbarSlotBtn != null)
                 {
