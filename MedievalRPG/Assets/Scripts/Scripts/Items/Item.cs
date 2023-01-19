@@ -155,6 +155,8 @@ public class Item : MonoBehaviour, IInteractable
 
             isOpen = true;
 
+            this.gameObject.GetComponent<Animator>().enabled = true;
+
             //Destroy(iOCanvas.gameObject);
             //Destroy(this.gameObject);
             //this.gameObject.SetActive(false);

@@ -53,6 +53,8 @@ public class UIManager : MonoBehaviour
                 newMissionTaskObj.name = UIAnimationHandler.instance.gONameToAnim + childNumber;
 
                 childNumber += 1;
+
+                Debug.Log(missionToDisplay.allMissionTasks[i].mTB);
                 //newMissionTaskObj.SetActive(true);
             }
         }

@@ -31,6 +31,8 @@ public class ChangeSceneTriggerBox : MonoBehaviour
                 SceneChangeManager.instance.GetComponent<Animator>().Rebind();
                 SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
 
+                SaveSystem.instance.SaveAutomatic();
+
                 SceneChangeManager.instance.loadingScreen.SetActive(true);
                 SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
             }

@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 4
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -16771,6 +16771,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1893632217}
   loadGameSavingTypeTxt: {fileID: 1645450226}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 365050051}
   boarderImg: {fileID: 1624780522}
   normalColor:
@@ -42725,6 +42726,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1289561765}
   loadGameSavingTypeTxt: {fileID: 1979311616}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 906247973}
   boarderImg: {fileID: 1598214782}
   normalColor:
@@ -55424,6 +55426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f9fac31b8552a349afabca67b548897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TEST: {fileID: 0}
   playtimeInSeconds: 0
   playerGOParent: {fileID: 124136231}
   playerGO: {fileID: 1545068375}
@@ -55500,7 +55503,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1144323240}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab2195321646a0640a7028552937d9fb, type: 3}
   m_Name: 
@@ -58890,6 +58893,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetEnemyCanvasObj: {fileID: 166989691}
   currTargetEnemy: {fileID: 0}
+  targetCVC: {fileID: 0}
+  crosshairGO: {fileID: 0}
   arrowIB: {fileID: 11400000, guid: db6772a8a58b082408d41c2e82c50887, type: 2}
   currArrowCountTxt: {fileID: 610280750}
   arrowHUDImg: {fileID: 423566339}
@@ -75727,6 +75732,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 948794218}
   loadGameSavingTypeTxt: {fileID: 1007503377}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 1520201783}
   boarderImg: {fileID: 1865183333}
   normalColor:

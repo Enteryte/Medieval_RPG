@@ -16,7 +16,7 @@ MonoBehaviour:
     m_durationSettings: 0
     m_dayDuration: 300
     m_nightDuration: 180
-    m_sunSettings: 0
+    m_sunSettings: 1
     m_enableSunShadows: 1
     m_enableMoonShadows: 1
     m_sunIntensity:
@@ -30,6 +30,15 @@ MonoBehaviour:
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5107717
+        value: 140000
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
@@ -89,10 +98,10 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.12443691
       - serializedVersion: 3
-        time: 0.5
-        value: 1.25
-        inSlope: 0
-        outSlope: 0
+        time: 0.48855585
+        value: -1.4368017
+        inSlope: -0.4631195
+        outSlope: -0.4631195
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -422,206 +431,15 @@ MonoBehaviour:
     m_skyMode: 0
     m_skyboxExposure: 2.5
     m_skyboxGroundColor: {r: 0.6384793, g: 0.7246544, b: 0.85, a: 1}
-    m_starsDayIntensity: 0
-    m_starsNightIntensity: 450
-    m_skyTopColor:
+    m_rotateStars: 1
+    m_starIntensity:
       serializedVersion: 2
-      key0: {r: 0.15251322, g: 0.22461039, b: 0.52963686, a: 1}
-      key1: {r: 11.984314, g: 10.603922, b: 9.913726, a: 1}
-      key2: {r: 5.679038, g: 6.433285, b: 8.47419, a: 0}
-      key3: {r: 2.662049, g: 4.614218, b: 7.3650026, a: 0}
-      key4: {r: 5.767773, g: 6.477653, b: 8.47419, a: 0}
-      key5: {r: 11.984314, g: 10.541177, b: 10.164706, a: 0}
-      key6: {r: 0.1552862, g: 0.22461039, b: 0.52963686, a: 0}
-      key7: {r: 7.146319, g: 10.353946, b: 24.642479, a: 0}
-      ctime0: 13107
-      ctime1: 16384
-      ctime2: 19661
-      ctime3: 31760
-      ctime4: 45875
-      ctime5: 49151
-      ctime6: 52428
-      ctime7: 52428
-      atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
-      atime4: 0
-      atime5: 0
-      atime6: 0
-      atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 7
-      m_NumAlphaKeys: 2
-    m_skyMiddleColor:
-      serializedVersion: 2
-      key0: {r: 0.15251322, g: 0.22461039, b: 0.52963686, a: 1}
-      key1: {r: 2.9960785, g: 2.6509805, b: 2.4784315, a: 1}
-      key2: {r: 1.5216607, g: 1.7237562, b: 2.270603, a: 0}
-      key3: {r: 0.7157914, g: 0.9363091, b: 1.2541138, a: 0}
-      key4: {r: 1.0196079, g: 1.1450981, b: 1.4980392, a: 0}
-      key5: {r: 7.49804, g: 6.627155, b: 6.3595943, a: 0}
-      key6: {r: 0.1552862, g: 0.22461039, b: 0.52963686, a: 0}
-      key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 13107
-      ctime1: 16384
-      ctime2: 19661
-      ctime3: 31760
-      ctime4: 45875
-      ctime5: 49151
-      ctime6: 52428
-      ctime7: 0
-      atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
-      atime4: 0
-      atime5: 0
-      atime6: 0
-      atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 7
-      m_NumAlphaKeys: 2
-    m_skyBottomColor:
-      serializedVersion: 2
-      key0: {r: 0.43137255, g: 0.63529414, b: 1.4980392, a: 1}
-      key1: {r: 2.9960785, g: 2.6509805, b: 2.4784315, a: 1}
-      key2: {r: 1.1532032, g: 1.306363, b: 1.7207954, a: 0}
-      key3: {r: 0.9545212, g: 1.1668408, b: 1.4150944, a: 0}
-      key4: {r: 1.2552845, g: 1.4097811, b: 1.8443027, a: 0}
-      key5: {r: 7.49804, g: 6.636012, b: 6.3595943, a: 0}
-      key6: {r: 0.4392157, g: 0.63529414, b: 1.4980392, a: 0}
-      key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 13107
-      ctime1: 16384
-      ctime2: 19661
-      ctime3: 31760
-      ctime4: 45875
-      ctime5: 49151
-      ctime6: 52428
-      ctime7: 0
-      atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
-      atime4: 0
-      atime5: 0
-      atime6: 0
-      atime7: 0
-      m_Mode: 0
-      m_NumColorKeys: 7
-      m_NumAlphaKeys: 2
-    m_skyGradientDiffusion:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_skyExposureGradient:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 6.5
-        inSlope: 12.5
-        outSlope: 12.5
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.2
-        value: 9
-        inSlope: 21.25
-        outSlope: 21.25
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.25
-        value: 10.5
-        inSlope: 22.500002
-        outSlope: 22.500002
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.35
-        value: 12
-        inSlope: 8.611157
-        outSlope: 8.611157
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.470405
-      - serializedVersion: 3
-        time: 0.5
-        value: 13
-        inSlope: -0.051804304
-        outSlope: -0.051804304
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.65
-        value: 11.984459
-        inSlope: -10.4787445
-        outSlope: -10.4787445
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.495327
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.7430898
-        value: 10.5
-        inSlope: -21.151915
-        outSlope: -21.151915
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.8
-        value: 9
-        inSlope: -19.428654
-        outSlope: -19.428654
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 6.5
-        inSlope: -12.500001
-        outSlope: -12.500001
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
+    m_resetStarsRotationOnEnable: 1
+    m_starsRotationSpeed: {x: 0.001, y: 0.002, z: 0.001}
     m_shadowDistance:
       serializedVersion: 2
       m_Curve:
@@ -1788,7 +1606,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_cloudLayers: 1
     m_cloudResolution: 1
-    m_useCloudShadows: 0
+    m_useCloudShadows: 1
     m_cloudOpacity:
       serializedVersion: 2
       m_Curve:
@@ -1927,8 +1745,8 @@ MonoBehaviour:
         inWeight: 0.3382082
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.76
-        value: 0.1
+        time: 0.7620752
+        value: 0.19655761
         inSlope: 0.5126303
         outSlope: 0.5126303
         tangentMode: 0
@@ -2353,6 +2171,9 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_advancedLightingSettings: 0
     m_useSSGI: 1
+    m_ambientSSGICompensation: 0
+    m_ambientCompensationAmount: 2
+    m_compensationMode: 0
     m_ssgiQuality: 0
     m_ssgiRenderMode: 2
     m_useSSR: 1
@@ -2567,14 +2388,10 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_dayExposureSettings:
-      m_mixMaxLimit: {x: 13, y: 15}
+    m_autoExposureSettings:
+      m_mixMaxLimit: {x: 11, y: 14}
       m_histogramPercentage: {x: 25, y: 75}
-      m_adaptionSpeed: {x: 4, y: 2}
-    m_nightExposureSettings:
-      m_mixMaxLimit: {x: 9, y: 12}
-      m_histogramPercentage: {x: 25, y: 70}
-      m_adaptionSpeed: {x: 3, y: 1}
+      m_adaptionSpeed: {x: 3, y: 1.5}
     m_ambientIntensityMultiplier: 1.4
     m_ambientIntensity:
       serializedVersion: 2

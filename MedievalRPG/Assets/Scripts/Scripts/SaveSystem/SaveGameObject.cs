@@ -6,6 +6,8 @@ public class SaveGameObject
 {
     public string savingType;
 
+    public int currSceneIndex;
+
     // Save-Game-Data
     public float playtimeInSeconds;
     public string dayOfSaving;

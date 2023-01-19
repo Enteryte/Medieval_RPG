@@ -19,6 +19,7 @@ public class StartScreenManager : MonoBehaviour
 
     public static StartScreenMainButton currSelectedSSMBtn;
     public static LoadSlot currSelectedLoadSlotBtn;
+    public static int currSceneIndex = -1;
 
     public GameObject areYouSureNewGameScreen;
     public AnimationClip closeAreYouSureNewGameScreenAnim;
@@ -184,10 +185,17 @@ public class StartScreenManager : MonoBehaviour
                     newSGSlot.GetComponent<LoadSlot>().loadGameNameTxt.text = sOG.dayOfSaving.ToString();
                 }
 
+                newSGSlot.GetComponent<LoadSlot>().sceneToLoadIndex = sOG.currSceneIndex;
+
                 newSGSlot.GetComponent<LoadSlot>().saveGameScreenshot = LoadNewSprite(gameDataFolder[1]);
 
                 newSGSlot.GetComponent<LoadSlot>().correspondingSaveDataDirectory = dirInfo[i];
                 newSGSlot.GetComponent<LoadSlot>().correspondingTextFile = gameDataFolder[0];
+
+                if (i == dirInfo.Length - 1)
+                {
+                    currSceneIndex = sOG.currSceneIndex;
+                }
             }
         }
     }

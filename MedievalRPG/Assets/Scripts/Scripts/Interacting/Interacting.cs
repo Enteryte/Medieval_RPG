@@ -141,8 +141,8 @@ public class Interacting : MonoBehaviour
                 if (!Physics.Raycast(transform.position, dirToObj, distanceToObj, obstacleMask))
                 {
                     if (interactableObj != null && interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf
-                        && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf && ThirdPersonController.instance.currSeatTrans == null
-                        && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove && interactable.iOCanvas() != null)
+                        /*&& !GuessTheCardMinigameManager.instance.gTCUI.activeSelf*//* && !PrickMinigameManager.instance.prickUI.activeSelf*/ && ThirdPersonController.instance.currSeatTrans == null
+                        /*&& !Blackboard.instance.blackboardCam.enabled*/ && ThirdPersonController.instance.canMove && interactable.iOCanvas() != null && !GameManager.instance.gameIsPaused)
                     {
                         if (interactableObj.TryGetComponent(out Door door) && door.neededItemsForOpening.Count > 0 && !door.isLocked)
                         {
@@ -361,7 +361,7 @@ public class Interacting : MonoBehaviour
 
                     if (nearestObjTrans.TryGetComponent(out NPC npc))
                     {
-                        if (npc.nPCAudioSource.isPlaying)
+                        if (npc.nPCAudioSource != null && npc.nPCAudioSource.isPlaying && npc.GetComponent<NPCScreamingHandler>() == null)
                         {
                             howToInteractGO.SetActive(false);
                         }

@@ -59,9 +59,16 @@ public class SceneChangeManager : MonoBehaviour
         }
         else
         {
-            // Load
+            if (StartScreenManager.currSceneIndex > -1)
+            {
+                SceneManager.LoadScene(StartScreenManager.currSceneIndex);
 
-            SceneManager.LoadScene(1);
+                StartScreenManager.currSceneIndex = -1;
+            }
+            else
+            {
+                SceneManager.LoadScene(1);
+            }
         }
     }
 
@@ -94,6 +101,8 @@ public class SceneChangeManager : MonoBehaviour
         if (pressedContinue)
         {
             SaveSystem.instance.LoadContinueData();
+
+            pressedContinue = false;
         }
         else if (!wentThroughTrigger)
         {
@@ -104,6 +113,8 @@ public class SceneChangeManager : MonoBehaviour
             wentThroughTrigger = false;
 
             RespawnManager.instance.RespawnPlayer(LoadingScreen.currSpawnPos, LoadingScreen.currSpawnRot);
+
+            SaveSystem.instance.LoadAfterChangedSceneIG();
         }
         
         if (GameManager.instance != null && GameManager.instance.cutsceneBlackFadeGO != null)

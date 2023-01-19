@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f077503be6ae942a1e1245dbd53ea9, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   quality:
     m_OverrideState: 1
     m_Value: 2
@@ -21,10 +21,10 @@ MonoBehaviour:
     m_Value: 0.8590222
   intensity:
     m_OverrideState: 1
-    m_Value: 0.5974592
+    m_Value: 0.226
   scatter:
     m_OverrideState: 1
-    m_Value: 0.5322667
+    m_Value: 0.749
   tint:
     m_OverrideState: 1
     m_Value: {r: 0.94198465, g: 0.86016816, b: 0.8142648, a: 1}
@@ -58,16 +58,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0775cbb206825d541bf6c0297ee524ca, type: 3}
   m_Name: SplitToning
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {r: 0.1940555, g: 0.1940555, b: 0.1940555, a: 1}
+    m_Value: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
   highlights:
     m_OverrideState: 1
-    m_Value: {r: 0.92799956, g: 0.92799956, b: 0.92799956, a: 1}
+    m_Value: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
   balance:
     m_OverrideState: 1
-    m_Value: 9.437522
+    m_Value: 12.8
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.8953024
+    m_Value: 0.88
   directLightingStrength:
     m_OverrideState: 1
     m_Value: 0.991467
@@ -143,19 +143,19 @@ MonoBehaviour:
     m_Value: 1
   m_StepCount:
     m_OverrideState: 1
-    m_Value: 16
+    m_Value: 6
   m_FullResolution:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   m_MaximumRadiusInPixels:
     m_OverrideState: 1
-    m_Value: 80
+    m_Value: 40
   m_BilateralUpsample:
     m_OverrideState: 1
     m_Value: 1
   m_DirectionCount:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 2
   m_RayLength:
     m_OverrideState: 1
     m_Value: 20
@@ -281,7 +281,7 @@ MonoBehaviour:
   active: 1
   temperature:
     m_OverrideState: 1
-    m_Value: 0.94860816
+    m_Value: 0
   tint:
     m_OverrideState: 1
     m_Value: -0.30201602
@@ -303,7 +303,7 @@ MonoBehaviour:
     m_Value: 0
   contrast:
     m_OverrideState: 1
-    m_Value: 11.872973
+    m_Value: 0
   colorFilter:
     m_OverrideState: 1
     m_Value: {r: 0.9733252, g: 0.9251203, b: 0.8990092, a: 1}
@@ -331,7 +331,7 @@ MonoBehaviour:
     m_Value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 0.033519555}
+    m_Value: {x: 0.96787983, y: 0.9889956, z: 1, w: 0.033519555}
   gain:
     m_OverrideState: 1
     m_Value: {x: 1, y: 1, z: 1, w: 0.07821228}
