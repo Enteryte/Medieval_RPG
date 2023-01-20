@@ -52,12 +52,12 @@ MonoBehaviour:
   Animator: {fileID: 548214875363834804}
   Agent: {fileID: 0}
   Health: {fileID: 8162464434269254147}
-  EnemyDamager: {fileID: 898144516103871722}
   HardCodeTarget: {fileID: 0}
   RayDetectionPrefab: {fileID: 6247046261946202479, guid: 5aa4d775553884342a6bcf626a24b45d, type: 3}
   SightContainer: {fileID: 6669125288713488256}
-  AttackContainer: {fileID: 8526320334013493734}
   Tolerance: 1
+  EnemyDamager: {fileID: 898144516103871722}
+  AttackContainer: {fileID: 8526320334013493734}
 --- !u!195 &1549831503236398499
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -152,7 +152,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5693899434657818581}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87191f3ac5bece444893682592d73f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
 --- !u!1 &8690942852038889832
 GameObject:
   m_ObjectHideFlags: 0
