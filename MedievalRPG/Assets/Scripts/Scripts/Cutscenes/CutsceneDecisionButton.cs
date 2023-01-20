@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using StarterAssets;
+using UnityEngine.UI;
 
 public class CutsceneDecisionButton : MonoBehaviour
 {
@@ -14,10 +15,22 @@ public class CutsceneDecisionButton : MonoBehaviour
         storedDecision = decisionToStore;
 
         decisionTxt.text = storedDecision.decisionText;
+
+        if (storedDecision.checkMoney)
+        {
+            if (PlayerValueManager.instance.money < storedDecision.minMoneyValue)
+            {
+                this.gameObject.GetComponent<Button>().interactable = false;
+
+                Debug.Log("HUJKML;Öhujkmdfle");
+            }
+        }
     }
 
     public void DoDecision()
     {
+        Debug.Log("DO DECISION");
+
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
         if (storedDecision.cutsceneToPlay != null)

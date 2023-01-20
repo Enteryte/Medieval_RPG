@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3421140474602296334}
   - component: {fileID: 2121173175449119689}
   - component: {fileID: 4617854388036425713}
-  - component: {fileID: 2024849811696264705}
   m_Layer: 5
   m_Name: Button_Close
   m_TagString: Untagged
@@ -78,18 +77,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2024849811696264705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6660622507051739072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5312f54544212f340b7c2a210fb071b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6976114213596246470
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,6 +89,7 @@ GameObject:
   - component: {fileID: 3000043538483065927}
   - component: {fileID: 3727717379638673400}
   - component: {fileID: 7045262743769173490}
+  - component: {fileID: 7219908245013342656}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -270,3 +258,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7219908245013342656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6976114213596246470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5312f54544212f340b7c2a210fb071b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

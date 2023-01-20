@@ -282,6 +282,8 @@ public class CutsceneManager : MonoBehaviour
 
             cutsceneCam.SetActive(false);
 
+            Debug.Log("fgthjklödw-_______________________");
+
             GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
         }
     }
@@ -415,6 +417,15 @@ public class CutsceneManager : MonoBehaviour
         MissionManager.instance.CheckMissionTaskProgress(currCP.corresspondingMission, currCP.missionTaskToComplete);
     }
 
+    public void OpenPrickMinigameAfterCutscene()
+    {
+        PrickBoard.instance.isPlayingAgainstKilian = true;
+
+        PrickBoard.instance.Interact(null);
+
+        PrickMinigameManager.instance.StartNewMatch();
+    }
+
     public void PlayIdleTimeline()
     {
         playableDirector.time = 0;
@@ -429,6 +440,11 @@ public class CutsceneManager : MonoBehaviour
         else if (go.GetComponent<Merchant>() != null)
         {
             playableDirector.playableAsset = go.GetComponent<Merchant>().idleTimeline;
+            playableDirector.Play();
+        }
+        else if (go.GetComponent<NPC>() != null)
+        {
+            playableDirector.playableAsset = go.GetComponent<NPC>().idleTimeline;
             playableDirector.Play();
         }
     }
