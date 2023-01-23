@@ -80,8 +80,8 @@ public class PrickMinigameManager : MonoBehaviour
 
         playerMoneyTxt.text = PlayerValueManager.instance.money.ToString();
 
-        playerPointsTxt.text = playerPoints.ToString();
-        enemyPointsTxt.text = enemyPoints.ToString();
+        playerPointsTxt.text = playerPoints.ToString() + " PKTE.";
+        enemyPointsTxt.text = enemyPoints.ToString() + " PKTE.";
 
         if (PlayerValueManager.instance.money >= winMoneyAmount)
         {
@@ -226,8 +226,8 @@ public class PrickMinigameManager : MonoBehaviour
             enemyPoints += 1;
         }
  
-        playerPointsTxt.text = playerPoints.ToString();
-        enemyPointsTxt.text = enemyPoints.ToString();
+        playerPointsTxt.text = playerPoints.ToString() + " PKTE.";
+        enemyPointsTxt.text = enemyPoints.ToString() + " PKTE.";
 
         if (prickEnemy.currentPlayableCards.Count == 0)
         {
@@ -354,8 +354,8 @@ public class PrickMinigameManager : MonoBehaviour
         playerPoints = 0;
         enemyPoints = 0;
 
-        playerPointsTxt.text = playerPoints.ToString();
-        enemyPointsTxt.text = enemyPoints.ToString();
+        playerPointsTxt.text = playerPoints.ToString() + " PKTE.";
+        enemyPointsTxt.text = enemyPoints.ToString() + " PKTE.";
 
         for (int i = 0; i < allCards.Count; i++)
         {

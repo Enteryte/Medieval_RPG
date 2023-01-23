@@ -14,6 +14,8 @@ public class ChangeSceneTriggerBox : MonoBehaviour
     {
         if (other.gameObject == GameManager.instance.playerGO || other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            SceneChangeManager.instance.wentThroughTrigger = true;
+
             var randomLSPNumber = Random.Range(0, possibleLSProfiles.Length);
             var randomLSP = possibleLSProfiles[randomLSPNumber];
 
@@ -40,8 +42,6 @@ public class ChangeSceneTriggerBox : MonoBehaviour
             {
                 SceneManager.LoadScene(randomLSP.sceneToLoadIndex);
             }
-
-            SceneChangeManager.instance.wentThroughTrigger = true;
         }
     }
 }

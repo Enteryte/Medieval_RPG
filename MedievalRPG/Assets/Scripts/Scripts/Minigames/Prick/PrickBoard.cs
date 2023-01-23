@@ -54,6 +54,8 @@ public class PrickBoard : MonoBehaviour, IInteractable
         {
             Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
         }
+
+        CutsceneManager.instance.DeactivateHUDUI();
     }
 
     public string GetInteractUIText()

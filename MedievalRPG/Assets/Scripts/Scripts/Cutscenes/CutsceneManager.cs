@@ -491,6 +491,7 @@ public class CutsceneManager : MonoBehaviour
     {
         // -------------------> HIER Zeit ändern -> zum Morgen.
 
+        DebuffManager.instance.StopAllBuffs();
         DebuffManager.instance.StopAllDebuffs();
 
         PlayerValueManager.instance.CurrHP = PlayerValueManager.instance.normalHP;
@@ -504,6 +505,7 @@ public class CutsceneManager : MonoBehaviour
     {
         // -------------------> HIER Zeit ändern -> zum Abend.
 
+        DebuffManager.instance.StopAllBuffs();
         DebuffManager.instance.StopAllDebuffs();
 
         PlayerValueManager.instance.CurrHP = PlayerValueManager.instance.normalHP;

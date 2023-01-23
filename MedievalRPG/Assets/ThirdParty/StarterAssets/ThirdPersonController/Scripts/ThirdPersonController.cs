@@ -820,6 +820,12 @@ namespace StarterAssets
             }
         }
 
+        public void SetUsingStateToFalse()
+        {
+            _animator.SetBool("UsingHBItem", false);
+            HotbarManager.instance.isUsingItem = false;
+        }
+
         public void ResetBowShootingBool()
         {
             _animator.SetBool("Bow_Shoot", false);
