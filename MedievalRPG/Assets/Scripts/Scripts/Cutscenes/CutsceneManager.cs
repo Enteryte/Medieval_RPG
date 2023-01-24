@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
 
@@ -471,12 +472,46 @@ public class CutsceneManager : MonoBehaviour
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 
+    public void SetCurrentCutsceneToNull()
+    {
+        currCP = null;
+        playableDirector.playableAsset = null;
+    }
+
+    public void SetStartDeathCutscene()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            LoadingScreen.currLSP = PlayerValueManager.instance.deathLSP;
+            LoadingScreen.currSpawnPos = new Vector3(0, 0, 0);
+            LoadingScreen.currSpawnRot = Quaternion.identity;
+
+            LoadingScreen.instance.placeNameTxt.text = PlayerValueManager.instance.deathLSP.placeName;
+            LoadingScreen.instance.backgroundImg.sprite = PlayerValueManager.instance.deathLSP.backgroundSprite;
+            LoadingScreen.instance.descriptionTxt.text = PlayerValueManager.instance.deathLSP.descriptionTextString;
+
+            ////SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
+            //SceneChangeManager.instance.GetComponent<Animator>().Rebind();
+            ////SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
+
+            //SceneChangeManager.instance.loadingScreen.SetActive(true);
+
+            LoadingScreen.instance.gameObject.SetActive(true);
+            LoadingScreen.instance.ActivateAnimator();
+            SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
+
+            SceneChangeManager.instance.wentThroughTrigger = true;
+        }
+    }
+
     public void ActivateHUDUI()
     {
         GameManager.instance.interactCanvasasParentGO.SetActive(true);
         GameManager.instance.mapGO.SetActive(true);
         GameManager.instance.hotbarGO.SetActive(true);
         GameManager.instance.playerStatsGO.SetActive(true);
+
+        LoadingScreen.instance.DeactivateAnimator();
     }
 
     public void DeactivateHUDUI()

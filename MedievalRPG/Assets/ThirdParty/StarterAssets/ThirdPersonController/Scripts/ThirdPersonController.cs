@@ -818,7 +818,7 @@ namespace StarterAssets
             {
                 PlayerValueManager.instance.RemoveStamina(normalAttackStaminaReduceValue);
             }
-        }
+        }       
 
         public void SetUsingStateToFalse()
         {

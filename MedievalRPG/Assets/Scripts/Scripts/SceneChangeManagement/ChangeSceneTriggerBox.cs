@@ -16,6 +16,8 @@ public class ChangeSceneTriggerBox : MonoBehaviour
         {
             SceneChangeManager.instance.wentThroughTrigger = true;
 
+            //PlayerValueManager.instance.isDead = LoadingScreen.instance.playerWasDead;
+
             var randomLSPNumber = Random.Range(0, possibleLSProfiles.Length);
             var randomLSP = possibleLSProfiles[randomLSPNumber];
 
@@ -29,9 +31,12 @@ public class ChangeSceneTriggerBox : MonoBehaviour
                 LoadingScreen.instance.backgroundImg.sprite = randomLSP.backgroundSprite;
                 LoadingScreen.instance.descriptionTxt.text = randomLSP.descriptionTextString;
 
-                SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
+                LoadingScreen.instance.gameObject.SetActive(true);
+                LoadingScreen.instance.ActivateAnimator();
+
+                //SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
                 SceneChangeManager.instance.GetComponent<Animator>().Rebind();
-                SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
+                //SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
 
                 SaveSystem.instance.SaveAutomatic();
 

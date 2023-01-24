@@ -35,7 +35,7 @@ public class SceneChangeManager : MonoBehaviour
 
     public void Start()
     {
-        
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void LoadScene()
@@ -54,7 +54,22 @@ public class SceneChangeManager : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene(1);
+                if (SceneManager.GetActiveScene().buildIndex != 1)
+                {
+                    PlayerValueManager.instance.isDead = true;
+
+                    SceneManager.LoadScene(1);
+                }
+                else
+                {
+                    StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim");
+
+                    RespawnManager.instance.RespawnPlayerAfterDeath();
+
+                    Debug.Log(PlayerValueManager.instance.CurrHP + " 222222222222222");
+
+                    PlayerValueManager.instance.isDead = false;
+                }
             }
         }
         else
@@ -140,6 +155,10 @@ public class SceneChangeManager : MonoBehaviour
 
     public void OnLevelWasLoaded(int level)
     {
+        PlayerValueManager.instance.isDead = LoadingScreen.instance.playerWasDead;
+
+        Debug.Log(PlayerValueManager.instance.CurrHP + " 222222222222222");
+
         if (level == 1 && startedNewGame)
         {
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim");
@@ -147,6 +166,8 @@ public class SceneChangeManager : MonoBehaviour
         else if (level != 0)
         {
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_2");
+
+            Debug.Log(PlayerValueManager.instance.CurrHP + " 222222222222222");
 
             if (level == 1 && PlayerValueManager.instance.isDead)
             {
@@ -156,11 +177,23 @@ public class SceneChangeManager : MonoBehaviour
 
                 PlayerValueManager.instance.isDead = false;
             }
+            else/* if (level == 1)*/
+            {
+                CutsceneManager.instance.currCP = null;
+                CutsceneManager.instance.playableDirector.playableAsset = null;
+            }
 
             Debug.Log(PlayerValueManager.instance.CurrHP);
         }
 
-        GameManager.instance.pauseMenuScreen = this.gameObject;
+        //GameManager.instance.pauseMenuScreen = this.gameObject;
+
+        //if (level != 0)
+        //{
+        //    GameManager.instance.pauseMenuScreen = pauseMenuScreen;
+
+        //    Debug.Log(pauseMenuScreen);
+        //}
 
         StartScreenManager.instance.mainAnimator.enabled = false;
     }

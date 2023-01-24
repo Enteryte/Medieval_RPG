@@ -79,5 +79,7 @@ public class RespawnManager : MonoBehaviour
 
         PlayerValueManager.instance.currStamina = PlayerValueManager.instance.normalStamina;
         PlayerValueManager.instance.staminaSlider.value = PlayerValueManager.instance.currStamina;
+
+        SceneChangeManager.instance.wentThroughTrigger = false;
     }
 }
