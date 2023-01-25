@@ -46,7 +46,7 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
     public void OnSelect(BaseEventData eventData)
     {
-        if (this.gameObject.name == "Text (TMP):Continue")
+        if (this.gameObject.name == "Text (TMP):ContinueAndStopPausingGame"/* || this.gameObject.name == "Text (TMP):SaveGame"*/)
         {
             return;
         }
@@ -104,7 +104,7 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (this.gameObject.name == "Text (TMP):Continue")
+        if (this.gameObject.name == "Text (TMP):ContinueAndStopPausingGame"/* || this.gameObject.name == "Text (TMP):SaveGame"*/)
         {
             return;
         }

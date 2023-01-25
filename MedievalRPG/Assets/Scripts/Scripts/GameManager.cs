@@ -222,6 +222,11 @@ public class GameManager : MonoBehaviour
             //Debug.Log(!CutsceneManager.instance.currCP.cantBeSkipped);
             Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
 
+            if (StartScreenManager.instance.areYouSureExitGameScreen.activeSelf)
+            {
+                return;
+            }
+
             if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf/* &&*/ /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*//*alid()*/)
             {
                 if (CutsceneManager.instance.currCP == null)

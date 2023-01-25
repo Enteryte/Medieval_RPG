@@ -29,6 +29,10 @@ public class SceneChangeManager : MonoBehaviour
         {
             instance = this;
         }
+        //else
+        //{
+        //    Destroy(this.gameObject);
+        //}
 
         //DontDestroyOnLoad(this.gameObject.transform.parent.gameObject);
     }
@@ -40,7 +44,13 @@ public class SceneChangeManager : MonoBehaviour
 
     public void LoadScene()
     {
-        if (startedNewGame)
+        if (StartScreenManager.instance.changeBackToMM)
+        {
+            StartScreenManager.instance.changeBackToMM = false;
+
+            SceneManager.LoadScene(0);
+        }
+        else if (startedNewGame)
         {
             SceneManager.LoadScene(1);
         }
@@ -142,14 +152,31 @@ public class SceneChangeManager : MonoBehaviour
     {
         //StartScreenManager.instance.mainObjectAnimator.enabled = false;
 
-        for (int i = 0; i < allGOsToDeactivate.Count; i++)
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            allGOsToDeactivate[i].SetActive(false);
-        }
+            for (int i = 0; i < allGOsToDeactivate.Count; i++)
+            {
+                allGOsToDeactivate[i].SetActive(false);
+            }
 
-        for (int i = 0; i < allGosToActivate.Count; i++)
+            for (int i = 0; i < allGosToActivate.Count; i++)
+            {
+                allGosToActivate[i].SetActive(true);
+            }
+        }
+        else
         {
-            allGosToActivate[i].SetActive(true);
+            Debug.Log("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+
+            for (int i = 0; i < allGOsToDeactivate.Count; i++)
+            {
+                allGOsToDeactivate[i].SetActive(true);
+            }
+
+            for (int i = 0; i < allGosToActivate.Count; i++)
+            {
+                allGosToActivate[i].SetActive(false);
+            }
         }
     }
 
@@ -184,6 +211,10 @@ public class SceneChangeManager : MonoBehaviour
             }
 
             Debug.Log(PlayerValueManager.instance.CurrHP);
+        }
+        else
+        {
+            StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_3");
         }
 
         //GameManager.instance.pauseMenuScreen = this.gameObject;

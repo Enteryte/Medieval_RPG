@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using StarterAssets;
 
 public class LoadingScreen : MonoBehaviour
 {
@@ -33,6 +34,10 @@ public class LoadingScreen : MonoBehaviour
 
             DontDestroyOnLoad(this.gameObject);
         }
+        //else
+        //{
+        //    Destroy(this.gameObject);
+        //}
     }
 
     public void Start()
@@ -74,5 +79,21 @@ public class LoadingScreen : MonoBehaviour
         //    GameManager.instance.pauseMenuScreen = startScreenMainUI;
 
         //}
+    }
+
+    public void ContinueGameIG()
+    {
+        Debug.Log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+        startScreenMainUIButtonParent.SetActive(false);
+        GameManager.instance.pauseMenuScreen.SetActive(false);
+
+        GameManager.instance.gameIsPaused = false;
+        ThirdPersonController.instance.canMove = true;
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+
+        GameManager.instance.ContinueGame();
+
+        this.gameObject.SetActive(false);
     }
 }

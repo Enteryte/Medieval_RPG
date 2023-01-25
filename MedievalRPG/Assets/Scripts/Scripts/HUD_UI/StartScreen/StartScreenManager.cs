@@ -33,6 +33,9 @@ public class StartScreenManager : MonoBehaviour
     public GameObject areYouSureExitGameScreen;
     public AnimationClip closeAreYouSureExitGameAnim;
 
+    public GameObject areYouSureBackToMMScreen;
+    public AnimationClip closeAreYouSureBackToMMAnim;
+
     public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
     public Image saveGameScreenshot;
@@ -40,12 +43,18 @@ public class StartScreenManager : MonoBehaviour
     public Button continueBtn;
     public Button loadSaveDataBtn;
 
+    public bool changeBackToMM = false;
+
     public void Awake()
     {
         if (instance == null)
         {
             instance = this;
         }
+        //else
+        //{
+        //    Destroy(this.gameObject);
+        //}
     }
 
     // Start is called before the first frame update
@@ -126,12 +135,32 @@ public class StartScreenManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                Debug.Log("EXIT GAME");
+
                 Application.Quit();
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mainAnimator.Play(closeAreYouSureExitGameAnim.name);
+            }
+        }
+        else if (areYouSureBackToMMScreen.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                changeBackToMM = true;
+
+                LoadingScreen.instance.gameObject.SetActive(true);
+                LoadingScreen.instance.ActivateAnimator();
+
+                SceneChangeManager.instance.loadingScreen.SetActive(true);
+                SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                mainAnimator.Play(closeAreYouSureBackToMMAnim.name);
             }
         }
     }

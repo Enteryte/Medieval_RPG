@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DeactivateAfterSceneChange : MonoBehaviour
 {
+    public bool changeAfterChangedToSIZero = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,15 @@ public class DeactivateAfterSceneChange : MonoBehaviour
         if (this.gameObject.activeSelf && GameManager.instance != null && !GameManager.instance.gameIsPaused)
         {
             this.gameObject.SetActive(false);
+        }
+        else if (GameManager.instance == null && changeAfterChangedToSIZero)
+        {
+            this.gameObject.SetActive(false);
+            Debug.Log("HJKL;Ö:");
+        }
+        else
+        {
+            this.gameObject.SetActive(true);
         }
     }
 

@@ -33,6 +33,10 @@ public class SaveSystem : MonoBehaviour
         {
             instance = this;
         }
+        //else
+        //{
+        //    Destroy(this.gameObject);
+        //}
     }
 
     public void Start()
