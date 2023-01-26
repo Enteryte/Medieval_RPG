@@ -23,6 +23,8 @@ public class Item : MonoBehaviour, IInteractable
     public bool hasExaminedObject = false;
     public CutsceneProfile cutsceneToPlayAfterExamine;
 
+    public bool deactivateAfterExamine = true;
+
     [Header("Chest")]
     public ItemBaseProfile[] itemsToGet;
     public int[] amountsToGet;
@@ -128,7 +130,11 @@ public class Item : MonoBehaviour, IInteractable
                 CutsceneManager.instance.playableDirector.Play();
 
                 //Destroy(iOCanvas.gameObject);
-                this.gameObject.SetActive(false);
+
+                if (deactivateAfterExamine)
+                {
+                    this.gameObject.SetActive(false);
+                }
 
                 Interacting.instance.howToInteractGO.SetActive(false);
             }
@@ -160,8 +166,6 @@ public class Item : MonoBehaviour, IInteractable
             //Destroy(iOCanvas.gameObject);
             //Destroy(this.gameObject);
             //this.gameObject.SetActive(false);
-
-            // ----------------------------------------------------------------------> Animate Chest-Opening
         }
     }
 

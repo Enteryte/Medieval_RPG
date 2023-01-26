@@ -2,6 +2,7 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,6 +33,10 @@ public class SaveSystem : MonoBehaviour
         {
             instance = this;
         }
+        //else
+        //{
+        //    Destroy(this.gameObject);
+        //}
     }
 
     public void Start()
@@ -47,8 +52,27 @@ public class SaveSystem : MonoBehaviour
 
         if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
         {
-            StartScreenManager.instance.continueBtn.interactable = true;
-            StartScreenManager.instance.loadSaveDataBtn.interactable = true;
+            var dirInfo = Directory.GetDirectories(Application.persistentDataPath + "/SaveData/");
+
+            if (dirInfo.Length > 0)
+            {
+                var gameDataFolder = Directory.GetFiles(dirInfo[dirInfo.Length - 1]);
+
+                for (int i = dirInfo.Length - 1; i > -1; i--)
+                {
+                    if (!dirInfo[i].Contains("_N"))
+                    {
+                        Debug.Log(i);
+
+                        gameDataFolder = Directory.GetFiles(dirInfo[i]);
+
+                        StartScreenManager.instance.continueBtn.interactable = true;
+                        StartScreenManager.instance.loadSaveDataBtn.interactable = true;
+
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -69,21 +93,43 @@ public class SaveSystem : MonoBehaviour
     {
         path = System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")/* + "_" + GameManager.instance.playtimeInSeconds*/;
 
-        if (SceneManager.GetActiveScene().buildIndex == 1)
+        if (SceneChangeManager.instance.wentThroughTrigger)
         {
-            pathEnd = "_V";
+            if (SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                pathEnd = "_V_N";
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 2)
+            {
+                pathEnd = "_T_N";
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 3)
+            {
+                pathEnd = "_D1_N";
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 4)
+            {
+                pathEnd = "_D2_N";
+            }
         }
-        else if (SceneManager.GetActiveScene().buildIndex == 2)
+        else
         {
-            pathEnd = "_T";
-        }
-        else if (SceneManager.GetActiveScene().buildIndex == 3)
-        {
-            pathEnd = "_D1";
-        }
-        else if (SceneManager.GetActiveScene().buildIndex == 4)
-        {
-            pathEnd = "_D2";
+            if (SceneManager.GetActiveScene().buildIndex == 1)
+            {
+                pathEnd = "_V";
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 2)
+            {
+                pathEnd = "_T";
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 3)
+            {
+                pathEnd = "_D1";
+            }
+            else if (SceneManager.GetActiveScene().buildIndex == 4)
+            {
+                pathEnd = "_D2";
+            }
         }
 
         if (!Directory.Exists(Application.persistentDataPath + "/SaveData/" + path + pathEnd))
@@ -324,12 +370,25 @@ public class SaveSystem : MonoBehaviour
         {
             var dirInfo = Directory.GetDirectories(Application.persistentDataPath + "/SaveData/");
 
-            //for (int i = dirInfo.Length - 1; i > -1; i--)
-            //{
-            //    var gameDataFolder = Directory.GetFiles(dirInfo[i]);
-            //}
-
             var gameDataFolder = Directory.GetFiles(dirInfo[dirInfo.Length - 1]);
+
+            for (int i = dirInfo.Length - 1; i > -1; i--)
+            {
+                if (!dirInfo[i].Contains("_N"))
+                {
+                    Debug.Log(i);
+
+                    gameDataFolder = Directory.GetFiles(dirInfo[i]);
+
+                    break;
+                }
+
+                //Debug.Log(i);
+
+                //var gameDataFolder2 = dirInfo[i];
+
+                //Debug.Log(gameDataFolder2.ToString());
+            }
 
             continuePath = dirInfo[dirInfo.Length - 1];
             continueTxtFile = gameDataFolder[0];
@@ -780,6 +839,100 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
+    public void SaveBuffsAndDebuffs(SaveGameObject sGO)
+    {
+        if (DebuffManager.instance.bleedingCoro != null)
+        {
+            sGO.bleedingDamage = DebuffManager.instance.bleedingDamage;
+            sGO.bleedingTimes = DebuffManager.instance.bleedingTimes;
+            sGO.currBleedingTimes = DebuffManager.instance.currBleedingTimes;
+        }
+        else
+        {
+            sGO.bleedingDamage = -1;
+            sGO.bleedingTimes = -1;
+            sGO.currBleedingTimes = -1;
+        }
+
+        if (DebuffManager.instance.higherSpeedCoro != null)
+        {
+            sGO.currSBBuffTime = DebuffManager.instance.currSBBuffTime;
+            sGO.timerSB = DebuffManager.instance.timerSB;
+        }
+        else
+        {
+            sGO.currSBBuffTime = -1;
+            sGO.timerSB = -1;
+        }
+
+        if (DebuffManager.instance.higherDamageCoro != null)
+        {
+            sGO.currDBBuffTime = DebuffManager.instance.currDBBuffTime;
+            sGO.timerDB = DebuffManager.instance.timerDB;
+        }
+        else
+        {
+            sGO.currDBBuffTime = -1;
+            sGO.timerDB = -1;
+        }
+
+        if (DebuffManager.instance.slowPlayerCoro != null)
+        {
+            sGO.currSBBuffTime = DebuffManager.instance.currSBBuffTime;
+            sGO.timerSB = DebuffManager.instance.timerSB;
+        }
+        else
+        {
+            sGO.currSBBuffTime = -1;
+            sGO.timerSB = -1;
+        }
+
+        if (DebuffManager.instance.lowerStaminaCoro != null)
+        {
+            sGO.currStDDebuffTime = DebuffManager.instance.currStDDebuffTime;
+            sGO.timerStD = DebuffManager.instance.timerStD;
+
+            sGO.currStaminaReduceAmount = DebuffManager.instance.currStaminaReduceAmount;
+        }
+        else
+        {
+            sGO.currStDDebuffTime = -1;
+            sGO.timerStD = -1;
+
+            sGO.currStaminaReduceAmount = -1;
+        }
+
+        if (DebuffManager.instance.lowerStrengthCoro != null)
+        {
+            sGO.currShDDebuffTime = DebuffManager.instance.currShDDebuffTime;
+            sGO.timerShD = DebuffManager.instance.timerShD;
+
+            sGO.currStrengthReduceAmount = DebuffManager.instance.currStrengthReduceAmount;
+        }
+        else
+        {
+            sGO.currShDDebuffTime = -1;
+            sGO.timerShD = -1;
+
+            sGO.currStrengthReduceAmount = -1;
+        }
+
+        if (DebuffManager.instance.lowerArmorCoro != null)
+        {
+            sGO.currADDebuffTime = DebuffManager.instance.currADDebuffTime;
+            sGO.timerAD = DebuffManager.instance.timerAD;
+
+            sGO.currArmorReduceAmount = DebuffManager.instance.currArmorReduceAmount;
+        }
+        else
+        {
+            sGO.currADDebuffTime = -1;
+            sGO.timerAD = -1;
+
+            sGO.currArmorReduceAmount = -1;
+        }
+    }
+
     public void SaveOptions(SaveGameObject sGO)
     {
         // Audio
@@ -1035,6 +1188,61 @@ public class SaveSystem : MonoBehaviour
         for (int i = 0; i < GameManager.instance.allInteractableDoors.Count; i++)
         {
             GameManager.instance.allInteractableDoors[i].isOpen = sGO.isDoorOpen[i];
+        }
+    }
+
+    public void LoadBuffsAndDebuffs(SaveGameObject sGO)
+    {
+        DebuffManager.instance.StopAllBuffs();
+        DebuffManager.instance.StopAllDebuffs();
+
+        if (sGO.currBleedingTimes > -1)
+        {
+            DebuffManager.instance.currBleedingTimes = sGO.currBleedingTimes;
+
+            DebuffManager.instance.Bleeding(sGO.bleedingTimes, sGO.bleedingDamage, false);
+        }
+
+        if (sGO.timerSB > -1)
+        {
+            DebuffManager.instance.timerSB = sGO.timerSB;
+
+            DebuffManager.instance.SpeedUpPlayer(sGO.currSBBuffTime, false);
+        }
+
+        if (sGO.timerDB > -1)
+        {
+            DebuffManager.instance.timerDB = sGO.timerDB;
+
+            DebuffManager.instance.SetPlayerDamageHigher(sGO.currDBBuffTime, false);
+        }
+
+        if (sGO.timerSD > -1)
+        {
+            DebuffManager.instance.timerSD = sGO.timerSD;
+
+            DebuffManager.instance.SlowPlayer(sGO.currSDDebuffTime, false);
+        }
+
+        if (sGO.timerStD > -1)
+        {
+            DebuffManager.instance.timerStD = sGO.timerStD;
+
+            DebuffManager.instance.LowerMaxStamina(sGO.currStrengthReduceAmount, sGO.currStDDebuffTime, false);
+        }
+
+        if (sGO.timerShD > -1)
+        {
+            DebuffManager.instance.timerShD = sGO.timerShD;
+
+            DebuffManager.instance.LowerStrength(sGO.currStrengthReduceAmount, sGO.currShDDebuffTime, false);
+        }
+
+        if (sGO.timerAD > -1)
+        {
+            DebuffManager.instance.timerAD = sGO.timerAD;
+
+            DebuffManager.instance.LowerMaxArmor(sGO.currArmorReduceAmount, sGO.currADDebuffTime, false);
         }
     }
 

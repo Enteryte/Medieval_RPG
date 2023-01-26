@@ -24,8 +24,22 @@ MonoBehaviour:
   tutorialToTrigger: {fileID: 0}
   changeParentTrans: 0
   hasDecisions: 0
-  allDecisions: []
-  mBTToCheck: {fileID: 0}
+  allDecisions:
+  - decisionText: Alt aber nicht klug genug
+    arguePointsToGain: 0
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: 0bd242c8a4744df46b017e11ed29a098, type: 2}
+    missionToActivate: {fileID: 0}
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  - decisionText: Nicht alt genug und der Schmied sieht das genauso
+    arguePointsToGain: 1
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: 0b59ac6de15ec0243822ba15b7750398, type: 2}
+    missionToActivate: {fileID: 0}
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  mBTToCheck: {fileID: 11400000, guid: d3752e4f4d092114cab77fe1e7a68960, type: 2}
   cutsceneToChangeTo: {fileID: 0}
   missionToComplete: {fileID: 0}
   missionTaskToComplete: {fileID: 0}

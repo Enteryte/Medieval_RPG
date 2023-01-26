@@ -29,18 +29,28 @@ public class SceneChangeManager : MonoBehaviour
         {
             instance = this;
         }
+        //else
+        //{
+        //    Destroy(this.gameObject);
+        //}
 
         //DontDestroyOnLoad(this.gameObject.transform.parent.gameObject);
     }
 
     public void Start()
     {
-        
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void LoadScene()
     {
-        if (startedNewGame)
+        if (StartScreenManager.instance.changeBackToMM)
+        {
+            StartScreenManager.instance.changeBackToMM = false;
+
+            SceneManager.LoadScene(0);
+        }
+        else if (startedNewGame)
         {
             SceneManager.LoadScene(1);
         }
@@ -54,7 +64,22 @@ public class SceneChangeManager : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene(1);
+                if (SceneManager.GetActiveScene().buildIndex != 1)
+                {
+                    PlayerValueManager.instance.isDead = true;
+
+                    SceneManager.LoadScene(1);
+                }
+                else
+                {
+                    StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim");
+
+                    RespawnManager.instance.RespawnPlayerAfterDeath();
+
+                    Debug.Log(PlayerValueManager.instance.CurrHP + " 222222222222222");
+
+                    PlayerValueManager.instance.isDead = false;
+                }
             }
         }
         else
@@ -127,19 +152,40 @@ public class SceneChangeManager : MonoBehaviour
     {
         //StartScreenManager.instance.mainObjectAnimator.enabled = false;
 
-        for (int i = 0; i < allGOsToDeactivate.Count; i++)
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            allGOsToDeactivate[i].SetActive(false);
-        }
+            for (int i = 0; i < allGOsToDeactivate.Count; i++)
+            {
+                allGOsToDeactivate[i].SetActive(false);
+            }
 
-        for (int i = 0; i < allGosToActivate.Count; i++)
+            for (int i = 0; i < allGosToActivate.Count; i++)
+            {
+                allGosToActivate[i].SetActive(true);
+            }
+        }
+        else
         {
-            allGosToActivate[i].SetActive(true);
+            Debug.Log("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+
+            for (int i = 0; i < allGOsToDeactivate.Count; i++)
+            {
+                allGOsToDeactivate[i].SetActive(true);
+            }
+
+            for (int i = 0; i < allGosToActivate.Count; i++)
+            {
+                allGosToActivate[i].SetActive(false);
+            }
         }
     }
 
     public void OnLevelWasLoaded(int level)
     {
+        PlayerValueManager.instance.isDead = LoadingScreen.instance.playerWasDead;
+
+        Debug.Log(PlayerValueManager.instance.CurrHP + " 222222222222222");
+
         if (level == 1 && startedNewGame)
         {
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim");
@@ -147,6 +193,8 @@ public class SceneChangeManager : MonoBehaviour
         else if (level != 0)
         {
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_2");
+
+            Debug.Log(PlayerValueManager.instance.CurrHP + " 222222222222222");
 
             if (level == 1 && PlayerValueManager.instance.isDead)
             {
@@ -156,11 +204,29 @@ public class SceneChangeManager : MonoBehaviour
 
                 PlayerValueManager.instance.isDead = false;
             }
+            else/* if (level == 1)*/
+            {
+                CutsceneManager.instance.currCP = null;
+                CutsceneManager.instance.playableDirector.playableAsset = null;
+            }
 
             Debug.Log(PlayerValueManager.instance.CurrHP);
         }
+        else
+        {
+            StartScreenManager.currSelectedSSMBtn = null;
+            Debug.Log(StartScreenManager.currSelectedSSMBtn);
+            StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_3");
+        }
 
-        GameManager.instance.pauseMenuScreen = this.gameObject;
+        //GameManager.instance.pauseMenuScreen = this.gameObject;
+
+        //if (level != 0)
+        //{
+        //    GameManager.instance.pauseMenuScreen = pauseMenuScreen;
+
+        //    Debug.Log(pauseMenuScreen);
+        //}
 
         StartScreenManager.instance.mainAnimator.enabled = false;
     }

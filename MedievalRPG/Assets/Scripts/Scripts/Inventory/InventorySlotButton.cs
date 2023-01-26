@@ -69,17 +69,17 @@ public class InventorySlotButton : MonoBehaviour
             InventoryManager.instance.useItemButton.SetActive(false);
         }
 
-        for (int i = 0; i < InventoryManager.instance.invItemPreviewCamTrans.childCount; i++)
-        {
-            Destroy(InventoryManager.instance.invItemPreviewCamTrans.GetChild(i).gameObject);
-        }
+        //for (int i = 0; i < InventoryManager.instance.invItemPreviewCamTrans.childCount; i++)
+        //{
+        //    Destroy(InventoryManager.instance.invItemPreviewCamTrans.GetChild(i).gameObject);
+        //}
 
-        GameObject newPreviewItem = Instantiate(storedItemBase.itemPrefab, Vector3.zero, Quaternion.Euler(0, 0, 2f), InventoryManager.instance.invItemPreviewCamTrans);
-        newPreviewItem.AddComponent<PreviewItem>();
+        //GameObject newPreviewItem = Instantiate(storedItemBase.itemPrefab, Vector3.zero, Quaternion.Euler(0, 0, 2f), InventoryManager.instance.invItemPreviewCamTrans);
+        //newPreviewItem.AddComponent<PreviewItem>();
 
-        newPreviewItem.transform.localPosition = new Vector3(0, 0, storedItemBase.previewSpawnPositionZ);
+        //newPreviewItem.transform.localPosition = new Vector3(0, 0, storedItemBase.previewSpawnPositionZ);
 
-        newPreviewItem.layer = LayerMask.NameToLayer("PreviewItem");
+        //newPreviewItem.layer = LayerMask.NameToLayer("PreviewItem");
     }
 
     public void CheckIfSlotHasToBeDestroyed()

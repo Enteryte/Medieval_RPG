@@ -110,14 +110,14 @@ public class ShopItemButton : MonoBehaviour
             itemBuyPriceTxt.text = storedItemBase.sellingPrice.ToString();
         }
 
-        if (storedItemBase.minLvlToUse != 0)
-        {
-            itemMindLvlTxt.text = "Lvl. " + storedItemBase.minLvlToUse.ToString();
-        }
-        else
-        {
-            itemMindLvlTxt.gameObject.SetActive(false);
-        }
+        //if (storedItemBase.minLvlToUse != 0)
+        //{
+        //    itemMindLvlTxt.text = "Lvl. " + storedItemBase.minLvlToUse.ToString();
+        //}
+        //else
+        //{
+        //    itemMindLvlTxt.gameObject.SetActive(false);
+        //}
     }
 
     //public void OpenHowManyScreen(ItemBaseProfile iBP)

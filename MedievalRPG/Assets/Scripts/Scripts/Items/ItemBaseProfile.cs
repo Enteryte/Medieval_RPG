@@ -22,7 +22,7 @@ public class ItemBaseProfile : ScriptableObject
     }
 
     [Tooltip("The type of the item.")] public ItemType itemType;
-    [Tooltip("Determines whether an item is used for or in a mission.")] public int minLvlToUse;
+    //[Tooltip("Determines whether an item is used for or in a mission.")] public int minLvlToUse;
     [Tooltip("Determines whether an item is used for or in a mission.")] public bool neededForMissions = false;
     [Tooltip("Determines whether an item was in the players inventory before.")] public bool isNew = false;
 
@@ -32,9 +32,9 @@ public class ItemBaseProfile : ScriptableObject
 
     [Header("Shop Values")]
     [Tooltip("The purchase price of the item.")] [Min(0)] public int buyPrice;
-    [Tooltip("The selling price of the item.")] [Min(0)] public int sellingPrice;
+    [Tooltip("The selling price of the item.")] public int sellingPrice;
 
-    public float previewSpawnPositionZ;
+    //public float previewSpawnPositionZ;
 
     [Header("Inventory Values")]
     //[Tooltip("Indicates how often the item is currently in the inventory.")] [Min(0)] public int amountInInventory;
@@ -127,6 +127,8 @@ public class ItemBaseProfile : ScriptableObject
             ItemBaseProfile iBP = (ItemBaseProfile)target;
 
             EditorGUILayout.Space();
+
+            iBP.sellingPrice = iBP.buyPrice - ((iBP.buyPrice * 20) / 80);
 
             if (iBP.neededForMissions)
             {

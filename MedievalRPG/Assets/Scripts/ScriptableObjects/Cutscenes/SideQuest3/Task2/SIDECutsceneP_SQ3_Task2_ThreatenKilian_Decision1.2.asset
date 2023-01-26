@@ -20,14 +20,26 @@ MonoBehaviour:
   playCutsceneMoreThanOnce: 1
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
-  timesWhenNewSentenceStarts:
-  - 8.5333
-  - 20.7667
+  timesWhenNewSentenceStarts: []
   tutorialToTrigger: {fileID: 0}
   changeParentTrans: 0
   hasDecisions: 0
-  allDecisions: []
-  mBTToCheck: {fileID: 0}
+  allDecisions:
+  - decisionText: Was interessiert mich das?
+    arguePointsToGain: 0
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: 24171740e1637e7418c47e6773e7369b, type: 2}
+    missionToActivate: {fileID: 0}
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  - decisionText: "Schadet weniger, als wenn ich es allen erz\xE4hle"
+    arguePointsToGain: 1
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: 34b341ba78a15a3418e1e901e4a9aadd, type: 2}
+    missionToActivate: {fileID: 0}
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  mBTToCheck: {fileID: 11400000, guid: d3752e4f4d092114cab77fe1e7a68960, type: 2}
   cutsceneToChangeTo: {fileID: 0}
   missionToComplete: {fileID: 0}
   missionTaskToComplete: {fileID: 0}

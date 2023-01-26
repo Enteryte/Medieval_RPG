@@ -818,6 +818,12 @@ namespace StarterAssets
             {
                 PlayerValueManager.instance.RemoveStamina(normalAttackStaminaReduceValue);
             }
+        }       
+
+        public void SetUsingStateToFalse()
+        {
+            _animator.SetBool("UsingHBItem", false);
+            HotbarManager.instance.isUsingItem = false;
         }
 
         public void ResetBowShootingBool()
