@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,6 +18,15 @@ public class UIManager : MonoBehaviour
     [Header("NPC Mission Display")]
     public Transform npcMissionButtonParentObjTrans;
     public GameObject npcMissionButtonPrefab;
+    public GameObject npcUICloseBtnPrefab;
+
+    [Header("Tombstones")]
+    public TMP_Text tombstoneTextToDisplayTxt;
+
+    public GameObject readTombstoneUI;
+
+    [Header("UI-Button for Mission SQ3 ( Task w. Kilian )")]
+    public GameObject[] npcBtnKillianGOs;
 
     public void Awake()
     {

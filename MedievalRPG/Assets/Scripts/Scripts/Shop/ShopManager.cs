@@ -27,7 +27,8 @@ public class ShopManager : MonoBehaviour
     public TMP_Text weightTxt;
     public TMP_Text moneyTxt;
 
-    public GameObject itemInfoPopUp;
+    public GameObject itemInfoPopUpLeft;
+    public GameObject itemInfoPopUpRight;
 
     public static ItemBaseProfile currClickedItem;
 
@@ -93,9 +94,13 @@ public class ShopManager : MonoBehaviour
             }
         }
 
-        if (itemInfoPopUp.activeSelf)
+        if (itemInfoPopUpLeft.activeSelf)
         {
-            itemInfoPopUp.transform.position = Input.mousePosition;
+            itemInfoPopUpLeft.transform.position = Input.mousePosition;
+        }
+        else if (itemInfoPopUpRight.activeSelf)
+        {
+            itemInfoPopUpRight.transform.position = Input.mousePosition;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && !hMScreen.gameObject.activeSelf)
@@ -383,7 +388,7 @@ public class ShopManager : MonoBehaviour
     {
         itemNameTxt.text = iBP.itemName;
         itemDescriptionTxt.text = iBP.itemDescription;
-        itemMinLvlToUseTxt.text = iBP.minLvlToUse.ToString();
+        //itemMinLvlToUseTxt.text = iBP.minLvlToUse.ToString();
 
         if (isBuying)
         {
@@ -401,12 +406,12 @@ public class ShopManager : MonoBehaviour
             Destroy(shopItemPreviewCamTrans.GetChild(i).gameObject);
         }
 
-        GameObject newPreviewItem = Instantiate(iBP.itemPrefab, Vector3.zero, Quaternion.Euler(0, 0, 2f), shopItemPreviewCamTrans);
-        newPreviewItem.AddComponent<PreviewItem>();
+        //GameObject newPreviewItem = Instantiate(iBP.itemPrefab, Vector3.zero, Quaternion.Euler(0, 0, 2f), shopItemPreviewCamTrans);
+        //newPreviewItem.AddComponent<PreviewItem>();
 
-        newPreviewItem.transform.localPosition = new Vector3(0, 0, iBP.previewSpawnPositionZ);
+        //newPreviewItem.transform.localPosition = new Vector3(0, 0, iBP.previewSpawnPositionZ);
 
-        newPreviewItem.layer = LayerMask.NameToLayer("PreviewItem");
+        //newPreviewItem.layer = LayerMask.NameToLayer("PreviewItem");
 
         if (!rightShopItemInformationGO.activeSelf)
         {
@@ -416,6 +421,50 @@ public class ShopManager : MonoBehaviour
 
     public void BuyOrSellItem(ItemBaseProfile itemBase, int amount)
     {
+        if (isShopPlayerItem)
+        {
+            for (int x = 0; x < MissionManager.instance.allCurrAcceptedMissions.Count; x++)
+            {
+                for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks.Length; i++)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
+                    {
+                        for (int y = 0; y < InventoryManager.instance.inventory.slots.Count; y++)
+                        {
+                            if (InventoryManager.instance.inventory.slots[y].itemBase == MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.itemToCollectBase 
+                                && InventoryManager.instance.inventory.slots[y].itemBase == itemBase)
+                            {
+                                MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.howManyAlreadyCollected = InventoryManager.instance.inventory.slots[y].itemAmount - amount;
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (int x = 0; x < MissionManager.instance.allCurrAcceptedMissions.Count; x++)
+            {
+                for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks.Length; i++)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
+                    {
+                        //for (int y = 0; y < InventoryManager.instance.inventory.slots.Count; y++)
+                        //{
+                            if (MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.itemToCollectBase == itemBase)
+                            {
+                                MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.howManyAlreadyCollected += amount;
+
+                                break;
+                            }
+                        //}
+                    }
+                }
+            }
+        }
+
         if (!isShopPlayerItem)
         {
             InventoryManager.instance.inventory.AddItem(itemBase, amount);
@@ -465,7 +514,7 @@ public class ShopManager : MonoBehaviour
             //}
 
             bOSMScreen.boughtOrSoldTxt.text = "Item verkauft";
-        }
+        }       
 
         //rightShopItemInformationGO.SetActive(false);
 

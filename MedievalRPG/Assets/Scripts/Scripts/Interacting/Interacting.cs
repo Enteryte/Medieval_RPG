@@ -68,6 +68,10 @@ public class Interacting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(CutsceneManager.instance.currCP);
+        //Debug.Log(CutsceneManager.instance.currCP.cantBeSkipped);
+        //Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsPlaying());
+
         FindTargets();
 
         //Debug.Log(Vector3.Distance(playerHeadObj.transform.position, playerHandObj.transform.position));
@@ -82,6 +86,21 @@ public class Interacting : MonoBehaviour
             //else if (nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans == null && GameManager.instance.playerGO.transform.position.y - nearestObjTrans.position.y < 0)
             //{
                 ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
+            //}
+
+            //Debug.Log(GameManager.instance.playerGO.transform.position.y);
+            //Debug.Log(nearestObjTrans.position.y);
+            //Debug.Log(GameManager.instance.playerGO.transform.position.y - nearestObjTrans.position.y);
+        }
+        else if (ThirdPersonController.instance._animator.GetBool("UsingHBItem") == true && ThirdPersonController.instance._animator.GetLayerWeight(1) < 0.75f)
+        {
+            //if (nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans != null && GameManager.instance.playerGO.transform.position.y - nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans.position.y < 0)
+            //{
+            //    ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
+            //}
+            //else if (nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans == null && GameManager.instance.playerGO.transform.position.y - nearestObjTrans.position.y < 0)
+            //{
+            ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
             //}
 
             //Debug.Log(GameManager.instance.playerGO.transform.position.y);
@@ -323,8 +342,8 @@ public class Interacting : MonoBehaviour
                         }
                         else
                         {
-                            if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                                && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                            if (!ShopManager.instance.shopScreen.activeSelf /*&&*/ /*!GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf*/
+                               /* && !Blackboard.instance.blackboardCam.enabled*/ && ThirdPersonController.instance.canMove && !GameManager.instance.gameIsPaused)
                             {
                                 if (nearestObjTrans.TryGetComponent(out Item item) && item.itemsToGet.Length > 0 || nearestObjTrans.TryGetComponent(out Item item2) && item2.moneyAmount > 0)
                                 {
@@ -371,6 +390,20 @@ public class Interacting : MonoBehaviour
                     {
                         if (timeTillInteract > 0)
                         {
+                            if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.currCP.cantBeSkipped && CutsceneManager.instance.playableDirector.playableGraph.IsValid()
+                                    && CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())
+                            {
+                                howToInteractGO.GetComponentInChildren<Image>().color = Color.gray;
+                                howToInteractTxt.color = Color.gray;
+
+                                return;
+                            }
+                            else
+                            {
+                                howToInteractGO.GetComponentInChildren<Image>().color = Color.white;
+                                howToInteractTxt.color = Color.white;
+                            }
+
                             if (Input.GetKeyDown(KeyCode.E) && nearestObjTrans.GetComponent<Item>() != null && !nearestObjTrans.GetComponent<Item>().onlyExamineObject
                                 /* || nearestObjTrans.GetComponent<Enemy>() != null && nearestObjTrans.GetComponent<Enemy>().isDead*/)
                             {
@@ -404,6 +437,10 @@ public class Interacting : MonoBehaviour
                                     headRig.weight = 0;
 
                                     ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
+
+                                    keyToPressFillImg.fillAmount = 0;
+
+                                    currClickedTime = 0;
                                 }
                             }
 
@@ -428,6 +465,20 @@ public class Interacting : MonoBehaviour
                         }
                         else
                         {
+                            if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.currCP.cantBeSkipped && CutsceneManager.instance.playableDirector.playableGraph.IsValid()
+                                && CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())
+                            {
+                                howToInteractGO.GetComponentInChildren<Image>().color = Color.gray;
+                                howToInteractTxt.color = Color.gray;
+
+                                return;
+                            }
+                            else
+                            {
+                                howToInteractGO.GetComponentInChildren<Image>().color = Color.white;
+                                howToInteractTxt.color = Color.white;
+                            }
+
                             if (Input.GetKeyDown(KeyCode.E) && interactable != null && nearestObjTrans != null)
                             {
                                 Debug.Log(interactable);

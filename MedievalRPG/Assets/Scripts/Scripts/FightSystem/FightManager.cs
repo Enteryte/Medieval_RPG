@@ -104,7 +104,7 @@ public class FightManager : MonoBehaviour
                 currArrowCountTxt.text = InventoryManager.instance.inventory.slots[i].itemAmount.ToString();
 
                 arrowHUDImg.color = Color.white;
-                arrowHUDBackgroundImg.color = Color.white;
+                arrowHUDBackgroundImg.color = Color.black;
             }
         }
     }

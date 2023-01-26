@@ -121,6 +121,12 @@ public class GameManager : MonoBehaviour
         //BeerScreenMissionButton.instance = bSMButton;
     }
 
+    public void Start()
+    {
+        pauseMenuScreen = LoadingScreen.instance.startScreenMainUI;
+        pauseMenuScreen.SetActive(false);
+    }
+
     //public void Start()
     //{
     //    CreateSaveGameSlotButton();
@@ -128,6 +134,13 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+        //if (Input.GetKeyDown(KeyCode.F))
+        //{
+        //    pauseMenuScreen.SetActive(false);
+        //    Debug.Log("gzhjklö");
+        //}
+
+        // Handle Player-AFK
         if (ThirdPersonController.instance.canMove)
         {
             if (!Input.anyKey && !isAFK)
@@ -161,6 +174,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // Play-Time
         if (!pauseMenuScreen.activeSelf)
         {
             playtimeInSeconds += Time.deltaTime;
@@ -178,6 +192,25 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        //if (ThirdPersonController.instance._animator.GetBool("UsingHBItem"))
+        //{
+        //    ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
+        //}
+        //else if (ThirdPersonController.instance._animator.GetLayerWeight(1) > 0 && !ThirdPersonController.instance._animator.GetBool("UsingHBItem")
+        //    && !ThirdPersonController.instance._animator.GetBool("GrabItem") && !ThirdPersonController.instance._animator.GetBool("GrabGroundItem")
+        //    && !ThirdPersonController.instance.isRolling)
+        //{
+        //    ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
+        //}
+
+        // Tombstone
+        if (Input.GetKeyDown(KeyCode.Escape) && UIManager.instance.readTombstoneUI.activeSelf && !pauseMenuScreen.activeSelf)
+        {
+            UIManager.instance.readTombstoneUI.SetActive(false);
+            gameIsPaused = false;
+        }
+
+        // Open/Close Inventory
         if (Input.GetKeyDown(KeyCode.I) && !ShopManager.instance.shopScreen.activeSelf)
         {
             OpenInventory();
@@ -188,13 +221,33 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.shopScreen && !ShopManager.instance.mainShopScreen.activeSelf)
+        Debug.Log(pauseMenuScreen);
+        Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
+        Debug.Log(TutorialManager.instance.bigTutorialUI.activeSelf);
+        Debug.Log(!ShopManager.instance.shopScreen.activeSelf);
+
+        if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.shopScreen.activeSelf && !ShopManager.instance.mainShopScreen.activeSelf)
         {
+            Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsValid());
+            //Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsPlaying());
+            //Debug.Log(!CutsceneManager.instance.currCP.cantBeSkipped);
+            Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
+
+            if (StartScreenManager.instance.areYouSureExitGameScreen.activeSelf)
+            {
+                return;
+            }
+
             if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf/* &&*/ /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*//*alid()*/)
             {
-                if (CutsceneManager.instance.currCP != null && !CutsceneManager.instance.cutsceneCam.activeSelf)
+                if (CutsceneManager.instance.currCP == null)
                 {
+                    Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
+
+                    LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
+                    LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
                     pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
+
                     FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
 
                     if (pauseMenuScreen.activeSelf)
@@ -206,9 +259,15 @@ public class GameManager : MonoBehaviour
                         ContinueGame();
                     }
                 }
-                else if (CutsceneManager.instance.currCP == null)
+                else if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid() && !CutsceneManager.instance.playableDirector.playableGraph.IsPlaying()
+                    || CutsceneManager.instance.currCP != null && !CutsceneManager.instance.currCP.cantBeSkipped)
                 {
+                    Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
+
+                    LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
+                    LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
                     pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
+
                     FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
 
                     if (pauseMenuScreen.activeSelf)
@@ -219,8 +278,13 @@ public class GameManager : MonoBehaviour
                     {
                         ContinueGame();
                     }
-                }  
+                }
             }
+            //else
+            //{
+            //    Debug.Log(readBookOrNoteScreen.activeSelf);
+            //    Debug.Log(ShopManager.instance.shopScreen.activeSelf);
+            //}
         }
 
         // Close Tutorial ( Big )
@@ -299,6 +363,12 @@ public class GameManager : MonoBehaviour
         // Player
         playerGO.GetComponent<Animator>().speed = 0;
 
+        if (LoadingScreen.instance.gameObject.activeSelf)
+        {
+            LoadingScreen.instance.gameObject.SetActive(true);
+            pauseMenuScreen.SetActive(true);
+        }
+
         // NPCs
         for (int i = 0; i < allVillageNPCs.Count; i++)
         {
@@ -357,8 +427,16 @@ public class GameManager : MonoBehaviour
 
     public void ContinueGame()
     {
+        SaveSystem.instance.SaveOptions();
+
         // Player
         playerGO.GetComponent<Animator>().speed = 1;
+
+        if (!LoadingScreen.instance.gameObject.activeSelf)
+        {
+            LoadingScreen.instance.gameObject.SetActive(false);
+            pauseMenuScreen.SetActive(false);
+        }
 
         // NPCs
         for (int i = 0; i < allVillageNPCs.Count; i++)

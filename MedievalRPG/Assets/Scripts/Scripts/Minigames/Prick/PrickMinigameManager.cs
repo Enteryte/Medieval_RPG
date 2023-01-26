@@ -80,8 +80,8 @@ public class PrickMinigameManager : MonoBehaviour
 
         playerMoneyTxt.text = PlayerValueManager.instance.money.ToString();
 
-        playerPointsTxt.text = playerPoints.ToString();
-        enemyPointsTxt.text = enemyPoints.ToString();
+        playerPointsTxt.text = playerPoints.ToString() + " PKTE.";
+        enemyPointsTxt.text = enemyPoints.ToString() + " PKTE.";
 
         if (PlayerValueManager.instance.money >= winMoneyAmount)
         {
@@ -226,18 +226,52 @@ public class PrickMinigameManager : MonoBehaviour
             enemyPoints += 1;
         }
  
-        playerPointsTxt.text = playerPoints.ToString();
-        enemyPointsTxt.text = enemyPoints.ToString();
+        playerPointsTxt.text = playerPoints.ToString() + " PKTE.";
+        enemyPointsTxt.text = enemyPoints.ToString() + " PKTE.";
 
         if (prickEnemy.currentPlayableCards.Count == 0)
         {
             if (playerPoints > enemyPoints)
             {
-                PlayerValueManager.instance.money += winMoneyAmount;
+                if (PrickBoard.instance.isPlayingAgainstKilian)
+                {
+                    CutsceneManager.instance.currCP = PrickBoard.instance.cutsceneToPlayIfWon;
+                    CutsceneManager.instance.playableDirector.playableAsset = PrickBoard.instance.cutsceneToPlayIfWon.cutscene;
+
+                    CutsceneManager.instance.playableDirector.Play();
+
+                    PrickBoard.instance.isPlayingAgainstKilian = false;
+
+                    prickUI.SetActive(false);
+                    prickCamera.enabled = false;
+
+                    this.enabled = false;
+                }
+                else
+                {
+                    PlayerValueManager.instance.money += winMoneyAmount;
+                }
             }
             else if (playerPoints < enemyPoints)
             {
-                PlayerValueManager.instance.money -= winMoneyAmount;
+                if (PrickBoard.instance.isPlayingAgainstKilian)
+                {
+                    CutsceneManager.instance.currCP = PrickBoard.instance.cutsceneToPlayIfLost;
+                    CutsceneManager.instance.playableDirector.playableAsset = PrickBoard.instance.cutsceneToPlayIfLost.cutscene;
+
+                    CutsceneManager.instance.playableDirector.Play();
+
+                    PrickBoard.instance.isPlayingAgainstKilian = false;
+
+                    prickUI.SetActive(false);
+                    prickCamera.enabled = false;
+
+                    this.enabled = false;
+                }
+                else
+                {
+                    PlayerValueManager.instance.money -= winMoneyAmount;
+                }
             }
 
             playerMoneyTxt.text = PlayerValueManager.instance.money.ToString();
@@ -282,11 +316,24 @@ public class PrickMinigameManager : MonoBehaviour
     {
         if (prickEnemy.currentPlayableCards.Count > 1)
         {
+            if (PrickBoard.instance.isPlayingAgainstKilian)
+            {
+                PrickBoard.instance.prickMGAudioSource.clip = PrickBoard.instance.kilianAudioClipsWhilePlaying[Random.Range(0, PrickBoard.instance.kilianAudioClipsWhilePlaying.Length)];
+                PrickBoard.instance.prickMGAudioSource.Play();
+            }
+
             yield return new WaitForSeconds(Random.Range(1f, 2.5f));
         }
         else
         {
+            PrickBoard.instance.prickMGAudioSource.clip = null;
+
             yield return new WaitForSeconds(0.3f);
+        }
+
+        if (PrickBoard.instance.prickMGAudioSource.clip != null && PrickBoard.instance.isPlayingAgainstKilian)
+        {
+            StartCoroutine(FadeKilianAudioToZero());
         }
 
         prickEnemy.PlayCard();
@@ -307,8 +354,8 @@ public class PrickMinigameManager : MonoBehaviour
         playerPoints = 0;
         enemyPoints = 0;
 
-        playerPointsTxt.text = playerPoints.ToString();
-        enemyPointsTxt.text = enemyPoints.ToString();
+        playerPointsTxt.text = playerPoints.ToString() + " PKTE.";
+        enemyPointsTxt.text = enemyPoints.ToString() + " PKTE.";
 
         for (int i = 0; i < allCards.Count; i++)
         {
@@ -361,5 +408,24 @@ public class PrickMinigameManager : MonoBehaviour
         currGivenCardNumber += 1;
 
         TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(chooseACardTutorial);
+    }
+
+    public IEnumerator FadeKilianAudioToZero()
+    {
+        float currentTime = 0;
+
+        float start = PrickBoard.instance.prickMGAudioSource.volume;
+
+        while (currentTime < 1f)
+        {
+            currentTime += Time.deltaTime;
+            PrickBoard.instance.prickMGAudioSource.volume = Mathf.Lerp(start, 0, currentTime / 1f);
+
+            yield return null;
+        }
+
+        PrickBoard.instance.prickMGAudioSource.Stop();
+
+        yield break;
     }
 }
