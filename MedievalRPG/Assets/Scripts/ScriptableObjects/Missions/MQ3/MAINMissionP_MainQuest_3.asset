@@ -16,22 +16,28 @@ MonoBehaviour:
   missionName: Hauptquest 3
   missionDescription: 
   allMissionTasks:
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: Gehe zum Turm.
     mTB: {fileID: 11400000, guid: edbe3bd3fd5503248b4601b14e6948a3, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: Schaue dich nach Hinweisen um.
     mTB: {fileID: 11400000, guid: 327fcb3eaedd7f047b8d6d6ce9dc2a70, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: Lese das Tagebuch des Alchemisten
     mTB: {fileID: 11400000, guid: fa07df7c65aa7f8418b81c1ce70bfa80, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: Finde das Labor des Alchemisten.
     mTB: {fileID: 11400000, guid: a454d55bdf65a2648ad8466c989a72a9, type: 2}
-  - taskName: 
-    taskDescription: Finde den geheimen Raum.
+  - isOptional: 0
+    taskName: 
+    taskDescription: "\xD6ffne die gro\xDFe T\xFCr."
     mTB: {fileID: 11400000, guid: 802a44426acdb904f90921e378cdbf18, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: "Zerst\xF6re den Alchemisten."
     mTB: {fileID: 11400000, guid: 39695638f4542f34a95baed5ae0c1184, type: 2}
   missionCompleted: 0
@@ -39,6 +45,8 @@ MonoBehaviour:
   itemRewards: []
   nextMissionToTrigger: {fileID: 0}
   cutsceneToTrigger: {fileID: 0}
+  nPCWhereToGetMissionFrom: {fileID: 0}
+  cutsceneToTriggerAfterPressedButton: {fileID: 0}
   missionAfterItsActive: {fileID: 0}
   isActive: 0
   changeEnvironment: 0

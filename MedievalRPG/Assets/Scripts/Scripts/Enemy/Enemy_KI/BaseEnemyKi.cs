@@ -42,9 +42,23 @@ public abstract class BaseEnemyKI : MonoBehaviour
     private int CheckValue;
 
     #region Unity Events
-/// <summary>
-/// The Method for Initialization
-/// </summary>
+
+    public void Start()
+    {
+        if (this.gameObject.TryGetComponent(out MeleeEnemyKi mEKI))
+        {
+            mEKI.Init();
+        }
+        else if (this.gameObject.TryGetComponent(out ArcherEnemyKI aEKI))
+        {
+            aEKI.Init();
+            aEKI.LinkArrowPool(EnemyInitializer.instance.ArrowPool);
+        }
+    }
+
+    /// <summary>
+    /// The Method for Initialization
+    /// </summary>
     public virtual void Init()
     {
         StartPos = transform.position;

@@ -192,6 +192,17 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        //if (ThirdPersonController.instance._animator.GetBool("UsingHBItem"))
+        //{
+        //    ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
+        //}
+        //else if (ThirdPersonController.instance._animator.GetLayerWeight(1) > 0 && !ThirdPersonController.instance._animator.GetBool("UsingHBItem")
+        //    && !ThirdPersonController.instance._animator.GetBool("GrabItem") && !ThirdPersonController.instance._animator.GetBool("GrabGroundItem")
+        //    && !ThirdPersonController.instance.isRolling)
+        //{
+        //    ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
+        //}
+
         // Tombstone
         if (Input.GetKeyDown(KeyCode.Escape) && UIManager.instance.readTombstoneUI.activeSelf && !pauseMenuScreen.activeSelf)
         {
