@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7741295618437356658}
   - component: {fileID: 6853136349268924139}
   - component: {fileID: 3862914163020827559}
+  - component: {fileID: 2748936479238310864}
   m_Layer: 0
   m_Name: HitBox
   m_TagString: Untagged
@@ -41,7 +42,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853993433182625393}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -59,6 +60,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87191f3ac5bece444893682592d73f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
+--- !u!54 &2748936479238310864
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853993433182625393}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
 --- !u!1 &4341852279154010316
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,12 +160,12 @@ MonoBehaviour:
   Animator: {fileID: 4847724058137788944}
   Agent: {fileID: 5863456180467336199}
   Health: {fileID: 3862914163020827559}
-  EnemyDamager: {fileID: 8046214475336541078}
   HardCodeTarget: {fileID: 0}
   RayDetectionPrefab: {fileID: 6247046261946202479, guid: 5aa4d775553884342a6bcf626a24b45d, type: 3}
   SightContainer: {fileID: 1751983557692751396}
-  AttackContainer: {fileID: 3643032722518968386}
   Tolerance: 1
+  EnemyDamager: {fileID: 8046214475336541078}
+  AttackContainer: {fileID: 3643032722518968386}
 --- !u!195 &5863456180467336199
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2832,6 +2850,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 306882876510475203, guid: 746041d87bbb1934aa613f48eff3b825, type: 3}
   m_PrefabInstance: {fileID: 5117451476380476201}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &6367036437340485408
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847724058147188970}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 3
 --- !u!65 &2492314192190201980
 BoxCollider:
   m_ObjectHideFlags: 0

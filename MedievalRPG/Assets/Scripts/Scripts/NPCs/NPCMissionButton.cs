@@ -8,9 +8,29 @@ public class NPCMissionButton : MonoBehaviour
     public MissionTask storedMT;
     public MissionTaskBase storedMTB;
 
+    [Header("Check Money")]
+    public bool checkMoney = false;
+    public int minMoneyValue;
+
+    [Header("Stored Possible Cutscenes ( SQ3 T. w. Kilian )")]
+    public CutsceneProfile cutsceneToPlay;
+
     public void Awake()
     {
         this.gameObject.GetComponent<Button>().onClick.AddListener(PlayMissionTaskCutscene);
+    }
+
+    public void Start()
+    {
+        if (checkMoney)
+        {
+            if (PlayerValueManager.instance.money < minMoneyValue)
+            {
+                this.gameObject.GetComponent<Button>().interactable = false;
+
+                Debug.Log("NOT INTERACTABLE");
+            }
+        }
     }
 
     public void PlayMissionTaskCutscene()
@@ -34,19 +54,39 @@ public class NPCMissionButton : MonoBehaviour
         {
             CutsceneManager.instance.currCP = Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<NPC>().cPMissionTaskSymon;
             CutsceneManager.instance.playableDirector.playableAsset = Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<NPC>().cPMissionTaskSymon.cutscene;
+
+            CutsceneManager.instance.playableDirector.Play();
         }
-        else
+        else if (storedMTB == MissionManager.instance.mTBWMya)
         {
             CutsceneManager.instance.currCP = Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<NPC>().cPMissionTaskMya;
             CutsceneManager.instance.playableDirector.playableAsset = Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<NPC>().cPMissionTaskMya.cutscene;
+
+            CutsceneManager.instance.playableDirector.Play();
+        }
+        else if (cutsceneToPlay != null)
+        {
+            CutsceneManager.instance.currCP = cutsceneToPlay;
+            CutsceneManager.instance.playableDirector.playableAsset = cutsceneToPlay.cutscene;
+
+            CutsceneManager.instance.playableDirector.Play();
+
+            Debug.Log("hujkml,fe");
+        }
+        else
+        {
+            Debug.Log("CLOSE");
         }
 
         //Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<NPC>().nPCCVC.enabled = true;
         //Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<NPC>().nPCCVC.gameObject.SetActive(true);
 
-        CutsceneManager.instance.playableDirector.Play();
-
         UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(false);
+
+        for (int i = 0; i < UIManager.instance.npcBtnKillianGOs.Length; i++)
+        {
+            UIManager.instance.npcBtnKillianGOs[i].SetActive(false);
+        }
 
         Interacting.instance.nearestObjTrans = null;        
     }

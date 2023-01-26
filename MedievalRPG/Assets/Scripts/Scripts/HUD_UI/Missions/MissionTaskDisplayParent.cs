@@ -10,8 +10,6 @@ public class MissionTaskDisplayParent : MonoBehaviour
 
     public void ChangeObjectNames()
     {
-        Debug.Log("9999999999999999999999");
-
         for (int i = 0; i < UIManager.instance.missionTaskObjParentObj.transform.childCount; i++)
         {
             UIManager.instance.missionTaskObjParentObj.transform.GetChild(i).gameObject.name = "MissionTaskDisplay";
@@ -29,14 +27,10 @@ public class MissionTaskDisplayParent : MonoBehaviour
     {
         for (int i = 0; i < UIManager.instance.missionTaskObjParentObj.transform.childCount; i++)
         {
-            Debug.Log("!!!!!!!!!");
-
             if (UIManager.instance.missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase != null 
                 && UIManager.instance.missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase.canBeDisplayed)
             {
                 UIManager.instance.missionTaskObjParentObj.transform.GetChild(i).gameObject.SetActive(true);
-
-                Debug.Log("!!!!!!!!!2");
             }
         }
     }

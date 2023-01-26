@@ -46,7 +46,7 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
     public void OnSelect(BaseEventData eventData)
     {
-        if (this.gameObject.name == "Text (TMP):Continue")
+        if (this.gameObject.name == "Text (TMP):ContinueAndStopPausingGame"/* || this.gameObject.name == "Text (TMP):SaveGame"*/)
         {
             return;
         }
@@ -70,13 +70,18 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
                 {
                     if (closeScreenAnim == null)
                     {
+                        Debug.Log("OOOOOOOOOOOOOOOOO");
                         StartScreenManager.instance.mainObjectAnimator.Rebind();
                         StartScreenManager.instance.mainObjectAnimator.enabled = true;
+                        Debug.Log(StartScreenManager.currSelectedSSMBtn);
+                        Debug.Log(StartScreenManager.currSelectedSSMBtn.closeScreenAnim.name);
+                        Debug.Log(StartScreenManager.instance.mainObjectAnimator);
                         StartScreenManager.instance.mainObjectAnimator.Play(StartScreenManager.currSelectedSSMBtn.closeScreenAnim.name);
                     }
                 }
                 else if (StartScreenManager.currSelectedSSMBtn.screenToOpen != null && StartScreenManager.currSelectedSSMBtn.closeScreenAnim == null)
                 {
+                    Debug.Log("OOOOOOOOOOOOOOOOO");
                     StartScreenManager.currSelectedSSMBtn.screenToOpen.SetActive(false);
 
                     StartScreenManager.instance.mainAnimator.enabled = false;
@@ -84,6 +89,7 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
                 if (StartScreenManager.currSelectedSSMBtn.screenToOpen == null || StartScreenManager.currSelectedSSMBtn.closeScreenAnim == null)
                 {
+                    Debug.Log("OOOOOOOOOOOOOOOOO");
                     StartScreenManager.instance.mainObjectAnimator.Rebind();
                     StartScreenManager.instance.mainObjectAnimator.enabled = false;
                 }
@@ -104,7 +110,7 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (this.gameObject.name == "Text (TMP):Continue")
+        if (this.gameObject.name == "Text (TMP):ContinueAndStopPausingGame"/* || this.gameObject.name == "Text (TMP):SaveGame"*/)
         {
             return;
         }

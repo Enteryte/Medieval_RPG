@@ -16,7 +16,6 @@ public class ArcherEnemyKI : BaseEnemyKI
 
     public void LinkArrowPool(ArrowPool _arrowPool)
     {
-        
         ArrowPool = _arrowPool;
     }
     public override void Init()

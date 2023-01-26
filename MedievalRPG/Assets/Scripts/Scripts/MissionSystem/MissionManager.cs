@@ -61,8 +61,6 @@ public class MissionManager : MonoBehaviour
 
                 allMissions[i].allMissionTasks[y].mTB.missionTaskCompleted = false;
             }
-
-            Debug.Log("NJMK");
         }
 
         MinimapManager.instance.CheckAllMinimapSymbols();
@@ -93,9 +91,22 @@ public class MissionManager : MonoBehaviour
             missionToAdd.isActive = true;
         }
 
+        for (int i = 0; i < missionToAdd.allMissionTasks.Length; i++)
+        {
+            if (missionToAdd.allMissionTasks[i].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
+            {
+                for (int y = 0; y < InventoryManager.instance.inventory.slots.Count; y++)
+                {
+                    if (InventoryManager.instance.inventory.slots[y].itemBase == missionToAdd.allMissionTasks[i].mTB.itemToCollectBase)
+                    {
+                        missionToAdd.allMissionTasks[i].mTB.howManyAlreadyCollected = InventoryManager.instance.inventory.slots[y].itemAmount;
+                    }
+                }
+            }
+        }
+
         if (UIManager.missionToDisplay == null && missionToAdd.missionType == MissionBaseProfile.MissionType.main)
         {
-            Debug.Log("000000000000000000000000000000");
             UIManager.missionToDisplay = missionToAdd;
 
             UIManager.instance.CreateMissionDisplay();
@@ -330,6 +341,11 @@ public class MissionManager : MonoBehaviour
 
         for (int i = 0; i < missionToComplete.allMissionTasks.Length; i++)
         {
+            if (!missionToComplete.allMissionTasks[i].mTB.missionTaskCompleted && missionToComplete.allMissionTasks[i].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
+            {
+                InventoryManager.instance.inventory.RemoveItem(missionToComplete.allMissionTasks[i].mTB.itemToCollectBase, missionToComplete.allMissionTasks[i].mTB.howManyToCollect);
+            }
+
             missionToComplete.allMissionTasks[i].mTB.missionTaskCompleted = true;
         }
 

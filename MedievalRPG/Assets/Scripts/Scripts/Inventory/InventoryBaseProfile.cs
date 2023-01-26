@@ -72,6 +72,20 @@ public class InventoryBaseProfile : ScriptableObject, ISerializationCallbackRece
 
                     if (slots[i].itemAmount == 0)
                     {
+                        //for (int x = 0; x < MissionManager.instance.allCurrAcceptedMissions.Count; x++)
+                        //{
+                        //    for (int v = 0; v < MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks.Length; i++)
+                        //    {
+                        //        if (MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[v].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
+                        //        {
+                        //            if (InventoryManager.instance.inventory.slots[i].itemBase == MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[v].mTB.itemToCollectBase)
+                        //            {
+                        //                MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[v].mTB.howManyAlreadyCollected = 0;
+                        //            }
+                        //        }
+                        //    }
+                        //}
+
                         slots.Remove(slots[i]);
                     }
 

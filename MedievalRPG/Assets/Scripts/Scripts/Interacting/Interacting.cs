@@ -53,7 +53,10 @@ public class Interacting : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Start is called before the first frame update
@@ -137,23 +140,89 @@ public class Interacting : MonoBehaviour
 
                 if (!Physics.Raycast(transform.position, dirToObj, distanceToObj, obstacleMask))
                 {
-                    if (interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf
-                        && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf && ThirdPersonController.instance.currSeatTrans == null
-                        && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove && interactable.iOCanvas() != null)
+                    if (interactableObj != null && interactableObj.TryGetComponent(out IInteractable interactable) && !ShopManager.instance.shopScreen.activeSelf
+                        /*&& !GuessTheCardMinigameManager.instance.gTCUI.activeSelf*//* && !PrickMinigameManager.instance.prickUI.activeSelf*/ && ThirdPersonController.instance.currSeatTrans == null
+                        /*&& !Blackboard.instance.blackboardCam.enabled*/ && ThirdPersonController.instance.canMove && interactable.iOCanvas() != null && !GameManager.instance.gameIsPaused)
                     {
-                        interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
-
-                        if (GameManager.instance.playtimeInSeconds > 5)
+                        if (interactableObj.TryGetComponent(out Door door) && door.neededItemsForOpening.Count > 0 && !door.isLocked)
                         {
-                            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
+                            door.canInteract = false;
+
+                            for (int x = 0; x < door.correspondingMissions.Length; x++)
+                            {
+                                if (MissionManager.instance.allCurrAcceptedMissions.Contains(door.correspondingMissions[x])
+                                    && !door.correspondingMissionTasks[x].missionTaskCompleted && door.correspondingMissionTasks[x].canBeDisplayed)
+                                {
+                                    interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
+
+                                    door.canInteract = true;
+
+                                    if (GameManager.instance.playtimeInSeconds > 5)
+                                    {
+                                        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
+                                    }
+                                }
+                            }
+                        }
+                        else if (interactableObj.TryGetComponent(out Door door2) && door2.neededItemsForOpening.Count <= 0 && door2.correspondingMissions.Length > 0)
+                        {
+                            door.canInteract = false;
+
+                            for (int x = 0; x < door.correspondingMissions.Length; x++)
+                            {
+                                if (MissionManager.instance.allCurrAcceptedMissions.Contains(door.correspondingMissions[x])
+                                    && !door.correspondingMissionTasks[x].missionTaskCompleted && door.correspondingMissionTasks[x].canBeDisplayed)
+                                {
+                                    interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
+
+                                    door.canInteract = true;
+
+                                    if (GameManager.instance.playtimeInSeconds > 5)
+                                    {
+                                        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
+
+                            if (interactableObj.TryGetComponent(out Item item) && item.isOpen)
+                            {
+                                interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
+                            }
+
+                            if (GameManager.instance.playtimeInSeconds > 5)
+                            {
+                                TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
+                            }
                         }
                     }
 
-                    if (interactableObj.GetComponent<Enemy>())
+                    if (interactableObj != null && interactableObj.GetComponent<Enemy>())
                     {
-                        Debug.Log(interactableObj.gameObject.name);
+                        //Debug.Log(interactableObj.gameObject.name);
 
-                        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
+                        if (FightingActions.instance.equippedWeaponL != null
+                        && FightingActions.instance.equippedWeaponL.gameObject.GetComponent<Item>().iBP.weaponType != ItemBaseProfile.WeaponType.bow)
+                        {
+                            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
+
+                            if (Input.GetKeyDown(KeyCode.Q))
+                            {
+                                FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                            }
+                        }
+                        else if (FightingActions.instance.equippedWeaponL == null)
+                        {
+                            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
+
+                            if (Input.GetKeyDown(KeyCode.Q))
+                            {
+                                FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                            }
+                        }
                     }
                 }
             }
@@ -216,23 +285,83 @@ public class Interacting : MonoBehaviour
                     }
                     else if (!nearestObjTrans.TryGetComponent(out SeatingObject seatObj2))
                     {
-                        if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                            && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                        if (nearestObjTrans.TryGetComponent(out Door door) && door.neededItemsForOpening.Count > 0 && !door.isLocked)
                         {
-                            if (interactable.iOCanvas() != null)
+                            if (door.canInteract)
                             {
-                                howToInteractGO.SetActive(true);
+                                if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                                && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                                {
+                                    if (interactable.iOCanvas() != null)
+                                    {
+                                        howToInteractGO.SetActive(true);
 
-                                howToInteractTxt.text = interactable.GetInteractUIText();
+                                        howToInteractTxt.text = interactable.GetInteractUIText();
 
-                                timeTillInteract = interactable.GetTimeTillInteract();
+                                        timeTillInteract = interactable.GetTimeTillInteract();
+                                    }
+                                }
+                            }
+                        }
+                        else if (nearestObjTrans.TryGetComponent(out Door door2) && door2.neededItemsForOpening.Count <= 0)
+                        {
+                            if (door2.canInteract)
+                            {
+                                if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                                && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                                {
+                                    if (interactable.iOCanvas() != null)
+                                    {
+                                        howToInteractGO.SetActive(true);
+
+                                        howToInteractTxt.text = interactable.GetInteractUIText();
+
+                                        timeTillInteract = interactable.GetTimeTillInteract();
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!ShopManager.instance.shopScreen.activeSelf /*&&*/ /*!GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf*/
+                               /* && !Blackboard.instance.blackboardCam.enabled*/ && ThirdPersonController.instance.canMove && !GameManager.instance.gameIsPaused)
+                            {
+                                if (nearestObjTrans.TryGetComponent(out Item item) && item.itemsToGet.Length > 0 || nearestObjTrans.TryGetComponent(out Item item2) && item2.moneyAmount > 0)
+                                {
+                                    if (!item.isOpen)
+                                    {
+                                        if (interactable.iOCanvas() != null)
+                                        {
+                                            howToInteractGO.SetActive(true);
+
+                                            howToInteractTxt.text = interactable.GetInteractUIText();
+
+                                            timeTillInteract = interactable.GetTimeTillInteract();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
+                                    }
+                                }
+                                else
+                                {
+                                    if (interactable.iOCanvas() != null)
+                                    {
+                                        howToInteractGO.SetActive(true);
+
+                                        howToInteractTxt.text = interactable.GetInteractUIText();
+
+                                        timeTillInteract = interactable.GetTimeTillInteract();
+                                    }
+                                }
                             }
                         }
                     }
 
                     if (nearestObjTrans.TryGetComponent(out NPC npc))
                     {
-                        if (npc.nPCAudioSource.isPlaying)
+                        if (npc.nPCAudioSource != null && npc.nPCAudioSource.isPlaying && npc.GetComponent<NPCScreamingHandler>() == null)
                         {
                             howToInteractGO.SetActive(false);
                         }
@@ -301,6 +430,9 @@ public class Interacting : MonoBehaviour
                         {
                             if (Input.GetKeyDown(KeyCode.E) && interactable != null && nearestObjTrans != null)
                             {
+                                Debug.Log(interactable);
+                                Debug.Log(nearestObjTrans);
+
                                 interactable.Interact(nearestObjTrans);
 
                                 currClickedTime = 0;
@@ -315,19 +447,21 @@ public class Interacting : MonoBehaviour
                         }
                     }
                 }
-                else if (nearestObjTrans.TryGetComponent(out Enemy enemy))
-                {
-                    if (!enemy.isDead)
-                    {
-                        Debug.Log("ENEMY");
+                //else if (nearestObjTrans.TryGetComponent(out Enemy enemy))
+                //{
+                //    Debug.Log("ENEMYYYYYYYYYYYYYYYYYY");
 
-                        if (Input.GetKeyDown(KeyCode.Q))
-                        {
-                            // ---------------------------------------------- WIP: Hier Target-Enemy einfügen!
-                            //FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);                            
-                        }
-                    }
-                }
+                //    if (!enemy.isDead)
+                //    {
+                //        Debug.Log("ENEMY");
+
+                //        if (Input.GetKeyDown(KeyCode.Q))
+                //        {
+                //            // ---------------------------------------------- WIP: Hier Target-Enemy einfügen!
+                //            FightManager.instance.TargetEnemy(nearestObjTrans.gameObject);
+                //        }
+                //    }
+                //}
 
                 if (rightHandParentRig.weight != 0)
                 {

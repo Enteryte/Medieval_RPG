@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8067252839941759487
 Transform:
   m_ObjectHideFlags: 0
@@ -100,7 +100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2275311269672897660
 Transform:
   m_ObjectHideFlags: 0
@@ -199,6 +199,7 @@ Transform:
   - {fileID: 8067252839941759487}
   - {fileID: 2275311269672897660}
   - {fileID: 4298822178862421942}
+  - {fileID: 2407406898280871258}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -228,6 +229,68 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.10753465, y: 0.2806039, z: 0.065784484}
   m_Center: {x: 0.0062929094, y: 0.27705526, z: -0.0031340718}
+--- !u!1001 &2801919208758596273
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1351852448191706304}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.231
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+      propertyPath: m_Name
+      value: Torch
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+--- !u!4 &2407406898280871258 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 878ee015176a92446a91abc78d9b7d48, type: 3}
+  m_PrefabInstance: {fileID: 2801919208758596273}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7350079347573462016
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -253,7 +316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1567
+      value: 0.219
       objectReference: {fileID: 0}
     - target: {fileID: 6748857105222419382, guid: 8ef318ba03dae534c975cf4ee35776d3, type: 3}
       propertyPath: m_LocalPosition.z

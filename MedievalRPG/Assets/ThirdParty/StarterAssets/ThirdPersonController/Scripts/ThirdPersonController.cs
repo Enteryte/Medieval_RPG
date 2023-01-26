@@ -157,45 +157,77 @@ namespace StarterAssets
 
         private void Awake()
         {
-            _hasAnimator = true;
+            //if (instance == null)
+            //{
+                instance = this;
 
-            // get a reference to our main camera
-            if (_mainCamera == null)
-            {
-                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            }
+                _hasAnimator = true;
 
-            instance = this;
+                // get a reference to our main camera
+                if (_mainCamera == null)
+                {
+                    _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+                }
+
+            //    //GameManager.instance.playerGO = this.gameObject;
+
+            //    DontDestroyOnLoad(this.gameObject.transform.parent.parent.gameObject);
+
+            //    DontDestroyOnLoad(_bowAimingVCamera);
+            //    DontDestroyOnLoad(_bowAimingZoomVCamera);
+            //    DontDestroyOnLoad(_normalVCamera);
+            //    DontDestroyOnLoad(_mainCamera);
+            //}
+            //else
+            //{
+            //    //GuessTheCardMinigameManager.instance.gTCUI = this.gTCMM.gTCUI;
+            //    //PrickMinigameManager.instance.prickUI = this.pMM.prickUI;
+
+            //    Destroy(_bowAimingVCamera);
+            //    Destroy(_bowAimingZoomVCamera);
+            //    Destroy(_normalVCamera);
+            //    Destroy(_mainCamera);
+
+            //    Destroy(this.gameObject.transform.parent.parent.gameObject);
+            //}
         }
 
         private void Start()
         {
-            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+            if (instance == this)
+            {
+                _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
-            //_hasAnimator = TryGetComponent(out _animator);
-            _controller = GetComponent<CharacterController>();
-            _input = GetComponent<StarterAssetsInputs>();
+                //_hasAnimator = TryGetComponent(out _animator);
+                _controller = GetComponent<CharacterController>();
+                _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-            _playerInput = GetComponent<PlayerInput>();
+                _playerInput = GetComponent<PlayerInput>();
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
 
-            AssignAnimationIDs();
+                AssignAnimationIDs();
 
-            // reset our timeouts on start
-            _jumpTimeoutDelta = JumpTimeout;
-            _fallTimeoutDelta = FallTimeout;
+                // reset our timeouts on start
+                _jumpTimeoutDelta = JumpTimeout;
+                _fallTimeoutDelta = FallTimeout;
 
-            //Keyframe roll_lastFrame = rollCurve[rollCurve.length - 1];
-            //rollTimer = roll_lastFrame.time;
+                //Keyframe roll_lastFrame = rollCurve[rollCurve.length - 1];
+                //rollTimer = roll_lastFrame.time;
 
-            //Keyframe slowedRoll_lastFrame = slowedRollCurve[slowedRollCurve.length - 1];
-            //slowedRollTimer = slowedRoll_lastFrame.time;
+                //Keyframe slowedRoll_lastFrame = slowedRollCurve[slowedRollCurve.length - 1];
+                //slowedRollTimer = slowedRoll_lastFrame.time;
+            }
         }
 
         private void Update()
         {
+            if (_animator.GetBool("DoPush") && !SceneChangeManager.instance.wentThroughTrigger)
+            {
+                return;
+            }
+
             //Debug.Log(_animator.speed);
 
             //_hasAnimator = TryGetComponent(out _animator);
@@ -346,7 +378,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!GameManager.instance.gameIsPaused)
+            if (!GameManager.instance.gameIsPaused && canMove && !SceneChangeManager.instance.wentThroughTrigger)
             {
                 CameraRotation();
             }
@@ -475,6 +507,8 @@ namespace StarterAssets
 
         private void CameraRotation()
         {
+            //if (FightManager.instance.currTargetEnemy == null)
+            //{
             // if there is an input and camera position is not fixed
             if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
             {
@@ -486,12 +520,22 @@ namespace StarterAssets
             }
 
             // clamp our rotations so our values are limited 360 degrees
-            _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+
+            if (_normalVCamera.m_Priority >= 12)
+            {
+                _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+                _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+            }
+            else
+            {
+                _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+                _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, -20, 20);
+            }
 
             // Cinemachine will follow this target
             CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
                 _cinemachineTargetYaw, 0.0f);
+            //}
         }
 
         private void Move()
@@ -569,7 +613,7 @@ namespace StarterAssets
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y /*+ 5*/, _targetRotation, ref _rotationVelocity,
                     RotationSmoothTime);
 
                 float rotationX = 0;
@@ -774,6 +818,12 @@ namespace StarterAssets
             {
                 PlayerValueManager.instance.RemoveStamina(normalAttackStaminaReduceValue);
             }
+        }       
+
+        public void SetUsingStateToFalse()
+        {
+            _animator.SetBool("UsingHBItem", false);
+            HotbarManager.instance.isUsingItem = false;
         }
 
         public void ResetBowShootingBool()
@@ -803,6 +853,27 @@ namespace StarterAssets
 
         public void HandleBowAimingCameras(CinemachineVirtualCamera newMainCam, CinemachineVirtualCamera newNotMainCam, CinemachineVirtualCamera newNotMainCam2)
         {
+            //if (FightManager.instance.currTargetEnemy != null)
+            //{
+            //    if (newMainCam == _normalVCamera)
+            //    {
+            //        FightManager.instance.targetCVC.gameObject.SetActive(true);
+            //    }
+            //    else
+            //    {
+            //        FightManager.instance.targetCVC.gameObject.SetActive(false);
+            //    }
+            //}
+
+            if (newMainCam != _normalVCamera)
+            {
+                FightManager.instance.crosshairGO.gameObject.SetActive(true);
+            }
+            else
+            {
+                FightManager.instance.crosshairGO.gameObject.SetActive(false);
+            }
+
             newMainCam.Priority = 12;
             newNotMainCam.Priority = 11;
             newNotMainCam2.Priority = 10;

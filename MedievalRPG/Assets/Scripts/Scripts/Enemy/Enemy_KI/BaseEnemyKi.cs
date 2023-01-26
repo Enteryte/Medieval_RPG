@@ -39,7 +39,6 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected float Tolerance;
     protected float SqrTolerance;
 
-
     private int CheckValue;
 
     #region Unity Events
@@ -90,6 +89,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
         //TODO: Turn of all other scripts, animators, etc. and turn the enemy into a ragdoll
         HasDied = true;
         Animator.SetBool(Animator.StringToHash("IsDead"), true);
+        Agent.enabled = false;
+        
     }
 
     /// <summary>

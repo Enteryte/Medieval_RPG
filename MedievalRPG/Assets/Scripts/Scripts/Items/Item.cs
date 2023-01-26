@@ -23,6 +23,15 @@ public class Item : MonoBehaviour, IInteractable
     public bool hasExaminedObject = false;
     public CutsceneProfile cutsceneToPlayAfterExamine;
 
+    public bool deactivateAfterExamine = true;
+
+    [Header("Chest")]
+    public ItemBaseProfile[] itemsToGet;
+    public int[] amountsToGet;
+    public int moneyAmount = 0;
+
+    public bool isOpen = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,6 +70,10 @@ public class Item : MonoBehaviour, IInteractable
         {
             return "Untersuchen";
         }
+        else if (itemsToGet.Length > 0 || moneyAmount > 0)
+        {
+            return "Öffnen";
+        }
         else
         {
             return "Einsammeln";
@@ -82,13 +95,62 @@ public class Item : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
-        if (!onlyExamineObject)
+        if (iBP != null)
+        {
+            if (!onlyExamineObject)
+            {
+                GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", false);
+
+                InventoryManager.instance.inventory.AddItem(iBP, amountToGet);
+
+                MessageManager.instance.CreateCollectedMessage(iBP);
+
+                CheckIfNeededForMission();
+
+                Interacting.instance.rightHandParentRig.weight = 0;
+                Interacting.instance.headRig.weight = 0;
+
+                ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
+
+                if (cutsceneToPlayAfterCollected != null)
+                {
+                    CutsceneManager.instance.currCP = cutsceneToPlayAfterCollected;
+                    CutsceneManager.instance.playableDirector.playableAsset = cutsceneToPlayAfterCollected.cutscene;
+                    CutsceneManager.instance.playableDirector.Play();
+                }
+
+                //Destroy(iOCanvas.gameObject);
+                //Destroy(this.gameObject);
+                this.gameObject.SetActive(false);
+            }
+            else
+            {
+                CutsceneManager.instance.currCP = cutsceneToPlayAfterExamine;
+                CutsceneManager.instance.playableDirector.playableAsset = cutsceneToPlayAfterExamine.cutscene;
+                CutsceneManager.instance.playableDirector.Play();
+
+                //Destroy(iOCanvas.gameObject);
+
+                if (deactivateAfterExamine)
+                {
+                    this.gameObject.SetActive(false);
+                }
+
+                Interacting.instance.howToInteractGO.SetActive(false);
+            }
+        }
+        else if (itemsToGet.Length > 0 || moneyAmount > 0)
         {
             GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", false);
 
-            InventoryManager.instance.inventory.AddItem(iBP, amountToGet);
+            for (int i = 0; i < itemsToGet.Length; i++)
+            {
+                InventoryManager.instance.inventory.AddItem(itemsToGet[i], amountsToGet[i]);
 
-            MessageManager.instance.CreateCollectedMessage(iBP);
+                MessageManager.instance.CreateCollectedMessage(itemsToGet[i]);
+            }
+
+            PlayerValueManager.instance.money += moneyAmount;
 
             CheckIfNeededForMission();
 
@@ -97,27 +159,13 @@ public class Item : MonoBehaviour, IInteractable
 
             ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
 
-            if (cutsceneToPlayAfterCollected != null)
-            {
-                CutsceneManager.instance.currCP = cutsceneToPlayAfterCollected;
-                CutsceneManager.instance.playableDirector.playableAsset = cutsceneToPlayAfterCollected.cutscene;
-                CutsceneManager.instance.playableDirector.Play();
-            }
+            isOpen = true;
+
+            this.gameObject.GetComponent<Animator>().enabled = true;
 
             //Destroy(iOCanvas.gameObject);
             //Destroy(this.gameObject);
-            this.gameObject.SetActive(false);
-        }
-        else
-        {
-            CutsceneManager.instance.currCP = cutsceneToPlayAfterExamine;
-            CutsceneManager.instance.playableDirector.playableAsset = cutsceneToPlayAfterExamine.cutscene;
-            CutsceneManager.instance.playableDirector.Play();
-
-            //Destroy(iOCanvas.gameObject);
-            this.gameObject.SetActive(false);
-
-            Interacting.instance.howToInteractGO.SetActive(false);
+            //this.gameObject.SetActive(false);
         }
     }
 

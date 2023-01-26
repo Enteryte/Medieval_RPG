@@ -6,6 +6,9 @@ public class SaveGameObject
 {
     public string savingType;
 
+    public bool wentThroughTB;
+    public int currSceneIndex;
+
     // Save-Game-Data
     public float playtimeInSeconds;
     public string dayOfSaving;
@@ -65,6 +68,10 @@ public class SaveGameObject
     public int currLeftHandWeaponID;
     public int currRightHandWeaponID;
 
+    public bool usesGloves;
+    public bool usesPauldrons;
+    public bool usesPoleyns;
+
     // Hotbar
     public List<int> storedItemID = new List<int>();
     public List<int> storedItemAmount = new List<int>();
@@ -73,4 +80,62 @@ public class SaveGameObject
     public List<string> allInteractableObjectNames = new List<string>();
 
     public List<bool> isDoorOpen = new List<bool>();
+
+    // Debuffs
+    // - Bleeding
+    public float bleedingTimes;
+    public float currBleedingTimes;
+
+    public int bleedingDamage;
+
+    // - Speed Buff
+    public float currSBBuffTime;
+    public float timerSB;
+
+    // - Damage Buff
+    public float currDBBuffTime;
+    public float timerDB;
+
+    // - Slow Debuff
+    public float currSDDebuffTime;
+    public float timerSD;
+
+    // - Stamina Debuff
+    public float currStDDebuffTime;
+    public float timerStD;
+
+    public float currStaminaReduceAmount;
+
+    // - Strength Debuff
+    public float currShDDebuffTime;
+    public float timerShD;
+
+    public float currStrengthReduceAmount;
+
+    // - Armor Debuff
+    public float currADDebuffTime;
+    public float timerAD;
+
+    public float currArmorReduceAmount;
+
+    // Options
+    // - Audio
+    public float masterSlValue;
+    public float environmentSlValue;
+    public float voiceSlValue;
+    public float musicSlValue;
+    public float sfxSlValue;
+
+    // - Video
+    public bool isWindowed;
+    public int resolutionDDValue;
+    public bool displaySubtitle;
+
+    // - Controls
+    public float camSensiSlValue;
+    public float mouseSensiSlValue;
+
+    public List<string> keyTxtStrings = new List<string>();
+
+    // -------------------------------> WIP: Save Keys ( Walk, Run, Jump, ( ... ) )
 }

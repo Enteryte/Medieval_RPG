@@ -40,11 +40,30 @@ public class GuessTheCardMinigameManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        //if (instance == null)
+        //{
+            instance = this;
+
+        gTCUI = GameManager.instance.gTCMGUI;
+        //}
+        //else
+        //{
+        //    instance.gTCUI = this.gTCUI;
+        //}
     }
 
     public void OnEnable()
     {
+        //if (instance != this || instance != null)
+        //{
+        //    //    instance.gTCUI = this.gTCUI;
+
+        //    return;
+        //    //}
+        //}
+
+        gTCUI = GameManager.instance.gTCMGUI;
+
         gTCUI.SetActive(true);
 
         ThirdPersonController.instance.canMove = false;

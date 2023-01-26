@@ -29,16 +29,20 @@ MonoBehaviour:
   allDecisions:
   - decisionText: Er hat gezahlt.
     arguePointsToGain: 0
-    needsToBeClicked: 0
+    needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 8f5de0521ca4c5541854cfb943615fc0, type: 2}
     missionToActivate: {fileID: 0}
+    checkMoney: 1
+    minMoneyValue: 80
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Er hat nicht gezahlt.
     arguePointsToGain: 0
-    needsToBeClicked: 0
+    needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 5b99bd463bc072c40a0fc4a2c6f9cddb, type: 2}
     missionToActivate: {fileID: 0}
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   mBTToCheck: {fileID: 0}

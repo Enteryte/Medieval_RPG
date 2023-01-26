@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
 
@@ -36,7 +37,10 @@ public class CutsceneManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Start is called before the first frame update
@@ -52,8 +56,6 @@ public class CutsceneManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape) && currCP.isNotADialogue && !currCP.cantBeSkipped)
             {
-                Debug.Log("is pressing: " + pressedTime);
-
                 cutsceneUIAnimator.Rebind();
                 cutsceneUIAnimator.enabled = true;
 
@@ -182,7 +184,6 @@ public class CutsceneManager : MonoBehaviour
 
         //    if (cutsceneBlackBackground.color.a >= 1)
         //    {
-                Debug.Log(cutsceneBlackBackground.color.a);
 
                 playableDirector.playableAsset = currCP.cutscene;
                 playableDirector.Play();
@@ -282,6 +283,8 @@ public class CutsceneManager : MonoBehaviour
 
             cutsceneCam.SetActive(false);
 
+            Debug.Log("fgthjklödw-_______________________");
+
             GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
         }
     }
@@ -311,8 +314,6 @@ public class CutsceneManager : MonoBehaviour
     #region TimelineSignals: Optional
     public void CheckIfPlayerWasAlreadyAtThava()
     {
-        Debug.Log(currCP);
-
         if (currCP.mBTToCheck != null && !currCP.mBTToCheck.missionTaskCompleted)
         {
             playableDirector.time = 0;
@@ -344,7 +345,7 @@ public class CutsceneManager : MonoBehaviour
 
     public void CheckIfPlayerHasGotDamage()
     {
-        if (PlayerValueManager.instance.currHP == PlayerValueManager.instance.normalHP)
+        if (PlayerValueManager.instance.CurrHP == PlayerValueManager.instance.normalHP)
         {
             //playableDirector.Stop();
             currCP = currCP.cutsceneToChangeTo;
@@ -370,9 +371,6 @@ public class CutsceneManager : MonoBehaviour
                 {
                     taskNumber = i;
 
-                    Debug.Log(currCP.missionTaskToActivate);
-                    Debug.Log(currCP);
-
                     break;
                 }
             }
@@ -395,8 +393,6 @@ public class CutsceneManager : MonoBehaviour
 
     public void OpenBeerScreen()
     {
-        Debug.Log("HJN33333333333333333333333KL");
-
         //BeerScreenMissionButton.instance.gameObject.SetActive(TavernKeeper.instance.CheckIfNeededForMission());
         TavernKeeper.instance.getBeerScreen.SetActive(true);
 
@@ -422,6 +418,15 @@ public class CutsceneManager : MonoBehaviour
         MissionManager.instance.CheckMissionTaskProgress(currCP.corresspondingMission, currCP.missionTaskToComplete);
     }
 
+    public void OpenPrickMinigameAfterCutscene()
+    {
+        PrickBoard.instance.isPlayingAgainstKilian = true;
+
+        PrickBoard.instance.Interact(null);
+
+        PrickMinigameManager.instance.StartNewMatch();
+    }
+
     public void PlayIdleTimeline()
     {
         playableDirector.time = 0;
@@ -436,6 +441,11 @@ public class CutsceneManager : MonoBehaviour
         else if (go.GetComponent<Merchant>() != null)
         {
             playableDirector.playableAsset = go.GetComponent<Merchant>().idleTimeline;
+            playableDirector.Play();
+        }
+        else if (go.GetComponent<NPC>() != null)
+        {
+            playableDirector.playableAsset = go.GetComponent<NPC>().idleTimeline;
             playableDirector.Play();
         }
     }
@@ -462,12 +472,46 @@ public class CutsceneManager : MonoBehaviour
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 
+    public void SetCurrentCutsceneToNull()
+    {
+        currCP = null;
+        playableDirector.playableAsset = null;
+    }
+
+    public void SetStartDeathCutscene()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            LoadingScreen.currLSP = PlayerValueManager.instance.deathLSP;
+            LoadingScreen.currSpawnPos = new Vector3(0, 0, 0);
+            LoadingScreen.currSpawnRot = Quaternion.identity;
+
+            LoadingScreen.instance.placeNameTxt.text = PlayerValueManager.instance.deathLSP.placeName;
+            LoadingScreen.instance.backgroundImg.sprite = PlayerValueManager.instance.deathLSP.backgroundSprite;
+            LoadingScreen.instance.descriptionTxt.text = PlayerValueManager.instance.deathLSP.descriptionTextString;
+
+            ////SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
+            //SceneChangeManager.instance.GetComponent<Animator>().Rebind();
+            ////SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
+
+            //SceneChangeManager.instance.loadingScreen.SetActive(true);
+
+            LoadingScreen.instance.gameObject.SetActive(true);
+            LoadingScreen.instance.ActivateAnimator();
+            SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
+
+            SceneChangeManager.instance.wentThroughTrigger = true;
+        }
+    }
+
     public void ActivateHUDUI()
     {
         GameManager.instance.interactCanvasasParentGO.SetActive(true);
         GameManager.instance.mapGO.SetActive(true);
         GameManager.instance.hotbarGO.SetActive(true);
         GameManager.instance.playerStatsGO.SetActive(true);
+
+        LoadingScreen.instance.DeactivateAnimator();
     }
 
     public void DeactivateHUDUI()
@@ -476,6 +520,34 @@ public class CutsceneManager : MonoBehaviour
         GameManager.instance.mapGO.SetActive(false);
         GameManager.instance.hotbarGO.SetActive(false);
         GameManager.instance.playerStatsGO.SetActive(false);
+    }
+
+    public void SleepTillMorning()
+    {
+        // -------------------> HIER Zeit ändern -> zum Morgen.
+
+        DebuffManager.instance.StopAllBuffs();
+        DebuffManager.instance.StopAllDebuffs();
+
+        PlayerValueManager.instance.CurrHP = PlayerValueManager.instance.normalHP;
+        PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
+
+        PlayerValueManager.instance.currStamina = PlayerValueManager.instance.normalStamina;
+        PlayerValueManager.instance.staminaSlider.value = PlayerValueManager.instance.currStamina;
+    }
+
+    public void SleepTillEvening()
+    {
+        // -------------------> HIER Zeit ändern -> zum Abend.
+
+        DebuffManager.instance.StopAllBuffs();
+        DebuffManager.instance.StopAllDebuffs();
+
+        PlayerValueManager.instance.CurrHP = PlayerValueManager.instance.normalHP;
+        PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
+
+        PlayerValueManager.instance.currStamina = PlayerValueManager.instance.normalStamina;
+        PlayerValueManager.instance.staminaSlider.value = PlayerValueManager.instance.currStamina;
     }
     #endregion
 }

@@ -19,6 +19,7 @@ public class StartScreenManager : MonoBehaviour
 
     public static StartScreenMainButton currSelectedSSMBtn;
     public static LoadSlot currSelectedLoadSlotBtn;
+    public static int currSceneIndex = -1;
 
     public GameObject areYouSureNewGameScreen;
     public AnimationClip closeAreYouSureNewGameScreenAnim;
@@ -32,9 +33,17 @@ public class StartScreenManager : MonoBehaviour
     public GameObject areYouSureExitGameScreen;
     public AnimationClip closeAreYouSureExitGameAnim;
 
+    public GameObject areYouSureBackToMMScreen;
+    public AnimationClip closeAreYouSureBackToMMAnim;
+
     public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
     public Image saveGameScreenshot;
+
+    public Button continueBtn;
+    public Button loadSaveDataBtn;
+
+    public bool changeBackToMM = false;
 
     public void Awake()
     {
@@ -42,6 +51,10 @@ public class StartScreenManager : MonoBehaviour
         {
             instance = this;
         }
+        //else
+        //{
+        //    Destroy(this.gameObject);
+        //}
     }
 
     // Start is called before the first frame update
@@ -68,18 +81,13 @@ public class StartScreenManager : MonoBehaviour
                 mainObjectAnimator.enabled = true;
                 mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
                 mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
-                Debug.Log("NEW GAME");
 
                 SceneChangeManager.instance.startedNewGame = true;
-
-                Debug.Log("0909");
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
-
-                Debug.Log("0909");
             }
         }
         else if (areYouSureDeleteSavaDataScreen.activeSelf)
@@ -121,24 +129,44 @@ public class StartScreenManager : MonoBehaviour
 
                 StartScreenManager.instance.saveGameScreenshot.enabled = false;
                 StartScreenManager.instance.saveGameScreenshot.sprite = null;
-
-                Debug.Log("0909");
             }
         }
         else if (areYouSureExitGameScreen.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                Application.Quit();
+                SaveSystem.instance.SaveOptions();
 
-                Debug.Log("0909");
+                Debug.Log("EXIT GAME");
+
+                Application.Quit();
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mainAnimator.Play(closeAreYouSureExitGameAnim.name);
+            }
+        }
+        else if (areYouSureBackToMMScreen.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                changeBackToMM = true;
 
-                Debug.Log("0909");
+                LoadingScreen.instance.gameObject.SetActive(true);
+                LoadingScreen.instance.ActivateAnimator();
+
+                SceneChangeManager.instance.loadingScreen.SetActive(true);
+                SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SaveSystem.instance.SaveOptions();
+                currSelectedSSMBtn = null;
+                currSelectedLoadSlotBtn = null;
+
+                mainAnimator.Play(closeAreYouSureBackToMMAnim.name);
             }
         }
     }
@@ -151,10 +179,19 @@ public class StartScreenManager : MonoBehaviour
     public void ContinueGameButton()
     {
         // Continue game
-        SceneChangeManager.instance.pressedContinue = true;
+        LoadingScreen.instance.gameObject.SetActive(true);
+        LoadingScreen.instance.ActivateAnimator();
 
+        //SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
         mainObjectAnimator.Rebind();
         mainObjectAnimator.enabled = true;
+        //SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
+
+        //SaveSystem.instance.SaveAutomatic();
+
+        SceneChangeManager.instance.loadingScreen.SetActive(true);
+        SceneChangeManager.instance.pressedContinue = true;
+
         mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
     }
 
@@ -171,31 +208,48 @@ public class StartScreenManager : MonoBehaviour
 
             for (int i = dirInfo.Length - 1; i > -1; i--)
             {
-                var gameDataFolder = Directory.GetFiles(dirInfo[i]);
-
-                StreamReader sr = new StreamReader(gameDataFolder[0]);
-
-                string JsonString = sr.ReadToEnd();
-
-                sr.Close();
-
-                SaveGameObject sOG = JsonUtility.FromJson<SaveGameObject>(JsonString);
-
-                var newSGSlot = Instantiate(saveGameSlotPrefab, saveGameSlotParentObj.transform);
-
-                if (sOG.currentMainMissionName != "")
+                if (!dirInfo[i].Contains("_N"))
                 {
-                    newSGSlot.GetComponent<LoadSlot>().loadGameNameTxt.text = "<b>" + sOG.currentMainMissionName + "</b>, " + sOG.dayOfSaving.ToString();
+                    var gameDataFolder = Directory.GetFiles(dirInfo[i]);
+
+                    StreamReader sr = new StreamReader(gameDataFolder[0]);
+
+                    string JsonString = sr.ReadToEnd();
+
+                    sr.Close();
+
+                    SaveGameObject sOG = JsonUtility.FromJson<SaveGameObject>(JsonString);
+
+                    var newSGSlot = Instantiate(saveGameSlotPrefab, saveGameSlotParentObj.transform);
+
+                    if (sOG.currentMainMissionName != "")
+                    {
+                        newSGSlot.GetComponent<LoadSlot>().loadGameNameTxt.text = "<b>" + sOG.currentMainMissionName + "</b>, " + sOG.dayOfSaving.ToString();
+                    }
+                    else
+                    {
+                        newSGSlot.GetComponent<LoadSlot>().loadGameNameTxt.text = sOG.dayOfSaving.ToString();
+                    }
+
+                    newSGSlot.GetComponent<LoadSlot>().sceneToLoadIndex = sOG.currSceneIndex;
+
+                    newSGSlot.GetComponent<LoadSlot>().saveGameScreenshot = LoadNewSprite(gameDataFolder[1]);
+
+                    newSGSlot.GetComponent<LoadSlot>().correspondingSaveDataDirectory = dirInfo[i];
+                    newSGSlot.GetComponent<LoadSlot>().correspondingTextFile = gameDataFolder[0];
+
+                    if (currSceneIndex <= -1)
+                    {
+                        currSceneIndex = sOG.currSceneIndex;
+                    }
                 }
                 else
                 {
-                    newSGSlot.GetComponent<LoadSlot>().loadGameNameTxt.text = sOG.dayOfSaving.ToString();
+                    if (currSceneIndex <= -1)
+                    {
+                        FileUtil.DeleteFileOrDirectory(dirInfo[i].ToString());
+                    }
                 }
-
-                newSGSlot.GetComponent<LoadSlot>().saveGameScreenshot = LoadNewSprite(gameDataFolder[1]);
-
-                newSGSlot.GetComponent<LoadSlot>().correspondingSaveDataDirectory = dirInfo[i];
-                newSGSlot.GetComponent<LoadSlot>().correspondingTextFile = gameDataFolder[0];
             }
         }
     }
