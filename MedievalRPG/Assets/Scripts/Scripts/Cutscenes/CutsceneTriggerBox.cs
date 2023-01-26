@@ -17,6 +17,13 @@ public class CutsceneTriggerBox : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.currCP.cantBeSkipped && CutsceneManager.instance.playableDirector.playableGraph.IsValid()
+            && CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())
+        {
+            Debug.Log("ZUHJ-----------------------------------------------------------NKM;");
+            return;
+        }
+
         if (!triggerOnExit)
         {
             if (other.gameObject == GameManager.instance.playerGO && !CutsceneManager.instance.playableDirector.playableGraph.IsValid())

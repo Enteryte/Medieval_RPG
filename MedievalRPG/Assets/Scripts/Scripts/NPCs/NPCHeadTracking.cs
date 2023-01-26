@@ -22,7 +22,7 @@ public class NPCHeadTracking : MonoBehaviour
 
         radiusSqr = radius * radius;
 
-        playerGO = GameManager.instance.playerGO;
+        //playerGO = GameManager.instance.playerGO;
     }
 
     // Update is called once per frame
@@ -39,6 +39,8 @@ public class NPCHeadTracking : MonoBehaviour
             if (angle < maxAngle)
             {
                 tracking = playerGO.transform;
+
+                //Debug.Log("HUJKL;");
             }
         }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 10709.357, g: 9010.164, b: 8180.5547, a: 1}
+  m_IndirectSpecularColor: {r: 10702.697, g: 9008.723, b: 8182.6445, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2319,6 +2319,7 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
   itemsToGet: []
   amountsToGet: 
   moneyAmount: 0
@@ -14225,6 +14226,7 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
   itemsToGet: []
   amountsToGet: 
   moneyAmount: 0
@@ -22113,6 +22115,10 @@ MonoBehaviour:
   missionTaskObjPrefab: {fileID: 3534812313462896991, guid: 1557123c6f0005e44b8382344be5aa43, type: 3}
   npcMissionButtonParentObjTrans: {fileID: 1013065903}
   npcMissionButtonPrefab: {fileID: 3685291579422417749, guid: 72ae2812971b1bd4d891c69980b954b5, type: 3}
+  npcUICloseBtnPrefab: {fileID: 0}
+  tombstoneTextToDisplayTxt: {fileID: 0}
+  readTombstoneUI: {fileID: 0}
+  npcBtnKillianGOs: []
 --- !u!114 &459491655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26227,7 +26233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &523312487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31297,6 +31303,7 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
   itemsToGet: []
   amountsToGet: 
   moneyAmount: 0
@@ -44693,6 +44700,7 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
   itemsToGet: []
   amountsToGet: 
   moneyAmount: 0
@@ -58637,6 +58645,8 @@ MonoBehaviour:
   currDraggableInventorySlotObj: {fileID: 0}
   draggedHotbarItem: 0
   startedOnHSB: 0
+  isUsingItem: 0
+  drinkingAnim: {fileID: 0}
 --- !u!114 &1124222928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58654,11 +58664,15 @@ MonoBehaviour:
   loweredMaxStamina: 0
   loweredNormalStrength: 0
   loweredNormalArmor: 0
+  higherSpeedBuff: 0
+  higherDamageBuff: 0
   lowerStaminaDebuff: 0
   slowPlayerDebuff: 0
   lowerStrengthDebuff: 0
   lowerArmorDebuff: 0
   bleedingDebuff: 0
+  higherSpeedImg: {fileID: 0}
+  higherDamageImg: {fileID: 0}
   lowerStaminaImg: {fileID: 1110596686}
   slowPlayerImg: {fileID: 1942858637}
   lowerStrengthImg: {fileID: 1960746966}
@@ -58667,6 +58681,21 @@ MonoBehaviour:
   bleedingTimes: 12
   currBleedingTimes: 0
   bleedingDamage: 10
+  currSBBuffTime: 0
+  timerSB: 0
+  currDBBuffTime: 0
+  timerDB: 0
+  currSDDebuffTime: 0
+  timerSD: 0
+  currStDDebuffTime: 0
+  timerStD: 0
+  currStaminaReduceAmount: 0
+  currShDDebuffTime: 0
+  timerShD: 0
+  currStrengthReduceAmount: 0
+  currADDebuffTime: 0
+  timerAD: 0
+  currArmorReduceAmount: 0
 --- !u!114 &1124222929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58893,7 +58922,8 @@ MonoBehaviour:
   shopItemPreviewCamTrans: {fileID: 0}
   weightTxt: {fileID: 75674023}
   moneyTxt: {fileID: 1653888927}
-  itemInfoPopUp: {fileID: 2017637249}
+  itemInfoPopUpLeft: {fileID: 0}
+  itemInfoPopUpRight: {fileID: 0}
   isShopPlayerItem: 0
   currPlayerClickedSCBtn: {fileID: 0}
   playerItemSlotParentTrans: {fileID: 237604163}
@@ -67039,11 +67069,14 @@ MonoBehaviour:
   dontShowAgainDeleteCheckmark: {fileID: 431972796}
   areYouSureExitGameScreen: {fileID: 2067580118}
   closeAreYouSureExitGameAnim: {fileID: 7400000, guid: d934d73475f5b4240968a7f8075e4ccc, type: 2}
+  areYouSureBackToMMScreen: {fileID: 0}
+  closeAreYouSureBackToMMAnim: {fileID: 0}
   saveGameSlotPrefab: {fileID: 2249816677866161133, guid: 92c06981cb44ad84cbff4d4af2eb72cd, type: 3}
   saveGameSlotParentObj: {fileID: 1974912946}
   saveGameScreenshot: {fileID: 1705971579}
   continueBtn: {fileID: 0}
   loadSaveDataBtn: {fileID: 0}
+  changeBackToMM: 0
 --- !u!4 &1324251288
 Transform:
   m_ObjectHideFlags: 0
@@ -69639,7 +69672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1363821799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69661,6 +69694,7 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
   itemsToGet: []
   amountsToGet: 
   moneyAmount: 0
@@ -74127,7 +74161,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1443264775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84931,6 +84965,7 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
   itemsToGet: []
   amountsToGet: 
   moneyAmount: 0
@@ -87879,6 +87914,7 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
   itemsToGet: []
   amountsToGet: 
   moneyAmount: 0
@@ -93650,7 +93686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1879975992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93672,6 +93708,7 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
   itemsToGet: []
   amountsToGet: 
   moneyAmount: 0
@@ -98545,6 +98582,7 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
   itemsToGet: []
   amountsToGet: 
   moneyAmount: 0
@@ -103392,6 +103430,7 @@ MonoBehaviour:
   onlyExamineObject: 0
   hasExaminedObject: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
   itemsToGet: []
   amountsToGet: 
   moneyAmount: 0
