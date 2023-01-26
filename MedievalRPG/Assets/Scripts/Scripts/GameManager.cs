@@ -416,6 +416,8 @@ public class GameManager : MonoBehaviour
 
     public void ContinueGame()
     {
+        SaveSystem.instance.SaveOptions();
+
         // Player
         playerGO.GetComponent<Animator>().speed = 1;
 

@@ -214,6 +214,8 @@ public class SceneChangeManager : MonoBehaviour
         }
         else
         {
+            StartScreenManager.currSelectedSSMBtn = null;
+            Debug.Log(StartScreenManager.currSelectedSSMBtn);
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_3");
         }
 

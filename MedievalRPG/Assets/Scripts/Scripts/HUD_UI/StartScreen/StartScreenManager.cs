@@ -135,6 +135,8 @@ public class StartScreenManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                SaveSystem.instance.SaveOptions();
+
                 Debug.Log("EXIT GAME");
 
                 Application.Quit();
@@ -160,6 +162,10 @@ public class StartScreenManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                SaveSystem.instance.SaveOptions();
+                currSelectedSSMBtn = null;
+                currSelectedLoadSlotBtn = null;
+
                 mainAnimator.Play(closeAreYouSureBackToMMAnim.name);
             }
         }
@@ -173,10 +179,19 @@ public class StartScreenManager : MonoBehaviour
     public void ContinueGameButton()
     {
         // Continue game
-        SceneChangeManager.instance.pressedContinue = true;
+        LoadingScreen.instance.gameObject.SetActive(true);
+        LoadingScreen.instance.ActivateAnimator();
 
+        //SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
         mainObjectAnimator.Rebind();
         mainObjectAnimator.enabled = true;
+        //SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
+
+        //SaveSystem.instance.SaveAutomatic();
+
+        SceneChangeManager.instance.loadingScreen.SetActive(true);
+        SceneChangeManager.instance.pressedContinue = true;
+
         mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
     }
 
