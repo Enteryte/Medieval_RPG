@@ -45,7 +45,6 @@ public class EnemyArrowController : MonoBehaviour
 
     private void OnTriggerEnter(Collider _collision)
     {
-        Debug.Log(Damage);
         //Do Damage after checking if you hit the player or not
         if (!_collision.gameObject.CompareTag("Player"))
             return;

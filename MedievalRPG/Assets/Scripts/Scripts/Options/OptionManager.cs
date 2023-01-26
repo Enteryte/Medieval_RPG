@@ -76,5 +76,11 @@ public class OptionManager : MonoBehaviour
     {
         mouseSensiSliderTxt.text = ((int)(mouseSensiSlider.value * 100)).ToString() + " / 100";
     }
+
+    public void FullScreenToggle(bool _isWindow)
+    {
+        Debug.Log($"Fenstermodus: {_isWindow}");
+        Screen.fullScreen = !_isWindow;
+    }
     #endregion
 }
