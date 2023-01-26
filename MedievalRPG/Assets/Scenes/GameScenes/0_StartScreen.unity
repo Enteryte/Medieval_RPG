@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1481.7754, g: 1835.8867, b: 2430.4492, a: 1}
+  m_IndirectSpecularColor: {r: 1478.8593, g: 1831.9368, b: 2425.4312, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -468,6 +468,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1724935}
   loadGameSavingTypeTxt: {fileID: 944749431}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 18510588}
   boarderImg: {fileID: 84453350}
   normalColor:
@@ -568,6 +569,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1923704699}
   loadGameSavingTypeTxt: {fileID: 66050175}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 49163136}
   boarderImg: {fileID: 251557255}
   normalColor:
@@ -1307,6 +1309,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 892282911}
   loadGameSavingTypeTxt: {fileID: 735022406}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 135344472}
   boarderImg: {fileID: 1815329655}
   normalColor:
@@ -1970,6 +1973,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1132898272}
   loadGameSavingTypeTxt: {fileID: 1229357417}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 242668413}
   boarderImg: {fileID: 1676067111}
   normalColor:
@@ -3256,6 +3260,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 548793766}
   loadGameSavingTypeTxt: {fileID: 1782368685}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 388508295}
   boarderImg: {fileID: 770150375}
   normalColor:
@@ -4173,6 +4178,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1849187713}
   loadGameSavingTypeTxt: {fileID: 1895151950}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 499497712}
   boarderImg: {fileID: 203959795}
   normalColor:
@@ -4262,6 +4268,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1993182145}
   loadGameSavingTypeTxt: {fileID: 1190085411}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 508803855}
   boarderImg: {fileID: 1826604561}
   normalColor:
@@ -4391,6 +4398,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c1ce4fb46143f46bc5cb5224c934f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Version: 8
+  m_ObsoleteRenderingPath: 0
+  m_ObsoleteFrameSettings:
+    overrides: 0
+    enableShadow: 0
+    enableContactShadows: 0
+    enableShadowMask: 0
+    enableSSR: 0
+    enableSSAO: 0
+    enableSubsurfaceScattering: 0
+    enableTransmission: 0
+    enableAtmosphericScattering: 0
+    enableVolumetrics: 0
+    enableReprojectionForVolumetrics: 0
+    enableLightLayers: 0
+    enableExposureControl: 1
+    diffuseGlobalDimmer: 0
+    specularGlobalDimmer: 0
+    shaderLitMode: 0
+    enableDepthPrepassWithDeferredRendering: 0
+    enableTransparentPrepass: 0
+    enableMotionVectors: 0
+    enableObjectMotionVectors: 0
+    enableDecals: 0
+    enableRoughRefraction: 0
+    enableTransparentPostpass: 0
+    enableDistortion: 0
+    enablePostprocess: 0
+    enableOpaqueObjects: 0
+    enableTransparentObjects: 0
+    enableRealtimePlanarReflection: 0
+    enableMSAA: 0
+    enableAsyncCompute: 0
+    runLightListAsync: 0
+    runSSRAsync: 0
+    runSSAOAsync: 0
+    runContactShadowsAsync: 0
+    runVolumeVoxelizationAsync: 0
+    lightLoopSettings:
+      overrides: 0
+      enableDeferredTileAndCluster: 0
+      enableComputeLightEvaluation: 0
+      enableComputeLightVariants: 0
+      enableComputeMaterialVariants: 0
+      enableFptlForForwardOpaque: 0
+      enableBigTilePrepass: 0
+      isFptlEnabled: 0
   clearColorMode: 0
   backgroundColorHDR: {r: 0.025, g: 0.07, b: 0.19, a: 0}
   clearDepth: 1
@@ -4457,53 +4511,6 @@ MonoBehaviour:
       data1: 0
       data2: 0
   defaultFrameSettings: 0
-  m_Version: 8
-  m_ObsoleteRenderingPath: 0
-  m_ObsoleteFrameSettings:
-    overrides: 0
-    enableShadow: 0
-    enableContactShadows: 0
-    enableShadowMask: 0
-    enableSSR: 0
-    enableSSAO: 0
-    enableSubsurfaceScattering: 0
-    enableTransmission: 0
-    enableAtmosphericScattering: 0
-    enableVolumetrics: 0
-    enableReprojectionForVolumetrics: 0
-    enableLightLayers: 0
-    enableExposureControl: 1
-    diffuseGlobalDimmer: 0
-    specularGlobalDimmer: 0
-    shaderLitMode: 0
-    enableDepthPrepassWithDeferredRendering: 0
-    enableTransparentPrepass: 0
-    enableMotionVectors: 0
-    enableObjectMotionVectors: 0
-    enableDecals: 0
-    enableRoughRefraction: 0
-    enableTransparentPostpass: 0
-    enableDistortion: 0
-    enablePostprocess: 0
-    enableOpaqueObjects: 0
-    enableTransparentObjects: 0
-    enableRealtimePlanarReflection: 0
-    enableMSAA: 0
-    enableAsyncCompute: 0
-    runLightListAsync: 0
-    runSSRAsync: 0
-    runSSAOAsync: 0
-    runContactShadowsAsync: 0
-    runVolumeVoxelizationAsync: 0
-    lightLoopSettings:
-      overrides: 0
-      enableDeferredTileAndCluster: 0
-      enableComputeLightEvaluation: 0
-      enableComputeLightVariants: 0
-      enableComputeMaterialVariants: 0
-      enableFptlForForwardOpaque: 0
-      enableBigTilePrepass: 0
-      isFptlEnabled: 0
 --- !u!1 &529540645
 GameObject:
   m_ObjectHideFlags: 0
@@ -5387,6 +5394,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1132410211}
   loadGameSavingTypeTxt: {fileID: 817452492}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 593831405}
   boarderImg: {fileID: 1184109917}
   normalColor:
@@ -5476,6 +5484,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 2107267553}
   loadGameSavingTypeTxt: {fileID: 694846918}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 597610321}
   boarderImg: {fileID: 2081157886}
   normalColor:
@@ -5700,6 +5709,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 612962922}
   loadGameSavingTypeTxt: {fileID: 1777064251}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 604962078}
   boarderImg: {fileID: 1472806380}
   normalColor:
@@ -6176,6 +6186,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1213389195}
   loadGameSavingTypeTxt: {fileID: 337874431}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 705680760}
   boarderImg: {fileID: 175719463}
   normalColor:
@@ -6315,6 +6326,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Version: 11
+  m_ObsoleteShadowResolutionTier: 1
+  m_ObsoleteUseShadowQualitySettings: 0
+  m_ObsoleteCustomShadowResolution: 512
+  m_ObsoleteContactShadows: 0
+  m_PointlightHDType: 0
+  m_SpotLightShape: 0
+  m_AreaLightShape: 0
   m_Intensity: 100000
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
@@ -6417,14 +6436,6 @@ MonoBehaviour:
   m_AreaLightEmissiveMeshShadowCastingMode: 0
   m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
   m_AreaLightEmissiveMeshLayer: -1
-  m_Version: 11
-  m_ObsoleteShadowResolutionTier: 1
-  m_ObsoleteUseShadowQualitySettings: 0
-  m_ObsoleteCustomShadowResolution: 512
-  m_ObsoleteContactShadows: 0
-  m_PointlightHDType: 0
-  m_SpotLightShape: 0
-  m_AreaLightShape: 0
 --- !u!114 &720904915 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 720904915, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
@@ -7491,6 +7502,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1772945057}
   loadGameSavingTypeTxt: {fileID: 98925545}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 842583874}
   boarderImg: {fileID: 350087924}
   normalColor:
@@ -8464,6 +8476,7 @@ GameObject:
   - component: {fileID: 991766509}
   - component: {fileID: 991766511}
   - component: {fileID: 991766512}
+  - component: {fileID: 991766513}
   m_Layer: 0
   m_Name: Empty:StartScreenManager
   m_TagString: Untagged
@@ -8629,6 +8642,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currSavingType: 0
+--- !u!114 &991766513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991766505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae5901d622c6f591af138216844963d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1026004228 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1026004228, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
@@ -10722,6 +10747,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 772420234}
   loadGameSavingTypeTxt: {fileID: 2075878928}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 1362366564}
   boarderImg: {fileID: 1901929785}
   normalColor:
@@ -11022,6 +11048,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1727242607}
   loadGameSavingTypeTxt: {fileID: 306631983}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 1429283726}
   boarderImg: {fileID: 318467185}
   normalColor:
@@ -11597,6 +11624,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1855927954}
   loadGameSavingTypeTxt: {fileID: 1790250866}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 1494804845}
   boarderImg: {fileID: 2130591122}
   normalColor:
@@ -15329,6 +15357,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1583879629}
   loadGameSavingTypeTxt: {fileID: 177085009}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 1889763543}
   boarderImg: {fileID: 11815337}
   normalColor:
@@ -16494,6 +16523,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1714818983}
   loadGameSavingTypeTxt: {fileID: 287018658}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 2005741167}
   boarderImg: {fileID: 1436948113}
   normalColor:
@@ -16746,6 +16776,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1282344293}
   loadGameSavingTypeTxt: {fileID: 440758435}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 2071984687}
   boarderImg: {fileID: 344129151}
   normalColor:
@@ -17058,6 +17089,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 755330215}
   loadGameSavingTypeTxt: {fileID: 748645370}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 2090257063}
   boarderImg: {fileID: 331390110}
   normalColor:
@@ -17158,6 +17190,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 598711260}
   loadGameSavingTypeTxt: {fileID: 1880770279}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 2098537700}
   boarderImg: {fileID: 2137886970}
   normalColor:
@@ -17382,6 +17415,7 @@ MonoBehaviour:
   loadGameNameTxt: {fileID: 1796961792}
   loadGameSavingTypeTxt: {fileID: 969168261}
   saveGameScreenshot: {fileID: 0}
+  sceneToLoadIndex: 0
   animator: {fileID: 2127634800}
   boarderImg: {fileID: 370347355}
   normalColor:
@@ -18549,6 +18583,58 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -454.97
       objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_Options.m_Options.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[0].m_Text
+      value: 1900 x 1080 (16:9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[1].m_Text
+      value: 1680 x 1050 (16:10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[2].m_Text
+      value: 1280 x 1024 (5:4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_Options.m_Options.Array.data[3].m_Text
+      value: 1280 x 960 (4:3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 991766511}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResolutionUpdate
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: OptionManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1697577466, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -18689,6 +18775,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -581.39
       objectReference: {fileID: 0}
+    - target: {fileID: 2057285656, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2057285656, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2057285656, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 991766511}
+    - target: {fileID: 2057285656, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2057285656, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResolutionUpdate
+      objectReference: {fileID: 0}
+    - target: {fileID: 2057285656, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: OptionManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2057285656, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1816986446354505633, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -18775,23 +18889,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814392834246, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814392834246, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814392834246, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 256.1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814392834246, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 128.05
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814392834246, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -171.48132
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814414029497, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -18811,23 +18925,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814648953987, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814648953987, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814648953987, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 256.1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814648953987, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 128.05
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814648953987, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -23.5722
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814648953988, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -19143,43 +19257,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816031013099, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816031013099, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816031013099, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 256.1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816031013099, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 128.05
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816031013099, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -60.54948
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816061504920, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816061504920, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816061504920, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 256.1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816061504920, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 128.05
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816061504920, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -97.526764
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816083813563, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_IsActive
@@ -19187,23 +19301,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816085790895, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816085790895, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816085790895, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 256.1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816085790895, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 128.05
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816085790895, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -134.50404
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816132047048, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.y
