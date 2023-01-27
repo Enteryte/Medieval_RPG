@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 6398817216014419351}
   - component: {fileID: 6080622082034877490}
   - component: {fileID: 2022923235072934388}
+  - component: {fileID: 4366194806307111426}
   m_Layer: 0
   m_Name: Bretter01_lp
   m_TagString: Untagged
@@ -131,6 +132,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4366194806307111426
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8137332416674879462}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.02, y: 1.507904, z: 0.5593336}
+  m_Center: {x: 0, y: -0.003951818, z: -0.15622331}
 --- !u!1 &9095656703978080720
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +156,7 @@ GameObject:
   - component: {fileID: 4866747834674359614}
   - component: {fileID: 8261753664863448778}
   - component: {fileID: 450701050872872616}
+  - component: {fileID: 403729584189037666}
   m_Layer: 0
   m_Name: Balken01_lp
   m_TagString: Untagged
@@ -214,3 +229,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &403729584189037666
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9095656703978080720}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.07999999, y: 0.07999987, z: 1.0000001}
+  m_Center: {x: 0, y: -0.00000007636847, z: 0.49999982}
