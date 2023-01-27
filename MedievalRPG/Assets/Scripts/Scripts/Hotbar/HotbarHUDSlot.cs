@@ -8,33 +8,61 @@ public class HotbarHUDSlot : MonoBehaviour
     public string keyToPress;
 
     public HotbarSlotButton corrHSB;
+    public ClickableInventorySlot corrInvCIS;
 
     public void Start()
     {
         corrHSB = this.gameObject.GetComponent<HotbarSlotButton>();
+
+        //for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
+        //{
+        //    if (HotbarManager.instance.allHotbarSlotBtn[i].correspondingMainScreenHotbarSlotBtn == this.gameObject.GetComponent<ClickableInventorySlot>())
+        //    {
+        //        Debug.Log("GUTEN TAG");
+        //        corrInvCIS = HotbarManager.instance.allHotbarSlotBtn[i];
+        //    }
+        //}
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (corrHSB.iBP != null && Input.GetKeyDown((KeyCode)System.Enum.Parse(typeof(KeyCode), keyToPress)) && HotbarManager.instance.isUsingItem && ThirdPersonController.instance.canMove)
+        if (corrInvCIS.storedItemBase != null && Input.GetKeyDown((KeyCode)System.Enum.Parse(typeof(KeyCode), keyToPress)) && !HotbarManager.instance.isUsingItem && ThirdPersonController.instance.canMove)
         {
-            if (corrHSB.iBP.itemType == ItemBaseProfile.ItemType.food)
+            if (corrInvCIS.storedItemBase.itemType == ItemBaseProfile.ItemType.food)
             {
-                UseItemManager.instance.UseFoodItem(corrHSB.iBP);
+                Debug.Log("USEEEEEEEEEEEEEEEEEEEEE");
+                UseItemManager.instance.UseFoodItem(corrInvCIS.storedItemBase);
+                UseHotbarItem();
             }
-            else if (corrHSB.iBP.itemType == ItemBaseProfile.ItemType.potion)
+            else if (corrInvCIS.storedItemBase.itemType == ItemBaseProfile.ItemType.potion)
             {
-                if (corrHSB.iBP.potionType == ItemBaseProfile.PotionType.healing)
+                if (corrInvCIS.storedItemBase.potionType == ItemBaseProfile.PotionType.healing)
                 {
-                    PlayerValueManager.instance.CurrHP += corrHSB.iBP.potionBuffValue;
+                    //PlayerValueManager.instance.CurrHP += corrInvCIS.storedItemBase.potionBuffValue;
 
+                    UseItemManager.instance.UseHealPotion(corrInvCIS.storedItemBase);
                     UseHotbarItem();
                 }
-                else if (corrHSB.iBP.potionType == ItemBaseProfile.PotionType.stamina)
+                else if (corrInvCIS.storedItemBase.potionType == ItemBaseProfile.PotionType.stamina)
                 {
-                    PlayerValueManager.instance.currStamina += corrHSB.iBP.potionBuffValue;
+                    //PlayerValueManager.instance.currStamina += corrInvCIS.storedItemBase.potionBuffValue;
 
+                    UseItemManager.instance.UseStaminaPotion(corrInvCIS.storedItemBase);
+                    UseHotbarItem();
+                }
+                else if (corrInvCIS.storedItemBase.potionType == ItemBaseProfile.PotionType.speed)
+                {
+                    //PlayerValueManager.instance.currStamina += corrInvCIS.storedItemBase.potionBuffValue;
+
+                    UseItemManager.instance.UseSpeedPotion(corrInvCIS.storedItemBase);
+                    UseHotbarItem();
+                }
+                else if (corrInvCIS.storedItemBase.potionType == ItemBaseProfile.PotionType.strength)
+                {
+                    //PlayerValueManager.instance.currStamina += corrInvCIS.storedItemBase.potionBuffValue;
+
+                    UseItemManager.instance.UseStrengthPotion(corrInvCIS.storedItemBase);
                     UseHotbarItem();
                 }
                 //else if (corrHSB.iBP.potionType == ItemBaseProfile.PotionType.)
@@ -54,7 +82,10 @@ public class HotbarHUDSlot : MonoBehaviour
 
         ThirdPersonController.instance._animator.Play(HotbarManager.instance.drinkingAnim.ToString());
 
-        corrHSB.itemAmount -= 1;
+        corrInvCIS.storedAmount -= 1;
+        corrInvCIS.storedAmountTxt.text = corrInvCIS.storedAmount.ToString();
+        corrHSB.itemAmount = corrInvCIS.storedAmount;
+        corrHSB.itemAmountTxt.text = corrInvCIS.storedAmount.ToString();
 
         for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
         {
@@ -70,6 +101,16 @@ public class HotbarHUDSlot : MonoBehaviour
 
                 InventoryManager.instance.inventory.slots[i].RemoveAmount(1);
             }
+        }
+
+        if (corrHSB.itemAmount == 0)
+        {
+            corrHSB.iBP = null;
+            corrInvCIS.storedAmount = 0;
+
+            corrInvCIS.ClearHotbarSlot();
+
+            Debug.Log("TFZGUIJOKLMÖ;Ä:_'");
         }
     }
 }

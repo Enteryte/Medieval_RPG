@@ -149,6 +149,8 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void PlayOneLiner()
     {
+        CutsceneManager.instance.currCP = null;
+
         var randomNumber = Random.Range(0, 100);
 
         if (randomNumber > 75)
