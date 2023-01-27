@@ -228,6 +228,11 @@ namespace StarterAssets
                 return;
             }
 
+            if (_animator.GetBool("GrabItem"))
+            {
+                return;
+            }
+
             //Debug.Log(_animator.speed);
 
             //_hasAnimator = TryGetComponent(out _animator);
