@@ -20,7 +20,6 @@ public class ArrowScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log(other.gameObject.name);
         if(!other.gameObject.CompareTag("Player"))
         {
             StopCoroutine(TriggerEvents());
@@ -30,6 +29,10 @@ public class ArrowScript : MonoBehaviour
             if (other.gameObject.CompareTag("Enemy"))
             {
                 other.gameObject.GetComponent<EnemyHealth>().LightDamage(damage);
+            }
+            if(other.gameObject.CompareTag("SkeletonBoss"))
+            {
+                StartCoroutine(other.gameObject.GetComponent<SkeletonBossKI>().CountArrows());
             }
         }
     }

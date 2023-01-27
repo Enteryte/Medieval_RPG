@@ -4,59 +4,61 @@ using UnityEngine;
 
 public class SkeletonBossKI : MonoBehaviour
 {
-    [SerializeField] private List<SkeletonBossActions> FirstPhaseActions = new List<SkeletonBossActions>();
-    [SerializeField] private List<SkeletonBossActions> SecondPhaseActions = new List<SkeletonBossActions>();
+    public Transform[] RoomEdges;
+    
+    [SerializeField] private List<SkeletonBossActions> BossActions = new List<SkeletonBossActions>();
     [SerializeField] private Transform player;
     [SerializeField] private bool phase1 = true;
     [SerializeField] private float secondsToWait = 0.5f;
     [SerializeField] private float closeCombatDistance = 1;
-    [SerializeField] private int arrowsHit = 0;
     [SerializeField] private int maxArrowsHit = 0;
 
-    [SerializeField] private int weakAttackChance = 80; 
-    [SerializeField] private int strongAttackChance = 10; 
+    [SerializeField] private int weakAttackChance = 80;
+    [SerializeField] private int strongAttackChance = 10;
+    [SerializeField] private int meteorChance = 5;
     [SerializeField] private int moveChance = 10;
     [SerializeField] private int interactChance = 5;
     [SerializeField] private float choiceChanceMultiplier = 2;
 
-    private List<string> Actions;
     private float playerDistance = 100;
+    private int arrowsHit = 0;
+    private bool countArrows = false;
 
     public void PickAction()
     {
         //Wenn der Spieler zu nah an den Boss herankommt
-        if(playerDistance < closeCombatDistance)
+        if (playerDistance < closeCombatDistance)
         {
-            Move();
+            Activate("MoveBoss");
         }
         else
         {
-            if(phase1)
+            if (phase1)
             {
-                if(PlayerValueManager.instance.CurrHP < PlayerValueManager.instance.normalHP / 2)
+                if (PlayerValueManager.instance.CurrHP < PlayerValueManager.instance.normalHP / 2)
                 {
                     float wA = (weakAttackChance * choiceChanceMultiplier);
                     float sA = (strongAttackChance / choiceChanceMultiplier);
 
                     int choice = Random.Range(0, (int)(weakAttackChance + strongAttackChance + moveChance + interactChance));
-                    if(choice <= wA )
+                    if (choice <= wA)
                     {
-                        WeakAttack();
+                        Activate("WeakAttack");
                         return;
                     }
                     if (choice <= wA + sA && choice > wA)
                     {
-                        StrongAttack();
+                        Activate("StrongAttack");
                         return;
                     }
                     if (choice <= wA + sA + moveChance && choice > wA + sA)
                     {
-                        Move();
+                        Activate("MoveBoss");
                         return;
                     }
                     if (choice <= wA + sA + moveChance + interactChance && choice > wA + sA + moveChance)
                     {
-                        Interact();
+                        Activate("Interact");
                         return;
                     }
                 }
@@ -65,22 +67,22 @@ public class SkeletonBossKI : MonoBehaviour
                     int choice = Random.Range(0, (int)(weakAttackChance + strongAttackChance + moveChance + interactChance));
                     if (choice <= weakAttackChance)
                     {
-                        WeakAttack();
+                        Activate("WeakAttack");
                         return;
                     }
                     if (choice <= weakAttackChance + strongAttackChance && choice > weakAttackChance)
                     {
-                        StrongAttack();
+                        Activate("StrongAttack");
                         return;
                     }
                     if (choice <= weakAttackChance + strongAttackChance + moveChance && choice > weakAttackChance + strongAttackChance)
                     {
-                        Move();
+                        Activate("MoveBoss");
                         return;
                     }
                     if (choice <= weakAttackChance + strongAttackChance + moveChance + interactChance && choice > weakAttackChance + strongAttackChance + moveChance)
                     {
-                        Interact();
+                        Activate("Interact");
                         return;
                     }
                 }
@@ -88,65 +90,48 @@ public class SkeletonBossKI : MonoBehaviour
 
             if (!phase1)
             {
-                float wA;
-                float sA;
-                float fR;
+                float wA = (weakAttackChance / choiceChanceMultiplier);
+                float sA = (strongAttackChance * choiceChanceMultiplier);
 
-                int choice = Random.Range(0, (int)(weakAttackChance + strongAttackChance + moveChance + interactChance));
-                if (choice <= weakAttackChance)
+                int choice = Random.Range(0, (int)(weakAttackChance + strongAttackChance + moveChance + interactChance + meteorChance));
+                if (choice <= wA)
                 {
-                    WeakAttack();
+                    Activate("BossWeakAttacks");
                     return;
                 }
-                if (choice <= weakAttackChance + strongAttackChance && choice > weakAttackChance)
+                if (choice <= wA + sA && choice > wA)
                 {
-                    StrongAttack();
+                    Activate("StrongAttack");
                     return;
                 }
-                if (choice <= weakAttackChance + strongAttackChance + moveChance && choice > weakAttackChance + strongAttackChance)
+                if (choice <= wA + sA + moveChance && choice > wA + sA)
                 {
-                    Move();
+                    Activate("MoveBoss");
                     return;
                 }
-                if (choice <= weakAttackChance + strongAttackChance + moveChance + interactChance && choice > weakAttackChance + strongAttackChance + moveChance)
+                if (choice <= wA + sA + moveChance + interactChance && choice > wA + sA + moveChance)
                 {
-                    Interact();
+                    Activate("Interact");
                     return;
                 }
-                
+                if (choice <= wA + sA + moveChance + interactChance + meteorChance && choice <= wA + sA + moveChance + interactChance)
+                {
+                    Activate("MeteorShield");
+                    return;
+                }
             }
         }
     }
 
-    private void WeakAttack()
+    private void Activate(string action)
     {
-
-    }
-
-    private void StrongAttack()
-    {
-
-    }
-
-    private void Interact()
-    {
-
-    }
-
-    private void Move()
-    {
-        foreach (SkeletonBossActions ability in FirstPhaseActions)
+        foreach (SkeletonBossActions ability in BossActions)
         {
-            if (ability.name.Equals("MoveBoss"))
+            if (ability.name.Equals(action))
             {
                 ability.UseAction();
             }
         }
-    }
-
-    private void RainOfFire()
-    {
-
     }
 
     private void Update()
@@ -156,11 +141,16 @@ public class SkeletonBossKI : MonoBehaviour
 
     public IEnumerator CountArrows()
     {
-        int aH = arrowsHit;
-        yield return new WaitForSeconds(secondsToWait);
-        if(arrowsHit > aH + maxArrowsHit)
+        if(countArrows == true)
         {
-            RainOfFire();
+            int aH = arrowsHit;
+            countArrows = false;
+            yield return new WaitForSeconds(secondsToWait);
+            if (arrowsHit > aH + maxArrowsHit)
+            {
+                Activate("MeteorShield");
+            }
+            countArrows = true;
         }
     }
 }

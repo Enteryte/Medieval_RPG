@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class MoveBoss : SkeletonBossActions
 {
     [SerializeField] private SkeletonBossKI KI;
-    [SerializeField] private Transform[] RoomEdges;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private GameObject head;
     [SerializeField] private Animator anim;
@@ -17,11 +16,13 @@ public class MoveBoss : SkeletonBossActions
     [SerializeField] private bool ikActive = true;
 
     private Vector3 targetLocation;
+    private Transform[] RoomEdges;
     private Transform player;
     private bool mayMove = true;
 
     private void Start()
     {
+        RoomEdges = KI.RoomEdges;
         player = GameObject.FindGameObjectWithTag("PlayerHeadObject").transform;
         if (RoomEdges.Length > 4)
         {
@@ -75,10 +76,10 @@ public class MoveBoss : SkeletonBossActions
 
     private void CheckDitsanceFromTargetLocation()
     {
-        if (Vector3.Distance(transform.position, targetLocation) <= acceptableDistancefromTargetLocation)
+        if (Vector3.Distance(KI.gameObject.transform.position, targetLocation) <= acceptableDistancefromTargetLocation)
         {
             mayMove = false;
-            agent.SetDestination(transform.position);
+            agent.SetDestination(KI.gameObject.transform.position);
             KI.PickAction();
         }
     }
@@ -88,11 +89,11 @@ public class MoveBoss : SkeletonBossActions
         Vector3 direction;
         Quaternion lookRotation;
         
-        direction = (player.position - transform.position).normalized;
+        direction = (player.position - KI.gameObject.transform.position).normalized;
         lookRotation = Quaternion.LookRotation(direction);
         lookRotation.x = 0;
         lookRotation.z = 0;
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * bodyRotationSpeed);
+        KI.gameObject.transform.rotation = Quaternion.Slerp(KI.gameObject.transform.rotation, lookRotation, Time.deltaTime * bodyRotationSpeed);
     }
 
     private void OnAnimatorIK()

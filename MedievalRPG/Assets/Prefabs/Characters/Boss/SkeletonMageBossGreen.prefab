@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4547057582727352152}
   - component: {fileID: 4965112904909559921}
   - component: {fileID: 996149790512497301}
+  - component: {fileID: 1168513474809727665}
+  - component: {fileID: 2509024410175721752}
   m_Layer: 0
   m_Name: SkeletonMageBossGreen
   m_TagString: Untagged
@@ -46,6 +48,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b77d4ce412de664497f5558054e7958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BossActions: []
+  player: {fileID: 0}
+  phase1: 1
+  secondsToWait: 0.5
+  closeCombatDistance: 1
+  maxArrowsHit: 0
+  weakAttackChance: 80
+  strongAttackChance: 10
+  meteorChance: 5
+  moveChance: 10
+  interactChance: 5
+  choiceChanceMultiplier: 2
 --- !u!195 &996149790512497301
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -68,6 +82,30 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1168513474809727665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087501639618743947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e749c44400be7f4aacde2f2b2e8558f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2509024410175721752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087501639618743947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0432097a33db9be42929d853dbd6bd5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2090830663629528519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -172,9 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690d49cd20579574088c000a9c5a1e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textX: 0
-  texty: 0
-  textz: 0
+  KI: {fileID: 0}
   RoomEdges:
   - {fileID: 0}
   - {fileID: 0}
@@ -186,6 +222,7 @@ MonoBehaviour:
   acceptableDistancefromTargetLocation: 3
   bodyRotationSpeed: 0.8
   headRotationSpeed: 1
+  blendSpeed: 0
   ikActive: 1
 --- !u!4 &5822599408995129693 stripped
 Transform:
