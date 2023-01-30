@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MinimapIcon : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class MinimapIcon : MonoBehaviour
 
     public NPCMissionSymbol corrNPCMissionSymbol;
 
-    public TMP_Text mMIconMissionTxt;
+    //public TMP_Text mMIconMissionTxt;
 
     public Merchant corrMerchant;
     public TavernKeeper corrTavernKeeper;
@@ -21,6 +22,11 @@ public class MinimapIcon : MonoBehaviour
     public bool isDoorOrGoToIcon = false;
     public List<MissionTaskBase> corrMissionTasks;
 
+    public GameObject exclamationMarkImg;
+    public GameObject questionMarkImg;
+
+    public Color32 symbolIsSelectedColor;
+
     //// Start is called before the first frame update
     void Start()
     {
@@ -28,18 +34,20 @@ public class MinimapIcon : MonoBehaviour
 
         minimapCam = MinimapManager.instance.minimapCam;
 
-        mMIconMissionTxt = GetComponentInChildren<TextMeshProUGUI>();
+        //mMIconMissionTxt = GetComponentInChildren<TextMeshProUGUI>();
 
         corrMerchant = this.gameObject.GetComponentInParent<Merchant>();
         corrTavernKeeper = this.gameObject.GetComponentInParent<TavernKeeper>();
         corrItem = this.gameObject.GetComponentInParent<Item>();
         corrNPC = this.gameObject.GetComponentInParent<NPC>();
 
-        mMIconMissionTxt.text = "";
+        exclamationMarkImg.SetActive(false);
+        questionMarkImg.SetActive(false);
 
         if (!isDoorOrGoToIcon)
         {
             corrNPCMissionSymbol = this.gameObject.transform.parent.GetComponentInChildren<NPCMissionSymbol>();
+            //corrNPCMissionSymbol.corrMMI = this;
         }
 
         //for (int i = 0; i < MinimapManager.instance.allMinimapIcons.Count; i++)
@@ -71,7 +79,20 @@ public class MinimapIcon : MonoBehaviour
     {
         if (isFirst)
         {
-            mMIconMissionTxt.text = "";
+            exclamationMarkImg.SetActive(false);
+            questionMarkImg.SetActive(false);
+
+            if (corrNPCMissionSymbol != null && corrNPCMissionSymbol.exclaImg != null)
+            {
+                //if (corrNPCMissionSymbol.exclaImg == null)
+                //{
+                //    corrNPCMissionSymbol.exclaImg = corrNPCMissionSymbol.gameObject.transform.GetChild(1).gameObject;
+                //    corrNPCMissionSymbol.questionImg = corrNPCMissionSymbol.gameObject.transform.GetChild(2).gameObject;
+                //} 
+
+                corrNPCMissionSymbol.exclaImg.SetActive(false);
+                corrNPCMissionSymbol.questionImg.SetActive(false);
+            }
 
             if (!isDoorOrGoToIcon)
             {
@@ -158,15 +179,28 @@ public class MinimapIcon : MonoBehaviour
             {
                 if (currCorrMissions.Count <= 0)
                 {
-                    mMIconMissionTxt.text = "";
+                    //if (corrNPCMissionSymbol.exclaImg == null)
+                    //{
+                    //    corrNPCMissionSymbol.exclaImg = corrNPCMissionSymbol.gameObject.transform.GetChild(1).gameObject;
+                    //    corrNPCMissionSymbol.questionImg = corrNPCMissionSymbol.gameObject.transform.GetChild(2).gameObject;
+                    //}
+
+                    exclamationMarkImg.SetActive(false);
+                    questionMarkImg.SetActive(false);
+
+                    if (corrNPCMissionSymbol != null && corrNPCMissionSymbol.exclaImg != null)
+                    {
+                        corrNPCMissionSymbol.exclaImg.SetActive(false);
+                        corrNPCMissionSymbol.questionImg.SetActive(false);
+                    }
                 }
             }
 
-            if (corrNPCMissionSymbol != null)
-            {
-                corrNPCMissionSymbol.missionSymbolTxt.text = mMIconMissionTxt.text;
-                corrNPCMissionSymbol.missionSymbolTxt.color = mMIconMissionTxt.color;
-            }
+            //if (corrNPCMissionSymbol != null)
+            //{
+            //    corrNPCMissionSymbol.missionSymbolTxt.text = mMIconMissionTxt.text;
+            //    corrNPCMissionSymbol.missionSymbolTxt.color = mMIconMissionTxt.color;
+            //}
         }
         else
         {
@@ -234,30 +268,102 @@ public class MinimapIcon : MonoBehaviour
             {
                 if (currCorrMissions.Count <= 0)
                 {
-                    mMIconMissionTxt.text = "";
+                    exclamationMarkImg.SetActive(false);
+                    questionMarkImg.SetActive(false);
+
+                    if (corrNPCMissionSymbol != null && corrNPCMissionSymbol.exclaImg != null)
+                    {
+                        //if (corrNPCMissionSymbol.exclaImg == null)
+                        //{
+                        //    corrNPCMissionSymbol.exclaImg = corrNPCMissionSymbol.gameObject.transform.GetChild(1).gameObject;
+                        //    corrNPCMissionSymbol.questionImg = corrNPCMissionSymbol.gameObject.transform.GetChild(2).gameObject;
+                        //}
+
+                        corrNPCMissionSymbol.exclaImg.SetActive(false);
+                        corrNPCMissionSymbol.questionImg.SetActive(false);
+                    }
                 }
             }
 
-            if (corrNPCMissionSymbol != null)
-            {
-                corrNPCMissionSymbol.missionSymbolTxt.text = mMIconMissionTxt.text;
-                corrNPCMissionSymbol.missionSymbolTxt.color = mMIconMissionTxt.color;
-            }
+            //if (corrNPCMissionSymbol != null)
+            //{
+            //    corrNPCMissionSymbol.missionSymbolTxt.text = mMIconMissionTxt.text;
+            //    corrNPCMissionSymbol.missionSymbolTxt.color = mMIconMissionTxt.color;
+            //}
         }
     }
 
     public void SetMissionSymbolToHasSomethingToAccept()
     {
-        mMIconMissionTxt.text = "?";
-        mMIconMissionTxt.color = MinimapManager.instance.hasMissionToAcceptColor;
+        exclamationMarkImg.SetActive(false);
+        questionMarkImg.SetActive(true);
+
+        if (corrNPCMissionSymbol != null && corrNPCMissionSymbol.exclaImg != null)
+        {
+            //if (corrNPCMissionSymbol.exclaImg == null)
+            //{
+            //    corrNPCMissionSymbol.exclaImg = corrNPCMissionSymbol.gameObject.transform.GetChild(1).gameObject;
+            //    corrNPCMissionSymbol.questionImg = corrNPCMissionSymbol.gameObject.transform.GetChild(2).gameObject;
+            //}
+
+            corrNPCMissionSymbol.exclaImg.SetActive(false);
+            corrNPCMissionSymbol.questionImg.SetActive(true);
+        }
+
+        if (UIManager.missionToDisplay != null && currCorrMissions.Contains(UIManager.missionToDisplay))
+        {
+            questionMarkImg.GetComponent<Image>().color = symbolIsSelectedColor;
+
+            if (corrNPCMissionSymbol != null && corrNPCMissionSymbol.exclaImg != null)
+            {
+                corrNPCMissionSymbol.questionImg.GetComponent<Image>().color = MinimapManager.instance.npcSymbolIsSelectedColor;
+            }
+        }
+        else
+        {
+            questionMarkImg.GetComponent<Image>().color = Color.white;
+
+            if (corrNPCMissionSymbol != null && corrNPCMissionSymbol.exclaImg != null)
+            {
+                corrNPCMissionSymbol.questionImg.GetComponent<Image>().color = Color.white;
+            }
+        }
     }
 
     public void SetMissionSymbolToHasSomethingToComplete()
     {
-        //if (mMIconMissionTxt.text != "?")
-        //{
-        mMIconMissionTxt.text = "!";
-        mMIconMissionTxt.color = MinimapManager.instance.hasMissionToCompleteColor;
-        //}
+        exclamationMarkImg.SetActive(true);
+        questionMarkImg.SetActive(false);
+
+        if (corrNPCMissionSymbol != null && corrNPCMissionSymbol.exclaImg != null)
+        {
+            //if (corrNPCMissionSymbol.exclaImg == null)
+            //{
+            //    corrNPCMissionSymbol.exclaImg = corrNPCMissionSymbol.gameObject.transform.GetChild(1).gameObject;
+            //    corrNPCMissionSymbol.questionImg = corrNPCMissionSymbol.gameObject.transform.GetChild(2).gameObject;
+            //}
+
+            corrNPCMissionSymbol.exclaImg.SetActive(true);
+            corrNPCMissionSymbol.questionImg.SetActive(false);
+        }
+
+        if (UIManager.missionToDisplay != null && currCorrMissions.Contains(UIManager.missionToDisplay))
+        {
+            exclamationMarkImg.GetComponent<Image>().color = symbolIsSelectedColor;
+
+            if (corrNPCMissionSymbol != null && corrNPCMissionSymbol.exclaImg != null)
+            {
+                corrNPCMissionSymbol.exclaImg.GetComponent<Image>().color = MinimapManager.instance.npcSymbolIsSelectedColor;
+            }
+        }
+        else
+        {
+            exclamationMarkImg.GetComponent<Image>().color = Color.white;
+
+            if (corrNPCMissionSymbol != null && corrNPCMissionSymbol.exclaImg != null)
+            {
+                corrNPCMissionSymbol.exclaImg.GetComponent<Image>().color = Color.white;
+            }
+        }
     }
 }

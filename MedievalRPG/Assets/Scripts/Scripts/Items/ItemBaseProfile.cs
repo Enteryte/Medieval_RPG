@@ -70,6 +70,7 @@ public class ItemBaseProfile : ScriptableObject
 
     [HideInInspector] public bool isTwoHand = false;
     [HideInInspector] [Tooltip("The normal damage value of the weapon.")] [Min(0)] public float normalDamage;
+    public ItemStat[] otherItemStats;
     #endregion
 
     #region PotionItem Values
@@ -84,6 +85,7 @@ public class ItemBaseProfile : ScriptableObject
 
     [HideInInspector] [Tooltip("The type of the potion.")] public PotionType potionType;
     [HideInInspector] [Tooltip("The normal damage value of the weapon.")] [Min(0)] public float potionBuffValue;
+    [HideInInspector] [Tooltip("The normal damage value of the weapon.")] [Min(0)] public float potionBuffLastingTime;
     #endregion
 
     #region
@@ -224,4 +226,22 @@ public class ItemBaseProfile : ScriptableObject
             }
         }
     }
+}
+
+public class ItemStat
+{
+    public enum ItemStatType
+    {
+        none,
+        plusProcentDmg,
+        minusProcentDmg,
+        plusProcentDmgSkeleton,
+        minusProcentDmgSkeleton,
+        plusProcentDmgUndead,
+        minusProcentDmgUndead
+    }
+
+    public float statValue;
+
+    public ItemStatType itemStatType;
 }
