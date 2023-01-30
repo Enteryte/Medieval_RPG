@@ -5,10 +5,10 @@ using UnityEngine;
 public class SkeletonBossKI : MonoBehaviour
 {
     public Transform[] RoomEdges;
+    public Transform player;
+    public bool phase1 = true;
     
-    [SerializeField] private List<SkeletonBossActions> BossActions = new List<SkeletonBossActions>();
-    [SerializeField] private Transform player;
-    [SerializeField] private bool phase1 = true;
+    [SerializeField] private List<SkeletonBossActions> BossActions;
     [SerializeField] private float secondsToWait = 0.5f;
     [SerializeField] private float closeCombatDistance = 1;
     [SerializeField] private int maxArrowsHit = 0;
@@ -24,6 +24,13 @@ public class SkeletonBossKI : MonoBehaviour
     private int arrowsHit = 0;
     private bool countArrows = false;
 
+    private bool testBool = true;
+
+    private void Start()
+    {
+        PickAction();
+    }
+
     public void PickAction()
     {
         //Wenn der Spieler zu nah an den Boss herankommt
@@ -35,7 +42,7 @@ public class SkeletonBossKI : MonoBehaviour
         {
             if (phase1)
             {
-                if (PlayerValueManager.instance.CurrHP < PlayerValueManager.instance.normalHP / 2)
+                if (testBool || PlayerValueManager.instance.CurrHP < PlayerValueManager.instance.normalHP / 2)
                 {
                     float wA = (weakAttackChance * choiceChanceMultiplier);
                     float sA = (strongAttackChance / choiceChanceMultiplier);
@@ -43,7 +50,7 @@ public class SkeletonBossKI : MonoBehaviour
                     int choice = Random.Range(0, (int)(weakAttackChance + strongAttackChance + moveChance + interactChance));
                     if (choice <= wA)
                     {
-                        Activate("WeakAttack");
+                        Activate("SkeletonMageBossGreen (BossWeakAttacks)");
                         return;
                     }
                     if (choice <= wA + sA && choice > wA)
@@ -67,7 +74,7 @@ public class SkeletonBossKI : MonoBehaviour
                     int choice = Random.Range(0, (int)(weakAttackChance + strongAttackChance + moveChance + interactChance));
                     if (choice <= weakAttackChance)
                     {
-                        Activate("WeakAttack");
+                        Activate("SkeletonMageBossGreen (BossWeakAttacks)");
                         return;
                     }
                     if (choice <= weakAttackChance + strongAttackChance && choice > weakAttackChance)
@@ -96,7 +103,7 @@ public class SkeletonBossKI : MonoBehaviour
                 int choice = Random.Range(0, (int)(weakAttackChance + strongAttackChance + moveChance + interactChance + meteorChance));
                 if (choice <= wA)
                 {
-                    Activate("BossWeakAttacks");
+                    Activate("SkeletonMageBossGreen (BossWeakAttacks)");
                     return;
                 }
                 if (choice <= wA + sA && choice > wA)
@@ -106,7 +113,7 @@ public class SkeletonBossKI : MonoBehaviour
                 }
                 if (choice <= wA + sA + moveChance && choice > wA + sA)
                 {
-                    Activate("MoveBoss");
+                    Activate("SK_SkeletonMage_Green Variant (MoveBoss)");
                     return;
                 }
                 if (choice <= wA + sA + moveChance + interactChance && choice > wA + sA + moveChance)
@@ -127,7 +134,7 @@ public class SkeletonBossKI : MonoBehaviour
     {
         foreach (SkeletonBossActions ability in BossActions)
         {
-            if (ability.name.Equals(action))
+            if (ability.ToString().Equals(action))
             {
                 ability.UseAction();
             }

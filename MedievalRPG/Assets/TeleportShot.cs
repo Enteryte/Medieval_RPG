@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TeleportShot : SkeletonBossActions
 {
     [SerializeField] private Animator anim;
+    [SerializeField] private NavMeshAgent agent;
     [SerializeField] private SkeletonBossKI KI;
     [SerializeField] private GameObject portal;
     [SerializeField] private GameObject projectile;
 
     [SerializeField] private float shotSpeed = 3;
     [SerializeField] private float shotCount = 3;
+    [SerializeField] private float offset = 1;
 
     private Transform[] RoomEdges;
     private Vector3 targetLocation;
@@ -33,6 +36,11 @@ public class TeleportShot : SkeletonBossActions
         float maxX = 0;
         float minZ = 0;
         float maxZ = 0;
+
+        if(RoomEdges == null)
+        {
+            RoomEdges = KI.RoomEdges;
+        }
 
         for (int x = 0; x < RoomEdges.Length; x++)
         {
@@ -62,12 +70,18 @@ public class TeleportShot : SkeletonBossActions
     {
         GameObject portal_1 = Instantiate(portal);
         GameObject portal_2 = Instantiate(portal);
-    
+
+
         portal_1.transform.parent = null;
         portal_2.transform.parent = null;
 
         portal_1.transform.position = KI.gameObject.transform.position;
-        portal_2.transform.position = targetLocation;
+        portal_1.transform.position = new Vector3(transform.position.x - offset, transform.position.y, transform.position.z);
+        portal_2.transform.position = new Vector3(targetLocation.x - offset, targetLocation.y, targetLocation.z);
+
+        portal_1.GetComponent<PortalScript>().target = KI.player;
+
+
     }
 
     public void ShootProjectiles()
@@ -75,12 +89,20 @@ public class TeleportShot : SkeletonBossActions
         for (int i = 0; i < shotCount; i++)
         {
             GameObject proj = Instantiate(projectile);
-            proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * shotSpeed, ForceMode.Acceleration);
+            proj.transform.LookAt(KI.player);
+            proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * (shotSpeed - (i * 20)), ForceMode.Acceleration);
+            
+            if(KI.phase1 == false)
+            {
+                proj.GetComponent<BossProjectile>().player = KI.player;
+                proj.GetComponent<BossProjectile>().speed -= i;
+            } 
         }
     }
 
     public void TeleportToTargetLocation()
     {
         KI.transform.position = targetLocation;
+        agent.SetDestination(targetLocation);
     }
 }

@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b77d4ce412de664497f5558054e7958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RoomEdges: []
   BossActions: []
   player: {fileID: 0}
   phase1: 1
@@ -94,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e749c44400be7f4aacde2f2b2e8558f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Attacks: []
 --- !u!114 &2509024410175721752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +108,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0432097a33db9be42929d853dbd6bd5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+  KI: {fileID: 0}
+  portal: {fileID: 0}
+  projectile: {fileID: 0}
+  shotSpeed: 3
+  shotCount: 3
 --- !u!1001 &2090830663629528519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -211,11 +219,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   KI: {fileID: 0}
-  RoomEdges:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   agent: {fileID: 996149790512497301}
   head: {fileID: 5822599408994895091}
   anim: {fileID: 5822599408987617067}
@@ -224,6 +227,19 @@ MonoBehaviour:
   headRotationSpeed: 1
   blendSpeed: 0
   ikActive: 1
+--- !u!114 &3288493729779080177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5822599408994895229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd50f71ee1c38b4187f1d2f2882533d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Teleport: {fileID: 2509024410175721752}
 --- !u!4 &5822599408995129693 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5605319319537583258, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}

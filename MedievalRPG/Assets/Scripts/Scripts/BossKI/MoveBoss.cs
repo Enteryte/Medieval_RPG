@@ -96,6 +96,11 @@ public class MoveBoss : SkeletonBossActions
         KI.gameObject.transform.rotation = Quaternion.Slerp(KI.gameObject.transform.rotation, lookRotation, Time.deltaTime * bodyRotationSpeed);
     }
 
+    private void ResetTransform()
+    {
+        transform.position = KI.gameObject.transform.position;
+    }
+
     private void OnAnimatorIK()
     {
         if (anim)
@@ -129,5 +134,7 @@ public class MoveBoss : SkeletonBossActions
             anim.SetFloat("Speed", 0);
             RotateTowardsPlayer();
         }
+
+        ResetTransform();
     }
 }
