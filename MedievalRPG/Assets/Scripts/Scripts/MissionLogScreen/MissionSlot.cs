@@ -18,6 +18,8 @@ public class MissionSlot : MonoBehaviour
 
     public MissionBaseProfile corrMBP;
 
+    public Image isSelectedImg;
+
     public void Start()
     {
         this.gameObject.GetComponent<Button>().onClick.AddListener(DisplayInformation);
@@ -50,6 +52,15 @@ public class MissionSlot : MonoBehaviour
 
             missionSymbolImg.sprite = MissionLogScreenHandler.instance.sideMissionSprite;
         }
+
+        if (UIManager.missionToDisplay == corrMBP)
+        {
+            isSelectedImg.gameObject.SetActive(true);
+        }
+        else
+        {
+            isSelectedImg.gameObject.SetActive(false);
+        }
     }
 
     public void DisplayInformation()
@@ -80,6 +91,17 @@ public class MissionSlot : MonoBehaviour
 
                 newMissionTaskSlot.GetComponent<MissionTaskSlot>().DisplayTaskInformation(corrMBP.allMissionTasks[i]);
             }
+        }
+
+        if (UIManager.missionToDisplay == corrMBP)
+        {
+            Debug.Log(MissionLogScreenHandler.instance.sMButton);
+            MissionLogScreenHandler.instance.sMButton.selectedImg.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log(MissionLogScreenHandler.instance.sMButton);
+            MissionLogScreenHandler.instance.sMButton.selectedImg.gameObject.SetActive(false);
         }
     }
 }

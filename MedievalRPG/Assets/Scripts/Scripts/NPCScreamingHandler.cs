@@ -31,7 +31,7 @@ public class NPCScreamingHandler : MonoBehaviour
 
     public void Update()
     {
-        if (nPCMS.missionSymbolTxt.text != "" && ThirdPersonController.instance.canMove)
+        if (nPCMS.exclaImg.activeSelf && ThirdPersonController.instance.canMove || nPCMS.questionImg.activeSelf && ThirdPersonController.instance.canMove)
         {
             if (!isPlayingAudio)
             {
