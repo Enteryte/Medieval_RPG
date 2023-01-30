@@ -91,6 +91,8 @@ public class TutorialManager : MonoBehaviour
         // Close bigUI
         animator.Play(closeBigTutorialUIAnim.name);
 
+        GameManager.instance.ContinuePlayerActions();
+
         if (currTBP.tutorialToTrigger == null)
         {
             GameManager.instance.ContinueGame();

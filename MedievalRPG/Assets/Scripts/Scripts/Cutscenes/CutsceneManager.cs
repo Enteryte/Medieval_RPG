@@ -377,6 +377,12 @@ public class CutsceneManager : MonoBehaviour
 
             UIManager.instance.AddAndUpdateMissionDisplayTasks(currCP.missionTaskToActivate, currCP.corresspondingMission.allMissionTasks[taskNumber].taskDescription);
         }
+        else
+        {
+            UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.updatedMissionString;
+            UIAnimationHandler.instance.addedMissionTxt.text = currCP.corresspondingMission.missionName;
+            UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+        }
     }
 
     public void CompleteMissionOrMissionTask()
@@ -525,6 +531,7 @@ public class CutsceneManager : MonoBehaviour
     public void SleepTillMorning()
     {
         // -------------------> HIER Zeit ändern -> zum Morgen.
+        GameManager.instance.hdrpTOD.TimeOfDay = 7.8f;
 
         DebuffManager.instance.StopAllBuffs();
         DebuffManager.instance.StopAllDebuffs();
@@ -539,6 +546,7 @@ public class CutsceneManager : MonoBehaviour
     public void SleepTillEvening()
     {
         // -------------------> HIER Zeit ändern -> zum Abend.
+        GameManager.instance.hdrpTOD.TimeOfDay = 17.6f;
 
         DebuffManager.instance.StopAllBuffs();
         DebuffManager.instance.StopAllDebuffs();

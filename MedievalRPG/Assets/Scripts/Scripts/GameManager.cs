@@ -140,6 +140,18 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            CutsceneManager.instance.SleepTillEvening();
+            Debug.Log("5");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            CutsceneManager.instance.SleepTillMorning();
+            Debug.Log("6");
+        }
+
         //if (Input.GetKeyDown(KeyCode.F))
         //{
         //    pauseMenuScreen.SetActive(false);
@@ -230,7 +242,7 @@ public class GameManager : MonoBehaviour
         // Day-Night
         if (!gameIsPaused && changeDaytime)
         {
-            if (hdrpTOD.ConvertTimeOfDay() >= 17.7f)
+            if (hdrpTOD.TimeOfDay >= 17.7f)
             {
                 if (correspondingCutsceneProfilAtNight != null)
                 {
@@ -243,9 +255,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Debug.Log(hdrpTOD.ConvertTimeOfDay());
+        Debug.Log("TIMEEEEEEEEEEEE" + hdrpTOD.TimeOfDay);
 
-        if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.shopScreen.activeSelf && !ShopManager.instance.mainShopScreen.activeSelf)
+        if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.shopScreen.activeSelf 
+            && !ShopManager.instance.mainShopScreen.activeSelf)
         {
             Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsValid());
             //Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsPlaying());
@@ -434,6 +447,20 @@ public class GameManager : MonoBehaviour
         //StartScreenManager.instance.mainObjectAnimator.enabled = true;
 
         gameIsPaused = true;
+    }
+
+    public void PausePlayerActions()
+    {
+        //ThirdPersonController.instance._animator.speed = 0;
+        //gameIsPaused = true;
+        //ThirdPersonController.instance.canMove = false;
+    }
+
+    public void ContinuePlayerActions()
+    {
+        //ThirdPersonController.instance._animator.speed = 1;
+        //gameIsPaused = false;
+        //ThirdPersonController.instance.canMove = true;
     }
 
     public void ContinueGame()
