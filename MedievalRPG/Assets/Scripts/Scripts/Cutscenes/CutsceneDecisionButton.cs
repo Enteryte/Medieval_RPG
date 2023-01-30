@@ -3,21 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using StarterAssets;
+using UnityEngine.UI;
 
 public class CutsceneDecisionButton : MonoBehaviour
 {
     public CutsceneDecision storedDecision;
     public TMP_Text decisionTxt;
 
+    public Image arrowImg;
+
+    public void Start()
+    {
+        arrowImg = this.gameObject.GetComponentInChildren<Image>();
+    }
+
     public void SetAndDisplayDecision(CutsceneDecision decisionToStore)
     {
         storedDecision = decisionToStore;
 
         decisionTxt.text = storedDecision.decisionText;
+
+        if (!storedDecision.isMissionRelevant)
+        {
+            decisionTxt.color = Color.white;
+            arrowImg.color = Color.white;
+        }
+
+        if (storedDecision.checkMoney)
+        {
+            if (PlayerValueManager.instance.money < storedDecision.minMoneyValue)
+            {
+                this.gameObject.GetComponent<Button>().interactable = false;
+
+                decisionTxt.color = Color.white;
+                arrowImg.color = Color.white;
+
+                Debug.Log("HUJKML;Öhujkmdfle");
+            }
+        }
     }
 
     public void DoDecision()
     {
+        Debug.Log("DO DECISION");
+
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
         if (storedDecision.cutsceneToPlay != null)

@@ -17,7 +17,7 @@ public class CollectedMessageObject : MonoBehaviour
 
     public IEnumerator DestroyMessageObject()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
 
         Destroy(this.gameObject);
     }

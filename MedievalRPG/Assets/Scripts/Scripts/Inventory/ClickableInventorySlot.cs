@@ -82,7 +82,17 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             if (storedItemBase != null)
             {
                 this.gameObject.GetComponent<Image>().sprite = storedItemBase.itemSprite;
-                storedAmountTxt.text = storedAmount.ToString();
+
+                if (storedAmount == 0)
+                {
+                    storedAmountTxt.text = storedAmount.ToString();
+                }
+                //else
+                //{
+                //    // --------------------------------------------------------------> HIER wurde es geändert! <---------------------------------------------------------------------
+                //    storedAmount = 1;
+                //    storedAmountTxt.text = storedAmount.ToString();
+                //}
 
                 if (correspondingMainScreenHotbarSlotBtn != null)
                 {
@@ -1254,8 +1264,16 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         {
             if (storedItemBase != null)
             {
-                ShopManager.instance.itemInfoPopUp.gameObject.GetComponent<ItemInfoPopUp>().SetItemInformationsToDisplay(storedItemBase, isShopPlayerItem);
-                ShopManager.instance.itemInfoPopUp.gameObject.SetActive(true);
+                if (isShopPlayerItem)
+                {
+                    ShopManager.instance.itemInfoPopUpLeft.gameObject.GetComponent<ItemInfoPopUp>().SetItemInformationsToDisplay(storedItemBase, isShopPlayerItem);
+                    ShopManager.instance.itemInfoPopUpLeft.gameObject.SetActive(true);
+                }
+                else
+                {
+                    ShopManager.instance.itemInfoPopUpRight.gameObject.GetComponent<ItemInfoPopUp>().SetItemInformationsToDisplay(storedItemBase, isShopPlayerItem);
+                    ShopManager.instance.itemInfoPopUpRight.gameObject.SetActive(true);
+                }
             }
         }
 
@@ -1280,7 +1298,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
         if (clickableSlotType == ClickableSlotType.shopSlot)
         {
-            ShopManager.instance.itemInfoPopUp.gameObject.SetActive(false);
+            ShopManager.instance.itemInfoPopUpLeft.gameObject.SetActive(false);
+            ShopManager.instance.itemInfoPopUpRight.gameObject.SetActive(false);
         }
         else if (clickableSlotType == ClickableSlotType.equipmentSlot || clickableSlotType == ClickableSlotType.inventorySlot)
         {

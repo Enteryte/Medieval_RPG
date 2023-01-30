@@ -6,6 +6,9 @@ public class SaveGameObject
 {
     public string savingType;
 
+    public bool wentThroughTB;
+    public int currSceneIndex;
+
     // Save-Game-Data
     public float playtimeInSeconds;
     public string dayOfSaving;
@@ -79,6 +82,41 @@ public class SaveGameObject
     public List<bool> isDoorOpen = new List<bool>();
 
     // Debuffs
+    // - Bleeding
+    public float bleedingTimes;
+    public float currBleedingTimes;
+
+    public int bleedingDamage;
+
+    // - Speed Buff
+    public float currSBBuffTime;
+    public float timerSB;
+
+    // - Damage Buff
+    public float currDBBuffTime;
+    public float timerDB;
+
+    // - Slow Debuff
+    public float currSDDebuffTime;
+    public float timerSD;
+
+    // - Stamina Debuff
+    public float currStDDebuffTime;
+    public float timerStD;
+
+    public float currStaminaReduceAmount;
+
+    // - Strength Debuff
+    public float currShDDebuffTime;
+    public float timerShD;
+
+    public float currStrengthReduceAmount;
+
+    // - Armor Debuff
+    public float currADDebuffTime;
+    public float timerAD;
+
+    public float currArmorReduceAmount;
 
     // Options
     // - Audio

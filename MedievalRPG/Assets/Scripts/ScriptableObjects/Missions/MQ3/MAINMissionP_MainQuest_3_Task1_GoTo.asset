@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: MAINMissionP_MainQuest_3_Task1_GoTo
   m_EditorClassIdentifier: 
   missionTaskType: 5
+  isOptional: 0
+  missionButtonDescription: 
   completeAfterInteracted: 1
   missionTaskCompleted: 0
   cutsceneToTrigger: {fileID: 0}
@@ -28,9 +30,12 @@ MonoBehaviour:
   dialogToPlayAfterInteracted: {fileID: 0}
   dialogToPlayAfterPressedButton: {fileID: 0}
   talkToAllNPCs: 0
-  possibleDialoguesToAdd: []
+  possibleDialoguesToAddFemale: []
+  possibleDialoguesToAddMale: []
   mainNPC: {fileID: 0}
   dialogueToAdd: {fileID: 0}
+  pointsToGainForWin: 0
+  currGainedPoints: 0
   itemToCollectBase: {fileID: 0}
   itemToCollectBase2: {fileID: 0}
   howManyToCollect: 0

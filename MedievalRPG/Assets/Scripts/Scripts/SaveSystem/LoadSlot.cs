@@ -12,6 +12,8 @@ public class LoadSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
     public Sprite saveGameScreenshot;
 
+    public int sceneToLoadIndex;
+
     public Animator animator;
     public Image boarderImg;
 
@@ -29,6 +31,8 @@ public class LoadSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         // Load Game
         Debug.Log("jhmsdfwfwfwf");
         //SaveSystem.instance.Load();
+
+        StartScreenManager.currSceneIndex = sceneToLoadIndex;
 
         StartScreenManager.instance.mainObjectAnimator.Rebind();
         StartScreenManager.instance.mainObjectAnimator.enabled = true;

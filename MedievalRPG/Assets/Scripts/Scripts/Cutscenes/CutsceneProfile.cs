@@ -91,6 +91,12 @@ public class CutsceneDecision
     public CutsceneProfile cutsceneToPlay;
     public MissionBaseProfile missionToActivate;
 
+    public bool isMissionRelevant = true;
+
+    [Header("Check Money")]
+    public bool checkMoney = false;
+    public int minMoneyValue;
+
     [Header("Rewards")]
     public ItemBaseProfile itemToGet;
     public int amountToGet;

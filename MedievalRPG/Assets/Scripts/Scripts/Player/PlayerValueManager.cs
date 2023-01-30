@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerValueManager : MonoBehaviour
 {
@@ -172,28 +173,37 @@ public class PlayerValueManager : MonoBehaviour
 
         //ThirdPersonController.instance._animator.Play("Death");
 
+        if (SceneManager.GetActiveScene().buildIndex != 1)
+        {
+            LoadingScreen.instance.playerWasDead = true;
+        }
+
         isDead = true;
 
         CutsceneManager.instance.playableDirector.playableAsset = whenDeathTL;
         CutsceneManager.instance.playableDirector.Play();
 
-        LoadingScreen.currLSP = deathLSP;
-        LoadingScreen.currSpawnPos = new Vector3(0, 0, 0);
-        LoadingScreen.currSpawnRot = Quaternion.identity;
+        if (SceneManager.GetActiveScene().buildIndex != 1)
+        {
+            LoadingScreen.currLSP = PlayerValueManager.instance.deathLSP;
+            LoadingScreen.currSpawnPos = new Vector3(0, 0, 0);
+            LoadingScreen.currSpawnRot = Quaternion.identity;
 
-        LoadingScreen.instance.placeNameTxt.text = deathLSP.placeName;
-        LoadingScreen.instance.backgroundImg.sprite = deathLSP.backgroundSprite;
-        LoadingScreen.instance.descriptionTxt.text = deathLSP.descriptionTextString;
+            LoadingScreen.instance.placeNameTxt.text = PlayerValueManager.instance.deathLSP.placeName;
+            LoadingScreen.instance.backgroundImg.sprite = PlayerValueManager.instance.deathLSP.backgroundSprite;
+            LoadingScreen.instance.descriptionTxt.text = PlayerValueManager.instance.deathLSP.descriptionTextString;
 
-        SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
-        SceneChangeManager.instance.GetComponent<Animator>().Rebind();
-        SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
+            //SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
+            SceneChangeManager.instance.GetComponent<Animator>().Rebind();
+            //SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
 
-        SceneChangeManager.instance.loadingScreen.SetActive(true);
-        SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
+            SceneChangeManager.instance.loadingScreen.SetActive(true);
 
-        SceneChangeManager.instance.wentThroughTrigger = true;
+            LoadingScreen.instance.gameObject.SetActive(true);
+            LoadingScreen.instance.ActivateAnimator();
+            SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
 
-        // -----------------> WIP: SceneManagement einfügen ( Wechsel zur Dorf-Scene )
+            SceneChangeManager.instance.wentThroughTrigger = true;
+        }
     }
 }
