@@ -35,38 +35,77 @@ public class UIManager : MonoBehaviour
 
     public void CreateMissionDisplay()
     {
-        UIAnimationHandler.instance.displayedMissionNameTxt.text = missionToDisplay.missionName;
-
-        missionTaskObjParentObj.gameObject.transform.parent.GetComponent<MissionTaskDisplayParent>().ChangeObjectNames();
-
-        missionTaskObjParentObj.gameObject.transform.parent.gameObject.SetActive(true);
-
-        missionTaskObjParentObj.GetComponent<GridLayoutGroup>().enabled = true;
-
-        for (int i = 0; i < missionTaskObjParentObj.transform.childCount; i++)
+        if (missionToDisplay != null)
         {
-            Destroy(missionTaskObjParentObj.transform.GetChild(i).gameObject);
-        }
+            UIAnimationHandler.instance.displayedMissionNameTxt.text = missionToDisplay.missionName;
 
-        var childNumber = 1;
+            missionTaskObjParentObj.gameObject.transform.parent.GetComponent<MissionTaskDisplayParent>().ChangeObjectNames();
 
-        for (int i = 0; i < missionToDisplay.allMissionTasks.Length; i++)
-        {
-            if (missionToDisplay.allMissionTasks[i].mTB.canBeDisplayed && !missionToDisplay.allMissionTasks[i].mTB.missionTaskCompleted)
+            missionTaskObjParentObj.gameObject.transform.parent.gameObject.SetActive(true);
+
+            missionTaskObjParentObj.GetComponent<GridLayoutGroup>().enabled = true;
+
+            for (int i = 0; i < missionTaskObjParentObj.transform.childCount; i++)
             {
-                var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
-
-                newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = missionToDisplay.allMissionTasks[i].mTB;
-
-                newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(missionToDisplay.allMissionTasks[i].taskDescription, missionToDisplay.allMissionTasks[i].isOptional);
-
-                newMissionTaskObj.name = UIAnimationHandler.instance.gONameToAnim + childNumber;
-
-                childNumber += 1;
-
-                Debug.Log(missionToDisplay.allMissionTasks[i].mTB);
-                //newMissionTaskObj.SetActive(true);
+                Destroy(missionTaskObjParentObj.transform.GetChild(i).gameObject);
             }
+
+            var childNumber = 1;
+
+            for (int i = 0; i < missionToDisplay.allMissionTasks.Length; i++)
+            {
+                if (missionToDisplay.allMissionTasks[i].mTB.canBeDisplayed && !missionToDisplay.allMissionTasks[i].mTB.missionTaskCompleted)
+                {
+                    var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
+
+                    newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = missionToDisplay.allMissionTasks[i].mTB;
+
+                    newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(missionToDisplay.allMissionTasks[i].taskDescription, missionToDisplay.allMissionTasks[i].isOptional);
+
+                    newMissionTaskObj.name = UIAnimationHandler.instance.gONameToAnim + childNumber;
+
+                    childNumber += 1;
+
+                    Debug.Log(missionToDisplay.allMissionTasks[i].mTB);
+                    //newMissionTaskObj.SetActive(true);
+                }
+            }
+        }
+        else
+        {
+            UIAnimationHandler.instance.displayedMissionNameTxt.text = "";
+
+            missionTaskObjParentObj.gameObject.transform.parent.GetComponent<MissionTaskDisplayParent>().ChangeObjectNames();
+
+            missionTaskObjParentObj.gameObject.transform.parent.gameObject.SetActive(true);
+
+            missionTaskObjParentObj.GetComponent<GridLayoutGroup>().enabled = true;
+
+            for (int i = 0; i < missionTaskObjParentObj.transform.childCount; i++)
+            {
+                Destroy(missionTaskObjParentObj.transform.GetChild(i).gameObject);
+            }
+
+            //var childNumber = 1;
+
+            //for (int i = 0; i < missionToDisplay.allMissionTasks.Length; i++)
+            //{
+            //    if (missionToDisplay.allMissionTasks[i].mTB.canBeDisplayed && !missionToDisplay.allMissionTasks[i].mTB.missionTaskCompleted)
+            //    {
+            //        var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
+
+            //        newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = missionToDisplay.allMissionTasks[i].mTB;
+
+            //        newMissionTaskObj.GetComponent<MissionTaskDisplayText>().DisplayTaskDescription(missionToDisplay.allMissionTasks[i].taskDescription, missionToDisplay.allMissionTasks[i].isOptional);
+
+            //        newMissionTaskObj.name = UIAnimationHandler.instance.gONameToAnim + childNumber;
+
+            //        childNumber += 1;
+
+            //        Debug.Log(missionToDisplay.allMissionTasks[i].mTB);
+            //        //newMissionTaskObj.SetActive(true);
+            //    }
+            //}
         }
 
         UIAnimationHandler.instance.AnimateAddMissionToDisplay();

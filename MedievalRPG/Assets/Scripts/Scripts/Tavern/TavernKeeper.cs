@@ -207,9 +207,12 @@ public class TavernKeeper : MonoBehaviour, IInteractable
             Destroy(buttonParentTrans.GetChild(i).gameObject);
         }
 
-        var tavernTriggerSITCPButton = Instantiate(sleepInTavernBtnPrefab, buttonParentTrans);
+        if (GameManager.instance.changeDaytime)
+        {
+            var tavernTriggerSITCPButton = Instantiate(sleepInTavernBtnPrefab, buttonParentTrans);
 
-        tavernTriggerSITCPButton.GetComponent<Button>().onClick.AddListener(TriggerSleepInTavernDialogue);
+            tavernTriggerSITCPButton.GetComponent<Button>().onClick.AddListener(TriggerSleepInTavernDialogue);
+        }
 
         for (int i = 0; i < allCurrCorrTasks.Count; i++)
         {
