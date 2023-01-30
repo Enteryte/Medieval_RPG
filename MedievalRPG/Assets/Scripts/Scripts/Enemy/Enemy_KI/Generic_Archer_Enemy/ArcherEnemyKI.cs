@@ -79,6 +79,7 @@ public class ArcherEnemyKI : BaseEnemyKI
 
         if (!IsSeeingPlayer)
             Agent.SetDestination(StartPos);
+        transform.LookAt(Target.transform.position);
     }
 
     private void NoticeEnemy()
@@ -91,6 +92,7 @@ public class ArcherEnemyKI : BaseEnemyKI
     private void Flee()
     {
         Vector3 flightPos = transform.position - Target.transform.position;
+        StartPos = Vector3.Lerp(flightPos, Target.transform.position, 0.1f);
 
         Animator.SetBool(Animator.StringToHash("IsFleeing"), true);
         Agent.SetDestination(flightPos);

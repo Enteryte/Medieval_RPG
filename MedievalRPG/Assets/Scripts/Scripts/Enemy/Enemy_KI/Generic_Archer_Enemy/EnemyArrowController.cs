@@ -67,8 +67,8 @@ public class EnemyArrowController : MonoBehaviour
             return;
         MoveArrow(Time);
         Time += UnityEngine.Time.deltaTime;
-        if (Vector3.Distance(transform.position, Target) < DstToStopBeingPerfect)
-            Target = PlayerTransform.position;
+        // if (Vector3.Distance(transform.position, Target) < DstToStopBeingPerfect)
+        //     Target = PlayerTransform.position;
     }
 
     private void MoveArrow(float _time)
