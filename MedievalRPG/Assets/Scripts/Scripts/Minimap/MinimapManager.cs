@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MinimapManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class MinimapManager : MonoBehaviour
     public GameObject minimapBoarder;
 
     public List<MinimapIcon> allMinimapIcons = new List<MinimapIcon>();
+
+    public Color32 npcSymbolIsSelectedColor;
 
     public Color32 hasMissionToAcceptColor;
     public Color32 hasMissionToCompleteColor;
@@ -48,12 +51,82 @@ public class MinimapManager : MonoBehaviour
 
     public void SetHasUnacceptedMissionText(MinimapIcon minimapIcon)
     {
-        minimapIcon.mMIconMissionTxt.text = "!";
+        minimapIcon.exclamationMarkImg.SetActive(false);
+        minimapIcon.questionMarkImg.SetActive(true);
+
+        //if (UIManager.missionToDisplay != null && minimapIcon.currCorrMissions.Contains(UIManager.missionToDisplay))
+        //{
+        //    minimapIcon.exclamationMarkImg.GetComponent<Image>().color = minimapIcon.symbolIsSelectedColor;
+        //}
+        //else
+        //{
+        //    minimapIcon.exclamationMarkImg.GetComponent<Image>().color = Color.white;
+        //}
+
+        if (minimapIcon.corrNPCMissionSymbol != null)
+        {
+            minimapIcon.corrNPCMissionSymbol.exclaImg.SetActive(false);
+            minimapIcon.corrNPCMissionSymbol.questionImg.SetActive(true);
+        }
+
+        if (UIManager.missionToDisplay != null && minimapIcon.currCorrMissions.Contains(UIManager.missionToDisplay))
+        {
+            minimapIcon.questionMarkImg.GetComponent<Image>().color = minimapIcon.symbolIsSelectedColor;
+
+            if (minimapIcon.corrNPCMissionSymbol != null)
+            {
+                minimapIcon.corrNPCMissionSymbol.questionImg.GetComponent<Image>().color = MinimapManager.instance.npcSymbolIsSelectedColor;
+            }
+        }
+        else
+        {
+            minimapIcon.questionMarkImg.GetComponent<Image>().color = Color.white;
+
+            if (minimapIcon.corrNPCMissionSymbol != null)
+            {
+                minimapIcon.corrNPCMissionSymbol.questionImg.GetComponent<Image>().color = Color.white;
+            }
+        }
     }
 
     public void SetHasTaskToCompleteMissionText(MinimapIcon minimapIcon)
     {
-        minimapIcon.mMIconMissionTxt.text = "?";
+        minimapIcon.exclamationMarkImg.SetActive(true);
+        minimapIcon.questionMarkImg.SetActive(false);
+
+        //if (UIManager.missionToDisplay != null && minimapIcon.currCorrMissions.Contains(UIManager.missionToDisplay))
+        //{
+        //    minimapIcon.exclamationMarkImg.GetComponent<Image>().color = minimapIcon.symbolIsSelectedColor;
+        //}
+        //else
+        //{
+        //    minimapIcon.exclamationMarkImg.GetComponent<Image>().color = Color.white;
+        //}
+
+        if (minimapIcon.corrNPCMissionSymbol != null)
+        {
+            minimapIcon.corrNPCMissionSymbol.exclaImg.SetActive(true);
+            minimapIcon.corrNPCMissionSymbol.questionImg.SetActive(false);
+        }
+
+        if (UIManager.missionToDisplay != null && minimapIcon.currCorrMissions.Contains(UIManager.missionToDisplay))
+        {
+            minimapIcon.exclamationMarkImg.GetComponent<Image>().color = minimapIcon.symbolIsSelectedColor;
+
+            if (minimapIcon.corrNPCMissionSymbol != null)
+            {
+                minimapIcon.corrNPCMissionSymbol.exclaImg.GetComponent<Image>().color = MinimapManager.instance.npcSymbolIsSelectedColor;
+            }
+        }
+        else
+        {
+            minimapIcon.exclamationMarkImg.GetComponent<Image>().color = Color.white;
+
+            if (minimapIcon.corrNPCMissionSymbol != null)
+            {
+                minimapIcon.corrNPCMissionSymbol.exclaImg.GetComponent<Image>().color = Color.white;
+            }
+        }
     }
 
     public void CheckAllMinimapSymbols()

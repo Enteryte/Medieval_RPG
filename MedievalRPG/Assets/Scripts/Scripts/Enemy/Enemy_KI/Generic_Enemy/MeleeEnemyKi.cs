@@ -20,6 +20,8 @@ public class MeleeEnemyKi : BaseEnemyKI
     //The Transforms for the Detectors, must be an amount divisible by 2
     private RayDetection[] RayDetectorsAttack;
 
+    Coroutine attackCoro;
+
 
     [Header("Dev Variables")] private bool IsAttackCoroutineStarted;
     private bool IsSearching;
@@ -43,7 +45,13 @@ public class MeleeEnemyKi : BaseEnemyKI
         SightEvent(IsSeeingPlayer);
 
         //Putting the Attack Detection into an if so it only checks when it has the player within it's sight for better performance.
-        if (!IsSeeingPlayer) return;
+        if (!IsSeeingPlayer)
+        {
+            Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), false);
+
+            return;
+        }
+
         IsSearching = false;
         
         IsInAttackRange = DetectorCheck(RayDetectorsAttack);
@@ -98,9 +106,15 @@ public class MeleeEnemyKi : BaseEnemyKI
     {
         while (IsInAttackRange)
         {
+            //if (Vector3.Distance(Target.transform.position, this.gameObject.transform.position) > 0.5f)
+            //{
+            //    StopCoroutine(attackCoro);
+            //}
+
             IsAttackCoroutineStarted = true;
             Animator.SetTrigger(Animator.StringToHash("AttackLaunch"));
             yield return new WaitForSeconds(KiStats.AttackCoolDown);
+
             IsAttackCoroutineStarted = false;
         }
     }
@@ -118,7 +132,7 @@ public class MeleeEnemyKi : BaseEnemyKI
 
             //Attack
             if (!IsAttackCoroutineStarted)
-                StartCoroutine(AttackTrigger());
+                attackCoro = StartCoroutine(AttackTrigger());
         }
         else
         {
@@ -126,6 +140,9 @@ public class MeleeEnemyKi : BaseEnemyKI
             if (Agent.hasPath || IsInAttackRange) return;
             Agent.isStopped = false;
             Agent.SetDestination(Target.position);
+
+            //Animator.ResetTrigger("AttackLaunch");
+            //transform.LookAt(Target.transform);
         }
     }
 
