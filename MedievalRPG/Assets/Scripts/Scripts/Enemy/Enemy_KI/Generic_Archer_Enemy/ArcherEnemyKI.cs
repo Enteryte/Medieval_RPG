@@ -51,7 +51,7 @@ public class ArcherEnemyKI : BaseEnemyKI
         if (IsSeeingPlayer) //If the current state was Not Seeing -> Seeing
             OnSightGained();
         else //If the current state was Seeing -> Not seeing
-            OnSightLost();
+            // OnSightLost();
         WasSeeingPlayer = IsSeeingPlayer;
     }
 
@@ -79,6 +79,7 @@ public class ArcherEnemyKI : BaseEnemyKI
 
         if (!IsSeeingPlayer)
             Agent.SetDestination(StartPos);
+        transform.LookAt(Target.transform.position);
     }
 
     private void NoticeEnemy()
@@ -91,6 +92,7 @@ public class ArcherEnemyKI : BaseEnemyKI
     private void Flee()
     {
         Vector3 flightPos = transform.position - Target.transform.position;
+        // StartPos = Vector3.Lerp(flightPos, Target.transform.position, 0.1f);
 
         Animator.SetBool(Animator.StringToHash("IsFleeing"), true);
         Agent.SetDestination(flightPos);
@@ -111,7 +113,7 @@ public class ArcherEnemyKI : BaseEnemyKI
     private IEnumerator FleeCheck()
     {
         IsFleeCoroutineStarted = true;
-        while (IsSeeingPlayer)
+        while (Vector3.Distance(transform.position, Target.transform.position) < FleeingDistance)
         {
             Flee();
             yield return new WaitForSeconds(KiStats.AttackCoolDown);

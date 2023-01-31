@@ -12,7 +12,6 @@ public class EnemyDamager : MonoBehaviour
             return;
         Attack(_collision.gameObject);
     }
-
     public void Init(float _damage)
     {
         Damage = _damage;
