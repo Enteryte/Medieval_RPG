@@ -76,6 +76,7 @@ public class NPCMissionButton : MonoBehaviour
         else
         {
             Debug.Log("CLOSE");
+            CutsceneManager.instance.CloseCutscene();
         }
 
         //Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<NPC>().nPCCVC.enabled = true;
@@ -83,9 +84,15 @@ public class NPCMissionButton : MonoBehaviour
 
         UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(false);
 
-        for (int i = 0; i < UIManager.instance.npcBtnKillianGOs.Length; i++)
+        if (UIManager.instance.npcBtnKillianGOs.Length > 0)
         {
-            UIManager.instance.npcBtnKillianGOs[i].SetActive(false);
+            for (int i = 0; i < UIManager.instance.npcBtnKillianGOs.Length; i++)
+            {
+                if (UIManager.instance.npcBtnKillianGOs[i] != null)
+                {
+                    UIManager.instance.npcBtnKillianGOs[i].SetActive(false);
+                }
+            }
         }
 
         Interacting.instance.nearestObjTrans = null;        
