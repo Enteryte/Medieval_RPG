@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: fe22b4434a4234042a6415298a899155
+guid: ee852e38f6b87f14f86acb5adf7f81b8
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: AimRecoil
+    second: Aim Overdraw
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,11 +36,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: AimRecoil
+      name: Aim Overdraw
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 20
+      lastFrame: 113
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -49,29 +49,22 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.29285714
-        functionName: ReleaseArrow
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 40dcb6ca9d22f5940be816cbff5fc332, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
@@ -536,13 +529,13 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Standing Aim Recoil(Clone)
+    - name: Standing Aim Overdraw(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig:Hips
-      parentName: Standing Aim Recoil(Clone)
+      parentName: Standing Aim Overdraw(Clone)
       position: {x: -0.007132452, y: 1.0298927, z: -0.00040688008}
       rotation: {x: 0.007885137, y: 0.011997792, z: 0.05562205, w: 0.99834865}
       scale: {x: 1, y: 1, z: 1}

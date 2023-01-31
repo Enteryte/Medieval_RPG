@@ -13,6 +13,7 @@ public class ArcherEnemyKI : BaseEnemyKI
 
     private bool IsAttackCoroutineStarted;
     private bool IsFleeCoroutineStarted;
+    private bool HasTakenAStep;
 
     public void LinkArrowPool(ArrowPool _arrowPool)
     {
@@ -39,7 +40,9 @@ public class ArcherEnemyKI : BaseEnemyKI
         else
             Animator.SetBool(Animator.StringToHash("IsFleeing"), false);
         if (!IsAttackCoroutineStarted)
+        {
             StartCoroutine(AttackTrigger());
+        }
     }
 
     private void CompareSight()
@@ -79,7 +82,7 @@ public class ArcherEnemyKI : BaseEnemyKI
 
         if (!IsSeeingPlayer)
             Agent.SetDestination(StartPos);
-        transform.LookAt(Target.transform.position);
+        // transform.LookAt(Target.transform.position);
     }
 
     private void NoticeEnemy()
@@ -118,14 +121,12 @@ public class ArcherEnemyKI : BaseEnemyKI
             Flee();
             yield return new WaitForSeconds(KiStats.AttackCoolDown);
         }
-
         IsFleeCoroutineStarted = false;
     }
-
-
-
     public void FireArrow()
     {
+        Agent.SetDestination(Vector3.Lerp(transform.position, Target.transform.position, 0.04f));
+        // transform.LookAt(Target);
         ArrowPool.SpawnAndFireArrow(FiringPoint);
     }
 

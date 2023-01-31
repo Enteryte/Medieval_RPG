@@ -8,7 +8,7 @@ public class EnemyArrowController : MonoBehaviour
     private Transform PlayerTransform;
     private Vector3 Target;
     private Vector3 FiringPoint;
-
+    [SerializeField]private Rigidbody Rb;
     private ArrowPool AssignedPoolManager;
     private bool IsFired;
     private float DstToStopBeingPerfect;
@@ -16,7 +16,8 @@ public class EnemyArrowController : MonoBehaviour
     private bool HasCollided;
     private float Damage;
     private float Speed;
-    float Time = 0f;
+    private float Time = 0f;
+
 
     public void Initialize(ArrowPool _assignedPoolManager, float _dstToStopBeingPerfect, float _despawnTime,
         float _damage, float _speed, Transform _playerTransform)
@@ -34,12 +35,9 @@ public class EnemyArrowController : MonoBehaviour
         HasCollided = true;
         IsFired = false;
 
-        StartCoroutine(Despawn());
         //Do the Sticking after checking if you hit the player or not
-        if (!_collision.gameObject.CompareTag("Player"))
-        {
+        if (!_collision.gameObject.CompareTag("Player")) 
             transform.SetParent(_collision.transform);
-        }
         //Do Something the arrow sticks or something, parent it to the player until despawn.
     }
 
@@ -59,6 +57,9 @@ public class EnemyArrowController : MonoBehaviour
         Time = 0f;
         Target = PlayerTransform.position;
         IsFired = true;
+        StartCoroutine(Despawn());
+        transform.LookAt(Target);
+        // Rb.AddForce(transform.forward * Speed, ForceMode.Force);
     }
 
     private void FixedUpdate()
@@ -67,14 +68,14 @@ public class EnemyArrowController : MonoBehaviour
             return;
         MoveArrow(Time);
         Time += UnityEngine.Time.deltaTime;
-        // if (Vector3.Distance(transform.position, Target) < DstToStopBeingPerfect)
-        //     Target = PlayerTransform.position;
+        if (Vector3.Distance(transform.position, Target) < DstToStopBeingPerfect)
+            Target = PlayerTransform.position;
     }
 
     private void MoveArrow(float _time)
     {
-        transform.position = Vector3.Slerp(FiringPoint, Target, _time);
-        transform.rotation = Quaternion.LookRotation(Target);
+        transform.position = Vector3.Lerp(FiringPoint, Target, _time);
+        
     }
 
     private IEnumerator Despawn()
