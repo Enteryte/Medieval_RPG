@@ -67,14 +67,14 @@ public class EnemyArrowController : MonoBehaviour
             return;
         MoveArrow(Time);
         Time += UnityEngine.Time.deltaTime;
-        if (Vector3.Distance(transform.position, Target) < DstToStopBeingPerfect)
-            Target = PlayerTransform.position;
+        // if (Vector3.Distance(transform.position, Target) < DstToStopBeingPerfect)
+        //     Target = PlayerTransform.position;
     }
 
     private void MoveArrow(float _time)
     {
         transform.position = Vector3.Slerp(FiringPoint, Target, _time);
-        transform.rotation = Quaternion.LookRotation(Vector3.Slerp(FiringPoint, Target, _time + 0.1f));
+        transform.rotation = Quaternion.LookRotation(Target);
     }
 
     private IEnumerator Despawn()

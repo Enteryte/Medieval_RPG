@@ -25,6 +25,8 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     [Header("Dev Variables")] private bool IsAttackCoroutineStarted;
     private bool IsSearching;
+    [SerializeField] private float RepathCoolDownLength = 0.2f;
+    private float RepathCoolDown = 0.2f;
 
     #region Unity Events
 
@@ -53,7 +55,7 @@ public class MeleeEnemyKi : BaseEnemyKI
         }
 
         IsSearching = false;
-        
+
         IsInAttackRange = DetectorCheck(RayDetectorsAttack);
         Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), IsInAttackRange);
     }
@@ -78,7 +80,7 @@ public class MeleeEnemyKi : BaseEnemyKI
                 break;
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             case true when !_isSeeingPlayer:
-                Search();
+                // Search();
                 break;
         }
     }
@@ -124,6 +126,7 @@ public class MeleeEnemyKi : BaseEnemyKI
         //TODO: Maybe make the AI more complex by having it skirt around when on cooldown
         if (IsInAttackRange)
         {
+            RepathCoolDown = 0f;
             if (!Agent.isStopped)
             {
                 Agent.isStopped = true;
@@ -136,8 +139,10 @@ public class MeleeEnemyKi : BaseEnemyKI
         }
         else
         {
+            RepathCoolDown += Time.deltaTime;
             //Move in the direction of the player
-            if (Agent.hasPath || IsInAttackRange) return;
+            if (IsInAttackRange || RepathCoolDown < RepathCoolDownLength) return;
+            RepathCoolDown = 0f;
             Agent.isStopped = false;
             Agent.SetDestination(Target.position);
 
