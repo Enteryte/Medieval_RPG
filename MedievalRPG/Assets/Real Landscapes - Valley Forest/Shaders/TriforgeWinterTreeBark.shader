@@ -1,11 +1,10 @@
-// Made with Amplify Shader Editor
+// Made with Amplify Shader Editor v1.9.0.1
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "TriForge/Winter Forest/Bark"
 {
 	Properties
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
-		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		_WindStrength("Wind Strength", Range( 0 , 2)) = 0.3
 		_WindNoiseScale("Wind Noise Scale", Float) = 1
 		_WindSpeed("Wind Speed", Range( 0 , 5)) = 1
@@ -22,48 +21,54 @@ Shader "TriForge/Winter Forest/Bark"
 
 		[HideInInspector] _RenderQueueType("Render Queue Type", Float) = 1
 		[HideInInspector] [ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
-		[HideInInspector] [ToggleUI]_SupportDecals("Boolean", Float) = 1
-		[HideInInspector] _StencilRef("Stencil Ref", Int) = 0
-		[HideInInspector] _StencilWriteMask("Stencil Write Mask", Int) = 6
-		[HideInInspector] _StencilRefDepth("Stencil Ref Depth", Int) = 8
-		[HideInInspector] _StencilWriteMaskDepth("Stencil Write Mask Depth", Int) = 8
-		[HideInInspector] _StencilRefMV("Stencil Ref MV", Int) = 40
-		[HideInInspector] _StencilWriteMaskMV("Stencil Write Mask MV", Int) = 40
-		[HideInInspector] _StencilRefDistortionVec("Stencil Ref Distortion Vec", Int) = 4
-		[HideInInspector] _StencilWriteMaskDistortionVec("Stencil Write Mask Distortion Vec", Int) = 4
-		[HideInInspector] _StencilWriteMaskGBuffer("Stencil Write Mask GBuffer", Int) = 14
-		[HideInInspector] _StencilRefGBuffer("Stencil Ref GBuffer", Int) = 10
+		[HideInInspector][ToggleUI] _SupportDecals("Support Decals", Float) = 1.0
+		[HideInInspector] _StencilRef("Stencil Ref", Int) = 0 // StencilUsage.Clear
+		[HideInInspector] _StencilWriteMask("Stencil Write Mask", Int) = 3 // StencilUsage.RequiresDeferredLighting | StencilUsage.SubsurfaceScattering
+		[HideInInspector] _StencilRefDepth("Stencil Ref Depth", Int) = 0 // Nothing
+		[HideInInspector] _StencilWriteMaskDepth("Stencil Write Mask Depth", Int) = 8 // StencilUsage.TraceReflectionRay
+		[HideInInspector] _StencilRefMV("Stencil Ref MV", Int) = 32 // StencilUsage.ObjectMotionVector
+		[HideInInspector] _StencilWriteMaskMV("Stencil Write Mask MV", Int) = 32 // StencilUsage.ObjectMotionVector
+		[HideInInspector] _StencilRefDistortionVec("Stencil Ref Distortion Vec", Int) = 4 				// DEPRECATED
+		[HideInInspector] _StencilWriteMaskDistortionVec("Stencil Write Mask Distortion Vec", Int) = 4	// DEPRECATED
+		[HideInInspector] _StencilWriteMaskGBuffer("Stencil Write Mask GBuffer", Int) = 3 // StencilUsage.RequiresDeferredLighting | StencilUsage.SubsurfaceScattering
+		[HideInInspector] _StencilRefGBuffer("Stencil Ref GBuffer", Int) = 2 // StencilUsage.RequiresDeferredLighting
 		[HideInInspector] _ZTestGBuffer("ZTest GBuffer", Int) = 4
-		[HideInInspector] [ToggleUI] _RequireSplitLighting("Require Split Lighting", Float) = 0
-		[HideInInspector] [ToggleUI] _ReceivesSSR("Receives SSR", Float) = 1
-		[HideInInspector] [ToggleUI] _ReceivesSSRTransparent("Boolean", Float) = 0
+		[HideInInspector][ToggleUI] _RequireSplitLighting("Require Split Lighting", Float) = 0
+		[HideInInspector][ToggleUI] _ReceivesSSR("Receives SSR", Float) = 1
+		[HideInInspector][ToggleUI] _ReceivesSSRTransparent("Receives SSR Transparent", Float) = 0
 		[HideInInspector] _SurfaceType("Surface Type", Float) = 0
 		[HideInInspector] _BlendMode("Blend Mode", Float) = 0
 		[HideInInspector] _SrcBlend("Src Blend", Float) = 1
 		[HideInInspector] _DstBlend("Dst Blend", Float) = 0
 		[HideInInspector] _AlphaSrcBlend("Alpha Src Blend", Float) = 1
 		[HideInInspector] _AlphaDstBlend("Alpha Dst Blend", Float) = 0
-		[HideInInspector] [ToggleUI] _ZWrite("ZWrite", Float) = 1
-		[HideInInspector] [ToggleUI] _TransparentZWrite("Transparent ZWrite", Float) = 1
+		[HideInInspector][ToggleUI] _ZWrite("ZWrite", Float) = 1
+		[HideInInspector][ToggleUI] _TransparentZWrite("Transparent ZWrite", Float) = 0
 		[HideInInspector] _CullMode("Cull Mode", Float) = 2
-		[HideInInspector] _TransparentSortPriority("Transparent Sort Priority", Int) = 0
-		[HideInInspector] [ToggleUI] _EnableFogOnTransparent("Enable Fog On Transparent", Float) = 1
-		[HideInInspector] _CullModeForward("Cull Mode Forward", Float) = 2
-		[HideInInspector] [Enum(Front, 1, Back, 2)] _TransparentCullMode("Transparent Cull Mode", Float) = 2
-		[HideInInspector] _ZTestDepthEqualForOpaque("ZTest Depth Equal For Opaque", Int) = 4
-		[HideInInspector] [Enum(UnityEngine.Rendering.CompareFunction)] _ZTestTransparent("ZTest Transparent", Float) = 4
-		[HideInInspector] [ToggleUI] _TransparentBackfaceEnable("Transparent Backface Enable", Float) = 0
-		[HideInInspector] [ToggleUI] _AlphaCutoffEnable("Alpha Cutoff Enable", Float) = 0
-		[HideInInspector] [ToggleUI] _UseShadowThreshold("Use Shadow Threshold", Float) = 0
+		[HideInInspector]_TransparentSortPriority("Transparent Sort Priority", Float) = 0
+		[HideInInspector][ToggleUI] _EnableFogOnTransparent("Enable Fog", Float) = 1
+		[HideInInspector] _CullModeForward("Cull Mode Forward", Float) = 2 // This mode is dedicated to Forward to correctly handle backface then front face rendering thin transparent
+		[HideInInspector][Enum(UnityEditor.Rendering.HighDefinition.TransparentCullMode)] _TransparentCullMode("Transparent Cull Mode", Int) = 2 // Back culling by default
+		[HideInInspector] _ZTestDepthEqualForOpaque("ZTest Depth Equal For Opaque", Int) = 4 // Less equal
+		[HideInInspector][Enum(UnityEngine.Rendering.CompareFunction)] _ZTestTransparent("ZTest Transparent", Int) = 4 // Less equal
+		[HideInInspector][ToggleUI] _TransparentBackfaceEnable("Transparent Backface Enable", Float) = 0
+		[HideInInspector][ToggleUI] _AlphaCutoffEnable("Alpha Cutoff Enable", Float) = 0
+		[HideInInspector][ToggleUI] _UseShadowThreshold("Use Shadow Threshold", Float) = 0
 		[HideInInspector] [ToggleUI] _DoubleSidedEnable("Double Sided Enable", Float) = 0
 		[HideInInspector] [Enum(Flip, 0, Mirror, 1, None, 2)] _DoubleSidedNormalMode("Double Sided Normal Mode", Float) = 2
 		[HideInInspector] _DoubleSidedConstants("DoubleSidedConstants", Vector) = (1,1,-1,0)
+
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
 		//_TessValue( "Tess Max Tessellation", Range( 1, 32 ) ) = 16
 		//_TessMin( "Tess Min Distance", Float ) = 10
 		//_TessMax( "Tess Max Distance", Float ) = 25
 		//_TessEdgeLength ( "Tess Edge length", Range( 2, 50 ) ) = 16
 		//_TessMaxDisp( "Tess Max Displacement", Float ) = 25
+
+		[HideInInspector][ToggleUI] _TransparentWritingMotionVec("Transparent Writing MotionVec", Float) = 0
+		[HideInInspector][Enum(UnityEditor.Rendering.HighDefinition.OpaqueCullMode)] _OpaqueCullMode("Opaque Cull Mode", Int) = 2 // Back culling by default
+		[HideInInspector][ToggleUI] _EnableBlendModePreserveSpecularLighting("Enable Blend Mode Preserve Specular Lighting", Float) = 1
+		[HideInInspector] _EmissionColor("Color", Color) = (1, 1, 1)			
 	}
 
 	SubShader
@@ -77,12 +82,10 @@ Shader "TriForge/Winter Forest/Bark"
 		HLSLINCLUDE
 		#pragma target 4.5
 		#pragma only_renderers d3d11 metal vulkan xboxone xboxseries playstation switch 
-		#pragma multi_compile_instancing
-		#pragma instancing_options renderinglayer
 
 		struct GlobalSurfaceDescription // GBuffer Forward META TransparentBackface
 		{
-			float3 Albedo;
+			float3 BaseColor;
 			float3 Normal;
 			float3 BentNormal;
 			float3 Specular;
@@ -105,9 +108,11 @@ Shader "TriForge/Winter Forest/Bark"
 			float3 RefractionColor;
 			float RefractionDistance;
 			//SSS/Translucent
+			float DiffusionProfile;
+			float TransmissionMask;
+			// Transmission + Diffusion Profile
 			float Thickness;
 			float SubsurfaceMask;
-			float DiffusionProfile;
 			//Anisotropy
 			float Anisotropy;
 			float3 Tangent;
@@ -159,14 +164,6 @@ Shader "TriForge/Winter Forest/Bark"
 			float DepthOffset;
 		};
 
-		struct DistortionSurfaceDescription //Distortion
-		{
-			float Alpha;
-			float2 Distortion;
-			float DistortionBlur;
-			float AlphaClipThreshold;
-		};
-		
 		#ifndef ASE_TESS_FUNCS
 		#define ASE_TESS_FUNCS
 		float4 FixedTess( float tessValue )
@@ -268,6 +265,7 @@ Shader "TriForge/Winter Forest/Bark"
 		}
 		#endif //ASE_TESS_FUNCS
 		ENDHLSL
+
 		
 		Pass
 		{
@@ -282,60 +280,85 @@ Shader "TriForge/Winter Forest/Bark"
 			{
 				Ref [_StencilRefGBuffer]
 				WriteMask [_StencilWriteMaskGBuffer]
-				Comp Always
 				Pass Replace
-				Fail Keep
-				ZFail Keep
 			}
 
 
 			HLSLPROGRAM
+            #define _SPECULAR_OCCLUSION_FROM_AO 1
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #define _AMBIENT_OCCLUSION 1
+            #define HAVE_MESH_MODIFICATION
+            #define ASE_SRP_VERSION 100700
 
-			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#pragma multi_compile _ DOTS_INSTANCING_ON
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#define _AMBIENT_OCCLUSION 1
-			#define HAVE_MESH_MODIFICATION
-			#define ASE_SRP_VERSION 100400
-
-
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
+            #pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
-			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
 			#pragma shader_feature_local _ALPHATEST_ON
+			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
 
-			#if !defined(DEBUG_DISPLAY) && defined(_ALPHATEST_ON)
-			#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
-			#endif
-
-			#define SHADERPASS SHADERPASS_GBUFFER
+			#pragma multi_compile _ SHADOWS_SHADOWMASK
+			#pragma multi_compile _ LIGHT_LAYERS
 			#pragma multi_compile _ DEBUG_DISPLAY
 			#pragma multi_compile _ LIGHTMAP_ON
 			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
 			#pragma multi_compile _ DYNAMICLIGHTMAP_ON
-			#pragma multi_compile _ SHADOWS_SHADOWMASK
 			#pragma multi_compile DECALS_OFF DECALS_3RT DECALS_4RT
-			#pragma multi_compile _ LIGHT_LAYERS
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
-			//#define UNITY_MATERIAL_LIT
-
-			#if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define OUTPUT_SPLIT_LIGHTING
-			#endif
-
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_GBUFFER
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
+			#endif
+			#endif
+
+		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define OUTPUT_SPLIT_LIGHTING
+		    #endif
+
+		    #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
+			#undef  _REFRACTION_PLANE
+			#undef  _REFRACTION_SPHERE
+			#define _REFRACTION_THIN
+		    #endif
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+				#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
@@ -363,8 +386,6 @@ Shader "TriForge/Winter Forest/Bark"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
-			float _StencilRefDistortionVec;
-			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -372,6 +393,9 @@ Shader "TriForge/Winter Forest/Bark"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -392,14 +416,26 @@ Shader "TriForge/Winter Forest/Bark"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+		    // Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
+
 			int TFW_EnableWind;
 			float TFW_WindStrength;
 			float4x4 unity_CameraProjection;
@@ -417,14 +453,22 @@ Shader "TriForge/Winter Forest/Bark"
 			sampler2D _Mask;
 
 
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
+	
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
@@ -437,7 +481,7 @@ Shader "TriForge/Winter Forest/Bark"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
 
 			struct AttributesMesh
@@ -455,11 +499,11 @@ Shader "TriForge/Winter Forest/Bark"
 			struct PackedVaryingsMeshToPS
 			{
 				float4 positionCS : SV_Position;
-				float3 interp00 : TEXCOORD0;
-				float3 interp01 : TEXCOORD1;
-				float4 interp02 : TEXCOORD2;
-				float4 interp03 : TEXCOORD3;
-				float4 interp04 : TEXCOORD4;
+				float3 positionRWS : TEXCOORD0;
+				float3 normalWS : TEXCOORD1;
+				float4 tangentWS : TEXCOORD2;
+				float4 uv1 : TEXCOORD3;
+				float4 uv2 : TEXCOORD4;
 				float4 ase_texcoord5 : TEXCOORD5;
 				float4 ase_texcoord6 : TEXCOORD6;
 				float3 ase_normal : NORMAL;
@@ -576,7 +620,7 @@ Shader "TriForge/Winter Forest/Bark"
 				surfaceData.specularOcclusion = 1.0;
 
 				// surface data
-				surfaceData.baseColor =					surfaceDescription.Albedo;
+				surfaceData.baseColor =					surfaceDescription.BaseColor;
 				surfaceData.perceptualSmoothness =		surfaceDescription.Smoothness;
 				surfaceData.ambientOcclusion =			surfaceDescription.Occlusion;
 				surfaceData.metallic =					surfaceDescription.Metallic;
@@ -588,7 +632,7 @@ Shader "TriForge/Winter Forest/Bark"
 				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
 				surfaceData.subsurfaceMask =			surfaceDescription.SubsurfaceMask;
 				#endif
-				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
+				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) || defined(_MATERIAL_FEATURE_TRANSMISSION)
 				surfaceData.thickness =					surfaceDescription.Thickness;
 				#endif
 				#if defined( _MATERIAL_FEATURE_SUBSURFACE_SCATTERING ) || defined( _MATERIAL_FEATURE_TRANSMISSION )
@@ -640,10 +684,11 @@ Shader "TriForge/Winter Forest/Bark"
 				#ifdef _MATERIAL_FEATURE_TRANSMISSION
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
 				#endif
-				#ifdef _MATERIAL_FEATURE_ANISOTROPY
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				#endif
-				#ifdef ASE_LIT_CLEAR_COAT
+				surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
 				#endif
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
@@ -657,6 +702,7 @@ Shader "TriForge/Winter Forest/Bark"
 				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
 				surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
 				#endif
+
 				#ifdef _DOUBLESIDED_ON
 				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
 				#else
@@ -691,13 +737,12 @@ Shader "TriForge/Winter Forest/Bark"
 				#endif
 				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
 
-
-				#if defined(_SPECULAR_OCCLUSION_CUSTOM)
-				#elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO( V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness( surfaceData.perceptualSmoothness ) );
-				#elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion( ClampNdotV( dot( surfaceData.normalWS, V ) ), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness( surfaceData.perceptualSmoothness ) );
-				#endif
+                #if defined(_SPECULAR_OCCLUSION_CUSTOM)
+                #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                #endif
 
 				#ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
 				surfaceData.perceptualSmoothness = GeometricNormalFiltering( surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[ 2 ], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold );
@@ -744,19 +789,12 @@ Shader "TriForge/Winter Forest/Bark"
 				#ifdef _ASE_BAKEDGI
 				builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
 				#endif
+
 				#ifdef _ASE_BAKEDBACKGI
 				builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
 				#endif
 
 				builtinData.emissiveColor = surfaceDescription.Emission;
-
-				#if (SHADERPASS == SHADERPASS_DISTORTION)
-				builtinData.distortion = surfaceDescription.Distortion;
-				builtinData.distortionBlur = surfaceDescription.DistortionBlur;
-				#else
-				builtinData.distortion = float2(0.0, 0.0);
-				builtinData.distortionBlur = 0.0;
-				#endif
 
 				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
 			}
@@ -841,11 +879,11 @@ Shader "TriForge/Winter Forest/Bark"
 				float4 tangentWS = float4(TransformObjectToWorldDir(inputMesh.tangentOS.xyz), inputMesh.tangentOS.w);
 
 				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
-				outputPackedVaryingsMeshToPS.interp00.xyz = positionRWS;
-				outputPackedVaryingsMeshToPS.interp01.xyz = normalWS;
-				outputPackedVaryingsMeshToPS.interp02.xyzw = tangentWS;
-				outputPackedVaryingsMeshToPS.interp03.xyzw = inputMesh.uv1;
-				outputPackedVaryingsMeshToPS.interp04.xyzw = inputMesh.uv2;
+				outputPackedVaryingsMeshToPS.positionRWS.xyz = positionRWS;
+				outputPackedVaryingsMeshToPS.normalWS.xyz = normalWS;
+				outputPackedVaryingsMeshToPS.tangentWS.xyzw = tangentWS;
+				outputPackedVaryingsMeshToPS.uv1.xyzw = inputMesh.uv1;
+				outputPackedVaryingsMeshToPS.uv2.xyzw = inputMesh.uv2;
 				return outputPackedVaryingsMeshToPS;
 			}
 
@@ -959,15 +997,15 @@ Shader "TriForge/Winter Forest/Bark"
 				FragInputs input;
 				ZERO_INITIALIZE(FragInputs, input);
 				input.tangentToWorld = k_identity3x3;
-				float3 positionRWS = packedInput.interp00.xyz;
-				float3 normalWS = packedInput.interp01.xyz;
-				float4 tangentWS = packedInput.interp02.xyzw;
+				float3 positionRWS = packedInput.positionRWS.xyz;
+				float3 normalWS = packedInput.normalWS.xyz;
+				float4 tangentWS = packedInput.tangentWS.xyzw;
 
 				input.positionSS = packedInput.positionCS;
 				input.positionRWS = positionRWS;
 				input.tangentToWorld = BuildTangentToWorld(tangentWS, normalWS);
-				input.texCoord1 = packedInput.interp03.xyzw;
-				input.texCoord2 = packedInput.interp04.xyzw;
+				input.texCoord1 = packedInput.uv1.xyzw;
+				input.texCoord2 = packedInput.uv2.xyzw;
 
 				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
 				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false);
@@ -1029,7 +1067,7 @@ Shader "TriForge/Winter Forest/Bark"
 				float lerpResult209 = lerp( AmbientOcclusion165 , 1.0 , SnowBlendMask192);
 				float FinalAmbientOcclusion213 = lerpResult209;
 				
-				surfaceDescription.Albedo = FinalAlbedo200.xyz;
+				surfaceDescription.BaseColor = FinalAlbedo200.xyz;
 				surfaceDescription.Normal = NormalBlend186;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
@@ -1065,7 +1103,7 @@ Shader "TriForge/Winter Forest/Bark"
 				#endif
 
 				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
-				surfaceDescription.Thickness = 1;
+				surfaceDescription.Thickness = 0;
 				#endif
 
 				#ifdef _HAS_REFRACTION
@@ -1090,11 +1128,6 @@ Shader "TriForge/Winter Forest/Bark"
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
 				surfaceDescription.IridescenceMask = 0;
 				surfaceDescription.IridescenceThickness = 0;
-				#endif
-
-				#ifdef _ASE_DISTORTION
-				surfaceDescription.Distortion = float2 ( 2, -1 );
-				surfaceDescription.DistortionBlur = 1;
 				#endif
 
 				#ifdef _ASE_BAKEDGI
@@ -1126,45 +1159,74 @@ Shader "TriForge/Winter Forest/Bark"
 			Tags { "LightMode"="Meta" }
 
 			Cull Off
-
+	
 			HLSLPROGRAM
 
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#pragma multi_compile _ DOTS_INSTANCING_ON
+			#pragma multi_compile_instancing
+			#pragma instancing_options renderinglayer
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
-			#define ASE_SRP_VERSION 100400
+			#define ASE_SRP_VERSION 100700
 
 
 			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
 			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
+			#pragma shader_feature_local _DOUBLESIDED_ON
 			#pragma shader_feature_local _ALPHATEST_ON
 
-			#define SHADERPASS SHADERPASS_LIGHT_TRANSPORT
+			#pragma multi_compile _ SHADOWS_SHADOWMASK
+			#pragma multi_compile _ LIGHT_LAYERS
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
-			//#define UNITY_MATERIAL_LIT
-
-			#if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define OUTPUT_SPLIT_LIGHTING
-			#endif
-
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_LIGHT_TRANSPORT
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
 			#endif
-			
+			#endif
+
+		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define OUTPUT_SPLIT_LIGHTING
+		    #endif
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+				#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#endif
+
 			CBUFFER_START( UnityPerMaterial )
 			float4 _MainTex_ST;
 			float4 _SnowAlbedo_ST;
@@ -1190,8 +1252,6 @@ Shader "TriForge/Winter Forest/Bark"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
-			float _StencilRefDistortionVec;
-			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -1199,6 +1259,9 @@ Shader "TriForge/Winter Forest/Bark"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -1219,14 +1282,26 @@ Shader "TriForge/Winter Forest/Bark"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+			// Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
+
 			int TFW_EnableWind;
 			float TFW_WindStrength;
 			float4x4 unity_CameraProjection;
@@ -1244,14 +1319,22 @@ Shader "TriForge/Winter Forest/Bark"
 			sampler2D _Mask;
 
 
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
+	
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_VERT_TANGENT
@@ -1261,7 +1344,7 @@ Shader "TriForge/Winter Forest/Bark"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
 
 			struct AttributesMesh
@@ -1396,7 +1479,7 @@ Shader "TriForge/Winter Forest/Bark"
 				surfaceData.specularOcclusion = 1.0;
 
 				// surface data
-				surfaceData.baseColor =					surfaceDescription.Albedo;
+				surfaceData.baseColor =					surfaceDescription.BaseColor;
 				surfaceData.perceptualSmoothness =		surfaceDescription.Smoothness;
 				surfaceData.ambientOcclusion =			surfaceDescription.Occlusion;
 				surfaceData.metallic =					surfaceDescription.Metallic;
@@ -1408,8 +1491,8 @@ Shader "TriForge/Winter Forest/Bark"
 				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
 				surfaceData.subsurfaceMask =			surfaceDescription.SubsurfaceMask;
 				#endif
-				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
-				surfaceData.thickness =					surfaceDescription.Thickness;
+				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) || defined(_MATERIAL_FEATURE_TRANSMISSION)
+				surfaceData.thickness = 				surfaceDescription.Thickness;
 				#endif
 				#if defined( _MATERIAL_FEATURE_SUBSURFACE_SCATTERING ) || defined( _MATERIAL_FEATURE_TRANSMISSION )
 				surfaceData.diffusionProfileHash =		asuint(surfaceDescription.DiffusionProfile);
@@ -1451,7 +1534,6 @@ Shader "TriForge/Winter Forest/Bark"
 				surfaceData.transmittanceMask = 0.0;
 				#endif
 
-
 				// material features
 				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
 				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
@@ -1460,10 +1542,11 @@ Shader "TriForge/Winter Forest/Bark"
 				#ifdef _MATERIAL_FEATURE_TRANSMISSION
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
 				#endif
-				#ifdef _MATERIAL_FEATURE_ANISOTROPY
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				#endif
-				#ifdef ASE_LIT_CLEAR_COAT
+				surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
 				#endif
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
@@ -1511,13 +1594,12 @@ Shader "TriForge/Winter Forest/Bark"
 				#endif
 				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
 
-
-				#if defined(_SPECULAR_OCCLUSION_CUSTOM)
-				#elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO( V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness( surfaceData.perceptualSmoothness ) );
-				#elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion( ClampNdotV( dot( surfaceData.normalWS, V ) ), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness( surfaceData.perceptualSmoothness ) );
-				#endif
+                #if defined(_SPECULAR_OCCLUSION_CUSTOM)
+                #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                #endif
 
 				#ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
 				surfaceData.perceptualSmoothness = GeometricNormalFiltering( surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[ 2 ], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold );
@@ -1562,14 +1644,6 @@ Shader "TriForge/Winter Forest/Bark"
 				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
 
 				builtinData.emissiveColor = surfaceDescription.Emission;
-
-				#if (SHADERPASS == SHADERPASS_DISTORTION)
-				builtinData.distortion = surfaceDescription.Distortion;
-				builtinData.distortionBlur = surfaceDescription.DistortionBlur;
-				#else
-				builtinData.distortion = float2(0.0, 0.0);
-				builtinData.distortionBlur = 0.0;
-				#endif
 
 				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
 			}
@@ -1843,7 +1917,7 @@ Shader "TriForge/Winter Forest/Bark"
 				float lerpResult209 = lerp( AmbientOcclusion165 , 1.0 , SnowBlendMask192);
 				float FinalAmbientOcclusion213 = lerpResult209;
 				
-				surfaceDescription.Albedo = FinalAlbedo200.xyz;
+				surfaceDescription.BaseColor = FinalAlbedo200.xyz;
 				surfaceDescription.Normal = NormalBlend186;
 				surfaceDescription.BentNormal = float3( 0, 0, 1 );
 				surfaceDescription.CoatMask = 0;
@@ -1938,40 +2012,75 @@ Shader "TriForge/Winter Forest/Bark"
 
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#pragma multi_compile _ DOTS_INSTANCING_ON
+			#pragma multi_compile_instancing
+			#pragma instancing_options renderinglayer
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
-			#define ASE_SRP_VERSION 100400
+			#define ASE_SRP_VERSION 100700
 
 
 			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
 			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
+			#pragma shader_feature_local _DOUBLESIDED_ON
 			#pragma shader_feature_local _ALPHATEST_ON
 
-			#define SHADERPASS SHADERPASS_SHADOWS
+			#pragma multi_compile _ SHADOWS_SHADOWMASK
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
-			//#define UNITY_MATERIAL_LIT
-
-			#if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define OUTPUT_SPLIT_LIGHTING
-			#endif
-
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+        	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl" 
+        	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
 			//#define USE_LEGACY_UNITY_MATRIX_VARIABLES
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_SHADOWS
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
+			#endif
+			#endif
+
+		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define OUTPUT_SPLIT_LIGHTING
+		    #endif
+
+		    #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
+			#undef  _REFRACTION_PLANE
+			#undef  _REFRACTION_SPHERE
+			#define _REFRACTION_THIN
+		    #endif
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+			#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
@@ -1999,8 +2108,6 @@ Shader "TriForge/Winter Forest/Bark"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
-			float _StencilRefDistortionVec;
-			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -2008,6 +2115,9 @@ Shader "TriForge/Winter Forest/Bark"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -2028,14 +2138,26 @@ Shader "TriForge/Winter Forest/Bark"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+			// Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
+	
 			int TFW_EnableWind;
 			float TFW_WindStrength;
 			float4x4 unity_CameraProjection;
@@ -2047,19 +2169,27 @@ Shader "TriForge/Winter Forest/Bark"
 			float TFW_WindSpeed;
 
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
 
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
+	
 			#define ASE_NEEDS_VERT_POSITION
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
 
 			struct AttributesMesh
@@ -2073,7 +2203,7 @@ Shader "TriForge/Winter Forest/Bark"
 			struct PackedVaryingsMeshToPS
 			{
 				float4 positionCS : SV_Position;
-				float3 interp00 : TEXCOORD0;
+				float3 positionRWS : TEXCOORD0;
 				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -2188,10 +2318,11 @@ Shader "TriForge/Winter Forest/Bark"
 				#ifdef _MATERIAL_FEATURE_TRANSMISSION
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
 				#endif
-				#ifdef _MATERIAL_FEATURE_ANISOTROPY
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				#endif
-				#ifdef ASE_LIT_CLEAR_COAT
+				surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
 				#endif
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
@@ -2230,12 +2361,12 @@ Shader "TriForge/Winter Forest/Bark"
 				bentNormalWS = surfaceData.normalWS;
 				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
 
-				#if defined(_SPECULAR_OCCLUSION_CUSTOM)
-				#elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO( V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness( surfaceData.perceptualSmoothness ) );
-				#elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion( ClampNdotV( dot( surfaceData.normalWS, V ) ), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness( surfaceData.perceptualSmoothness ) );
-				#endif
+                #if defined(_SPECULAR_OCCLUSION_CUSTOM)
+                #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                #endif
 
 				// debug
 				#if defined(DEBUG_DISPLAY)
@@ -2339,7 +2470,7 @@ Shader "TriForge/Winter Forest/Bark"
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
-				outputPackedVaryingsMeshToPS.interp00.xyz = positionRWS;
+				outputPackedVaryingsMeshToPS.positionRWS.xyz = positionRWS;
 				return outputPackedVaryingsMeshToPS;
 			}
 
@@ -2441,7 +2572,6 @@ Shader "TriForge/Winter Forest/Bark"
 						, out float4 outColor : SV_Target0
 						#else
 							#ifdef WRITE_MSAA_DEPTH
-							// We need the depth color as SV_Target0 for alpha to coverage
 							, out float4 depthColor : SV_Target0
 								#ifdef WRITE_NORMAL_BUFFER
 								, out float4 outNormalBuffer : SV_Target1
@@ -2452,7 +2582,6 @@ Shader "TriForge/Winter Forest/Bark"
 								#endif
 							#endif
 
-							// Decal buffer must be last as it is bind but we can optionally write into it (based on _DISABLE_DECALS)
 							#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
 							, out float4 outDecalBuffer : SV_TARGET_DECAL
 							#endif
@@ -2467,7 +2596,7 @@ Shader "TriForge/Winter Forest/Bark"
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
 				UNITY_SETUP_INSTANCE_ID( packedInput );
 
-				float3 positionRWS = packedInput.interp00.xyz;
+				float3 positionRWS = packedInput.positionRWS.xyz;
 
 				FragInputs input;
 				ZERO_INITIALIZE(FragInputs, input);
@@ -2516,7 +2645,8 @@ Shader "TriForge/Winter Forest/Bark"
 
 				#ifdef WRITE_NORMAL_BUFFER
 				EncodeIntoNormalBuffer( ConvertSurfaceDataToNormalData( surfaceData ), posInput.positionSS, outNormalBuffer );
-				#ifdef WRITE_MSAA_DEPTH
+				
+                #ifdef WRITE_MSAA_DEPTH
 				depthColor = packedInput.positionCS.z;
 				#endif
 				#elif defined(WRITE_MSAA_DEPTH)
@@ -2535,46 +2665,80 @@ Shader "TriForge/Winter Forest/Bark"
 			
 			Name "SceneSelectionPass"
 			Tags { "LightMode"="SceneSelectionPass" }
-			ColorMask 0
+
+			Cull Off
 
 			HLSLPROGRAM
 
-			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#pragma multi_compile _ DOTS_INSTANCING_ON
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#define _AMBIENT_OCCLUSION 1
-			#define HAVE_MESH_MODIFICATION
-			#define ASE_SRP_VERSION 100400
+            #define _SPECULAR_OCCLUSION_FROM_AO 1
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #define _AMBIENT_OCCLUSION 1
+            #define HAVE_MESH_MODIFICATION
+            #define ASE_SRP_VERSION 100700
 
 
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
 			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
+			#pragma shader_feature_local _DOUBLESIDED_ON
 			#pragma shader_feature_local _ALPHATEST_ON
 
-			#define SHADERPASS SHADERPASS_DEPTH_ONLY
-			#define SCENESELECTIONPASS
 			#pragma editor_sync_compilation
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
-			//#define UNITY_MATERIAL_LIT
-
-			#if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define OUTPUT_SPLIT_LIGHTING
-			#endif
-
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_DEPTH_ONLY
+		    #define SCENESELECTIONPASS 1
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
+			#endif
+			#endif
+
+		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define OUTPUT_SPLIT_LIGHTING
+		    #endif
+
+		    #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
+			#undef  _REFRACTION_PLANE
+			#undef  _REFRACTION_SPHERE
+			#define _REFRACTION_THIN
+		    #endif
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+				#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
 			#endif
 
 			CBUFFER_START( UnityPerMaterial )
@@ -2602,8 +2766,6 @@ Shader "TriForge/Winter Forest/Bark"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
-			float _StencilRefDistortionVec;
-			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -2611,6 +2773,9 @@ Shader "TriForge/Winter Forest/Bark"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -2631,14 +2796,25 @@ Shader "TriForge/Winter Forest/Bark"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+			// Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
 
 			int TFW_EnableWind;
 			float TFW_WindStrength;
@@ -2651,19 +2827,28 @@ Shader "TriForge/Winter Forest/Bark"
 			float TFW_WindSpeed;
 
 
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/PickingSpaceTransforms.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
 
 			struct AttributesMesh
@@ -2677,7 +2862,7 @@ Shader "TriForge/Winter Forest/Bark"
 			struct PackedVaryingsMeshToPS
 			{
 				float4 positionCS : SV_Position;
-				float3 interp00 : TEXCOORD0;
+				float3 positionRWS : TEXCOORD0;
 				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -2685,9 +2870,6 @@ Shader "TriForge/Winter Forest/Bark"
 				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
 				#endif
 			};
-
-			int _ObjectId;
-			int _PassValue;
 
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
 			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
@@ -2795,10 +2977,11 @@ Shader "TriForge/Winter Forest/Bark"
 				#ifdef _MATERIAL_FEATURE_TRANSMISSION
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
 				#endif
-				#ifdef _MATERIAL_FEATURE_ANISOTROPY
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				#endif
-				#ifdef ASE_LIT_CLEAR_COAT
+				surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
 				#endif
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
@@ -2837,12 +3020,12 @@ Shader "TriForge/Winter Forest/Bark"
 				bentNormalWS = surfaceData.normalWS;
 				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
 
-				#if defined(_SPECULAR_OCCLUSION_CUSTOM)
-				#elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO( V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness( surfaceData.perceptualSmoothness ) );
-				#elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion( ClampNdotV( dot( surfaceData.normalWS, V ) ), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness( surfaceData.perceptualSmoothness ) );
-				#endif
+                #if defined(_SPECULAR_OCCLUSION_CUSTOM)
+                #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                #endif
 
 				// debug
 				#if defined(DEBUG_DISPLAY)
@@ -2942,7 +3125,7 @@ Shader "TriForge/Winter Forest/Bark"
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
-				outputPackedVaryingsMeshToPS.interp00.xyz = positionRWS;
+				outputPackedVaryingsMeshToPS.positionRWS.xyz = positionRWS;
 				return outputPackedVaryingsMeshToPS;
 			}
 
@@ -3070,7 +3253,7 @@ Shader "TriForge/Winter Forest/Bark"
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
 				UNITY_SETUP_INSTANCE_ID( packedInput );
 
-				float3 positionRWS = packedInput.interp00.xyz;
+				float3 positionRWS = packedInput.positionRWS.xyz;
 
 				FragInputs input;
 				ZERO_INITIALIZE(FragInputs, input);
@@ -3143,31 +3326,28 @@ Shader "TriForge/Winter Forest/Bark"
 			{
 				Ref [_StencilRefDepth]
 				WriteMask [_StencilWriteMaskDepth]
-				Comp Always
 				Pass Replace
-				Fail Keep
-				ZFail Keep
 			}
 
 
 			HLSLPROGRAM
 
-			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#pragma multi_compile _ DOTS_INSTANCING_ON
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#define _AMBIENT_OCCLUSION 1
-			#define HAVE_MESH_MODIFICATION
-			#define ASE_SRP_VERSION 100400
+            #define _SPECULAR_OCCLUSION_FROM_AO 1
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #define _AMBIENT_OCCLUSION 1
+            #define HAVE_MESH_MODIFICATION
+            #define ASE_SRP_VERSION 100700
 
 
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _BLENDMODE_OFF _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
 			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
+			#pragma shader_feature_local _DOUBLESIDED_ON
 			#pragma shader_feature_local _ALPHATEST_ON
-			#pragma shader_feature_local _ _DISABLE_DECALS
 
-			#define SHADERPASS SHADERPASS_DEPTH_ONLY
 			#pragma multi_compile _ WRITE_NORMAL_BUFFER
 			#pragma multi_compile _ WRITE_MSAA_DEPTH
 			#pragma multi_compile _ WRITE_DECAL_BUFFER
@@ -3175,23 +3355,55 @@ Shader "TriForge/Winter Forest/Bark"
 			#pragma vertex Vert
 			#pragma fragment Frag
 
-			//#define UNITY_MATERIAL_LIT
-
-			#if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define OUTPUT_SPLIT_LIGHTING
-			#endif
-
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
-
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
+	
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+
+			#define SHADERPASS SHADERPASS_DEPTH_ONLY
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
 			#endif
-			
+			#endif
+
+		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define OUTPUT_SPLIT_LIGHTING
+		    #endif
+
+		    #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
+			#undef  _REFRACTION_PLANE
+			#undef  _REFRACTION_SPHERE
+			#define _REFRACTION_THIN
+		    #endif
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+				#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#endif
+	
 			CBUFFER_START( UnityPerMaterial )
 			float4 _MainTex_ST;
 			float4 _SnowAlbedo_ST;
@@ -3217,8 +3429,6 @@ Shader "TriForge/Winter Forest/Bark"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
-			float _StencilRefDistortionVec;
-			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -3226,6 +3436,9 @@ Shader "TriForge/Winter Forest/Bark"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -3246,14 +3459,26 @@ Shader "TriForge/Winter Forest/Bark"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+			// Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
+	
 			int TFW_EnableWind;
 			float TFW_WindStrength;
 			float4x4 unity_CameraProjection;
@@ -3270,14 +3495,22 @@ Shader "TriForge/Winter Forest/Bark"
 			sampler2D _SnowAlbedo;
 
 
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
+	
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
 			#define ASE_NEEDS_FRAG_WORLD_NORMAL
@@ -3290,7 +3523,7 @@ Shader "TriForge/Winter Forest/Bark"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
 
 			struct AttributesMesh
@@ -3307,9 +3540,9 @@ Shader "TriForge/Winter Forest/Bark"
 			struct PackedVaryingsMeshToPS
 			{
 				float4 positionCS : SV_Position;
-				float3 interp00 : TEXCOORD0;
-				float3 interp01 : TEXCOORD1;
-				float4 interp02 : TEXCOORD2;
+				float3 positionRWS : TEXCOORD0;
+				float3 normalWS : TEXCOORD1;
+				float4 tangentWS : TEXCOORD2;
 				float4 ase_texcoord3 : TEXCOORD3;
 				float4 ase_texcoord4 : TEXCOORD4;
 				float4 ase_tangent : TANGENT;
@@ -3458,10 +3691,11 @@ Shader "TriForge/Winter Forest/Bark"
 				#ifdef _MATERIAL_FEATURE_TRANSMISSION
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
 				#endif
-				#ifdef _MATERIAL_FEATURE_ANISOTROPY
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				#endif
-				#ifdef ASE_LIT_CLEAR_COAT
+				surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
 				#endif
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
@@ -3501,12 +3735,12 @@ Shader "TriForge/Winter Forest/Bark"
 				bentNormalWS = surfaceData.normalWS;
 				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
 
-				#if defined(_SPECULAR_OCCLUSION_CUSTOM)
-				#elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO( V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness( surfaceData.perceptualSmoothness ) );
-				#elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion( ClampNdotV( dot( surfaceData.normalWS, V ) ), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness( surfaceData.perceptualSmoothness ) );
-				#endif
+                #if defined(_SPECULAR_OCCLUSION_CUSTOM)
+                #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                #endif
 
 				// debug
 				#if defined(DEBUG_DISPLAY)
@@ -3632,9 +3866,9 @@ Shader "TriForge/Winter Forest/Bark"
 				float4 tangentWS = float4(TransformObjectToWorldDir(inputMesh.tangentOS.xyz), inputMesh.tangentOS.w);
 
 				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
-				outputPackedVaryingsMeshToPS.interp00.xyz = positionRWS;
-				outputPackedVaryingsMeshToPS.interp01.xyz = normalWS;
-				outputPackedVaryingsMeshToPS.interp02.xyzw = tangentWS;
+				outputPackedVaryingsMeshToPS.positionRWS.xyz = positionRWS;
+				outputPackedVaryingsMeshToPS.normalWS.xyz = normalWS;
+				outputPackedVaryingsMeshToPS.tangentWS.xyzw = tangentWS;
 				return outputPackedVaryingsMeshToPS;
 			}
 			
@@ -3745,7 +3979,6 @@ Shader "TriForge/Winter Forest/Bark"
 						, out float4 outColor : SV_Target0
 						#else
 							#ifdef WRITE_MSAA_DEPTH
-							// We need the depth color as SV_Target0 for alpha to coverage
 							, out float4 depthColor : SV_Target0
 								#ifdef WRITE_NORMAL_BUFFER
 								, out float4 outNormalBuffer : SV_Target1
@@ -3756,7 +3989,6 @@ Shader "TriForge/Winter Forest/Bark"
 								#endif
 							#endif
 
-							// Decal buffer must be last as it is bind but we can optionally write into it (based on _DISABLE_DECALS)
 							#if defined(WRITE_DECAL_BUFFER) && !defined(_DISABLE_DECALS)
 							, out float4 outDecalBuffer : SV_TARGET_DECAL
 							#endif
@@ -3771,9 +4003,9 @@ Shader "TriForge/Winter Forest/Bark"
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
 				UNITY_SETUP_INSTANCE_ID( packedInput );
 
-				float3 positionRWS = packedInput.interp00.xyz;
-				float3 normalWS = packedInput.interp01.xyz;
-				float4 tangentWS = packedInput.interp02.xyzw;
+				float3 positionRWS = packedInput.positionRWS.xyz;
+				float3 normalWS = packedInput.normalWS.xyz;
+				float4 tangentWS = packedInput.tangentWS.xyzw;
 
 				FragInputs input;
 				ZERO_INITIALIZE(FragInputs, input);
@@ -3890,54 +4122,83 @@ Shader "TriForge/Winter Forest/Bark"
 			{
 				Ref [_StencilRefMV]
 				WriteMask [_StencilWriteMaskMV]
-				Comp Always
 				Pass Replace
-				Fail Keep
-				ZFail Keep
 			}
 
 
 			HLSLPROGRAM
 
-			#define _SPECULAR_OCCLUSION_FROM_AO 1
-			#pragma multi_compile _ DOTS_INSTANCING_ON
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#define _AMBIENT_OCCLUSION 1
-			#define HAVE_MESH_MODIFICATION
-			#define ASE_SRP_VERSION 100400
+            #define _SPECULAR_OCCLUSION_FROM_AO 1
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #define _AMBIENT_OCCLUSION 1
+            #define HAVE_MESH_MODIFICATION
+            #define ASE_SRP_VERSION 100700
 
 
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+            #pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+			#pragma shader_feature_local _TRANSPARENT_WRITES_MOTION_VEC
 			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
+			#pragma shader_feature_local _DOUBLESIDED_ON
 			#pragma shader_feature_local _ALPHATEST_ON
 
-			#define SHADERPASS SHADERPASS_MOTION_VECTORS
 			#pragma multi_compile _ WRITE_NORMAL_BUFFER
 			#pragma multi_compile _ WRITE_MSAA_DEPTH
 
 			#pragma vertex Vert
 			#pragma fragment Frag
 
-			//#define UNITY_MATERIAL_LIT
-
-			#if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define OUTPUT_SPLIT_LIGHTING
-			#endif
-
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+			#define SHADERPASS SHADERPASS_MOTION_VECTORS
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+			#define VARYINGS_NEED_CULLFACE
 			#endif
-			
+			#endif
+
+		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define OUTPUT_SPLIT_LIGHTING
+		    #endif
+
+		    #if (SHADERPASS == SHADERPASS_PATH_TRACING) && !defined(_DOUBLESIDED_ON) && (defined(_REFRACTION_PLANE) || defined(_REFRACTION_SPHERE))
+			#undef  _REFRACTION_PLANE
+			#undef  _REFRACTION_SPHERE
+			#define _REFRACTION_THIN
+		    #endif
+
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+				#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+			#ifndef DEBUG_DISPLAY
+				#if !defined(_SURFACE_TYPE_TRANSPARENT)
+					#if SHADERPASS == SHADERPASS_FORWARD
+					#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
+					#elif SHADERPASS == SHADERPASS_GBUFFER
+					#define SHADERPASS_GBUFFER_BYPASS_ALPHA_TEST
+					#endif
+				#endif
+			#endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#endif
+	
 			CBUFFER_START( UnityPerMaterial )
 			float4 _MainTex_ST;
 			float4 _SnowAlbedo_ST;
@@ -3963,8 +4224,6 @@ Shader "TriForge/Winter Forest/Bark"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
-			float _StencilRefDistortionVec;
-			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -3972,6 +4231,9 @@ Shader "TriForge/Winter Forest/Bark"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -3992,14 +4254,26 @@ Shader "TriForge/Winter Forest/Bark"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+
+			// Property used by ScenePickingPass
+            #ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+            #endif
+
+			// Properties used by SceneSelectionPass
+            #ifdef SCENESELECTIONPASS
+			int _ObjectId;
+			int _PassValue;
+            #endif
+
 			int TFW_EnableWind;
 			float TFW_WindStrength;
 			float4x4 unity_CameraProjection;
@@ -4016,14 +4290,22 @@ Shader "TriForge/Winter Forest/Bark"
 			sampler2D _SnowAlbedo;
 
 
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
+
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
 
+			// Setup DECALS_OFF so the shader stripper can remove variants
+            #define HAVE_DECALS ( (defined(DECALS_3RT) || defined(DECALS_4RT)) && !defined(_DISABLE_DECALS) )
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
+	
 			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_FRAG_POSITION
@@ -4032,9 +4314,8 @@ Shader "TriForge/Winter Forest/Bark"
 
 
 			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
+			#define ASE_NEED_CULLFACE 1
 			#endif
-
 
 			struct AttributesMesh
 			{
@@ -4073,7 +4354,6 @@ Shader "TriForge/Winter Forest/Bark"
 				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
 				#endif
 			};
-
 
 			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
 			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
@@ -4200,7 +4480,6 @@ Shader "TriForge/Winter Forest/Bark"
 				surfaceData.transmittanceMask = 0.0;
 				#endif
 
-
 				// material features
 				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
 				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
@@ -4209,10 +4488,11 @@ Shader "TriForge/Winter Forest/Bark"
 				#ifdef _MATERIAL_FEATURE_TRANSMISSION
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
 				#endif
-				#ifdef _MATERIAL_FEATURE_ANISOTROPY
+                #ifdef _MATERIAL_FEATURE_ANISOTROPY
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				#endif
-				#ifdef ASE_LIT_CLEAR_COAT
+				surfaceData.normalWS = float3(0, 1, 0);
+                #endif
+				#ifdef _MATERIAL_FEATURE_CLEAR_COAT
 				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
 				#endif
 				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
@@ -4252,12 +4532,12 @@ Shader "TriForge/Winter Forest/Bark"
 				bentNormalWS = surfaceData.normalWS;
 				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
 
-				#if defined(_SPECULAR_OCCLUSION_CUSTOM)
-				#elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO( V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness( surfaceData.perceptualSmoothness ) );
-				#elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion( ClampNdotV( dot( surfaceData.normalWS, V ) ), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness( surfaceData.perceptualSmoothness ) );
-				#endif
+                #if defined(_SPECULAR_OCCLUSION_CUSTOM)
+                #elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO(V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness));
+                #elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
+				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion(ClampNdotV(dot(surfaceData.normalWS, V)), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness(surfaceData.perceptualSmoothness));
+                #endif
 
 				// debug
 				#if defined(DEBUG_DISPLAY)
@@ -4558,21 +4838,18 @@ Shader "TriForge/Winter Forest/Bark"
 
 			void Frag( PackedVaryingsMeshToPS packedInput
 				#ifdef WRITE_MSAA_DEPTH
-					// We need the depth color as SV_Target0 for alpha to coverage
 					, out float4 depthColor : SV_Target0
 					, out float4 outMotionVector : SV_Target1
 						#ifdef WRITE_DECAL_BUFFER
 						, out float4 outDecalBuffer : SV_Target2
 						#endif
 					#else
-					// When no MSAA, the motion vector is always the first buffer
 					, out float4 outMotionVector : SV_Target0
 						#ifdef WRITE_DECAL_BUFFER
 						, out float4 outDecalBuffer : SV_Target1
 						#endif
 					#endif
 
-					// Decal buffer must be last as it is bind but we can optionally write into it (based on _DISABLE_DECALS)
 					#ifdef WRITE_NORMAL_BUFFER
 					, out float4 outNormalBuffer : SV_TARGET_NORMAL
 					#endif
@@ -4684,82 +4961,71 @@ Shader "TriForge/Winter Forest/Bark"
 		}
 
 		
-		Pass
-		{
+	    Pass
+        {
 			
-			Name "Forward"
-			Tags { "LightMode"="Forward" }
+            Name "ScenePickingPass"
+            Tags { "LightMode"="Picking" }
 
-			Blend [_SrcBlend] [_DstBlend], [_AlphaSrcBlend] [_AlphaDstBlend]
-			Cull [_CullModeForward]
-			ZTest [_ZTestDepthEqualForOpaque]
-			ZWrite [_ZWrite]
+            Cull [_CullMode]
 
-			Stencil
-			{
-				Ref [_StencilRef]
-				WriteMask [_StencilWriteMask]
-				Comp Always
-				Pass Replace
-				Fail Keep
-				ZFail Keep
-			}
-
-
-			ColorMask [_ColorMaskTransparentVel] 1
-
-			HLSLPROGRAM
-
+            HLSLPROGRAM
+        
 			#define _SPECULAR_OCCLUSION_FROM_AO 1
 			#pragma multi_compile _ DOTS_INSTANCING_ON
+			#pragma multi_compile_instancing
+			#pragma instancing_options renderinglayer
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define _AMBIENT_OCCLUSION 1
 			#define HAVE_MESH_MODIFICATION
-			#define ASE_SRP_VERSION 100400
+			#define ASE_SRP_VERSION 100700
 
-
-			#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
-			#pragma shader_feature_local _DOUBLESIDED_ON
-			#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
-			#pragma shader_feature_local _ENABLE_FOG_ON_TRANSPARENT
-			#pragma shader_feature_local _ALPHATEST_ON
-
-			#if !defined(DEBUG_DISPLAY) && defined(_ALPHATEST_ON)
-			#define SHADERPASS_FORWARD_BYPASS_ALPHA_TEST
-			#endif
-
-			#define SHADERPASS SHADERPASS_FORWARD
-			#pragma multi_compile _ DEBUG_DISPLAY
-			#pragma multi_compile _ LIGHTMAP_ON
-			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
-			#pragma multi_compile _ DYNAMICLIGHTMAP_ON
-			#pragma multi_compile _ SHADOWS_SHADOWMASK
-			#pragma multi_compile DECALS_OFF DECALS_3RT DECALS_4RT
-			#pragma multi_compile USE_FPTL_LIGHTLIST USE_CLUSTERED_LIGHTLIST
-			#pragma multi_compile SHADOW_LOW SHADOW_MEDIUM SHADOW_HIGH
+        
+			#pragma editor_sync_compilation
 
 			#pragma vertex Vert
 			#pragma fragment Frag
+		
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+        	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GeometricTools.hlsl" 
+        	#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Tessellation.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl" 
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl" 
 
-			//#define UNITY_MATERIAL_LIT
+			#define ATTRIBUTES_NEED_NORMAL
+			#define ATTRIBUTES_NEED_TANGENT
+			#define VARYINGS_NEED_TANGENT_TO_WORLD
 
-			#if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
-			#define OUTPUT_SPLIT_LIGHTING
-			#endif
-
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/FragInputs.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/ShaderPass/ShaderPass.cs.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphHeader.hlsl"
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-			#ifdef DEBUG_DISPLAY
-				#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+			#define SHADERPASS SHADERPASS_DEPTH_ONLY
+			#define SCENEPICKINGPASS 1
+
+			#ifndef SHADER_UNLIT
+			#if defined(_DOUBLESIDED_ON) && !defined(VARYINGS_NEED_CULLFACE)
+		    #define VARYINGS_NEED_CULLFACE
+			#endif
 			#endif
 
-			// CBuffer must be declared before Material.hlsl since it internaly uses _BlendMode now
-			CBUFFER_START( UnityPerMaterial )
+			#if SHADERPASS == SHADERPASS_TRANSPARENT_DEPTH_PREPASS
+			#if !defined(_DISABLE_SSR_TRANSPARENT) && !defined(SHADER_UNLIT)
+			#define WRITE_NORMAL_BUFFER
+			#endif
+			#endif
+
+		    #if defined(_MATERIAL_FEATURE_SUBSURFACE_SCATTERING) && !defined(_SURFACE_TYPE_TRANSPARENT)
+			#define OUTPUT_SPLIT_LIGHTING
+		    #endif
+
+			#if defined(_TRANSPARENT_WRITES_MOTION_VEC) && defined(_SURFACE_TYPE_TRANSPARENT)
+			#define _WRITE_TRANSPARENT_MOTION_VECTOR
+			#endif
+
+			float4 _SelectionID;
+            CBUFFER_START( UnityPerMaterial )
 			float4 _MainTex_ST;
 			float4 _SnowAlbedo_ST;
 			float4 _Normal_ST;
@@ -4784,8 +5050,6 @@ Shader "TriForge/Winter Forest/Bark"
 			float _StencilWriteMaskDepth;
 			float _StencilRefMV;
 			float _StencilWriteMaskMV;
-			float _StencilRefDistortionVec;
-			float _StencilWriteMaskDistortionVec;
 			float _StencilWriteMaskGBuffer;
 			float _StencilRefGBuffer;
 			float _ZTestGBuffer;
@@ -4793,6 +5057,9 @@ Shader "TriForge/Winter Forest/Bark"
 			float _ReceivesSSR;
 			float _SurfaceType;
 			float _BlendMode;
+            #ifdef SUPPORT_BLENDMODE_PRESERVE_SPECULAR_LIGHTING
+			float _EnableBlendModePreserveSpecularLighting;
+            #endif
 			float _SrcBlend;
 			float _DstBlend;
 			float _AlphaSrcBlend;
@@ -4813,521 +5080,125 @@ Shader "TriForge/Winter Forest/Bark"
 			float _DoubleSidedNormalMode;
 			float4 _DoubleSidedConstants;
 			#ifdef TESSELLATION_ON
-				float _TessPhongStrength;
-				float _TessValue;
-				float _TessMin;
-				float _TessMax;
-				float _TessEdgeLength;
-				float _TessMaxDisp;
+			float _TessPhongStrength;
+			float _TessValue;
+			float _TessMin;
+			float _TessMax;
+			float _TessEdgeLength;
+			float _TessMaxDisp;
 			#endif
 			CBUFFER_END
+	
 			int TFW_EnableWind;
 			float TFW_WindStrength;
-			float4x4 unity_CameraProjection;
-			float4x4 unity_CameraInvProjection;
-			float4x4 unity_WorldToCamera;
-			float4x4 unity_CameraToWorld;
-			float3 TFW_WindDirection;
-			float TFW_DirectionRandomness;
-			float TFW_WindSpeed;
-			sampler2D _MainTex;
-			sampler2D _SnowAlbedo;
-			sampler2D _Normal;
-			sampler2D _SnowNormal;
-			float TFW_SnowAmount;
-			sampler2D _Mask;
 
 
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/Lighting.hlsl"
-			#define HAS_LIGHTLOOP
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightLoop/LightLoopDef.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightLoop/LightLoop.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
-			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+            #ifdef DEBUG_DISPLAY
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #endif
 
-			#define ASE_NEEDS_VERT_POSITION
-			#define ASE_NEEDS_FRAG_RELATIVE_WORLD_POS
-			#define ASE_NEEDS_FRAG_WORLD_NORMAL
-			#define ASE_NEEDS_FRAG_WORLD_TANGENT
-			#define ASE_NEEDS_VERT_NORMAL
-			#define ASE_NEEDS_VERT_TANGENT
-			#define ASE_NEEDS_FRAG_NORMAL
-			#define ASE_NEEDS_FRAG_POSITION
-			#define ASE_NEEDS_FRAG_COLOR
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/PickingSpaceTransforms.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Unlit/Unlit.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+        
+			
 
-
-			#if defined(_DOUBLESIDED_ON) && !defined(ASE_NEED_CULLFACE)
-				#define ASE_NEED_CULLFACE 1
-			#endif
-
-			struct AttributesMesh
+			struct VertexInput
 			{
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 uv1 : TEXCOORD1;
-				float4 uv2 : TEXCOORD2;
-				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-					float3 previousPositionOS : TEXCOORD4;
-					#if defined (_ADD_PRECOMPUTED_VELOCITY)
-						float3 precomputedVelocity : TEXCOORD5;
-					#endif
-				#endif
-				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_color : COLOR;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
-			struct PackedVaryingsMeshToPS
+			struct VertexOutput
 			{
-				float4 positionCS : SV_Position;
-				float3 interp00 : TEXCOORD0;
-				float3 interp01 : TEXCOORD1;
-				float4 interp02 : TEXCOORD2;
-				float4 interp03 : TEXCOORD3;
-				float4 interp04 : TEXCOORD4;
-				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-					float3 vpassPositionCS : TEXCOORD5;
-					float3 vpassPreviousPositionCS : TEXCOORD6;
-				#endif
-				float4 ase_texcoord7 : TEXCOORD7;
-				float4 ase_texcoord8 : TEXCOORD8;
-				float3 ase_normal : NORMAL;
-				float4 ase_color : COLOR;
-				float4 ase_texcoord9 : TEXCOORD9;
-				float4 ase_tangent : TANGENT;
-				float4 ase_texcoord10 : TEXCOORD10;
+				float4 positionCS : SV_POSITION;
+				float3 normalWS : TEXCOORD0;
+				float4 tangentWS : TEXCOORD1;
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
-				#if defined(SHADER_STAGE_FRAGMENT) && defined(ASE_NEED_CULLFACE)
-				FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
-				#endif
 			};
 
-			float3 mod3D289( float3 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 mod3D289( float4 x ) { return x - floor( x / 289.0 ) * 289.0; }
-			float4 permute( float4 x ) { return mod3D289( ( x * 34.0 + 1.0 ) * x ); }
-			float4 taylorInvSqrt( float4 r ) { return 1.79284291400159 - r * 0.85373472095314; }
-			float snoise( float3 v )
-			{
-				const float2 C = float2( 1.0 / 6.0, 1.0 / 3.0 );
-				float3 i = floor( v + dot( v, C.yyy ) );
-				float3 x0 = v - i + dot( i, C.xxx );
-				float3 g = step( x0.yzx, x0.xyz );
-				float3 l = 1.0 - g;
-				float3 i1 = min( g.xyz, l.zxy );
-				float3 i2 = max( g.xyz, l.zxy );
-				float3 x1 = x0 - i1 + C.xxx;
-				float3 x2 = x0 - i2 + C.yyy;
-				float3 x3 = x0 - 0.5;
-				i = mod3D289( i);
-				float4 p = permute( permute( permute( i.z + float4( 0.0, i1.z, i2.z, 1.0 ) ) + i.y + float4( 0.0, i1.y, i2.y, 1.0 ) ) + i.x + float4( 0.0, i1.x, i2.x, 1.0 ) );
-				float4 j = p - 49.0 * floor( p / 49.0 );  // mod(p,7*7)
-				float4 x_ = floor( j / 7.0 );
-				float4 y_ = floor( j - 7.0 * x_ );  // mod(j,N)
-				float4 x = ( x_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 y = ( y_ * 2.0 + 0.5 ) / 7.0 - 1.0;
-				float4 h = 1.0 - abs( x ) - abs( y );
-				float4 b0 = float4( x.xy, y.xy );
-				float4 b1 = float4( x.zw, y.zw );
-				float4 s0 = floor( b0 ) * 2.0 + 1.0;
-				float4 s1 = floor( b1 ) * 2.0 + 1.0;
-				float4 sh = -step( h, 0.0 );
-				float4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-				float4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-				float3 g0 = float3( a0.xy, h.x );
-				float3 g1 = float3( a0.zw, h.y );
-				float3 g2 = float3( a1.xy, h.z );
-				float3 g3 = float3( a1.zw, h.w );
-				float4 norm = taylorInvSqrt( float4( dot( g0, g0 ), dot( g1, g1 ), dot( g2, g2 ), dot( g3, g3 ) ) );
-				g0 *= norm.x;
-				g1 *= norm.y;
-				g2 *= norm.z;
-				g3 *= norm.w;
-				float4 m = max( 0.6 - float4( dot( x0, x0 ), dot( x1, x1 ), dot( x2, x2 ), dot( x3, x3 ) ), 0.0 );
-				m = m* m;
-				m = m* m;
-				float4 px = float4( dot( x0, g0 ), dot( x1, g1 ), dot( x2, g2 ), dot( x3, g3 ) );
-				return 42.0 * dot( m, px);
-			}
 			
-			float3 RotateAroundAxis( float3 center, float3 original, float3 u, float angle )
+            struct SurfaceDescription
 			{
-				original -= center;
-				float C = cos( angle );
-				float S = sin( angle );
-				float t = 1 - C;
-				float m00 = t * u.x * u.x + C;
-				float m01 = t * u.x * u.y - S * u.z;
-				float m02 = t * u.x * u.z + S * u.y;
-				float m10 = t * u.x * u.y + S * u.z;
-				float m11 = t * u.y * u.y + C;
-				float m12 = t * u.y * u.z - S * u.x;
-				float m20 = t * u.x * u.z - S * u.y;
-				float m21 = t * u.y * u.z + S * u.x;
-				float m22 = t * u.z * u.z + C;
-				float3x3 finalMatrix = float3x3( m00, m01, m02, m10, m11, m12, m20, m21, m22 );
-				return mul( finalMatrix, original ) + center;
-			}
-			
-			inline float4 TriplanarSampling301( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
+				float Alpha;
+				float AlphaClipThreshold;
+			};
+        
+
+            void GetSurfaceAndBuiltinData(SurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData RAY_TRACING_OPTIONAL_PARAMETERS)
+            {    
+                #ifdef LOD_FADE_CROSSFADE 
+			        LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
+                #endif
+        
+                #ifdef _ALPHATEST_ON
+                    float alphaCutoff = surfaceDescription.AlphaClipThreshold;
+                    GENERIC_ALPHA_TEST(surfaceDescription.Alpha, alphaCutoff);
+                #endif
+        
+                ZERO_INITIALIZE(SurfaceData, surfaceData);                			
+				ZERO_INITIALIZE(BuiltinData, builtinData);
+                #if UNITY_VIRTUAL_TEXTURING
+				builtinData.vtPackedFeedback = float4(1.0f,1.0f,1.0f,1.0f);
+                #endif
+
+                builtinData.opacity = surfaceDescription.Alpha;
+
+                #if defined(DEBUG_DISPLAY)
+				builtinData.renderingLayers = GetMeshRenderingLightLayer();
+                #endif
+
+                #ifdef _ALPHATEST_ON
+				builtinData.alphaClipTreshold = alphaCutoff;
+                #endif
+               
+                ApplyDebugToBuiltinData(builtinData);
+                
+            }
+        
+
+			VertexOutput VertexFunction(VertexInput inputMesh  )
 			{
-				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
-				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
-				float3 nsign = sign( worldNormal );
-				half4 xNorm; half4 yNorm; half4 zNorm;
-				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
-				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
-				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
-				return xNorm * projNormal.x + yNorm * projNormal.y + zNorm * projNormal.z;
-			}
-			
-			inline float3 TriplanarSampling289( sampler2D topTexMap, float3 worldPos, float3 worldNormal, float falloff, float2 tiling, float3 normalScale, float3 index )
-			{
-				float3 projNormal = ( pow( abs( worldNormal ), falloff ) );
-				projNormal /= ( projNormal.x + projNormal.y + projNormal.z ) + 0.00001;
-				float3 nsign = sign( worldNormal );
-				half4 xNorm; half4 yNorm; half4 zNorm;
-				xNorm = tex2D( topTexMap, tiling * worldPos.zy * float2(  nsign.x, 1.0 ) );
-				yNorm = tex2D( topTexMap, tiling * worldPos.xz * float2(  nsign.y, 1.0 ) );
-				zNorm = tex2D( topTexMap, tiling * worldPos.xy * float2( -nsign.z, 1.0 ) );
-				xNorm.xyz  = half3( UnpackNormalmapRGorAG( xNorm , 1.0 ).xy * float2(  nsign.x, 1.0 ) + worldNormal.zy, worldNormal.x ).zyx;
-				yNorm.xyz  = half3( UnpackNormalmapRGorAG( yNorm , 1.0 ).xy * float2(  nsign.y, 1.0 ) + worldNormal.xz, worldNormal.y ).xzy;
-				zNorm.xyz  = half3( UnpackNormalmapRGorAG( zNorm , 1.0 ).xy * float2( -nsign.z, 1.0 ) + worldNormal.xy, worldNormal.z ).xyz;
-				return normalize( xNorm.xyz * projNormal.x + yNorm.xyz * projNormal.y + zNorm.xyz * projNormal.z );
-			}
-			
 
-			void BuildSurfaceData(FragInputs fragInputs, inout GlobalSurfaceDescription surfaceDescription, float3 V, PositionInputs posInput, out SurfaceData surfaceData, out float3 bentNormalWS)
-			{
-				ZERO_INITIALIZE(SurfaceData, surfaceData);
+				VertexOutput o;
+				ZERO_INITIALIZE(VertexOutput, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				surfaceData.specularOcclusion = 1.0;
+				UNITY_SETUP_INSTANCE_ID(inputMesh);
+				UNITY_TRANSFER_INSTANCE_ID(inputMesh, o );
 
-				// surface data
-				surfaceData.baseColor =					surfaceDescription.Albedo;
-				surfaceData.perceptualSmoothness =		surfaceDescription.Smoothness;
-				surfaceData.ambientOcclusion =			surfaceDescription.Occlusion;
-				surfaceData.metallic =					surfaceDescription.Metallic;
-				surfaceData.coatMask =					surfaceDescription.CoatMask;
-
-				#ifdef _SPECULAR_OCCLUSION_CUSTOM
-				surfaceData.specularOcclusion =			surfaceDescription.SpecularOcclusion;
-				#endif
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceData.subsurfaceMask =			surfaceDescription.SubsurfaceMask;
-				#endif
-				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
-				surfaceData.thickness =					surfaceDescription.Thickness;
-				#endif
-				#if defined( _MATERIAL_FEATURE_SUBSURFACE_SCATTERING ) || defined( _MATERIAL_FEATURE_TRANSMISSION )
-				surfaceData.diffusionProfileHash =		asuint(surfaceDescription.DiffusionProfile);
-				#endif
-				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceData.specularColor =				surfaceDescription.Specular;
-				#endif
-				#ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.anisotropy =				surfaceDescription.Anisotropy;
-				#endif
-				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceData.iridescenceMask =			surfaceDescription.IridescenceMask;
-				surfaceData.iridescenceThickness =		surfaceDescription.IridescenceThickness;
-				#endif
-
-				// refraction
-				#ifdef _HAS_REFRACTION
-				if( _EnableSSRefraction )
-				{
-					surfaceData.ior = surfaceDescription.RefractionIndex;
-					surfaceData.transmittanceColor = surfaceDescription.RefractionColor;
-					surfaceData.atDistance = surfaceDescription.RefractionDistance;
-
-					surfaceData.transmittanceMask = ( 1.0 - surfaceDescription.Alpha );
-					surfaceDescription.Alpha = 1.0;
-				}
-				else
-				{
-					surfaceData.ior = 1.0;
-					surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-					surfaceData.atDistance = 1.0;
-					surfaceData.transmittanceMask = 0.0;
-					surfaceDescription.Alpha = 1.0;
-				}
-				#else
-				surfaceData.ior = 1.0;
-				surfaceData.transmittanceColor = float3( 1.0, 1.0, 1.0 );
-				surfaceData.atDistance = 1.0;
-				surfaceData.transmittanceMask = 0.0;
-				#endif
-
-
-				// material features
-				surfaceData.materialFeatures = MATERIALFEATUREFLAGS_LIT_STANDARD;
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SUBSURFACE_SCATTERING;
-				#endif
-				#ifdef _MATERIAL_FEATURE_TRANSMISSION
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_TRANSMISSION;
-				#endif
-				#ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_ANISOTROPY;
-				#endif
-				#ifdef ASE_LIT_CLEAR_COAT
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_CLEAR_COAT;
-				#endif
-				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_IRIDESCENCE;
-				#endif
-				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceData.materialFeatures |= MATERIALFEATUREFLAGS_LIT_SPECULAR_COLOR;
-				#endif
-
-				// others
-				#if defined (_MATERIAL_FEATURE_SPECULAR_COLOR) && defined (_ENERGY_CONSERVING_SPECULAR)
-				surfaceData.baseColor *= ( 1.0 - Max3( surfaceData.specularColor.r, surfaceData.specularColor.g, surfaceData.specularColor.b ) );
-				#endif
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				// normals
-				float3 normalTS = float3(0.0f, 0.0f, 1.0f);
-				normalTS = surfaceDescription.Normal;
-				GetNormalWS( fragInputs, normalTS, surfaceData.normalWS, doubleSidedConstants );
-
-				surfaceData.geomNormalWS = fragInputs.tangentToWorld[2];
-				surfaceData.tangentWS = normalize( fragInputs.tangentToWorld[ 0 ].xyz );
-
-				// decals
-				#if HAVE_DECALS
-				if( _EnableDecals )
-				{
-					DecalSurfaceData decalSurfaceData = GetDecalSurfaceData(posInput, fragInputs.tangentToWorld[2], surfaceDescription.Alpha);
-					ApplyDecalToSurfaceData(decalSurfaceData, fragInputs.tangentToWorld[2], surfaceData);
-				}
-				#endif
-
-				bentNormalWS = surfaceData.normalWS;
 				
-				#ifdef ASE_BENT_NORMAL
-				GetNormalWS( fragInputs, surfaceDescription.BentNormal, bentNormalWS, doubleSidedConstants );
-				#endif
-
-				#ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceData.tangentWS = TransformTangentToWorld( surfaceDescription.Tangent, fragInputs.tangentToWorld );
-				#endif
-				surfaceData.tangentWS = Orthonormalize( surfaceData.tangentWS, surfaceData.normalWS );
-
-
-				#if defined(_SPECULAR_OCCLUSION_CUSTOM)
-				#elif defined(_SPECULAR_OCCLUSION_FROM_AO_BENT_NORMAL)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromBentAO( V, bentNormalWS, surfaceData.normalWS, surfaceData.ambientOcclusion, PerceptualSmoothnessToPerceptualRoughness( surfaceData.perceptualSmoothness ) );
-				#elif defined(_AMBIENT_OCCLUSION) && defined(_SPECULAR_OCCLUSION_FROM_AO)
-				surfaceData.specularOcclusion = GetSpecularOcclusionFromAmbientOcclusion( ClampNdotV( dot( surfaceData.normalWS, V ) ), surfaceData.ambientOcclusion, PerceptualSmoothnessToRoughness( surfaceData.perceptualSmoothness ) );
-				#endif
-
-				#ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
-				surfaceData.perceptualSmoothness = GeometricNormalFiltering( surfaceData.perceptualSmoothness, fragInputs.tangentToWorld[ 2 ], surfaceDescription.SpecularAAScreenSpaceVariance, surfaceDescription.SpecularAAThreshold );
-				#endif
-
-				// debug
-				#if defined(DEBUG_DISPLAY)
-				if (_DebugMipMapMode != DEBUGMIPMAPMODE_NONE)
-				{
-					surfaceData.metallic = 0;
-				}
-				ApplyDebugToSurfaceData(fragInputs.tangentToWorld, surfaceData);
-				#endif
-			}
-
-			void GetSurfaceAndBuiltinData(GlobalSurfaceDescription surfaceDescription, FragInputs fragInputs, float3 V, inout PositionInputs posInput, out SurfaceData surfaceData, out BuiltinData builtinData)
-			{
-				#ifdef LOD_FADE_CROSSFADE
-				LODDitheringTransition(ComputeFadeMaskSeed(V, posInput.positionSS), unity_LODFade.x);
-				#endif
-
-				#ifdef _DOUBLESIDED_ON
-				float3 doubleSidedConstants = _DoubleSidedConstants.xyz;
-				#else
-				float3 doubleSidedConstants = float3( 1.0, 1.0, 1.0 );
-				#endif
-
-				ApplyDoubleSidedFlipOrMirror( fragInputs, doubleSidedConstants );
-
-				#ifdef _ALPHATEST_ON
-				DoAlphaTest( surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold );
-				#endif
-
-				#ifdef _DEPTHOFFSET_ON
-				builtinData.depthOffset = surfaceDescription.DepthOffset;
-				ApplyDepthOffsetPositionInput( V, surfaceDescription.DepthOffset, GetViewForwardDir(), GetWorldToHClipMatrix(), posInput );
-				#endif
-
-				float3 bentNormalWS;
-				BuildSurfaceData( fragInputs, surfaceDescription, V, posInput, surfaceData, bentNormalWS );
-
-				InitBuiltinData( posInput, surfaceDescription.Alpha, bentNormalWS, -fragInputs.tangentToWorld[ 2 ], fragInputs.texCoord1, fragInputs.texCoord2, builtinData );
-
-				#ifdef _ASE_BAKEDGI
-				builtinData.bakeDiffuseLighting = surfaceDescription.BakedGI;
-				#endif
-				#ifdef _ASE_BAKEDBACKGI
-				builtinData.backBakeDiffuseLighting = surfaceDescription.BakedBackGI;
-				#endif
-
-				builtinData.emissiveColor = surfaceDescription.Emission;
-
-				PostInitBuiltinData(V, posInput, surfaceData, builtinData);
-			}
-
-			AttributesMesh ApplyMeshModification(AttributesMesh inputMesh, float3 timeParameters, inout PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS )
-			{
-				_TimeParameters.xyz = timeParameters;
-				float2 texCoord36 = inputMesh.uv1.xy * float2( 1,1 ) + float2( 0,0 );
-				float saferPower68 = abs( texCoord36.y );
-				float ifLocalVar109_g1 = 0;
-				if( abs( TFW_WindDirection.x ) > 0.0 )
-				ifLocalVar109_g1 = 1.0;
-				else if( abs( TFW_WindDirection.x ) == 0.0 )
-				ifLocalVar109_g1 = 0.0;
-				float ifLocalVar110_g1 = 0;
-				if( abs( TFW_WindDirection.z ) > 0.0 )
-				ifLocalVar110_g1 = 0.0;
-				float ifLocalVar112_g1 = 0;
-				if( ifLocalVar109_g1 == ifLocalVar110_g1 )
-				ifLocalVar112_g1 = 1.0;
-				float3 lerpResult123_g1 = lerp( TFW_WindDirection , float3(1,0,0) , ifLocalVar112_g1);
-				float3 worldToObjDir38_g1 = normalize( mul( GetWorldToObjectMatrix(), float4( lerpResult123_g1, 0 ) ).xyz );
-				float3 lerpResult39_g1 = lerp( worldToObjDir38_g1 , TFW_WindDirection , TFW_DirectionRandomness);
-				float3 WindDirection41_g1 = lerpResult39_g1;
-				float WindSpeed19_g1 = ( _WindSpeed * TFW_WindSpeed );
-				float3 ase_worldPos = GetAbsolutePositionWS( TransformObjectToWorld( (inputMesh.positionOS).xyz ) );
-				float4 localWorldVar2_g1 = float4( ase_worldPos , 0.0 );
-				(localWorldVar2_g1).xyz = GetCameraRelativePositionWS((localWorldVar2_g1).xyz);
-				float4 transform2_g1 = mul(GetWorldToObjectMatrix(),localWorldVar2_g1);
-				float2 WorldSpaceUv9_g1 = (( transform2_g1 / ( -100.0 * ( 1.0 * _WindNoiseScale ) ) )).xz;
-				float2 texCoord12_g1 = inputMesh.uv1.xy * float2( 0,0 ) + WorldSpaceUv9_g1;
-				float2 temp_cast_1 = (texCoord12_g1.x).xx;
-				float2 panner13_g1 = ( 1.0 * _Time.y * ( float2( 0.12,0 ) * WindSpeed19_g1 ) + temp_cast_1);
-				float simplePerlin3D11_g1 = snoise( float3( panner13_g1 ,  0.0 )*0.5 );
-				float MainWindBending86_g1 = simplePerlin3D11_g1;
-				float WindRotation32_g1 = radians( ( ( (-0.6 + (MainWindBending86_g1 - -1.0) * (1.0 - -0.6) / (1.0 - -1.0)) * TFW_WindStrength ) * 25.0 ) );
-				float3 rotatedValue42_g1 = RotateAroundAxis( float3( 0,0,0 ), inputMesh.positionOS, WindDirection41_g1, WindRotation32_g1 );
-				float3 MainWind168 = ( ( saturate( pow( saferPower68 , 2.34 ) ) * ( ( rotatedValue42_g1 - inputMesh.positionOS ) * TFW_EnableWind ) ) * _WindStrength );
-				
-				float3 ase_worldNormal = TransformObjectToWorldNormal(inputMesh.normalOS);
-				float3 ase_worldTangent = TransformObjectToWorldDir(inputMesh.tangentOS.xyz);
-				float ase_vertexTangentSign = inputMesh.tangentOS.w * unity_WorldTransformParams.w;
-				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
-				outputPackedVaryingsMeshToPS.ase_texcoord9.xyz = ase_worldBitangent;
-				float3 ase_vertexBitangent = cross( inputMesh.normalOS, inputMesh.tangentOS.xyz ) * inputMesh.tangentOS.w * unity_WorldTransformParams.w;
-				outputPackedVaryingsMeshToPS.ase_texcoord10.xyz = ase_vertexBitangent;
-				
-				outputPackedVaryingsMeshToPS.ase_texcoord7.xy = inputMesh.ase_texcoord.xy;
-				outputPackedVaryingsMeshToPS.ase_texcoord8 = float4(inputMesh.positionOS,1);
-				outputPackedVaryingsMeshToPS.ase_normal = inputMesh.normalOS;
-				outputPackedVaryingsMeshToPS.ase_color = inputMesh.ase_color;
-				outputPackedVaryingsMeshToPS.ase_tangent = inputMesh.tangentOS;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				outputPackedVaryingsMeshToPS.ase_texcoord7.zw = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord9.w = 0;
-				outputPackedVaryingsMeshToPS.ase_texcoord10.w = 0;
-
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				float3 defaultVertexValue = inputMesh.positionOS.xyz;
 				#else
 				float3 defaultVertexValue = float3( 0, 0, 0 );
 				#endif
-				float3 vertexValue = MainWind168;
-
+				float3 vertexValue =   defaultVertexValue ;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 				inputMesh.positionOS.xyz = vertexValue;
 				#else
 				inputMesh.positionOS.xyz += vertexValue;
 				#endif
-				inputMesh.normalOS = inputMesh.normalOS;
-				inputMesh.tangentOS = inputMesh.tangentOS;
-				return inputMesh;
-			}
 
-			PackedVaryingsMeshToPS VertexFunction(AttributesMesh inputMesh)
-			{
-				PackedVaryingsMeshToPS outputPackedVaryingsMeshToPS = (PackedVaryingsMeshToPS)0;
-				AttributesMesh defaultMesh = inputMesh;
-
-				UNITY_SETUP_INSTANCE_ID(inputMesh);
-				UNITY_TRANSFER_INSTANCE_ID(inputMesh, outputPackedVaryingsMeshToPS);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( outputPackedVaryingsMeshToPS );
-
-				inputMesh = ApplyMeshModification( inputMesh, _TimeParameters.xyz, outputPackedVaryingsMeshToPS);
+				inputMesh.normalOS =  inputMesh.normalOS ;
 
 				float3 positionRWS = TransformObjectToWorld(inputMesh.positionOS);
 				float3 normalWS = TransformObjectToWorldNormal(inputMesh.normalOS);
 				float4 tangentWS = float4(TransformObjectToWorldDir(inputMesh.tangentOS.xyz), inputMesh.tangentOS.w);
-
-				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-				float4 VPASSpreviousPositionCS;
-				float4 VPASSpositionCS = mul(UNITY_MATRIX_UNJITTERED_VP, float4(positionRWS, 1.0));
-
-				bool forceNoMotion = unity_MotionVectorsParams.y == 0.0;
-				if (forceNoMotion)
-				{
-					VPASSpreviousPositionCS = float4(0.0, 0.0, 0.0, 1.0);
-				}
-				else
-				{
-					bool hasDeformation = unity_MotionVectorsParams.x > 0.0;
-					float3 effectivePositionOS = (hasDeformation ? inputMesh.previousPositionOS : defaultMesh.positionOS);
-					#if defined(_ADD_PRECOMPUTED_VELOCITY)
-					effectivePositionOS -= inputMesh.precomputedVelocity;
-					#endif
-
-					#if defined(HAVE_MESH_MODIFICATION)
-						AttributesMesh previousMesh = defaultMesh;
-						previousMesh.positionOS = effectivePositionOS ;
-						PackedVaryingsMeshToPS test = (PackedVaryingsMeshToPS)0;
-						float3 curTime = _TimeParameters.xyz;
-						previousMesh = ApplyMeshModification(previousMesh, _LastTimeParameters.xyz, test);
-						_TimeParameters.xyz = curTime;
-						float3 previousPositionRWS = TransformPreviousObjectToWorld(previousMesh.positionOS);
-					#else
-						float3 previousPositionRWS = TransformPreviousObjectToWorld(effectivePositionOS);
-					#endif
-
-					#ifdef ATTRIBUTES_NEED_NORMAL
-						float3 normalWS = TransformPreviousObjectToWorldNormal(defaultMesh.normalOS);
-					#else
-						float3 normalWS = float3(0.0, 0.0, 0.0);
-					#endif
-
-					#if defined(HAVE_VERTEX_MODIFICATION)
-						//ApplyVertexModification(inputMesh, normalWS, previousPositionRWS, _LastTimeParameters.xyz);
-					#endif
-
-					VPASSpreviousPositionCS = mul(UNITY_MATRIX_PREV_VP, float4(previousPositionRWS, 1.0));
-				}
-				#endif
-
-				outputPackedVaryingsMeshToPS.positionCS = TransformWorldToHClip(positionRWS);
-				outputPackedVaryingsMeshToPS.interp00.xyz = positionRWS;
-				outputPackedVaryingsMeshToPS.interp01.xyz = normalWS;
-				outputPackedVaryingsMeshToPS.interp02.xyzw = tangentWS;
-				outputPackedVaryingsMeshToPS.interp03.xyzw = inputMesh.uv1;
-				outputPackedVaryingsMeshToPS.interp04.xyzw = inputMesh.uv2;
-
-				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-					outputPackedVaryingsMeshToPS.vpassPositionCS = float3(VPASSpositionCS.xyw);
-					outputPackedVaryingsMeshToPS.vpassPreviousPositionCS = float3(VPASSpreviousPositionCS.xyw);
-				#endif
-				return outputPackedVaryingsMeshToPS;
+				
+				o.positionCS = TransformWorldToHClip(positionRWS);
+				o.normalWS.xyz =  normalWS;
+				o.tangentWS.xyzw =  tangentWS;
+		
+				return o;
 			}
 
 			#if defined(TESSELLATION_ON)
@@ -5336,17 +5207,7 @@ Shader "TriForge/Winter Forest/Bark"
 				float3 positionOS : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				float4 uv1 : TEXCOORD1;
-				float4 uv2 : TEXCOORD2;
-				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-					float3 previousPositionOS : TEXCOORD4;
-					#if defined (_ADD_PRECOMPUTED_VELOCITY)
-						float3 precomputedVelocity : TEXCOORD5;
-					#endif
-				#endif
-				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_color : COLOR;
-
+				
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -5356,7 +5217,7 @@ Shader "TriForge/Winter Forest/Bark"
 				float inside : SV_InsideTessFactor;
 			};
 
-			VertexControl Vert ( AttributesMesh v )
+			VertexControl Vert ( VertexInput v )
 			{
 				VertexControl o;
 				UNITY_SETUP_INSTANCE_ID(v);
@@ -5364,16 +5225,7 @@ Shader "TriForge/Winter Forest/Bark"
 				o.positionOS = v.positionOS;
 				o.normalOS = v.normalOS;
 				o.tangentOS = v.tangentOS;
-				o.uv1 = v.uv1;
-				o.uv2 = v.uv2;
-				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-					o.previousPositionOS = v.previousPositionOS;
-					#if defined (_ADD_PRECOMPUTED_VELOCITY)
-						o.precomputedVelocity = v.precomputedVelocity;
-					#endif
-				#endif
-				o.ase_texcoord = v.ase_texcoord;
-				o.ase_color = v.ase_color;
+				
 				return o;
 			}
 
@@ -5412,22 +5264,13 @@ Shader "TriForge/Winter Forest/Bark"
 			}
 
 			[domain("tri")]
-			PackedVaryingsMeshToPS DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
 			{
-				AttributesMesh o = (AttributesMesh) 0;
+				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				o.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
-				o.uv1 = patch[0].uv1 * bary.x + patch[1].uv1 * bary.y + patch[2].uv1 * bary.z;
-				o.uv2 = patch[0].uv2 * bary.x + patch[1].uv2 * bary.y + patch[2].uv2 * bary.z;
-				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-					o.previousPositionOS = patch[0].previousPositionOS * bary.x + patch[1].previousPositionOS * bary.y + patch[2].previousPositionOS * bary.z;
-					#if defined (_ADD_PRECOMPUTED_VELOCITY)
-						o.precomputedVelocity = patch[0].precomputedVelocity * bary.x + patch[1].precomputedVelocity * bary.y + patch[2].precomputedVelocity * bary.z;
-					#endif
-				#endif
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
-				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -5439,452 +5282,163 @@ Shader "TriForge/Winter Forest/Bark"
 				return VertexFunction(o);
 			}
 			#else
-			PackedVaryingsMeshToPS Vert ( AttributesMesh v )
+			VertexOutput Vert ( VertexInput v )
 			{
 				return VertexFunction( v );
 			}
 			#endif
 
-			void Frag(PackedVaryingsMeshToPS packedInput,
-					#ifdef OUTPUT_SPLIT_LIGHTING
-						out float4 outColor : SV_Target0,
-						out float4 outDiffuseLighting : SV_Target1,
-						OUTPUT_SSSBUFFER(outSSSBuffer)
-					#else
-						out float4 outColor : SV_Target0
-					#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-						, out float4 outMotionVec : SV_Target1
-					#endif
-					#endif
-					#ifdef _DEPTHOFFSET_ON
-						, out float outputDepth : SV_Depth
-					#endif
-					
-						)
+			void Frag(	VertexOutput packedInput
+						, out float4 outColor : SV_Target0	
+						
+					)
 			{
-				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-					outMotionVec = float4(2.0, 0.0, 0.0, 0.0);
-				#endif
-
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( packedInput );
-				UNITY_SETUP_INSTANCE_ID( packedInput );
-				float3 positionRWS = packedInput.interp00.xyz;
-				float3 normalWS = packedInput.interp01.xyz;
-				float4 tangentWS = packedInput.interp02.xyzw;
-
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(packedInput);
+				UNITY_SETUP_INSTANCE_ID(packedInput);
+								
 				FragInputs input;
 				ZERO_INITIALIZE(FragInputs, input);
 				input.tangentToWorld = k_identity3x3;
-				input.positionSS = packedInput.positionCS;
-				input.positionRWS = positionRWS;
-				input.tangentToWorld = BuildTangentToWorld(tangentWS, normalWS);
-				input.texCoord1 = packedInput.interp03.xyzw;
-				input.texCoord2 = packedInput.interp04.xyzw;
+				input.positionSS = packedInput.positionCS;       
+        
+				input.tangentToWorld = BuildTangentToWorld(packedInput.tangentWS.xyzw, packedInput.normalWS.xyz);
 
-				#if _DOUBLESIDED_ON && SHADER_STAGE_FRAGMENT
-				input.isFrontFace = IS_FRONT_VFACE( packedInput.cullFace, true, false);
-				#elif SHADER_STAGE_FRAGMENT
-				#if defined(ASE_NEED_CULLFACE)
-				input.isFrontFace = IS_FRONT_VFACE(packedInput.cullFace, true, false);
-				#endif
-				#endif
-				half isFrontFace = input.isFrontFace;
-
-				input.positionSS.xy = _OffScreenRendering > 0 ? (input.positionSS.xy * _OffScreenDownsampleFactor) : input.positionSS.xy;
-				uint2 tileIndex = uint2(input.positionSS.xy) / GetTileSize ();
-
-				PositionInputs posInput = GetPositionInput( input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS.xyz, tileIndex );
-
-				float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
-
-				GlobalSurfaceDescription surfaceDescription = (GlobalSurfaceDescription)0;
-				float2 uv_MainTex = packedInput.ase_texcoord7.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 Albedo162 = tex2D( _MainTex, uv_MainTex );
-				float2 uv_SnowAlbedo = packedInput.ase_texcoord7.xy * _SnowAlbedo_ST.xy + _SnowAlbedo_ST.zw;
-				float4 tex2DNode300 = tex2D( _SnowAlbedo, uv_SnowAlbedo );
-				float3 ase_worldPos = GetAbsolutePositionWS( positionRWS );
-				float4 triplanar301 = TriplanarSampling301( _SnowAlbedo, packedInput.ase_texcoord8.xyz, packedInput.ase_normal, 1.0, float2( 1,1 ), 1.0, 0 );
-				float4 lerpResult305 = lerp( tex2DNode300 , triplanar301 , packedInput.ase_color.r);
-				float4 SnowAlbedo307 = lerpResult305;
-				float2 uv_Normal = packedInput.ase_texcoord7.xy * _Normal_ST.xy + _Normal_ST.zw;
-				float3 NormalMap163 = UnpackNormalScale( tex2D( _Normal, uv_Normal ), 1.0f );
-				float2 uv_SnowNormal = packedInput.ase_texcoord7.xy * _SnowNormal_ST.xy + _SnowNormal_ST.zw;
-				float3 ase_worldBitangent = packedInput.ase_texcoord9.xyz;
-				float3x3 ase_worldToTangent = float3x3(tangentWS.xyz,ase_worldBitangent,normalWS);
-				float3 ase_vertexBitangent = packedInput.ase_texcoord10.xyz;
-				float3x3 objectToTangent = float3x3(packedInput.ase_tangent.xyz, ase_vertexBitangent, packedInput.ase_normal);
-				float3 triplanar289 = TriplanarSampling289( _SnowNormal, packedInput.ase_texcoord8.xyz, packedInput.ase_normal, 1.0, float2( 1,1 ), 1.0, 0 );
-				float3 tanTriplanarNormal289 = mul( objectToTangent, triplanar289 );
-				float3 lerpResult292 = lerp( UnpackNormalScale( tex2D( _SnowNormal, uv_SnowNormal ), 1.0f ) , tanTriplanarNormal289 , packedInput.ase_color.r);
-				float3 SnowNormal295 = lerpResult292;
-				float temp_output_329_0 = ( _SnowAmount * TFW_SnowAmount );
-				float3 lerpResult185 = lerp( NormalMap163 , SnowNormal295 , saturate( ( normalWS.y * temp_output_329_0 ) ));
-				float3 tanToWorld0 = float3( tangentWS.xyz.x, ase_worldBitangent.x, normalWS.x );
-				float3 tanToWorld1 = float3( tangentWS.xyz.y, ase_worldBitangent.y, normalWS.y );
-				float3 tanToWorld2 = float3( tangentWS.xyz.z, ase_worldBitangent.z, normalWS.z );
-				float3 tanNormal187 = lerpResult185;
-				float3 worldNormal187 = float3(dot(tanToWorld0,tanNormal187), dot(tanToWorld1,tanNormal187), dot(tanToWorld2,tanNormal187));
-				float saferPower189 = abs( saturate( ( worldNormal187.y * temp_output_329_0 ) ) );
-				float SnowBlendMask192 = pow( saferPower189 , _SnowMaskSharpness );
-				float4 lerpResult197 = lerp( Albedo162 , SnowAlbedo307 , SnowBlendMask192);
-				float4 FinalAlbedo200 = lerpResult197;
+				PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
 				
-				float3 NormalBlend186 = lerpResult185;
+				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 				
-				float2 uv_Mask = packedInput.ase_texcoord7.xy * _Mask_ST.xy + _Mask_ST.zw;
-				float4 tex2DNode106 = tex2D( _Mask, uv_Mask );
-				float Smoothness167 = ( tex2DNode106.r * _Smoothness );
-				float lerpResult303 = lerp( tex2DNode300.a , triplanar301.a , packedInput.ase_color.r);
-				float SnowSmoothness306 = ( lerpResult303 * _SnowSmoothness );
-				float lerpResult207 = lerp( Smoothness167 , SnowSmoothness306 , SnowBlendMask192);
-				float FinalSmoothness208 = lerpResult207;
-				
-				float AmbientOcclusion165 = tex2DNode106.g;
-				float lerpResult209 = lerp( AmbientOcclusion165 , 1.0 , SnowBlendMask192);
-				float FinalAmbientOcclusion213 = lerpResult209;
-				
-				surfaceDescription.Albedo = FinalAlbedo200.xyz;
-				surfaceDescription.Normal = NormalBlend186;
-				surfaceDescription.BentNormal = float3( 0, 0, 1 );
-				surfaceDescription.CoatMask = 0;
-				surfaceDescription.Metallic = 0;
-
-				#ifdef _MATERIAL_FEATURE_SPECULAR_COLOR
-				surfaceDescription.Specular = 0;
-				#endif
-
-				surfaceDescription.Emission = 0;
-				surfaceDescription.Smoothness = FinalSmoothness208;
-				surfaceDescription.Occlusion = FinalAmbientOcclusion213;
 				surfaceDescription.Alpha = 1;
+				surfaceDescription.AlphaClipThreshold =  _AlphaCutoff;
+				
 
-				#ifdef _ALPHATEST_ON
-				surfaceDescription.AlphaClipThreshold = _AlphaCutoff;
-				#endif
-
-				#ifdef _ENABLE_GEOMETRIC_SPECULAR_AA
-				surfaceDescription.SpecularAAScreenSpaceVariance = 0;
-				surfaceDescription.SpecularAAThreshold = 0;
-				#endif
-
-				#ifdef _SPECULAR_OCCLUSION_CUSTOM
-				surfaceDescription.SpecularOcclusion = 0;
-				#endif
-
-				#if defined(_HAS_REFRACTION) || defined(_MATERIAL_FEATURE_TRANSMISSION)
-				surfaceDescription.Thickness = 1;
-				#endif
-
-				#ifdef _HAS_REFRACTION
-				surfaceDescription.RefractionIndex = 1;
-				surfaceDescription.RefractionColor = float3( 1, 1, 1 );
-				surfaceDescription.RefractionDistance = 0;
-				#endif
-
-				#ifdef _MATERIAL_FEATURE_SUBSURFACE_SCATTERING
-				surfaceDescription.SubsurfaceMask = 1;
-				#endif
-
-				#if defined( _MATERIAL_FEATURE_SUBSURFACE_SCATTERING ) || defined( _MATERIAL_FEATURE_TRANSMISSION )
-				surfaceDescription.DiffusionProfile = 0;
-				#endif
-
-				#ifdef _MATERIAL_FEATURE_ANISOTROPY
-				surfaceDescription.Anisotropy = 1;
-				surfaceDescription.Tangent = float3( 1, 0, 0 );
-				#endif
-
-				#ifdef _MATERIAL_FEATURE_IRIDESCENCE
-				surfaceDescription.IridescenceMask = 0;
-				surfaceDescription.IridescenceThickness = 0;
-				#endif
-
-				#ifdef _ASE_BAKEDGI
-				surfaceDescription.BakedGI = 0;
-				#endif
-				#ifdef _ASE_BAKEDBACKGI
-				surfaceDescription.BakedBackGI = 0;
-				#endif
-
-				#ifdef _DEPTHOFFSET_ON
-				surfaceDescription.DepthOffset = 0;
-				#endif
-
+				float3 V = float3(1.0, 1.0, 1.0); 
+			
 				SurfaceData surfaceData;
 				BuiltinData builtinData;
-				GetSurfaceAndBuiltinData(surfaceDescription,input, V, posInput, surfaceData, builtinData);
-
-				BSDFData bsdfData = ConvertSurfaceDataToBSDFData(input.positionSS.xy, surfaceData);
-
-				PreLightData preLightData = GetPreLightData(V, posInput, bsdfData);
-
-				outColor = float4(0.0, 0.0, 0.0, 0.0);
-				#ifdef DEBUG_DISPLAY
-				#ifdef OUTPUT_SPLIT_LIGHTING
-					outDiffuseLighting = 0;
-					ENCODE_INTO_SSSBUFFER(surfaceData, posInput.positionSS, outSSSBuffer);
-				#endif
-
-				bool viewMaterial = false;
-				int bufferSize = _DebugViewMaterialArray[0].x;
-				if (bufferSize != 0)
-				{
-					bool needLinearToSRGB = false;
-					float3 result = float3(1.0, 0.0, 1.0);
-
-					for (int index = 1; index <= bufferSize; index++)
-					{
-						int indexMaterialProperty = _DebugViewMaterialArray[index].x;
-
-						if (indexMaterialProperty != 0)
-						{
-							viewMaterial = true;
-
-							GetPropertiesDataDebug(indexMaterialProperty, result, needLinearToSRGB);
-							GetVaryingsDataDebug(indexMaterialProperty, input, result, needLinearToSRGB);
-							GetBuiltinDataDebug(indexMaterialProperty, builtinData, posInput, result, needLinearToSRGB);
-							GetSurfaceDataDebug(indexMaterialProperty, surfaceData, result, needLinearToSRGB);
-							GetBSDFDataDebug(indexMaterialProperty, bsdfData, result, needLinearToSRGB);
-						}
-					}
-
-					if (!needLinearToSRGB)
-						result = SRGBToLinear(max(0, result));
-
-					outColor = float4(result, 1.0);
-				}
-
-				if (!viewMaterial)
-				{
-					if (_DebugFullScreenMode == FULLSCREENDEBUGMODE_VALIDATE_DIFFUSE_COLOR || _DebugFullScreenMode == FULLSCREENDEBUGMODE_VALIDATE_SPECULAR_COLOR)
-					{
-						float3 result = float3(0.0, 0.0, 0.0);
-
-						GetPBRValidatorDebug(surfaceData, result);
-
-						outColor = float4(result, 1.0f);
-					}
-					else if (_DebugFullScreenMode == FULLSCREENDEBUGMODE_TRANSPARENCY_OVERDRAW)
-					{
-						float4 result = _DebugTransparencyOverdrawWeight * float4(TRANSPARENCY_OVERDRAW_COST, TRANSPARENCY_OVERDRAW_COST, TRANSPARENCY_OVERDRAW_COST, TRANSPARENCY_OVERDRAW_A);
-						outColor = result;
-					}
-					else
-				#endif
-					{
-				#ifdef _SURFACE_TYPE_TRANSPARENT
-						uint featureFlags = LIGHT_FEATURE_MASK_FLAGS_TRANSPARENT;
-				#else
-						uint featureFlags = LIGHT_FEATURE_MASK_FLAGS_OPAQUE;
-				#endif
-					
-						LightLoopOutput lightLoopOutput;
-						LightLoop(V, posInput, preLightData, bsdfData, builtinData, featureFlags, lightLoopOutput);
-
-						// Alias
-						float3 diffuseLighting = lightLoopOutput.diffuseLighting;
-						float3 specularLighting = lightLoopOutput.specularLighting;
-					
-						diffuseLighting *= GetCurrentExposureMultiplier();
-						specularLighting *= GetCurrentExposureMultiplier();
-
-				#ifdef OUTPUT_SPLIT_LIGHTING
-						if (_EnableSubsurfaceScattering != 0 && ShouldOutputSplitLighting(bsdfData))
-						{
-							outColor = float4(specularLighting, 1.0);
-							outDiffuseLighting = float4(TagLightingForSSS(diffuseLighting), 1.0);
-						}
-						else
-						{
-							outColor = float4(diffuseLighting + specularLighting, 1.0);
-							outDiffuseLighting = 0;
-						}
-						ENCODE_INTO_SSSBUFFER(surfaceData, posInput.positionSS, outSSSBuffer);
-				#else
-						outColor = ApplyBlendMode(diffuseLighting, specularLighting, builtinData.opacity);
-						outColor = EvaluateAtmosphericScattering(posInput, V, outColor);
-				#endif
-
-				#ifdef _WRITE_TRANSPARENT_MOTION_VECTOR
-						float4 VPASSpositionCS = float4(packedInput.vpassPositionCS.xy, 0.0, packedInput.vpassPositionCS.z);
-						float4 VPASSpreviousPositionCS = float4(packedInput.vpassPreviousPositionCS.xy, 0.0, packedInput.vpassPreviousPositionCS.z);
-
-						bool forceNoMotion = any(unity_MotionVectorsParams.yw == 0.0);
-						if (!forceNoMotion)
-						{
-							float2 motionVec = CalculateMotionVector(VPASSpositionCS, VPASSpreviousPositionCS);
-							EncodeMotionVector(motionVec * 0.5, outMotionVec);
-							outMotionVec.zw = 1.0;
-						}
-				#endif
-					}
-
-				#ifdef DEBUG_DISPLAY
-				}
-				#endif
-
-				#ifdef _DEPTHOFFSET_ON
-				outputDepth = posInput.deviceDepth;
-				#endif
+				GetSurfaceAndBuiltinData(surfaceDescription, input, V, posInput, surfaceData, builtinData);
+				outColor = _SelectionID;
 			}
-			ENDHLSL
-		}
+
+            ENDHLSL
+	    }
 		
 	}
 	
 	CustomEditor "Rendering.HighDefinition.LightingShaderGraphGUI"
 	
-	
+	Fallback Off
 }
 /*ASEBEGIN
-Version=18921
-1920;0;1920;1019;5294.644;4486.049;1.610218;True;False
-Node;AmplifyShaderEditor.CommentaryNode;288;-4594.831,-2901.515;Inherit;False;1457.155;1212.136;Comment;17;307;306;305;304;303;302;301;300;298;297;296;295;294;292;291;290;289;Snow Texture Samples;1,1,1,1;0;0
-Node;AmplifyShaderEditor.TexturePropertyNode;287;-4983.492,-2586.126;Inherit;True;Property;_SnowNormal;Normal;14;0;Create;False;0;0;0;False;0;False;None;None;True;bump;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.CommentaryNode;256;-4598.84,-951.8959;Inherit;False;2135.386;650.1171;;16;188;190;189;192;181;179;180;182;184;183;185;187;186;328;329;342;Snow Mask;0,0.7479331,1,1;0;0
-Node;AmplifyShaderEditor.TriplanarNode;289;-4545.099,-2274.753;Inherit;True;Spherical;Object;True;Top Texture 1;_TopTexture1;white;-1;None;Mid Texture 1;_MidTexture1;white;-1;None;Bot Texture 1;_BotTexture1;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;291;-4472.647,-2474.76;Inherit;True;Property;_TextureSample0;Texture Sample 0;30;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;181;-4573.84,-625.1938;Inherit;False;Property;_SnowAmount;Snow Amount;9;0;Create;True;0;0;0;False;0;False;0;2;0;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.VertexColorNode;290;-4131.807,-1880.496;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.CommentaryNode;259;-4622.242,-4170.208;Inherit;False;1028.122;932.8509;Comment;13;165;107;261;167;162;104;106;163;105;136;135;134;262;Base Texture Samples;1,1,1,1;0;0
-Node;AmplifyShaderEditor.RangedFloatNode;328;-4574.742,-530.5151;Inherit;False;Global;TFW_SnowAmount;TFW_SnowAmount;22;0;Create;True;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;105;-4570.769,-3927.294;Inherit;True;Property;_Normal;Normal;7;0;Create;True;0;0;0;False;0;False;-1;None;6d9b9deea7f784244ab98ce4d54c74c6;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.LerpOp;292;-3873.686,-2340.242;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;329;-4273.742,-643.5151;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.WorldNormalVector;179;-4579.127,-902.77;Inherit;False;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RegisterLocalVarNode;163;-4187.764,-3926.642;Inherit;False;NormalMap;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;295;-3365.553,-2323.747;Inherit;False;SnowNormal;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;180;-4153.841,-829.1938;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;184;-4217.841,-437.1939;Inherit;False;295;SnowNormal;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.SaturateNode;182;-3998.841,-830.1938;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;183;-4212.841,-520.194;Inherit;False;163;NormalMap;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.LerpOp;185;-3960.842,-511.1939;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.WorldNormalVector;187;-3736.723,-769.134;Inherit;True;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Version=19001
+2088;97;1920;923;5294.644;4408.758;1.610218;True;True
 Node;AmplifyShaderEditor.CommentaryNode;160;-4519.262,124.9144;Inherit;False;1889.651;1137.943;;6;39;38;77;6;33;168;Main Wind;0.7133185,0.4198113,1,1;0;0
-Node;AmplifyShaderEditor.TexturePropertyNode;299;-4998.512,-2808.328;Inherit;True;Property;_SnowAlbedo;Albedo;12;0;Create;False;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.TriplanarNode;301;-4556.671,-2667.932;Inherit;True;Spherical;Object;False;Top Texture 0;_TopTexture0;white;-1;None;Mid Texture 0;_MidTexture0;white;-1;None;Bot Texture 0;_BotTexture0;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.CommentaryNode;288;-4594.831,-2901.515;Inherit;False;1457.155;1212.136;Comment;17;307;306;305;304;303;302;301;300;298;297;296;295;294;292;291;290;289;Snow Texture Samples;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;33;-3924.422,235.9552;Inherit;False;867.5936;526.5638;;5;37;36;68;69;70;Mask Wind by UV2;1,0.5394964,0,1;0;0
-Node;AmplifyShaderEditor.SamplerNode;300;-4478.274,-2862.85;Inherit;True;Property;_TextureSample1;Texture Sample 1;30;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;188;-3492.842,-672.1938;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;107;-4140.861,-3804.905;Inherit;False;Property;_Smoothness;Smoothness;3;0;Create;True;0;0;0;False;0;False;0;1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;303;-3873.553,-2605.545;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SaturateNode;342;-3270.909,-783.7407;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;69;-3669.193,448.6442;Inherit;False;Constant;_Float7;Float 7;3;0;Create;True;0;0;0;False;0;False;2.34;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;302;-3652.482,-2536.233;Inherit;False;Property;_SnowSmoothness;Snow Smoothness;11;0;Create;True;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;106;-4572.242,-3734.381;Inherit;True;Property;_Mask;Ambient Occlusion (G), Smoothness (A);8;0;Create;False;0;0;0;False;0;False;-1;None;5fa5536d48a84fc468048f6424e1a401;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TextureCoordinatesNode;36;-3901.902,286.1242;Inherit;True;1;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;190;-3390.456,-416.78;Inherit;False;Property;_SnowMaskSharpness;Snow Mask Sharpness;10;0;Create;True;0;0;0;False;0;False;1;1.4;0;3;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;6;-4387.382,998.2841;Inherit;False;Property;_WindNoiseScale;Wind Noise Scale;1;0;Create;True;0;0;0;False;0;False;1;0.3;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;189;-3088.455,-562.78;Inherit;False;True;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;77;-4470.262,907.5753;Inherit;False;Property;_WindSpeed;Wind Speed;2;0;Create;True;0;0;0;False;0;False;1;2;0;5;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;104;-4572.241,-4120.208;Inherit;True;Property;_MainTex;Albedo;4;0;Create;False;0;0;0;False;0;False;-1;None;d5b7654fc7bfb8f46adb980175d48b8a;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;261;-4007.365,-3714.788;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;304;-3589.234,-2661.035;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;68;-3630.526,304.4782;Inherit;False;True;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;305;-3872.867,-2826.26;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;167;-3817.764,-3826.641;Inherit;False;Smoothness;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.CommentaryNode;259;-4622.242,-4170.208;Inherit;False;1028.122;932.8509;Comment;13;165;107;261;167;162;104;106;163;105;136;135;134;262;Base Texture Samples;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;260;-1494.774,-1952.608;Inherit;False;950.523;1122.911;Comment;15;204;206;203;211;207;199;194;210;193;212;209;197;208;213;200;Snow Mask Blends;1,1,1,1;0;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;306;-3417.805,-2664.348;Inherit;False;SnowSmoothness;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;192;-2719.455,-566.78;Inherit;False;SnowBlendMask;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;162;-4199.764,-4118.642;Inherit;False;Albedo;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;307;-3407.428,-2832.5;Inherit;False;SnowAlbedo;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.SaturateNode;70;-3467.427,307.7473;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;330;-3867.833,910.2452;Inherit;False;TriforgeTreeWind;-1;;1;02c5e277b3e957a46ade320788361410;0;2;10;FLOAT;1;False;7;FLOAT;1;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;165;-3833.13,-3680.769;Inherit;False;AmbientOcclusion;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;199;-1427.839,-1706.244;Inherit;False;192;SnowBlendMask;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;203;-1412.774,-1530.337;Inherit;False;167;Smoothness;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;210;-1438.5,-1112.697;Inherit;False;165;AmbientOcclusion;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;204;-1443.774,-1432.337;Inherit;False;306;SnowSmoothness;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;193;-1379.348,-1902.608;Inherit;False;162;Albedo;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;211;-1344.5,-1032.697;Inherit;False;Constant;_Float0;Float 0;21;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;37;-3278.885,297.6512;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;38;-3272.068,886.9462;Inherit;False;Property;_WindStrength;Wind Strength;0;0;Create;True;0;0;0;False;0;False;0.3;1;0;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;194;-1404.348,-1809.608;Inherit;False;307;SnowAlbedo;1;0;OBJECT;;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.GetLocalVarNode;206;-1435.251,-1334.897;Inherit;False;192;SnowBlendMask;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;212;-1424.5,-944.6971;Inherit;False;192;SnowBlendMask;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.CommentaryNode;256;-4598.84,-951.8959;Inherit;False;2135.386;650.1171;;16;188;190;189;192;181;179;180;182;184;183;185;187;186;328;329;342;Snow Mask;0,0.7479331,1,1;0;0
+Node;AmplifyShaderEditor.TriplanarNode;296;-4555.967,-1889.292;Inherit;True;Spherical;Object;False;Top Texture 2;_TopTexture2;gray;-1;None;Mid Texture 2;_MidTexture2;white;-1;None;Bot Texture 2;_BotTexture2;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.LerpOp;209;-1156.251,-1065.896;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;212;-1424.5,-944.6971;Inherit;False;192;SnowBlendMask;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;206;-1435.251,-1334.897;Inherit;False;192;SnowBlendMask;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;194;-1404.348,-1809.608;Inherit;False;307;SnowAlbedo;1;0;OBJECT;;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RangedFloatNode;38;-3272.068,886.9462;Inherit;False;Property;_WindStrength;Wind Strength;0;0;Create;True;0;0;0;False;0;False;0.3;1;0;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;37;-3278.885,297.6512;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;211;-1344.5,-1032.697;Inherit;False;Constant;_Float0;Float 0;21;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;193;-1379.348,-1902.608;Inherit;False;162;Albedo;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;204;-1443.774,-1432.337;Inherit;False;306;SnowSmoothness;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;210;-1438.5,-1112.697;Inherit;False;165;AmbientOcclusion;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;203;-1412.774,-1530.337;Inherit;False;167;Smoothness;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;199;-1427.839,-1706.244;Inherit;False;192;SnowBlendMask;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;165;-3833.13,-3680.769;Inherit;False;AmbientOcclusion;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;330;-3867.833,910.2452;Inherit;False;TriforgeTreeWind;-1;;1;02c5e277b3e957a46ade320788361410;0;2;10;FLOAT;1;False;7;FLOAT;1;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SaturateNode;70;-3467.427,307.7473;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;162;-4199.764,-4118.642;Inherit;False;Albedo;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.LerpOp;197;-1152.839,-1854.244;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.LerpOp;207;-1086.251,-1467.896;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;39;-3001.457,728.5272;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;186;-3745.842,-440.37;Inherit;False;NormalBlend;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;213;-960.5005,-1072.697;Inherit;False;FinalAmbientOcclusion;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;168;-2844.243,724.4651;Inherit;False;MainWind;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;200;-955.9055,-1857.405;Inherit;False;FinalAlbedo;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;208;-808.2516,-1469.896;Inherit;False;FinalSmoothness;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;262;-3810.885,-3550.796;Inherit;False;Height;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TFHCRemapNode;134;-4134.675,-3545.3;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;202;-261.9667,9.738831;Inherit;False;186;NormalBlend;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.GetLocalVarNode;214;-326.4685,223.4323;Inherit;False;213;FinalAmbientOcclusion;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;135;-4472.47,-3463.323;Inherit;False;Property;_HeightMin;Height Min;5;0;Create;True;0;0;0;False;0;False;0;-0.48;-2;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;294;-4473.021,-2086.687;Inherit;True;Property;_TextureSample2;Texture Sample 2;30;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.GetLocalVarNode;171;-278.0885,362.5328;Inherit;False;168;MainWind;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.LerpOp;297;-3876.187,-2061.527;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;136;-4471.71,-3373.042;Inherit;False;Property;_HeightMax;Height Max;6;0;Create;True;0;0;0;False;0;False;0;0.61;-2;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TexturePropertyNode;293;-4977.151,-2371.468;Inherit;True;Property;_SnowHeight;Height;13;0;Create;False;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.TriplanarNode;296;-4555.967,-1889.292;Inherit;True;Spherical;Object;False;Top Texture 2;_TopTexture2;gray;-1;None;Mid Texture 2;_MidTexture2;white;-1;None;Bot Texture 2;_BotTexture2;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RegisterLocalVarNode;298;-3365.674,-2048.795;Inherit;False;SnowHeight;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;201;-253.9667,-77.26117;Inherit;False;200;FinalAlbedo;1;0;OBJECT;;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.GetLocalVarNode;216;-291.5009,112.0848;Inherit;False;208;FinalSmoothness;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;341;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;10;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;0;True;-21;0;True;-22;1;0;True;-23;0;True;-24;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-30;False;False;False;True;True;True;True;True;0;True;-46;False;False;False;False;False;True;True;0;True;-5;255;False;-1;255;True;-6;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;0;True;-25;True;0;True;-32;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;332;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;335;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;DepthOnly;0;4;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-27;False;False;False;False;False;False;False;False;False;True;True;0;True;-7;255;False;-1;255;True;-8;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;333;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-27;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;340;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;9;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-27;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;338;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentBackface;0;7;TransparentBackface;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;0;True;-21;0;True;-22;1;0;True;-23;0;True;-24;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;False;True;True;True;True;True;0;True;-46;False;False;False;False;False;False;False;True;0;True;-25;True;0;True;-33;False;True;1;LightMode=TransparentBackface;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;339;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPrepass;0;8;TransparentDepthPrepass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-27;False;False;False;False;False;False;False;False;False;True;True;0;True;-7;255;False;-1;255;True;-8;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;3;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;False;False;True;1;LightMode=TransparentDepthPrepass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;337;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Distortion;0;6;Distortion;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;4;1;False;-1;1;False;-1;4;1;False;-1;1;False;-1;True;1;False;-1;1;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;0;True;-11;255;False;-1;255;True;-12;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;2;False;-1;True;3;False;-1;False;True;1;LightMode=DistortionVectors;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;334;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;336;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Motion Vectors;0;5;Motion Vectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-27;False;False;False;False;False;False;False;False;False;True;True;0;True;-9;255;False;-1;255;True;-10;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;331;0,0;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;14;TriForge/Winter Forest/Bark;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;35;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;-27;False;False;False;False;False;False;False;False;False;True;True;0;True;-14;255;False;-1;255;True;-13;7;False;-1;3;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;False;True;0;True;-15;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;42;Surface Type;0;  Rendering Pass;1;  Refraction Model;0;    Blending Mode;0;    Blend Preserves Specular;1;  Receive Fog;1;  Back Then Front Rendering;0;  Transparent Depth Prepass;0;  Transparent Depth Postpass;0;  Transparent Writes Motion Vector;0;  Distortion;0;    Distortion Mode;0;    Distortion Depth Test;1;  ZWrite;0;  Z Test;4;Double-Sided;0;Alpha Clipping;0;  Use Shadow Threshold;0;Material Type,InvertActionOnDeselection;0;  Energy Conserving Specular;1;  Transmission;1;Receive Decals;1;Receives SSR;1;Receive SSR Transparent;0;Motion Vectors;1;  Add Precomputed Velocity;0;Specular AA;0;Specular Occlusion Mode;1;Override Baked GI;0;Depth Offset;0;DOTS Instancing;1;LOD CrossFade;1;Tessellation;0;  Phong;0;  Strength;0.5,False,-1;  Type;0;  Tess;16,False,-1;  Min;10,False,-1;  Max;25,False,-1;  Edge Length;16,False,-1;  Max Displacement;25,False,-1;Vertex Position;1;0;11;True;True;True;True;True;True;False;False;False;False;True;False;;False;0
-WireConnection;289;0;287;0
-WireConnection;291;0;287;0
-WireConnection;292;0;291;0
-WireConnection;292;1;289;0
-WireConnection;292;2;290;1
-WireConnection;329;0;181;0
-WireConnection;329;1;328;0
-WireConnection;163;0;105;0
-WireConnection;295;0;292;0
-WireConnection;180;0;179;2
-WireConnection;180;1;329;0
-WireConnection;182;0;180;0
-WireConnection;185;0;183;0
-WireConnection;185;1;184;0
-WireConnection;185;2;182;0
-WireConnection;187;0;185;0
-WireConnection;301;0;299;0
-WireConnection;300;0;299;0
-WireConnection;188;0;187;2
-WireConnection;188;1;329;0
-WireConnection;303;0;300;4
-WireConnection;303;1;301;4
-WireConnection;303;2;290;1
-WireConnection;342;0;188;0
-WireConnection;189;0;342;0
-WireConnection;189;1;190;0
-WireConnection;261;0;106;1
-WireConnection;261;1;107;0
-WireConnection;304;0;303;0
-WireConnection;304;1;302;0
-WireConnection;68;0;36;2
-WireConnection;68;1;69;0
-WireConnection;305;0;300;0
-WireConnection;305;1;301;0
-WireConnection;305;2;290;1
-WireConnection;167;0;261;0
-WireConnection;306;0;304;0
-WireConnection;192;0;189;0
-WireConnection;162;0;104;0
-WireConnection;307;0;305;0
-WireConnection;70;0;68;0
-WireConnection;330;10;77;0
-WireConnection;330;7;6;0
-WireConnection;165;0;106;2
-WireConnection;37;0;70;0
-WireConnection;37;1;330;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;39;-3001.457,728.5272;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.TexturePropertyNode;293;-4977.151,-2371.468;Inherit;True;Property;_SnowHeight;Height;13;0;Create;False;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.GetLocalVarNode;201;-253.9667,-77.26117;Inherit;False;200;FinalAlbedo;1;0;OBJECT;;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RangedFloatNode;136;-4471.71,-3373.042;Inherit;False;Property;_HeightMax;Height Max;6;0;Create;True;0;0;0;False;0;False;0;0.61;-2;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;297;-3876.187,-2061.527;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;171;-278.0885,362.5328;Inherit;False;168;MainWind;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SamplerNode;294;-4473.021,-2086.687;Inherit;True;Property;_TextureSample2;Texture Sample 2;30;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;135;-4472.47,-3463.323;Inherit;False;Property;_HeightMin;Height Min;5;0;Create;True;0;0;0;False;0;False;0;-0.48;-2;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;298;-3365.674,-2048.795;Inherit;False;SnowHeight;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;214;-326.4685,223.4323;Inherit;False;213;FinalAmbientOcclusion;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;134;-4134.675,-3545.3;Inherit;True;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;262;-3810.885,-3550.796;Inherit;False;Height;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;208;-808.2516,-1469.896;Inherit;False;FinalSmoothness;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;200;-955.9055,-1857.405;Inherit;False;FinalAlbedo;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;168;-2844.243,724.4651;Inherit;False;MainWind;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;213;-960.5005,-1072.697;Inherit;False;FinalAmbientOcclusion;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;192;-2719.455,-566.78;Inherit;False;SnowBlendMask;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;202;-261.9667,9.738831;Inherit;False;186;NormalBlend;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;186;-3745.842,-440.37;Inherit;False;NormalBlend;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;307;-3407.428,-2832.5;Inherit;False;SnowAlbedo;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;167;-3817.764,-3826.641;Inherit;False;Smoothness;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;185;-3960.842,-511.1939;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.GetLocalVarNode;183;-4212.841,-520.194;Inherit;False;163;NormalMap;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;306;-3417.805,-2664.348;Inherit;False;SnowSmoothness;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;184;-4217.841,-437.1939;Inherit;False;295;SnowNormal;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;180;-4153.841,-829.1938;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;295;-3365.553,-2323.747;Inherit;False;SnowNormal;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;163;-4187.764,-3926.642;Inherit;False;NormalMap;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.WorldNormalVector;179;-4579.127,-902.77;Inherit;False;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;329;-4273.742,-643.5151;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;292;-3873.686,-2340.242;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SamplerNode;105;-4570.769,-3927.294;Inherit;True;Property;_Normal;Normal;7;0;Create;True;0;0;0;False;0;False;-1;None;6d9b9deea7f784244ab98ce4d54c74c6;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;328;-4574.742,-530.5151;Inherit;False;Global;TFW_SnowAmount;TFW_SnowAmount;22;0;Create;True;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.VertexColorNode;290;-4131.807,-1880.496;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;181;-4573.84,-625.1938;Inherit;False;Property;_SnowAmount;Snow Amount;9;0;Create;True;0;0;0;False;0;False;0;2;0;2;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;291;-4472.647,-2474.76;Inherit;True;Property;_TextureSample0;Texture Sample 0;30;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TriplanarNode;289;-4545.099,-2274.753;Inherit;True;Spherical;Object;True;Top Texture 1;_TopTexture1;white;-1;None;Mid Texture 1;_MidTexture1;white;-1;None;Bot Texture 1;_BotTexture1;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TexturePropertyNode;287;-4983.492,-2586.126;Inherit;True;Property;_SnowNormal;Normal;14;0;Create;False;0;0;0;False;0;False;None;None;True;bump;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.WorldNormalVector;187;-3736.723,-769.134;Inherit;True;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.TexturePropertyNode;299;-4998.512,-2808.328;Inherit;True;Property;_SnowAlbedo;Albedo;12;0;Create;False;0;0;0;False;0;False;None;None;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.SaturateNode;182;-3998.841,-830.1938;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;300;-4478.274,-2862.85;Inherit;True;Property;_TextureSample1;Texture Sample 1;30;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.LerpOp;305;-3872.867,-2826.26;Inherit;False;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.PowerNode;68;-3630.526,304.4782;Inherit;False;True;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;304;-3589.234,-2661.035;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TriplanarNode;301;-4556.671,-2667.932;Inherit;True;Spherical;Object;False;Top Texture 0;_TopTexture0;white;-1;None;Mid Texture 0;_MidTexture0;white;-1;None;Bot Texture 0;_BotTexture0;white;-1;None;Triplanar Sampler;Tangent;10;0;SAMPLER2D;;False;5;FLOAT;1;False;1;SAMPLER2D;;False;6;FLOAT;0;False;2;SAMPLER2D;;False;7;FLOAT;0;False;9;FLOAT3;0,0,0;False;8;FLOAT;1;False;3;FLOAT2;1,1;False;4;FLOAT;1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;104;-4572.241,-4120.208;Inherit;True;Property;_MainTex;Albedo;4;0;Create;False;0;0;0;False;0;False;-1;None;d5b7654fc7bfb8f46adb980175d48b8a;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;77;-4470.262,907.5753;Inherit;False;Property;_WindSpeed;Wind Speed;2;0;Create;True;0;0;0;False;0;False;1;2;0;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.PowerNode;189;-3088.455,-562.78;Inherit;False;True;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;6;-4387.382,998.2841;Inherit;False;Property;_WindNoiseScale;Wind Noise Scale;1;0;Create;True;0;0;0;False;0;False;1;0.3;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;261;-4007.365,-3714.788;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;36;-3901.902,286.1242;Inherit;True;1;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;106;-4572.242,-3734.381;Inherit;True;Property;_Mask;Ambient Occlusion (G), Smoothness (A);8;0;Create;False;0;0;0;False;0;False;-1;None;5fa5536d48a84fc468048f6424e1a401;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;302;-3652.482,-2536.233;Inherit;False;Property;_SnowSmoothness;Snow Smoothness;11;0;Create;True;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;69;-3669.193,448.6442;Inherit;False;Constant;_Float7;Float 7;3;0;Create;True;0;0;0;False;0;False;2.34;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;342;-3270.909,-783.7407;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;303;-3873.553,-2605.545;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;107;-4140.861,-3804.905;Inherit;False;Property;_Smoothness;Smoothness;3;0;Create;True;0;0;0;False;0;False;0;1;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;188;-3492.842,-672.1938;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;190;-3390.456,-416.78;Inherit;False;Property;_SnowMaskSharpness;Snow Mask Sharpness;10;0;Create;True;0;0;0;False;0;False;1;1.4;0;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;336;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Motion Vectors;0;5;Motion Vectors;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefMV;255;False;;255;True;_StencilWriteMaskMV;7;False;;3;False;;1;False;;1;False;;7;False;;1;False;;1;False;;1;False;;False;True;1;False;;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;334;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;SceneSelectionPass;0;3;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;339;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPrepass;0;7;TransparentDepthPrepass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;1;False;;1;False;;7;False;;3;False;;1;False;;1;False;;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPrepass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;338;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentBackface;0;6;TransparentBackface;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;0;True;_SrcBlend;0;True;_DstBlend;1;0;True;_AlphaSrcBlend;0;True;_AlphaDstBlend;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVel;False;False;False;False;False;False;False;True;0;True;_ZWrite;True;0;True;_ZTestTransparent;False;True;1;LightMode=TransparentBackface;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;341;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;Forward;0;9;Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;0;True;_SrcBlend;0;True;_DstBlend;1;0;True;_AlphaSrcBlend;0;True;_AlphaDstBlend;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullModeForward;False;False;False;True;True;True;True;True;0;True;_ColorMaskTransparentVel;False;False;False;False;False;True;True;0;True;_StencilRef;255;False;;255;True;_StencilWriteMask;7;False;;3;False;;1;False;;1;False;;7;False;;1;False;;1;False;;1;False;;False;True;0;True;_ZWrite;True;0;True;_ZTestDepthEqualForOpaque;False;True;1;LightMode=Forward;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;333;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;335;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;DepthOnly;0;4;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefDepth;255;False;;255;True;_StencilWriteMaskDepth;7;False;;3;False;;1;False;;1;False;;7;False;;1;False;;1;False;;1;False;;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;332;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;META;0;1;META;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;331;0,0;Float;False;True;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;11;TriForge/Winter Forest/Bark;53b46d85872c5b24c8f4f0a1c3fe4c87;True;GBuffer;0;0;GBuffer;33;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;True;True;0;True;_StencilRefGBuffer;255;False;;255;True;_StencilWriteMaskGBuffer;7;False;;3;False;;1;False;;1;False;;7;False;;1;False;;1;False;;1;False;;False;False;True;0;True;_ZTestGBuffer;False;True;1;LightMode=GBuffer;False;False;0;;0;0;Standard;39;Surface Type;0;0;  Rendering Pass;1;0;  Refraction Model;0;0;    Blending Mode;0;0;    Blend Preserves Specular;1;0;  Back Then Front Rendering;0;0;  Transparent Depth Prepass;0;0;  Transparent Depth Postpass;0;0;  ZWrite;0;0;  Z Test;4;0;Double-Sided;0;0;Alpha Clipping;0;0;  Use Shadow Threshold;0;0;Material Type,InvertActionOnDeselection;0;0;Forward Only;0;0;  Energy Conserving Specular;1;0;  Transmission;1;0;Receive Decals;1;0;Receives SSR;1;0;Receive SSR Transparent;0;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;Specular AA;0;0;Specular Occlusion Mode;1;0;Override Baked GI;0;0;Depth Offset;0;0;DOTS Instancing;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position;1;0;0;11;True;True;True;True;True;True;False;False;False;False;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;340;0,0;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;TransparentDepthPostpass;0;8;TransparentDepthPostpass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=TransparentDepthPostpass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;343;0,449;Float;False;False;-1;2;Rendering.HighDefinition.LightingShaderGraphGUI;0;1;New Amplify Shader;53b46d85872c5b24c8f4f0a1c3fe4c87;True;ScenePickingPass;0;10;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=HDRenderPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;5;True;7;d3d11;metal;vulkan;xboxone;xboxseries;playstation;switch;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;True;_CullMode;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
+WireConnection;296;0;293;0
 WireConnection;209;0;210;0
 WireConnection;209;1;211;0
 WireConnection;209;2;212;0
+WireConnection;37;0;70;0
+WireConnection;37;1;330;0
+WireConnection;165;0;106;2
+WireConnection;330;10;77;0
+WireConnection;330;7;6;0
+WireConnection;70;0;68;0
+WireConnection;162;0;104;0
 WireConnection;197;0;193;0
 WireConnection;197;1;194;0
 WireConnection;197;2;199;0
@@ -5893,25 +5447,63 @@ WireConnection;207;1;204;0
 WireConnection;207;2;206;0
 WireConnection;39;0;37;0
 WireConnection;39;1;38;0
-WireConnection;186;0;185;0
-WireConnection;213;0;209;0
-WireConnection;168;0;39;0
-WireConnection;200;0;197;0
-WireConnection;208;0;207;0
-WireConnection;262;0;134;0
-WireConnection;134;0;106;4
-WireConnection;134;3;135;0
-WireConnection;134;4;136;0
-WireConnection;294;0;293;0
 WireConnection;297;0;294;1
 WireConnection;297;1;296;1
 WireConnection;297;2;290;1
-WireConnection;296;0;293;0
+WireConnection;294;0;293;0
 WireConnection;298;0;297;0
+WireConnection;134;0;106;4
+WireConnection;134;3;135;0
+WireConnection;134;4;136;0
+WireConnection;262;0;134;0
+WireConnection;208;0;207;0
+WireConnection;200;0;197;0
+WireConnection;168;0;39;0
+WireConnection;213;0;209;0
+WireConnection;192;0;189;0
+WireConnection;186;0;185;0
+WireConnection;307;0;305;0
+WireConnection;167;0;261;0
+WireConnection;185;0;183;0
+WireConnection;185;1;184;0
+WireConnection;185;2;182;0
+WireConnection;306;0;304;0
+WireConnection;180;0;179;2
+WireConnection;180;1;329;0
+WireConnection;295;0;292;0
+WireConnection;163;0;105;0
+WireConnection;329;0;181;0
+WireConnection;329;1;328;0
+WireConnection;292;0;291;0
+WireConnection;292;1;289;0
+WireConnection;292;2;290;1
+WireConnection;291;0;287;0
+WireConnection;289;0;287;0
+WireConnection;187;0;185;0
+WireConnection;182;0;180;0
+WireConnection;300;0;299;0
+WireConnection;305;0;300;0
+WireConnection;305;1;301;0
+WireConnection;305;2;290;1
+WireConnection;68;0;36;2
+WireConnection;68;1;69;0
+WireConnection;304;0;303;0
+WireConnection;304;1;302;0
+WireConnection;301;0;299;0
+WireConnection;189;0;342;0
+WireConnection;189;1;190;0
+WireConnection;261;0;106;1
+WireConnection;261;1;107;0
+WireConnection;342;0;188;0
+WireConnection;303;0;300;4
+WireConnection;303;1;301;4
+WireConnection;303;2;290;1
+WireConnection;188;0;187;2
+WireConnection;188;1;329;0
 WireConnection;331;0;201;0
 WireConnection;331;1;202;0
 WireConnection;331;7;216;0
 WireConnection;331;8;214;0
 WireConnection;331;11;171;0
 ASEEND*/
-//CHKSM=40F8590B3B4258BD1AEA128061B5419D83F5DA6A
+//CHKSM=94B9BAA09CB1BC6F9C3DDE464CE6D4A83BCB8E68

@@ -2,32 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
-[DisallowMultipleComponent]
-
-public class TFW_SnowController : MonoBehaviour
+namespace TriForge
 {
-    [Range(0.0f, 1.0f)]
-    public float SnowAmount = 1.0f;
-
-    private MeshRenderer snowflake;
-
-    private void Awake()
+    [ExecuteInEditMode]
+    [DisallowMultipleComponent]
+    public class TFW_SnowController : MonoBehaviour
     {
-        snowflake = gameObject.GetComponentInChildren<MeshRenderer>();
+        [Range(0.0f, 1.0f)]
+        public float SnowAmount = 1.0f;
 
-        if (Application.isPlaying)
-        {
-            snowflake.enabled = false;
-        }
-        else
-        {
-            snowflake.enabled = true;
-        }
-    }
+        private MeshRenderer snowflake;
 
-    void Update()
-    {
-        Shader.SetGlobalFloat("TFW_SnowAmount", SnowAmount);
+        private void Awake()
+        {
+            snowflake = gameObject.GetComponentInChildren<MeshRenderer>();
+
+            if (Application.isPlaying)
+            {
+                snowflake.enabled = false;
+            }
+            else
+            {
+                snowflake.enabled = true;
+            }
+        }
+
+        void Update()
+        {
+            Shader.SetGlobalFloat("TFW_SnowAmount", SnowAmount);
+        }
     }
 }
+
