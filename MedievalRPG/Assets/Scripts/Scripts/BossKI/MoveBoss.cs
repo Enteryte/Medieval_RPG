@@ -18,7 +18,7 @@ public class MoveBoss : SkeletonBossActions
     private Vector3 targetLocation;
     private Transform[] RoomEdges;
     private Transform player;
-    private bool mayMove = true;
+    private bool mayMove = false;
 
     private void Start()
     {

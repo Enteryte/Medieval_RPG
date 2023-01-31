@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 996149790512497301}
   - component: {fileID: 1168513474809727665}
   - component: {fileID: 2509024410175721752}
+  - component: {fileID: 4185508108580775883}
+  - component: {fileID: 5558465048642730860}
   m_Layer: 0
   m_Name: SkeletonMageBossGreen
   m_TagString: Untagged
@@ -49,9 +51,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RoomEdges: []
-  BossActions: []
   player: {fileID: 0}
   phase1: 1
+  BossActions: []
   secondsToWait: 0.5
   closeCombatDistance: 1
   maxArrowsHit: 0
@@ -109,11 +111,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
+  agent: {fileID: 0}
   KI: {fileID: 0}
   portal: {fileID: 0}
   projectile: {fileID: 0}
   shotSpeed: 3
   shotCount: 3
+  offset: 1
+--- !u!114 &4185508108580775883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087501639618743947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c3b04173eaa6b04cac19e11f821d193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Attacks:
+  - {fileID: 0}
+--- !u!114 &5558465048642730860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3087501639618743947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a8b87a171f2d87439236376d19005e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Wave: {fileID: 1202637578983837854, guid: a953e617b90e8fd4b839bcb73aad9839, type: 3}
+  KI: {fileID: 4965112904909559921}
+  anim: {fileID: 0}
 --- !u!1001 &2090830663629528519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -240,6 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Teleport: {fileID: 2509024410175721752}
+  SideSwipe: {fileID: 0}
 --- !u!4 &5822599408995129693 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5605319319537583258, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}

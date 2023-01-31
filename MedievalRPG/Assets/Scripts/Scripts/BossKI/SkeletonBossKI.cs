@@ -26,17 +26,12 @@ public class SkeletonBossKI : MonoBehaviour
 
     private bool testBool = true;
 
-    private void Start()
-    {
-        PickAction();
-    }
-
     public void PickAction()
     {
         //Wenn der Spieler zu nah an den Boss herankommt
         if (playerDistance < closeCombatDistance)
         {
-            Activate("MoveBoss");
+            Activate("SK_SkeletonMage_Green Variant (MoveBoss)");
         }
         else
         {
@@ -46,8 +41,9 @@ public class SkeletonBossKI : MonoBehaviour
                 {
                     float wA = (weakAttackChance * choiceChanceMultiplier);
                     float sA = (strongAttackChance / choiceChanceMultiplier);
+                    float mA = (moveChance * choiceChanceMultiplier);
 
-                    int choice = Random.Range(0, (int)(weakAttackChance + strongAttackChance + moveChance + interactChance));
+                    int choice = Random.Range(0, (int)(wA + sA + mA + interactChance));
                     if (choice <= wA)
                     {
                         Activate("SkeletonMageBossGreen (BossWeakAttacks)");
@@ -55,15 +51,15 @@ public class SkeletonBossKI : MonoBehaviour
                     }
                     if (choice <= wA + sA && choice > wA)
                     {
-                        Activate("StrongAttack");
+                        Activate("SkeletonMageBossGreen (BossStrongAttacks)");
                         return;
                     }
-                    if (choice <= wA + sA + moveChance && choice > wA + sA)
+                    if (choice <= wA + sA + mA && choice > wA + sA)
                     {
-                        Activate("MoveBoss");
+                        Activate("SK_SkeletonMage_Green Variant (MoveBoss)");
                         return;
                     }
-                    if (choice <= wA + sA + moveChance + interactChance && choice > wA + sA + moveChance)
+                    if (choice <= wA + sA + mA + interactChance && choice > wA + sA + mA)
                     {
                         Activate("Interact");
                         return;
@@ -79,12 +75,12 @@ public class SkeletonBossKI : MonoBehaviour
                     }
                     if (choice <= weakAttackChance + strongAttackChance && choice > weakAttackChance)
                     {
-                        Activate("StrongAttack");
+                        Activate("SkeletonMageBossGreen (BossStrongAttacks)");
                         return;
                     }
                     if (choice <= weakAttackChance + strongAttackChance + moveChance && choice > weakAttackChance + strongAttackChance)
                     {
-                        Activate("MoveBoss");
+                        Activate("SK_SkeletonMage_Green Variant (MoveBoss)");
                         return;
                     }
                     if (choice <= weakAttackChance + strongAttackChance + moveChance + interactChance && choice > weakAttackChance + strongAttackChance + moveChance)
@@ -108,7 +104,7 @@ public class SkeletonBossKI : MonoBehaviour
                 }
                 if (choice <= wA + sA && choice > wA)
                 {
-                    Activate("StrongAttack");
+                    Activate("SkeletonMageBossGreen (BossStrongAttacks)");
                     return;
                 }
                 if (choice <= wA + sA + moveChance && choice > wA + sA)

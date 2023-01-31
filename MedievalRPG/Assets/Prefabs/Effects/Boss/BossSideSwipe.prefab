@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7853615389883584618}
   - component: {fileID: 3487735772057889005}
   - component: {fileID: 7785130433747122004}
+  - component: {fileID: 1682156244719113896}
+  - component: {fileID: 7091840337932906175}
   m_Layer: 0
   m_Name: BossSideSwipe
   m_TagString: Untagged
@@ -113,6 +115,32 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!135 &1682156244719113896
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202637578983837854}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.19
+  m_Center: {x: 0, y: 0, z: -0.15}
+--- !u!114 &7091840337932906175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202637578983837854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c55078e25d5afb44dbd7f4b54e5b45ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 20
 --- !u!1 &2006955230302130252
 GameObject:
   m_ObjectHideFlags: 0

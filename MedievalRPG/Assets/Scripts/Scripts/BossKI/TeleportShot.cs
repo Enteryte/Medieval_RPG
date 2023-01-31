@@ -77,18 +77,17 @@ public class TeleportShot : SkeletonBossActions
 
         portal_1.transform.position = KI.gameObject.transform.position;
         portal_1.transform.position = new Vector3(transform.position.x - offset, transform.position.y, transform.position.z);
-        portal_2.transform.position = new Vector3(targetLocation.x - offset, targetLocation.y, targetLocation.z);
+        portal_2.transform.position = new Vector3(targetLocation.x, targetLocation.y, targetLocation.z);
 
         portal_1.GetComponent<PortalScript>().target = KI.player;
-
-
+        portal_2.GetComponent<PortalScript>().target = KI.player;
     }
 
     public void ShootProjectiles()
     {
         for (int i = 0; i < shotCount; i++)
         {
-            GameObject proj = Instantiate(projectile);
+            GameObject proj = Instantiate(projectile, new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Quaternion.identity);
             proj.transform.LookAt(KI.player);
             proj.GetComponent<Rigidbody>().AddForce(proj.transform.forward * (shotSpeed - (i * 20)), ForceMode.Acceleration);
             

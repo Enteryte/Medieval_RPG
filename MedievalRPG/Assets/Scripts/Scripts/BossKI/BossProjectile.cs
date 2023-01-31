@@ -13,13 +13,12 @@ public class BossProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log(other.tag);
         if(other.gameObject.CompareTag("Player"))
         {
             PlayerValueManager.instance.CurrHP -= damage;
         }
 
-        if(!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("Ground"))
+        if(!other.gameObject.CompareTag("Projectile"))
         {
             Destroy(this.gameObject);
         }
