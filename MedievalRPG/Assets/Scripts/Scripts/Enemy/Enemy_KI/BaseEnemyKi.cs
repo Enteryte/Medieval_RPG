@@ -75,6 +75,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
         if (HasDied && !IsInitialized)
             return;
 
+        if(!IsSeeingPlayer)
         IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
 
         Animator.SetBool(Animator.StringToHash("IsMoving"), (Agent.velocity.sqrMagnitude > SqrTolerance));

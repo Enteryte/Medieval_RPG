@@ -166,6 +166,7 @@ MonoBehaviour:
   Tolerance: 1
   EnemyDamager: {fileID: 9141384957232077054}
   AttackContainer: {fileID: 358585556347434482}
+  RepathCoolDownLength: 0.1
 --- !u!195 &7433326462647777719
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -180,7 +181,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
