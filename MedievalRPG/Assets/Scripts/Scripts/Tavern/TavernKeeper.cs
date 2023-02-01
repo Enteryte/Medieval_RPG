@@ -67,13 +67,13 @@ public class TavernKeeper : MonoBehaviour, IInteractable
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            BuyAndDrinkBeer();
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.B))
+    //    {
+    //        BuyAndDrinkBeer();
+    //    }
+    //}
 
     public void BuyAndDrinkBeer()
     {
@@ -149,6 +149,8 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         CutsceneManager.instance.currCP = startTalkAboutSITCP;
         CutsceneManager.instance.playableDirector.playableAsset = startTalkAboutSITCP.cutscene;
         CutsceneManager.instance.playableDirector.Play();
+
+        getBeerScreen.SetActive(false);
     }
 
     public void DontBuyBeer()
