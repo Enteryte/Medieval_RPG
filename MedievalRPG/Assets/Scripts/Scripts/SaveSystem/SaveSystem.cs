@@ -1260,7 +1260,21 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadDaytimeAndWeather(SaveGameObject sGO)
     {
+        if (sGO.changeDaytime)
+        {
+            GameManager.instance.correspondingCutsceneProfilAtNight = null;
+
+            GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
+        }
+        else
+        {
+            GameManager.instance.correspondingCutsceneProfilAtNight = GameManager.instance.cutsceneProfileAtNightHolder;
+
+            GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 0;
+        }
+
         GameManager.instance.changeDaytime = sGO.changeDaytime;
+
         GameManager.instance.hdrpTOD.TimeOfDay = sGO.timeOfDay;
 
         if (sGO.isRaining)
