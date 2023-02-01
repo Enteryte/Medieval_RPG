@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: MAINCutsceneP_MQ3_Task1_AfterNearTower
   m_EditorClassIdentifier: 
   cutscene: {fileID: 11400000, guid: f42085ef5794f894e8f75138fad2b462, type: 2}
-  isNotADialogue: 0
-  cantBeSkipped: 0
+  fadeIn: 1
+  isNightCutscene: 0
+  isNotADialogue: 1
+  cantBeSkipped: 1
   playCutsceneMoreThanOnce: 1
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
   timesWhenNewSentenceStarts: []
+  canPauseWhilePlaying: 1
+  tutorialToTrigger: {fileID: 0}
+  changeParentTrans: 0
   hasDecisions: 0
   allDecisions: []
   mBTToCheck: {fileID: 0}
@@ -29,3 +34,5 @@ MonoBehaviour:
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

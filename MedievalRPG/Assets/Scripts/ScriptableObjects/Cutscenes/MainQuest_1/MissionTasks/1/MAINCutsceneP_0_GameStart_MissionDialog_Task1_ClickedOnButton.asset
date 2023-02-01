@@ -21,7 +21,8 @@ MonoBehaviour:
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
   timesWhenNewSentenceStarts:
-  - 2.7833
+  - 2.5
+  canPauseWhilePlaying: 0
   tutorialToTrigger: {fileID: 0}
   changeParentTrans: 0
   hasDecisions: 1
@@ -31,6 +32,9 @@ MonoBehaviour:
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 17b37f973ec93174c82d526183db45ed, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Nur das beste
@@ -38,6 +42,9 @@ MonoBehaviour:
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: f4f0a212634f335418bff3cd82fa85b4, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: "Gespr\xE4ch beenden"
@@ -45,6 +52,9 @@ MonoBehaviour:
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 80487e0ba749a264dbfa8385c3115071, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   mBTToCheck: {fileID: 11400000, guid: d38da284e8e4e854c80e2bf7946164ef, type: 2}
