@@ -182,6 +182,22 @@ MonoBehaviour:
     volume: 1
     stereoPan: 0
     spatialBlend: 0
+--- !u!114 &-8311166162542755656
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fb794a295e73545af71bcdb7375791, type: 3}
+  m_Name: CinemachineShot
+  m_EditorClassIdentifier: 
+  DisplayName: 
+  VirtualCamera:
+    exposedName: edf2255daa7de2745a7c26eb174f5603
+    defaultValue: {fileID: 0}
 --- !u!114 &-7821041737088547729
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -489,7 +505,7 @@ MonoBehaviour:
   - m_Version: 1
     m_Start: 0
     m_ClipIn: 0
-    m_Asset: {fileID: 8879940555105218316}
+    m_Asset: {fileID: -8311166162542755656}
     m_Duration: 5.461333333333332
     m_TimeScale: 1
     m_ParentTrack: {fileID: 5434966589558415286}
@@ -557,19 +573,3 @@ MonoBehaviour:
     m_DisplayName: CVC_Idle_Timeline_Cutscene
   m_Markers:
     m_Objects: []
---- !u!114 &8879940555105218316
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90fb794a295e73545af71bcdb7375791, type: 3}
-  m_Name: CinemachineShot
-  m_EditorClassIdentifier: 
-  DisplayName: 
-  VirtualCamera:
-    exposedName: 8512a0ee6cce4834db8619f0291c6093
-    defaultValue: {fileID: 0}

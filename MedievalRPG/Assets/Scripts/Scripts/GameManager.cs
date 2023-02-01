@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public static ItemBaseProfile currBookOrNote;
 
     public bool isNight = false; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
+    public CutsceneProfile cutsceneProfileAtNightHolder;
     public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
 
     public GameObject cutsceneBlackFadeGO;

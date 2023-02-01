@@ -15,6 +15,8 @@ public class Merchant : MonoBehaviour, IInteractable
 
     public CinemachineVirtualCamera[] cVCs;
 
+    public bool needsBiggerViewRadius = false;
+
     [Header("Missions")]
     public List<MissionBaseProfile> allCorrMissions;
     public MissionTaskBase currCorrTask;
