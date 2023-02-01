@@ -13,10 +13,12 @@ public class Interacting : MonoBehaviour
     public float viewRadius;
     public float viewRadius2;
     public float viewRadius3; // Only for sitting
+    public float viewRadius4; // Only for merchants ( far away merchants )
 
     [Range(0, 360)] public float viewAngle;
     [Range(0, 360)] public float viewAngle2;
     [Range(0, 360)] public float viewAngle3; // Only for sitting
+    [Range(0, 360)] public float viewAngle4; // Only for sitting
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -146,6 +148,7 @@ public class Interacting : MonoBehaviour
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
         Collider[] targetsInViewRadius2 = Physics.OverlapSphere(transform.position, viewRadius2, targetMask);
         Collider[] targetsInViewRadius3 = Physics.OverlapSphere(transform.position, viewRadius3, targetMask);
+        Collider[] targetsInViewRadius4 = Physics.OverlapSphere(transform.position, viewRadius4, targetMask);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
@@ -281,6 +284,34 @@ public class Interacting : MonoBehaviour
                 }
 
                 //}
+            }
+        }
+
+        for (int i = 0; i < targetsInViewRadius4.Length; i++)
+        {
+            Transform interactableObj = targetsInViewRadius4[i].transform;
+
+            Vector3 dirToObj = (interactableObj.position - transform.position).normalized;
+            float distanceToObj = Vector3.Distance(transform.position, interactableObj.position);
+
+            if (Vector3.Angle(transform.forward, dirToObj) < viewAngle4 / 2 && !Physics.Raycast(transform.position, dirToObj, distanceToObj, obstacleMask))
+            {
+                if (interactableObj.TryGetComponent(out IInteractable interactable) && interactableObj.TryGetComponent(out Merchant merchant))
+                {
+                    if (interactable.iOCanvas() != null && merchant.needsBiggerViewRadius)
+                    {
+                        if (Vector3.Distance(interactableObj.position, transform.position) > nearestDistance || nearestObjTrans == null)
+                        {
+                            nearestDistance = Vector3.Distance(interactableObj.position, transform.position);
+                            nearestObjTrans = interactableObj;
+                        }
+
+                        if (!tIVR.Contains(interactableObj))
+                        {
+                            tIVR.Add(interactableObj);
+                        }
+                    }
+                }
             }
         }
 
