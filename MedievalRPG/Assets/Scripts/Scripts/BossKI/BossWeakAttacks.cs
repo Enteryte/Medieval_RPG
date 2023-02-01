@@ -8,7 +8,7 @@ public class BossWeakAttacks : SkeletonBossActions
     
     public override void UseAction()
     {
-        int attack = Random.Range(0, Attacks.Count - 1);
+        int attack = Random.Range(0, Attacks.Count);
         Attacks[attack].UseAction();
     }
 }

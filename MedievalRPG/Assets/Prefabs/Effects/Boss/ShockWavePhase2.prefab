@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 8013419715415900001}
   - component: {fileID: 2509111976443362635}
   - component: {fileID: 5687251549481539052}
-  - component: {fileID: 3097411455821643537}
-  - component: {fileID: 3984425600209803484}
+  - component: {fileID: 9196706505696846938}
+  - component: {fileID: 158954902976176618}
   m_Layer: 0
-  m_Name: ShockWave
+  m_Name: ShockWavePhase2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   lifeTime: 13
   colliderTime: 10
   timeToWaitBeforeGrowing: 0
---- !u!2083052967 &3097411455821643537
+--- !u!2083052967 &9196706505696846938
 VisualEffect:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,7 +75,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3062307202206481158}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: 2c7d70fe84aca7e4d95fde1c92b8ddc2, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: 279d6c4d94f940e4d88ef4f55c96ed35, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
@@ -104,7 +104,7 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
---- !u!73398921 &3984425600209803484
+--- !u!73398921 &158954902976176618
 VFXRenderer:
   serializedVersion: 1
   m_ObjectHideFlags: 0

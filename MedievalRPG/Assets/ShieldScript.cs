@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ShieldScript : MonoBehaviour
+{
+    [SerializeField] private float fadeSpeed;
+    [SerializeField] private MeshRenderer mat1;
+    [SerializeField] private MeshRenderer mat2;
+
+    private bool fadeIn = true;
+
+    public void Deactivate()
+    {
+        fadeIn = false;
+    }
+
+    private void Fade()
+    {
+        if (fadeIn == false && mat1.material.GetFloat("_DissolveAmount") < 1)
+        {
+            mat1.material.SetFloat("_DissolveAmount", mat1.material.GetFloat("_DissolveAmount") + Time.deltaTime * fadeSpeed);
+            mat2.material.SetFloat("_DissolveAmount", mat2.material.GetFloat("_DissolveAmount") + Time.deltaTime * fadeSpeed);
+        }
+        if (fadeIn == true && mat1.material.GetFloat("_DissolveAmount") > 0)
+        {
+            mat1.material.SetFloat("_DissolveAmount", mat1.material.GetFloat("_DissolveAmount") - Time.deltaTime * fadeSpeed);
+            mat2.material.SetFloat("_DissolveAmount", mat2.material.GetFloat("_DissolveAmount") - Time.deltaTime * fadeSpeed);
+        }
+    }
+
+    private void Update()
+    {
+        Fade();
+    }
+}

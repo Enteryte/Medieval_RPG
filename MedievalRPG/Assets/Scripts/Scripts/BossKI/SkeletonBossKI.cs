@@ -24,7 +24,7 @@ public class SkeletonBossKI : MonoBehaviour
     private int arrowsHit = 0;
     private bool countArrows = false;
 
-    private bool testBool = true;
+    private bool testBool = false;
 
     public void PickAction()
     {
@@ -44,7 +44,7 @@ public class SkeletonBossKI : MonoBehaviour
                     float mA = (moveChance * choiceChanceMultiplier);
 
                     int choice = Random.Range(0, (int)(wA + sA + mA + interactChance));
-                    if (choice <= wA)
+                    if (choice < wA)
                     {
                         Activate("SkeletonMageBossGreen (BossWeakAttacks)");
                         return;
@@ -68,7 +68,7 @@ public class SkeletonBossKI : MonoBehaviour
                 else
                 {
                     int choice = Random.Range(0, (int)(weakAttackChance + strongAttackChance + moveChance + interactChance));
-                    if (choice <= weakAttackChance)
+                    if (choice < weakAttackChance)
                     {
                         Activate("SkeletonMageBossGreen (BossWeakAttacks)");
                         return;
@@ -96,8 +96,8 @@ public class SkeletonBossKI : MonoBehaviour
                 float wA = (weakAttackChance / choiceChanceMultiplier);
                 float sA = (strongAttackChance * choiceChanceMultiplier);
 
-                int choice = Random.Range(0, (int)(weakAttackChance + strongAttackChance + moveChance + interactChance + meteorChance));
-                if (choice <= wA)
+                int choice = Random.Range(0, (int)(wA + sA + moveChance + interactChance + meteorChance));
+                if (choice < wA)
                 {
                     Activate("SkeletonMageBossGreen (BossWeakAttacks)");
                     return;
@@ -119,7 +119,7 @@ public class SkeletonBossKI : MonoBehaviour
                 }
                 if (choice <= wA + sA + moveChance + interactChance + meteorChance && choice <= wA + sA + moveChance + interactChance)
                 {
-                    Activate("MeteorShield");
+                    Activate("SkeletonMageBossGreen (MeteorShield)");
                     return;
                 }
             }
@@ -151,7 +151,7 @@ public class SkeletonBossKI : MonoBehaviour
             yield return new WaitForSeconds(secondsToWait);
             if (arrowsHit > aH + maxArrowsHit)
             {
-                Activate("MeteorShield");
+                Activate("SkeletonMageBossGreen (MeteorShield)");
             }
             countArrows = true;
         }

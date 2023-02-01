@@ -11,7 +11,7 @@ public class SideSwipeMovement : MonoBehaviour
 
     private void MoveIt()
     {
-        transform.Translate(new Vector3(0, 0, 1) * speed * Time.deltaTime, Space.World);
+        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
     }
 
     private void Destructor()

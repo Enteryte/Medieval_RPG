@@ -7,6 +7,7 @@ public class BossAnimationEventHandler : MonoBehaviour
     [SerializeField] private TeleportShot Teleport;
     [SerializeField] private SideSwipeWave SideSwipe;
     [SerializeField] private ShockWaveImpulse ShockWave;
+    [SerializeField] private MeteorShield MeteorShield;
     [SerializeField] private SkeletonBossKI KI;
 
     private void TeleportBoss()
@@ -28,5 +29,17 @@ public class BossAnimationEventHandler : MonoBehaviour
     private void CreateWave()
     {
         ShockWave.CreateWave();
+    }
+    private void CreateMeteor()
+    {
+        MeteorShield.CreateMeteor();
+    }
+    private void CreateShield()
+    {
+        MeteorShield.CreateShield();
+    }
+    private void DeactivateShield()
+    {
+        MeteorShield.DeactivateShield();
     }
 }
