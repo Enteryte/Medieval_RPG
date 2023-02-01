@@ -32,20 +32,23 @@ public class EnemyArrowController : MonoBehaviour
 
     private void OnCollisionEnter(Collision _collision)
     {
+        
+    }
+
+    private void OnTriggerEnter(Collider _collision)
+    {
+        Debug.Log($"{gameObject.name} hit {_collision.gameObject.name}");
+        //Do Damage after checking if you hit the player or not
+        if (!_collision.gameObject.CompareTag("Player"))
+            return;
         HasCollided = true;
         IsFired = false;
 
         //Do the Sticking after checking if you hit the player or not
         if (!_collision.gameObject.CompareTag("Player")) 
             transform.SetParent(_collision.transform);
+        Rb.Sleep();
         //Do Something the arrow sticks or something, parent it to the player until despawn.
-    }
-
-    private void OnTriggerEnter(Collider _collision)
-    {
-        //Do Damage after checking if you hit the player or not
-        if (!_collision.gameObject.CompareTag("Player"))
-            return;
         // _collision.gameObject.GetComponent(Insert PlayerhealthDamageScript Here)
         //Insert PlayerhealthDamageScript Here.DoDamage(Damage);
     }

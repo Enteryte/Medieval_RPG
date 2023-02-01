@@ -1252,7 +1252,7 @@ GameObject:
   - component: {fileID: 8109204317566075536}
   - component: {fileID: 5760192927884614512}
   - component: {fileID: 5901562912245196568}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SkeletonWarrior
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1324,6 +1324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyDamager: {fileID: 4959356707431266280}
+  navmeshAgent: {fileID: 237045143}
 --- !u!1 &3272749374839929497
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,6 +2029,7 @@ MonoBehaviour:
   Tolerance: 1
   EnemyDamager: {fileID: 4959356707431266280}
   AttackContainer: {fileID: 982788574}
+  RepathCoolDownLength: 0.2
 --- !u!195 &237045143
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2882,7 +2884,7 @@ GameObject:
   - component: {fileID: 1922301455289897733}
   - component: {fileID: 6854543641762457645}
   - component: {fileID: 6311056024538451593}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: HitBox
   m_TagString: Enemy
   m_Icon: {fileID: 0}

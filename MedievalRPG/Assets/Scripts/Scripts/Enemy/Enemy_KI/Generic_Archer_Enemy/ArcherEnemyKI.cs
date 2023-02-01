@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using UnityEngine;
@@ -22,9 +23,7 @@ public class ArcherEnemyKI : BaseEnemyKI
     public override void Init()
     {
         base.Init();
-        if (HardCodeTarget)
-            Target = HardCodeTarget.transform;
-
+        Target = GameManager.instance ? GameManager.instance.playerGO.transform : HardCodeTarget.transform;
         IsInitialized = true;
     }
 
@@ -119,7 +118,7 @@ public class ArcherEnemyKI : BaseEnemyKI
         while (Vector3.Distance(transform.position, Target.transform.position) < FleeingDistance)
         {
             Flee();
-            yield return new WaitForSeconds(KiStats.AttackCoolDown);
+            yield return new WaitForSeconds(FleeReroutCoolDown);
         }
         IsFleeCoroutineStarted = false;
     }
