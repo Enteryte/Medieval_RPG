@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class SideSwipeMovement : MonoBehaviour
 {
+    [SerializeField] private float damage;
     [SerializeField] private float speed;
     [SerializeField] private float secondsToWait;
 
     private float seconds = 0;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            PlayerValueManager.instance.CurrHP -= damage;
+        }
+    }
 
     private void MoveIt()
     {

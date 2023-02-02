@@ -7,12 +7,19 @@ public class ShieldScript : MonoBehaviour
     [SerializeField] private float fadeSpeed;
     [SerializeField] private MeshRenderer mat1;
     [SerializeField] private MeshRenderer mat2;
+    [SerializeField] private SkeletonBossStats stats;
 
     private bool fadeIn = true;
+
+    private void Start()
+    {
+        stats.invincible = true;
+    }
 
     public void Deactivate()
     {
         fadeIn = false;
+        stats.invincible = false;
     }
 
     private void Fade()

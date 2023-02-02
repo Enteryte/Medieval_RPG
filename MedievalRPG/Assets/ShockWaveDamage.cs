@@ -54,6 +54,14 @@ public class ShockWaveDamage : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            PlayerValueManager.instance.CurrHP -= damage;
+        }
+    }
+
     private void Update()
     {
         GrowRadius();

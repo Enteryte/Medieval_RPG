@@ -48,8 +48,9 @@ public class SkeletonBossStats : MonoBehaviour
 
     private Image hpSlider;
     private float currentHP;
-    private bool invincible = false;
 
+    public bool invincible = false;
+    
     private void Start()
     {
         hpSlider = GameObject.FindGameObjectWithTag("BossHpLeiste").GetComponent<Image>();
