@@ -241,10 +241,16 @@ public class NPC : MonoBehaviour, IInteractable
     {
         bool isNeeded = false;
 
-        for (int i = 3; i < UIManager.instance.npcMissionButtonParentObjTrans.childCount; i++)
-        {
-            Destroy(UIManager.instance.npcMissionButtonParentObjTrans.GetChild(i).gameObject);
-        }
+        //if (UIManager.instance.npcMissionButtonParentObjTrans.childCount > 3)
+        //{
+            for (int i = 0; i < UIManager.instance.npcMissionButtonParentObjTrans.childCount; i++)
+            {
+                //for (int y = 0; y < UIManager.instance.npcBtnKillianGOs.Length; y++)
+                //{
+                Destroy(UIManager.instance.npcMissionButtonParentObjTrans.GetChild(i).gameObject);
+                //}
+            }
+        //}
 
         for (int i = 0; i < MissionManager.instance.allCurrAcceptedMissions.Count; i++)
         {
@@ -301,8 +307,8 @@ public class NPC : MonoBehaviour, IInteractable
                         {
                             var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
-                            newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().storedMT = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y];
-                            newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().storedMTB = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
+                            newNPCMissionButton.GetComponent<NPCMissionButton>().storedMT = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y];
+                            newNPCMissionButton.GetComponent<NPCMissionButton>().storedMTB = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
 
                             Instantiate(UIManager.instance.npcUICloseBtnPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 

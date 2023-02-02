@@ -20,7 +20,10 @@ MonoBehaviour:
   playCutsceneMoreThanOnce: 1
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
-  timesWhenNewSentenceStarts: []
+  timesWhenNewSentenceStarts:
+  - 8.5167
+  - 20.7333
+  canPauseWhilePlaying: 0
   tutorialToTrigger: {fileID: 0}
   changeParentTrans: 0
   hasDecisions: 0
@@ -30,6 +33,9 @@ MonoBehaviour:
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 24171740e1637e7418c47e6773e7369b, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: "Schadet weniger, als wenn ich es allen erz\xE4hle"
@@ -37,6 +43,9 @@ MonoBehaviour:
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 34b341ba78a15a3418e1e901e4a9aadd, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   mBTToCheck: {fileID: 11400000, guid: d3752e4f4d092114cab77fe1e7a68960, type: 2}

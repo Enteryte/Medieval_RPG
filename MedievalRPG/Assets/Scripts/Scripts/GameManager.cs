@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public static ItemBaseProfile currBookOrNote;
 
     public bool isNight = false; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
+    public CutsceneProfile cutsceneProfileAtNightHolder;
     public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
 
     public GameObject cutsceneBlackFadeGO;
@@ -140,17 +141,17 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            CutsceneManager.instance.SleepTillEvening();
-            Debug.Log("5");
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha5))
+        //{
+        //    CutsceneManager.instance.SleepTillEvening();
+        //    Debug.Log("5");
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            CutsceneManager.instance.SleepTillMorning();
-            Debug.Log("6");
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha6))
+        //{
+        //    CutsceneManager.instance.SleepTillMorning();
+        //    Debug.Log("6");
+        //}
 
         //if (Input.GetKeyDown(KeyCode.F))
         //{
@@ -242,7 +243,7 @@ public class GameManager : MonoBehaviour
         // Day-Night
         if (!gameIsPaused && changeDaytime)
         {
-            if (hdrpTOD.TimeOfDay >= 17.7f)
+            if (hdrpTOD.TimeOfDay >= 16.8f)
             {
                 if (correspondingCutsceneProfilAtNight != null)
                 {
@@ -270,7 +271,8 @@ public class GameManager : MonoBehaviour
                 return;
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf/* &&*/ /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*//*alid()*/)
+            if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf
+                && !TutorialManager.instance.bigTutorialUI.activeSelf /* &&*/ /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*//*alid()*/)
             {
                 if (CutsceneManager.instance.currCP == null)
                 {
@@ -291,8 +293,7 @@ public class GameManager : MonoBehaviour
                         ContinueGame();
                     }
                 }
-                else if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid() && !CutsceneManager.instance.playableDirector.playableGraph.IsPlaying()
-                    || CutsceneManager.instance.currCP != null && !CutsceneManager.instance.currCP.cantBeSkipped)
+                else if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.currCP.canPauseWhilePlaying)
                 {
                     Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
 
@@ -311,6 +312,68 @@ public class GameManager : MonoBehaviour
                         ContinueGame();
                     }
                 }
+
+                //else if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid() 
+                //    && CutsceneManager.instance.playableDirector.playableGraph.IsPlaying() && CutsceneManager.instance.currCP.canPauseWhilePlaying)
+                //{
+                //    Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
+
+                //    LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
+                //    LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
+                //    pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
+
+                //    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+
+                //    if (pauseMenuScreen.activeSelf)
+                //    {
+                //        PauseGame();
+                //    }
+                //    else
+                //    {
+                //        ContinueGame();
+                //    }
+                //}
+                //else if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid()
+                //    && !CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())
+                //{
+                //    Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
+
+                //    LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
+                //    LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
+                //    pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
+
+                //    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+
+                //    if (pauseMenuScreen.activeSelf)
+                //    {
+                //        PauseGame();
+                //    }
+                //    else
+                //    {
+                //        ContinueGame();
+                //    }
+                //}
+
+                //else if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid() && !CutsceneManager.instance.playableDirector.playableGraph.IsPlaying()
+                //    || CutsceneManager.instance.currCP != null && !CutsceneManager.instance.currCP.cantBeSkipped)
+                //{
+                //    Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
+
+                //    LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
+                //    LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
+                //    pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
+
+                //    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+
+                //    if (pauseMenuScreen.activeSelf)
+                //    {
+                //        PauseGame();
+                //    }
+                //    else
+                //    {
+                //        ContinueGame();
+                //    }
+                //}
             }
             //else
             //{
@@ -530,7 +593,7 @@ public class GameManager : MonoBehaviour
 
         if (changeDaytime)
         {
-            hdrpTOD.m_timeOfDayMultiplier = 2;
+            hdrpTOD.m_timeOfDayMultiplier = 1;
         }
 
         UIAnimationHandler.instance.addedMissionAnimator.speed = 1;

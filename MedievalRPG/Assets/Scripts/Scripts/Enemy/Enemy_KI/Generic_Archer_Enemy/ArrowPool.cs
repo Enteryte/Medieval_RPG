@@ -74,7 +74,7 @@ public class ArrowPool : MonoBehaviour
 
     public void DespawnArrow(EnemyArrowController _arrowToDespawn)
     {
-        _arrowToDespawn.enabled = false;
+        _arrowToDespawn.gameObject.SetActive(false);
         _arrowToDespawn.transform.position = Vector3.zero;
     }
 }

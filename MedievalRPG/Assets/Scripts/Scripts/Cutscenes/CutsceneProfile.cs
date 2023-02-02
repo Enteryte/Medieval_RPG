@@ -23,6 +23,8 @@ public class CutsceneProfile : ScriptableObject
 
     public List<float> timesWhenNewSentenceStarts;
 
+    public bool canPauseWhilePlaying = false;
+
     [Header("Tutorial")]
     public TutorialBaseProfile tutorialToTrigger;
 
