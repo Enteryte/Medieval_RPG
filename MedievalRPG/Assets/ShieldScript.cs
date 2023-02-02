@@ -7,12 +7,13 @@ public class ShieldScript : MonoBehaviour
     [SerializeField] private float fadeSpeed;
     [SerializeField] private MeshRenderer mat1;
     [SerializeField] private MeshRenderer mat2;
-    [SerializeField] private SkeletonBossStats stats;
 
+    private SkeletonBossStats stats;
     private bool fadeIn = true;
 
     private void Start()
     {
+        stats = GameObject.FindGameObjectWithTag("BossHitbox").GetComponent<SkeletonBossStats>();
         stats.invincible = true;
     }
 

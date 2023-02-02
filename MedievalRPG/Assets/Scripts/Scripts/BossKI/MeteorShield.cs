@@ -64,5 +64,6 @@ public class MeteorShield : SkeletonBossActions
     public void DeactivateShield()
     {
         shieldScript.Deactivate();
+        anim.SetBool("MeteorShield", false);
     }
 }

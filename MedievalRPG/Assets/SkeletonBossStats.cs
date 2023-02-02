@@ -13,7 +13,6 @@ public class SkeletonBossStats : MonoBehaviour
         {
             if (invincible == false)
             {
-                hpSlider.fillAmount = currentHP / maxHP;
 
                 if (value <= 0)
                 {
@@ -37,17 +36,22 @@ public class SkeletonBossStats : MonoBehaviour
                 {
                     currentHP = value;
                 }
+                
+                hpSlider.fillAmount = currentHP / maxHP;
             }
         }
     }
     #endregion
 
     [SerializeField] private SkeletonBossKI KI;
+    [SerializeField] private Animator anim;
     [SerializeField] private float maxHP;
     [SerializeField] private float maxHPPhase2;
+    [SerializeField] private float refillTime;
 
     private Image hpSlider;
     private float currentHP;
+    private float t = 0;
 
     public bool invincible = false;
     
@@ -59,11 +63,27 @@ public class SkeletonBossStats : MonoBehaviour
 
     private void ChangePhase()
     {
-        CurrentHP = maxHPPhase2;
+        anim.SetTrigger("ActivateSecondPhase");
+
+
+
+    }
+
+    public void HealBoss()
+    {
+        while (CurrentHP < maxHPPhase2)
+        {
+            invincible = true;
+            CurrentHP = Mathf.Lerp(CurrentHP, maxHPPhase2, t);
+            t += refillTime * Time.deltaTime;
+        }
+        KI.phase1 = false;
+        invincible = false;
     }
 
     private void Die()
     {
         invincible = true;
+        anim.SetTrigger("Death");
     }
 }

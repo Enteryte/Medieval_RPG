@@ -19,12 +19,13 @@ public class SkeletonBossKI : MonoBehaviour
     [SerializeField] private int moveChance = 10;
     [SerializeField] private int interactChance = 5;
     [SerializeField] private float choiceChanceMultiplier = 2;
+    [SerializeField] private SkeletonBossStats stats;
 
     private float playerDistance = 100;
     private int arrowsHit = 0;
-    private bool countArrows = false;
+    private bool countArrows = true;
 
-    private bool testBool = false;
+    [SerializeField] private bool testBool = false;
 
     public void PickAction()
     {
@@ -61,7 +62,7 @@ public class SkeletonBossKI : MonoBehaviour
                     }
                     if (choice <= wA + sA + mA + interactChance && choice > wA + sA + mA)
                     {
-                        Activate("Interact");
+                        Activate("SkeletonMageBossGreen (BossInteractions)");
                         return;
                     }
                 }
@@ -85,7 +86,7 @@ public class SkeletonBossKI : MonoBehaviour
                     }
                     if (choice <= weakAttackChance + strongAttackChance + moveChance + interactChance && choice > weakAttackChance + strongAttackChance + moveChance)
                     {
-                        Activate("Interact");
+                        Activate("SkeletonMageBossGreen (BossInteractions)");
                         return;
                     }
                 }
@@ -114,7 +115,7 @@ public class SkeletonBossKI : MonoBehaviour
                 }
                 if (choice <= wA + sA + moveChance + interactChance && choice > wA + sA + moveChance)
                 {
-                    Activate("Interact");
+                    Activate("SkeletonMageBossGreen (BossInteractions)");
                     return;
                 }
                 if (choice <= wA + sA + moveChance + interactChance + meteorChance && choice <= wA + sA + moveChance + interactChance)
@@ -144,7 +145,9 @@ public class SkeletonBossKI : MonoBehaviour
 
     public IEnumerator CountArrows()
     {
-        if(countArrows == true)
+        arrowsHit += 1;
+        
+        if(countArrows == true && stats.invincible == false)
         {
             int aH = arrowsHit;
             countArrows = false;

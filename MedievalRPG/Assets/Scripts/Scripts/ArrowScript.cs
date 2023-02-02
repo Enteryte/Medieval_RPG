@@ -24,15 +24,17 @@ public class ArrowScript : MonoBehaviour
         {
             StopCoroutine(TriggerEvents());
             Destroy(this.GetComponent<Rigidbody>());
+            Destroy(this.GetComponent<Collider>());
             this.transform.SetParent(other.gameObject.transform);
 
             if (other.gameObject.CompareTag("Enemy"))
             {
                 other.gameObject.GetComponent<EnemyHealth>().LightDamage(damage);
             }
-            if(other.gameObject.CompareTag("SkeletonBoss"))
+            if(other.gameObject.CompareTag("BossHitbox"))
             {
-                StartCoroutine(other.gameObject.GetComponent<SkeletonBossKI>().CountArrows());
+                other.gameObject.GetComponent<SkeletonBossStats>().CurrentHP -=damage;
+                StartCoroutine(other.gameObject.GetComponentInParent<SkeletonBossKI>().CountArrows());
             }
         }
     }

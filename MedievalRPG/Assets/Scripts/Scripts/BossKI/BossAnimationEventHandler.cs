@@ -9,6 +9,7 @@ public class BossAnimationEventHandler : MonoBehaviour
     [SerializeField] private ShockWaveImpulse ShockWave;
     [SerializeField] private MeteorShield MeteorShield;
     [SerializeField] private SkeletonBossKI KI;
+    [SerializeField] private SkeletonBossStats stats;
 
     private void TeleportBoss()
     {
@@ -41,5 +42,9 @@ public class BossAnimationEventHandler : MonoBehaviour
     private void DeactivateShield()
     {
         MeteorShield.DeactivateShield();
+    }
+    private void HealBoss()
+    {
+        stats.HealBoss();
     }
 }
