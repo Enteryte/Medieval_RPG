@@ -12225,6 +12225,78 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.28054807, y: 5.7599993, z: 0.049999997}
   m_Center: {x: -0.008343465, y: -1.3751392, z: 0.024999999}
+--- !u!1 &3943573458093719522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2796130693916567903}
+  - component: {fileID: 4255904265770369349}
+  - component: {fileID: 1337327601506029371}
+  m_Layer: 0
+  m_Name: Interactable:Door
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2796130693916567903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3943573458093719522}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.95, y: 1, z: 1.77}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3749389322367389264}
+  - {fileID: 9193043971975520833}
+  m_Father: {fileID: 7748404382611845534}
+  m_RootOrder: 296
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4255904265770369349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3943573458093719522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1a6c44aaf3eea4c839f280e18391a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iOCanvas: {fileID: 0}
+  isOpen: 0
+  canInteract: 1
+  speed: 1
+  rotationAmount: 90
+  forwardDirection: 0
+  startRotation: {x: 0, y: 0, z: 0}
+  forward: {x: 0, y: 0, z: 0}
+  correspondingMissions: []
+  correspondingMissionTasks: []
+  neededItemsForOpening: []
+  isLocked: 0
+--- !u!65 &1337327601506029371
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3943573458093719522}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0289059, y: 1.9736919, z: 0.1}
+  m_Center: {x: 0.51445293, y: 0.12994933, z: 0}
 --- !u!1 &4045439255928211900
 GameObject:
   m_ObjectHideFlags: 0
@@ -14871,12 +14943,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4593207968000463422}
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 4.1264653, y: 0.14, z: 1.7253516}
+  m_LocalPosition: {x: 2.1764648, y: -0.8599999, z: -0.044650555}
   m_LocalScale: {x: 1, y: 0.892, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7748404382611845534}
-  m_RootOrder: 296
+  m_Father: {fileID: 2796130693916567903}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4098876620680986776
 MeshFilter:
@@ -21441,6 +21513,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.14, y: 3.595531, z: 1.0267558}
   m_Center: {x: 0, y: 0, z: -0.3733779}
+--- !u!1 &6230140633921551163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3749389322367389264}
+  m_Layer: 0
+  m_Name: Empty:DoorInteractSymbolPiv
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3749389322367389264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6230140633921551163}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2796130693916567903}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6253761844178999837
 GameObject:
   m_ObjectHideFlags: 0
@@ -24481,7 +24584,7 @@ Transform:
   - {fileID: 7273819614831742410}
   - {fileID: 7680146155158672026}
   - {fileID: 3451696109456879593}
-  - {fileID: 9193043971975520833}
+  - {fileID: 2796130693916567903}
   - {fileID: 2275151979174801350}
   - {fileID: 3254480234474867817}
   - {fileID: 5203878203482300784}

@@ -24,7 +24,8 @@ MonoBehaviour:
   - 2.7333
   - 11.7333
   - 25.25
-  - 28.65
+  - 28.62
+  canPauseWhilePlaying: 0
   tutorialToTrigger: {fileID: 0}
   changeParentTrans: 0
   hasDecisions: 1
@@ -34,6 +35,9 @@ MonoBehaviour:
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 356ed1865bf4bb64baffab69431a6d14, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Ablehnen
@@ -41,6 +45,9 @@ MonoBehaviour:
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: b43689f21f5976c4080b0f43475e1d8f, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   mBTToCheck: {fileID: 0}

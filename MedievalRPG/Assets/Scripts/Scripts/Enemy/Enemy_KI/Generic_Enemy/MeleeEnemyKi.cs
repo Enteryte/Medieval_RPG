@@ -20,9 +20,13 @@ public class MeleeEnemyKi : BaseEnemyKI
     //The Transforms for the Detectors, must be an amount divisible by 2
     private RayDetection[] RayDetectorsAttack;
 
+    Coroutine attackCoro;
+
 
     [Header("Dev Variables")] private bool IsAttackCoroutineStarted;
     private bool IsSearching;
+    [SerializeField] private float RepathCoolDownLength = 0.2f;
+    private float RepathCoolDown = 0.2f;
 
     #region Unity Events
 
@@ -43,9 +47,15 @@ public class MeleeEnemyKi : BaseEnemyKI
         SightEvent(IsSeeingPlayer);
 
         //Putting the Attack Detection into an if so it only checks when it has the player within it's sight for better performance.
-        if (!IsSeeingPlayer) return;
+        if (!IsSeeingPlayer)
+        {
+            Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), false);
+
+            return;
+        }
+
         IsSearching = false;
-        
+
         IsInAttackRange = DetectorCheck(RayDetectorsAttack);
         Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), IsInAttackRange);
     }
@@ -70,7 +80,7 @@ public class MeleeEnemyKi : BaseEnemyKI
                 break;
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             case true when !_isSeeingPlayer:
-                Search();
+                // Search();
                 break;
         }
     }
@@ -98,9 +108,15 @@ public class MeleeEnemyKi : BaseEnemyKI
     {
         while (IsInAttackRange)
         {
+            //if (Vector3.Distance(Target.transform.position, this.gameObject.transform.position) > 0.5f)
+            //{
+            //    StopCoroutine(attackCoro);
+            //}
+
             IsAttackCoroutineStarted = true;
             Animator.SetTrigger(Animator.StringToHash("AttackLaunch"));
             yield return new WaitForSeconds(KiStats.AttackCoolDown);
+
             IsAttackCoroutineStarted = false;
         }
     }
@@ -110,6 +126,7 @@ public class MeleeEnemyKi : BaseEnemyKI
         //TODO: Maybe make the AI more complex by having it skirt around when on cooldown
         if (IsInAttackRange)
         {
+            RepathCoolDown = 0f;
             if (!Agent.isStopped)
             {
                 Agent.isStopped = true;
@@ -118,14 +135,19 @@ public class MeleeEnemyKi : BaseEnemyKI
 
             //Attack
             if (!IsAttackCoroutineStarted)
-                StartCoroutine(AttackTrigger());
+                attackCoro = StartCoroutine(AttackTrigger());
         }
         else
         {
+            RepathCoolDown += Time.deltaTime;
             //Move in the direction of the player
-            if (Agent.hasPath || IsInAttackRange) return;
+            if (IsInAttackRange || RepathCoolDown < RepathCoolDownLength) return;
+            RepathCoolDown = 0f;
             Agent.isStopped = false;
             Agent.SetDestination(Target.position);
+
+            //Animator.ResetTrigger("AttackLaunch");
+            //transform.LookAt(Target.transform);
         }
     }
 

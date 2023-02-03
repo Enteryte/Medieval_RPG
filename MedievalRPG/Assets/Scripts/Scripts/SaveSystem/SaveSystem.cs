@@ -255,6 +255,7 @@ public class SaveSystem : MonoBehaviour
         SaveMissions(sGO);
         SaveInteractableObjects(sGO);
         SaveInventory(sGO);
+        SaveDaytimeAndWeather(sGO);
 
         currSavingType = SavingType.manual;
 
@@ -299,6 +300,7 @@ public class SaveSystem : MonoBehaviour
             LoadEnemies(sGO);
             LoadInventory(sGO);
             LoadInteractableObjects(sGO);
+            LoadDaytimeAndWeather(sGO);
 
             //LoadInteractableObjects();
             //LoadInventory();
@@ -933,6 +935,16 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
+    public void SaveDaytimeAndWeather(SaveGameObject sGO)
+    {
+        // Daytime
+        sGO.changeDaytime = GameManager.instance.changeDaytime;
+        sGO.timeOfDay = GameManager.instance.hdrpTOD.TimeOfDay;
+
+        // Weather
+        sGO.isRaining = GameManager.instance.hdrpTOD.WeatherActive();
+    }
+
     public void SaveOptions(SaveGameObject sGO)
     {
         // Audio
@@ -1243,6 +1255,31 @@ public class SaveSystem : MonoBehaviour
             DebuffManager.instance.timerAD = sGO.timerAD;
 
             DebuffManager.instance.LowerMaxArmor(sGO.currArmorReduceAmount, sGO.currADDebuffTime, false);
+        }
+    }
+
+    public void LoadDaytimeAndWeather(SaveGameObject sGO)
+    {
+        if (sGO.changeDaytime)
+        {
+            GameManager.instance.correspondingCutsceneProfilAtNight = null;
+
+            GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
+        }
+        else
+        {
+            GameManager.instance.correspondingCutsceneProfilAtNight = GameManager.instance.cutsceneProfileAtNightHolder;
+
+            GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 0;
+        }
+
+        GameManager.instance.changeDaytime = sGO.changeDaytime;
+
+        GameManager.instance.hdrpTOD.TimeOfDay = sGO.timeOfDay;
+
+        if (sGO.isRaining)
+        {
+            GameManager.instance.hdrpTOD.StartWeather(0);
         }
     }
 

@@ -52,28 +52,29 @@ public class CutsceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playableDirector.playableAsset != null && !TutorialManager.instance.bigTutorialUI.activeSelf && !TutorialManager.instance.smallTutorialUI.activeSelf && !GameManager.instance.pauseMenuScreen.activeSelf)
+        if (playableDirector.playableAsset != null && !TutorialManager.instance.bigTutorialUI.activeSelf /*&& !TutorialManager.instance.smallTutorialUI.activeSelf */
+            && !GameManager.instance.pauseMenuScreen.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && currCP.isNotADialogue && !currCP.cantBeSkipped)
+            if (Input.GetKeyDown(KeyCode.Escape) && currCP != null && currCP.isNotADialogue && !currCP.cantBeSkipped)
             {
                 cutsceneUIAnimator.Rebind();
                 cutsceneUIAnimator.enabled = true;
 
-                //if (!GameManager.instance.playedTheGameThrough)
-                //{
-                //    pressedTime += Time.deltaTime;
+                if (!GameManager.instance.playedTheGameThrough)
+                {
+                    pressedTime += Time.deltaTime;
 
-                //    if (pressedTime >= timeToPressToSkipCS)
-                //    {
-                //        SkipCutscene(currCP.timeTillWhereToSkip);
+                    if (pressedTime >= timeToPressToSkipCS)
+                    {
+                        SkipCutscene();
 
-                //        pressedTime = 0;
-                //    }
-                //}
-                //else
-                //{
-                //    SkipCutscene(currCP.timeTillWhereToSkip);
-                //}   
+                        pressedTime = 0;
+                    }
+                }
+                else
+                {
+                    SkipCutscene();
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Return) && !currCP.isNotADialogue && !currCP.cantBeSkipped)
@@ -377,6 +378,12 @@ public class CutsceneManager : MonoBehaviour
 
             UIManager.instance.AddAndUpdateMissionDisplayTasks(currCP.missionTaskToActivate, currCP.corresspondingMission.allMissionTasks[taskNumber].taskDescription);
         }
+        else
+        {
+            UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.updatedMissionString;
+            UIAnimationHandler.instance.addedMissionTxt.text = currCP.corresspondingMission.missionName;
+            UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+        }
     }
 
     public void CompleteMissionOrMissionTask()
@@ -522,9 +529,21 @@ public class CutsceneManager : MonoBehaviour
         GameManager.instance.playerStatsGO.SetActive(false);
     }
 
+    public void SetCurrentTimeoNull()
+    {
+        currCP = null;
+    }
+
+    public void ActivateChangingDaytime()
+    {
+        GameManager.instance.changeDaytime = true;
+        GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
+    }
+
     public void SleepTillMorning()
     {
         // -------------------> HIER Zeit ändern -> zum Morgen.
+        GameManager.instance.hdrpTOD.TimeOfDay = 7.8f;
 
         DebuffManager.instance.StopAllBuffs();
         DebuffManager.instance.StopAllDebuffs();
@@ -539,6 +558,7 @@ public class CutsceneManager : MonoBehaviour
     public void SleepTillEvening()
     {
         // -------------------> HIER Zeit ändern -> zum Abend.
+        GameManager.instance.hdrpTOD.TimeOfDay = 16.7f;
 
         DebuffManager.instance.StopAllBuffs();
         DebuffManager.instance.StopAllDebuffs();

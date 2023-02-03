@@ -118,6 +118,12 @@ public class SaveGameObject
 
     public float currArmorReduceAmount;
 
+    // Day-Night-Circle + Weather
+    public bool changeDaytime;
+    public float timeOfDay;
+
+    public bool isRaining;
+
     // Options
     // - Audio
     public float masterSlValue;

@@ -13,6 +13,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
     [SerializeField] protected Animator Animator;
     [SerializeField] protected NavMeshAgent Agent;
     [SerializeField] protected EnemyHealth Health;
+
     // ReSharper disable once IdentifierTypo
     [SerializeField] protected GameObject HardCodeTarget;
 
@@ -22,7 +23,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected bool HasSeenPlayer;
 
     protected bool HasDied;
-    
+
     protected Transform Target;
     protected Vector3 StartPos;
 
@@ -37,14 +38,29 @@ public abstract class BaseEnemyKI : MonoBehaviour
     //How low the speed is to be considered not moving, just in case Navmesh doesn't do it's job stopping
     [SerializeField]
     protected float Tolerance;
+
     protected float SqrTolerance;
 
     private int CheckValue;
 
     #region Unity Events
-/// <summary>
-/// The Method for Initialization
-/// </summary>
+
+    public void Start()
+    {
+        if (this.gameObject.TryGetComponent(out MeleeEnemyKi mEKI))
+        {
+            mEKI.Init();
+        }
+        else if (this.gameObject.TryGetComponent(out ArcherEnemyKI aEKI))
+        {
+            aEKI.Init();
+            aEKI.LinkArrowPool(EnemyInitializer.instance.ArrowPool);
+        }
+    }
+
+    /// <summary>
+    /// The Method for Initialization
+    /// </summary>
     public virtual void Init()
     {
         StartPos = transform.position;
@@ -61,19 +77,21 @@ public abstract class BaseEnemyKI : MonoBehaviour
         if (HasDied && !IsInitialized)
             return;
 
-        IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
+        if (!IsSeeingPlayer)
+            IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
 
         Animator.SetBool(Animator.StringToHash("IsMoving"), (Agent.velocity.sqrMagnitude > SqrTolerance));
-
     }
-/// <summary>
-/// Sets the Speed of the Animator
-/// </summary>
-/// <param name="_speed">The New Value</param>
+
+    /// <summary>
+    /// Sets the Speed of the Animator
+    /// </summary>
+    /// <param name="_speed">The New Value</param>
     public void SetAnimatorSpeed(float _speed)
     {
         Animator.speed = _speed;
     }
+
     protected bool DetectorCheck(RayDetection[] _detectors)
     {
         CheckValue = 0;
@@ -84,13 +102,13 @@ public abstract class BaseEnemyKI : MonoBehaviour
     }
 
     #endregion
+
     public virtual void Death()
     {
         //TODO: Turn of all other scripts, animators, etc. and turn the enemy into a ragdoll
         HasDied = true;
         Animator.SetBool(Animator.StringToHash("IsDead"), true);
         Agent.enabled = false;
-        
     }
 
     /// <summary>
@@ -107,7 +125,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
     {
         float detectorCount = _halvedCount * 2f;
         float angleSteps = (_fov / detectorCount) / 2f;
-        RayDetection[] detectors = new RayDetection[(int) detectorCount];
+        RayDetection[] detectors = new RayDetection[(int)detectorCount];
         for (int i = 0; i < detectors.Length; i += 2)
         {
             Quaternion lRot = Quaternion.AngleAxis(-angleSteps * (i + 1), Vector3.up);

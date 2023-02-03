@@ -10,12 +10,12 @@ public class CutsceneDecisionButton : MonoBehaviour
     public CutsceneDecision storedDecision;
     public TMP_Text decisionTxt;
 
-    public Image arrowImg;
+    //public Image arrowImg;
 
-    public void Start()
-    {
-        arrowImg = this.gameObject.GetComponentInChildren<Image>();
-    }
+    //public void Start()
+    //{
+    //    arrowImg = this.gameObject.GetComponentInChildren<Image>();
+    //}
 
     public void SetAndDisplayDecision(CutsceneDecision decisionToStore)
     {
@@ -26,7 +26,7 @@ public class CutsceneDecisionButton : MonoBehaviour
         if (!storedDecision.isMissionRelevant)
         {
             decisionTxt.color = Color.white;
-            arrowImg.color = Color.white;
+            //arrowImg.color = Color.white;
         }
 
         if (storedDecision.checkMoney)
@@ -36,7 +36,6 @@ public class CutsceneDecisionButton : MonoBehaviour
                 this.gameObject.GetComponent<Button>().interactable = false;
 
                 decisionTxt.color = Color.white;
-                arrowImg.color = Color.white;
 
                 Debug.Log("HUJKML;Öhujkmdfle");
             }

@@ -14,6 +14,8 @@ public class MissionLogScreenHandler : MonoBehaviour
 
     public static MissionSlot currClickedMS;
 
+    public SelectMissionButton sMButton;
+
     [Header("Mission Task Display")]
     public GameObject missionTaskParentObj;
     public GameObject missionTaskSlotPrefab;

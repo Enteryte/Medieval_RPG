@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: MAINCutsceneP_0_GameStart_MissionDialog_Task3
   m_EditorClassIdentifier: 
   cutscene: {fileID: 11400000, guid: eb3996bc643e21945a5fab468ff9117a, type: 2}
+  fadeIn: 1
+  isNightCutscene: 0
   isNotADialogue: 1
   cantBeSkipped: 0
   playCutsceneMoreThanOnce: 0
   alreadyPlayedCutscene: 0
-  timeTillWhereToSkip: 0
+  timeTillWhereToSkip: 10.68
   timesWhenNewSentenceStarts: []
+  canPauseWhilePlaying: 0
+  tutorialToTrigger: {fileID: 0}
+  changeParentTrans: 0
   hasDecisions: 0
   allDecisions: []
   mBTToCheck: {fileID: 0}
@@ -29,3 +34,5 @@ MonoBehaviour:
   playNewCutsceneAfterDeactivatedObj: 0
   gameObjectToDeactivateName: 
   cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

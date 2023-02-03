@@ -22,7 +22,8 @@ MonoBehaviour:
   timeTillWhereToSkip: 0
   timesWhenNewSentenceStarts:
   - 3.35
-  - 11.5833
+  - 11.55
+  canPauseWhilePlaying: 0
   tutorialToTrigger: {fileID: 0}
   changeParentTrans: 0
   hasDecisions: 1
@@ -32,6 +33,9 @@ MonoBehaviour:
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: faf6c9d80c7574d47bae17c20ffaa505, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Hilfe anbieten
@@ -39,6 +43,9 @@ MonoBehaviour:
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: b848f7fb4550ab449b41943f22a0e614, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   mBTToCheck: {fileID: 11400000, guid: d38da284e8e4e854c80e2bf7946164ef, type: 2}

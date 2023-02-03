@@ -5,7 +5,16 @@ using TMPro;
 
 public class NPCMissionSymbol : MonoBehaviour
 {
-    public TMP_Text missionSymbolTxt;
+    public GameObject exclaImg;
+    public GameObject questionImg;
+
+    //public MinimapIcon corrMMI;
+
+    public void Start()
+    {
+        //exclaImg = this.gameObject.transform.GetChild(1).gameObject;
+        //questionImg = this.gameObject.transform.GetChild(2).gameObject;
+    }
 
     // Update is called once per frame
     void Update()
@@ -14,5 +23,8 @@ public class NPCMissionSymbol : MonoBehaviour
         //rot.x = 90;
 
         transform.rotation = rot;
+
+        //exclaImg.SetActive(corrMMI.exclamationMarkImg.activeSelf);
+        //questionImg.SetActive(corrMMI.questionMarkImg.activeSelf);
     }
 }

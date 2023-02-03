@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyDamager : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class EnemyDamager : MonoBehaviour
             return;
         Attack(_collision.gameObject);
     }
-
     public void Init(float _damage)
     {
         Damage = _damage;

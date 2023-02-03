@@ -8,7 +8,7 @@ public class EnemyArrowController : MonoBehaviour
     private Transform PlayerTransform;
     private Vector3 Target;
     private Vector3 FiringPoint;
-
+    [SerializeField]private Rigidbody Rb;
     private ArrowPool AssignedPoolManager;
     private bool IsFired;
     private float DstToStopBeingPerfect;
@@ -16,7 +16,8 @@ public class EnemyArrowController : MonoBehaviour
     private bool HasCollided;
     private float Damage;
     private float Speed;
-    float Time = 0f;
+    private float Time = 0f;
+
 
     public void Initialize(ArrowPool _assignedPoolManager, float _dstToStopBeingPerfect, float _despawnTime,
         float _damage, float _speed, Transform _playerTransform)
@@ -31,24 +32,23 @@ public class EnemyArrowController : MonoBehaviour
 
     private void OnCollisionEnter(Collision _collision)
     {
-        HasCollided = true;
-        IsFired = false;
-
-        StartCoroutine(Despawn());
-        //Do the Sticking after checking if you hit the player or not
-        if (!_collision.gameObject.CompareTag("Player"))
-        {
-            transform.SetParent(_collision.transform);
-        }
-        //Do Something the arrow sticks or something, parent it to the player until despawn.
+        
     }
 
     private void OnTriggerEnter(Collider _collision)
     {
-        Debug.Log(Damage);
+        Debug.Log($"{gameObject.name} hit {_collision.gameObject.name}");
         //Do Damage after checking if you hit the player or not
         if (!_collision.gameObject.CompareTag("Player"))
             return;
+        HasCollided = true;
+        IsFired = false;
+
+        //Do the Sticking after checking if you hit the player or not
+        if (!_collision.gameObject.CompareTag("Player")) 
+            transform.SetParent(_collision.transform);
+        Rb.Sleep();
+        //Do Something the arrow sticks or something, parent it to the player until despawn.
         // _collision.gameObject.GetComponent(Insert PlayerhealthDamageScript Here)
         //Insert PlayerhealthDamageScript Here.DoDamage(Damage);
     }
@@ -60,6 +60,9 @@ public class EnemyArrowController : MonoBehaviour
         Time = 0f;
         Target = PlayerTransform.position;
         IsFired = true;
+        StartCoroutine(Despawn());
+        transform.LookAt(Target);
+        // Rb.AddForce(transform.forward * Speed, ForceMode.Force);
     }
 
     private void FixedUpdate()
@@ -74,8 +77,8 @@ public class EnemyArrowController : MonoBehaviour
 
     private void MoveArrow(float _time)
     {
-        transform.position = Vector3.Slerp(FiringPoint, Target, _time);
-        transform.rotation = Quaternion.LookRotation(Vector3.Slerp(FiringPoint, Target, _time + 0.1f));
+        transform.position = Vector3.Lerp(FiringPoint, Target, _time);
+        
     }
 
     private IEnumerator Despawn()

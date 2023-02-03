@@ -13,10 +13,12 @@ public class Interacting : MonoBehaviour
     public float viewRadius;
     public float viewRadius2;
     public float viewRadius3; // Only for sitting
+    public float viewRadius4; // Only for merchants ( far away merchants )
 
     [Range(0, 360)] public float viewAngle;
     [Range(0, 360)] public float viewAngle2;
     [Range(0, 360)] public float viewAngle3; // Only for sitting
+    [Range(0, 360)] public float viewAngle4; // Only for sitting
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -68,6 +70,10 @@ public class Interacting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(CutsceneManager.instance.currCP);
+        //Debug.Log(CutsceneManager.instance.currCP.cantBeSkipped);
+        //Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsPlaying());
+
         FindTargets();
 
         //Debug.Log(Vector3.Distance(playerHeadObj.transform.position, playerHandObj.transform.position));
@@ -82,6 +88,21 @@ public class Interacting : MonoBehaviour
             //else if (nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans == null && GameManager.instance.playerGO.transform.position.y - nearestObjTrans.position.y < 0)
             //{
                 ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
+            //}
+
+            //Debug.Log(GameManager.instance.playerGO.transform.position.y);
+            //Debug.Log(nearestObjTrans.position.y);
+            //Debug.Log(GameManager.instance.playerGO.transform.position.y - nearestObjTrans.position.y);
+        }
+        else if (ThirdPersonController.instance._animator.GetBool("UsingHBItem") == true && ThirdPersonController.instance._animator.GetLayerWeight(1) < 0.75f)
+        {
+            //if (nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans != null && GameManager.instance.playerGO.transform.position.y - nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans.position.y < 0)
+            //{
+            //    ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
+            //}
+            //else if (nearestObjTrans.GetComponent<Item>().whereToGrabItemTrans == null && GameManager.instance.playerGO.transform.position.y - nearestObjTrans.position.y < 0)
+            //{
+            ThirdPersonController.instance._animator.SetLayerWeight(1, ThirdPersonController.instance._animator.GetLayerWeight(1) + Time.deltaTime);
             //}
 
             //Debug.Log(GameManager.instance.playerGO.transform.position.y);
@@ -127,6 +148,7 @@ public class Interacting : MonoBehaviour
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
         Collider[] targetsInViewRadius2 = Physics.OverlapSphere(transform.position, viewRadius2, targetMask);
         Collider[] targetsInViewRadius3 = Physics.OverlapSphere(transform.position, viewRadius3, targetMask);
+        Collider[] targetsInViewRadius4 = Physics.OverlapSphere(transform.position, viewRadius4, targetMask);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
@@ -265,6 +287,34 @@ public class Interacting : MonoBehaviour
             }
         }
 
+        for (int i = 0; i < targetsInViewRadius4.Length; i++)
+        {
+            Transform interactableObj = targetsInViewRadius4[i].transform;
+
+            Vector3 dirToObj = (interactableObj.position - transform.position).normalized;
+            float distanceToObj = Vector3.Distance(transform.position, interactableObj.position);
+
+            if (Vector3.Angle(transform.forward, dirToObj) < viewAngle4 / 2 && !Physics.Raycast(transform.position, dirToObj, distanceToObj, obstacleMask))
+            {
+                if (interactableObj.TryGetComponent(out IInteractable interactable) && interactableObj.TryGetComponent(out Merchant merchant))
+                {
+                    if (interactable.iOCanvas() != null && merchant.needsBiggerViewRadius)
+                    {
+                        if (Vector3.Distance(interactableObj.position, transform.position) > nearestDistance || nearestObjTrans == null)
+                        {
+                            nearestDistance = Vector3.Distance(interactableObj.position, transform.position);
+                            nearestObjTrans = interactableObj;
+                        }
+
+                        if (!tIVR.Contains(interactableObj))
+                        {
+                            tIVR.Add(interactableObj);
+                        }
+                    }
+                }
+            }
+        }
+
         if (ThirdPersonController.instance.currSeatTrans == null)
         {
             if (nearestObjTrans != null)
@@ -371,6 +421,20 @@ public class Interacting : MonoBehaviour
                     {
                         if (timeTillInteract > 0)
                         {
+                            if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.currCP.cantBeSkipped && CutsceneManager.instance.playableDirector.playableGraph.IsValid()
+                                    && CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())
+                            {
+                                howToInteractGO.GetComponentInChildren<Image>().color = Color.gray;
+                                howToInteractTxt.color = Color.gray;
+
+                                return;
+                            }
+                            else
+                            {
+                                howToInteractGO.GetComponentInChildren<Image>().color = Color.white;
+                                howToInteractTxt.color = Color.white;
+                            }
+
                             if (Input.GetKeyDown(KeyCode.E) && nearestObjTrans.GetComponent<Item>() != null && !nearestObjTrans.GetComponent<Item>().onlyExamineObject
                                 /* || nearestObjTrans.GetComponent<Enemy>() != null && nearestObjTrans.GetComponent<Enemy>().isDead*/)
                             {
@@ -404,6 +468,10 @@ public class Interacting : MonoBehaviour
                                     headRig.weight = 0;
 
                                     ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
+
+                                    keyToPressFillImg.fillAmount = 0;
+
+                                    currClickedTime = 0;
                                 }
                             }
 
@@ -428,6 +496,20 @@ public class Interacting : MonoBehaviour
                         }
                         else
                         {
+                            if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.currCP.cantBeSkipped && CutsceneManager.instance.playableDirector.playableGraph.IsValid()
+                                && CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())
+                            {
+                                howToInteractGO.GetComponentInChildren<Image>().color = Color.gray;
+                                howToInteractTxt.color = Color.gray;
+
+                                return;
+                            }
+                            else
+                            {
+                                howToInteractGO.GetComponentInChildren<Image>().color = Color.white;
+                                howToInteractTxt.color = Color.white;
+                            }
+
                             if (Input.GetKeyDown(KeyCode.E) && interactable != null && nearestObjTrans != null)
                             {
                                 Debug.Log(interactable);

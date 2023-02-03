@@ -133,7 +133,7 @@ namespace StarterAssets
 
         [Header("Roll")]
         //[SerializeField] AnimationCurve rollCurve;
-        bool isRolling = false;
+        public bool isRolling = false;
         float rollTimer;
         public CharacterController characterController;
         public AnimationClip rollAnim;
@@ -224,6 +224,11 @@ namespace StarterAssets
         private void Update()
         {
             if (_animator.GetBool("DoPush") && !SceneChangeManager.instance.wentThroughTrigger)
+            {
+                return;
+            }
+
+            if (_animator.GetBool("GrabItem"))
             {
                 return;
             }
@@ -544,7 +549,7 @@ namespace StarterAssets
             float targetSpeed;
 
             if (!_animator.GetBool("Bow_Aim") && PlayerValueManager.instance.currStamina - runStaminaReduceValue > 0 && !DebuffManager.instance.slowPlayerDebuff
-                && InventoryManager.instance.currHoldingWeight <= InventoryManager.instance.maxHoldingWeight)
+                && InventoryManager.instance.currHoldingWeight <= InventoryManager.instance.maxHoldingWeight && !_animator.GetBool("UsingHBItem"))
             {
                 //if (DebuffManager.instance.slowPlayerDebuff)
                 //{
