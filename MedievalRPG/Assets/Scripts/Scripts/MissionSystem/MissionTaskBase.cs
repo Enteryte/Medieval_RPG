@@ -45,6 +45,12 @@ public class MissionTaskBase : ScriptableObject
     [Header("Animations")]
     public bool isActiveAtStart = true;
 
+    [Header("Tavern Mission-Button")]
+    public bool isMainMission = false;
+
+    [Header("NPC Decision")]
+    public Sprite decisionSprite;
+
     #region TalkTo Task Values
     [HideInInspector] public NPCBaseProfile nPCToTalkToBaseProfile;
     [HideInInspector] public CutsceneProfile dialogToPlayAfterInteracted;

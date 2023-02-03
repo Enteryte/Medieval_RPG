@@ -8,7 +8,10 @@ using UnityEngine.UI;
 public class CutsceneDecisionButton : MonoBehaviour
 {
     public CutsceneDecision storedDecision;
+
     public TMP_Text decisionTxt;
+    public Image decisionImg;
+    public TMP_Text hasToGiveMoneyTxt;
 
     //public Image arrowImg;
 
@@ -22,6 +25,24 @@ public class CutsceneDecisionButton : MonoBehaviour
         storedDecision = decisionToStore;
 
         decisionTxt.text = storedDecision.decisionText;
+
+        if (storedDecision.decisionSprite != null)
+        {
+            decisionImg.sprite = storedDecision.decisionSprite;
+
+            if (storedDecision.hasToGiveMoney)
+            {
+                hasToGiveMoneyTxt.text = "-" + storedDecision.moneyAmountToGive.ToString();
+            }
+            else
+            {
+                hasToGiveMoneyTxt.text = "";
+            }
+        }
+        else
+        {
+            decisionImg.enabled = false;
+        }
 
         if (!storedDecision.isMissionRelevant)
         {
@@ -47,6 +68,11 @@ public class CutsceneDecisionButton : MonoBehaviour
         Debug.Log("DO DECISION");
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+
+        if (storedDecision.hasToGiveMoney)
+        {
+            PlayerValueManager.instance.money -= storedDecision.moneyAmountToGive;
+        }
 
         if (storedDecision.cutsceneToPlay != null)
         {

@@ -140,8 +140,6 @@ public class TutorialManager : MonoBehaviour
 
             currTBP = currTBP.tutorialToTrigger;
             instance.OpenTutorialUI();
-
-            Debug.Log("666688834");
         }
     }
     #endregion

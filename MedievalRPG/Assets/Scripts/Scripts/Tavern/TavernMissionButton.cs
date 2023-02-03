@@ -10,6 +10,10 @@ public class TavernMissionButton : MonoBehaviour
 
     public TMP_Text missionDescriptionTxt;
 
+    public Image missionTypeImg;
+    public Sprite mainQuestSprite;
+    public Sprite sideQuestSprite;
+
     // Start is called before the first frame update
     void Start()
     {
