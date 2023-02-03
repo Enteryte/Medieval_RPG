@@ -85,6 +85,7 @@ public class CutsceneProfile : ScriptableObject
 public class CutsceneDecision
 {
     public string decisionText;
+    public Sprite decisionSprite;
 
     public int arguePointsToGain;
 
@@ -94,6 +95,10 @@ public class CutsceneDecision
     public MissionBaseProfile missionToActivate;
 
     public bool isMissionRelevant = true;
+
+    [Header("Has To Give Money")]
+    public bool hasToGiveMoney = false;
+    public int moneyAmountToGive;
 
     [Header("Check Money")]
     public bool checkMoney = false;

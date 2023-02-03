@@ -23,24 +23,33 @@ MonoBehaviour:
   timesWhenNewSentenceStarts:
   - 2.1167
   - 4.3667
+  canPauseWhilePlaying: 0
   tutorialToTrigger: {fileID: 0}
   changeParentTrans: 0
   hasDecisions: 1
   allDecisions:
   - decisionText: Er hat gezahlt.
+    decisionSprite: {fileID: 21300000, guid: 86f15dba532b5d6409cad7e2df9e58a7, type: 3}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 8f5de0521ca4c5541854cfb943615fc0, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    hasToGiveMoney: 1
+    moneyAmountToGive: 80
     checkMoney: 1
     minMoneyValue: 80
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Er hat nicht gezahlt.
+    decisionSprite: {fileID: 21300000, guid: 8b8dc6373f8bacc4db6d8856853be92f, type: 3}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 5b99bd463bc072c40a0fc4a2c6f9cddb, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 0
     checkMoney: 0
     minMoneyValue: 0
     itemToGet: {fileID: 0}

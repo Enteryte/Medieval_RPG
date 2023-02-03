@@ -74,19 +74,19 @@ public class MissionManager : MonoBehaviour
         {
             allCurrOpenNotAcceptedMissions.Remove(missionToAdd);
 
-            if (missionToAdd.missionType == MissionBaseProfile.MissionType.side)
-            {
-                Debug.Log("JKS");
+            //if (missionToAdd.missionType == MissionBaseProfile.MissionType.side)
+            //{
+            //    Debug.Log("JKS");
 
-                for (int i = 0; i < Blackboard.instance.allBlackboardMB.Length; i++)
-                {
-                    if (Blackboard.instance.allBlackboardMB[i].storedMissionBP == missionToAdd)
-                    {
-                        Blackboard.instance.allBlackboardMB[i].SetStoredMission(null);
-                        Blackboard.instance.allBlackboardMB[i].gameObject.SetActive(false);
-                    }
-                }
-            }
+            //    for (int i = 0; i < Blackboard.instance.allBlackboardMB.Length; i++)
+            //    {
+            //        if (Blackboard.instance.allBlackboardMB[i].storedMissionBP == missionToAdd)
+            //        {
+            //            Blackboard.instance.allBlackboardMB[i].SetStoredMission(null);
+            //            Blackboard.instance.allBlackboardMB[i].gameObject.SetActive(false);
+            //        }
+            //    }
+            //}
 
             missionToAdd.isActive = true;
         }
@@ -137,21 +137,21 @@ public class MissionManager : MonoBehaviour
             allCurrOpenNotAcceptedMissions.Add(missionToAdd);
         }
 
-        if (missionToAdd.missionType == MissionBaseProfile.MissionType.side)
-        {
-            for (int i = 0; i < Blackboard.instance.allBlackboardMB.Length; i++)
-            {
-                if (Blackboard.instance.allBlackboardMB[i].storedMissionBP == null)
-                {
-                    Blackboard.instance.allBlackboardMB[i].SetStoredMission(missionToAdd);
-                    Blackboard.instance.allBlackboardMB[i].gameObject.SetActive(true);
+        //if (missionToAdd.missionType == MissionBaseProfile.MissionType.side)
+        //{
+        //    for (int i = 0; i < Blackboard.instance.allBlackboardMB.Length; i++)
+        //    {
+        //        if (Blackboard.instance.allBlackboardMB[i].storedMissionBP == null)
+        //        {
+        //            Blackboard.instance.allBlackboardMB[i].SetStoredMission(missionToAdd);
+        //            Blackboard.instance.allBlackboardMB[i].gameObject.SetActive(true);
 
-                    MinimapManager.instance.CheckAllMinimapSymbols();
+        //            MinimapManager.instance.CheckAllMinimapSymbols();
 
-                    return;
-                }
-            }
-        }
+        //            return;
+        //        }
+        //    }
+        //}
     }
 
     //public void RemoveOpenMission(BlackboardMissionButton blackboardMB, MissionBaseProfile missionToRemove)
@@ -253,7 +253,7 @@ public class MissionManager : MonoBehaviour
                     }
                 }
 
-                if (UIManager.missionToDisplay != mBP)
+                if (UIManager.missionToDisplay != mBP || UIManager.missionToDisplay == null)
                 {
                     UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.updatedMissionString;
                     UIAnimationHandler.instance.addedMissionTxt.text = mBP.missionName;
@@ -284,6 +284,12 @@ public class MissionManager : MonoBehaviour
                 //    }
                 //}
             }
+            else if (UIManager.missionToDisplay == null || UIManager.missionToDisplay != mBP)
+            {
+                UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.updatedMissionString;
+                UIAnimationHandler.instance.addedMissionTxt.text = mBP.missionName;
+                UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
+            }
 
             //if (missionTaskToComplete.cutsceneToTrigger != null && missionTaskToComplete.cutsceneToTrigger.isNightCutscene)
             //{
@@ -296,7 +302,7 @@ public class MissionManager : MonoBehaviour
         }
         else
         {
-            if (UIManager.missionToDisplay != mBP)
+            if (UIManager.missionToDisplay != mBP || UIManager.missionToDisplay == null)
             {
                 UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.updatedMissionString;
                 UIAnimationHandler.instance.addedMissionTxt.text = mBP.missionName;
@@ -383,6 +389,10 @@ public class MissionManager : MonoBehaviour
         {
             CheckSideMissions(missionToComplete.missionAfterItsActive);
         }
+
+        UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.completedMissionString;
+        UIAnimationHandler.instance.addedMissionTxt.text = missionToComplete.missionName;
+        UIAnimationHandler.instance.AnimateAddedNewMissionMessage();
 
         MinimapManager.instance.CheckAllMinimapSymbols();
 

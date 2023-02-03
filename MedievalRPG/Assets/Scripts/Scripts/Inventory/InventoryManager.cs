@@ -60,6 +60,16 @@ public class InventoryManager : MonoBehaviour
     public Transform newHotbarParentTrans;
     public GameObject hotbarObj;
 
+    [Header("Book, Note Or Scroll")]
+    public GameObject bNOSScreenParent;
+    public GameObject bookUI;
+    public GameObject scrollUI;
+    public GameObject noteUI;
+
+    public TMP_Text noteTxt;
+
+    public BookHandler bookHandler;
+
     [Header("Tutorial")]
     public TutorialBaseProfile hotbarTutorial;
     public TutorialBaseProfile equipmentTutorial;
