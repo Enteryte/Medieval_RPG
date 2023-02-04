@@ -144,7 +144,8 @@ public class MeleeEnemyKi : BaseEnemyKI
             if (IsInAttackRange || RepathCoolDown < RepathCoolDownLength) return;
             RepathCoolDown = 0f;
             Agent.isStopped = false;
-            Agent.SetDestination(Target.position);
+            var targetPos = Target.position;
+            Agent.destination = targetPos;
 
             //Animator.ResetTrigger("AttackLaunch");
             //transform.LookAt(Target.transform);

@@ -30,6 +30,7 @@ public class ArcherEnemyKI : BaseEnemyKI
     protected override void Update()
     {
         base.Update();
+
         CompareSight();
         if (!IsSeeingPlayer)
             return;
