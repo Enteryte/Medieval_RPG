@@ -1309,7 +1309,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 3252252199117029968}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 0.46
   m_Height: 1.84
   m_Direction: 1
@@ -1358,9 +1358,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c7b85289d51e737bb6577045cc2987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Anim: {fileID: 8109204317566075536}
-  Agent: {fileID: 0}
-  LA: {fileID: 0}
 --- !u!1 &3272749374839929497
 GameObject:
   m_ObjectHideFlags: 0
@@ -2980,9 +2977,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 2
 --- !u!1 &7477471030959057881
 GameObject:
@@ -3149,9 +3146,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 3
 --- !u!1 &7721902576440151977
 GameObject:
