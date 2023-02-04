@@ -240,10 +240,30 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        //if (InventoryManager.instance.bookUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    InventoryManager.instance.bNOSScreenParent.SetActive(false);
+
+        //    return;
+        //}
+        //else if (InventoryManager.instance.scrollUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    InventoryManager.instance.bNOSScreenParent.SetActive(false);
+
+        //    return;
+        //}
+        //else if (InventoryManager.instance.noteUI.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    InventoryManager.instance.bNOSScreenParent.SetActive(false);
+
+        //    return;
+        //}
+
         // Day-Night
         if (!gameIsPaused && changeDaytime)
         {
-            if (hdrpTOD.TimeOfDay >= 16.8f)
+            if (hdrpTOD.TimeOfDay >= 16.8f && CutsceneManager.instance.currCP == null 
+                || hdrpTOD.TimeOfDay >= 16.8f && !CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())
             {
                 if (correspondingCutsceneProfilAtNight != null)
                 {
@@ -256,17 +276,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Debug.Log("TIMEEEEEEEEEEEE" + hdrpTOD.TimeOfDay);
-
         if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.shopScreen.activeSelf 
             && !ShopManager.instance.mainShopScreen.activeSelf)
         {
-            Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsValid());
-            //Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsPlaying());
-            //Debug.Log(!CutsceneManager.instance.currCP.cantBeSkipped);
-            Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
-
-            if (StartScreenManager.instance.areYouSureExitGameScreen.activeSelf)
+            if (StartScreenManager.instance.areYouSureExitGameScreen.activeSelf || Blackboard.instance.blackboardUI.activeSelf)
             {
                 return;
             }
@@ -276,8 +289,6 @@ public class GameManager : MonoBehaviour
             {
                 if (CutsceneManager.instance.currCP == null)
                 {
-                    Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
-
                     LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
                     LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
                     pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
@@ -295,8 +306,6 @@ public class GameManager : MonoBehaviour
                 }
                 else if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.currCP.canPauseWhilePlaying)
                 {
-                    Debug.Log(CutsceneManager.instance.currCP + "56tzhejklöf");
-
                     LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
                     LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
                     pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);

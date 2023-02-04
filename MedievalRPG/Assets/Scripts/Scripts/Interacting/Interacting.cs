@@ -214,6 +214,19 @@ public class Interacting : MonoBehaviour
                             {
                                 interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
                             }
+                            
+                            if (interactableObj.TryGetComponent(out NPC npc))
+                            {
+                                if (npc.choosenOL == null)
+                                {
+                                    npc.CheckIfNeededForMission(false);
+
+                                    if (!npc.isNeeded)
+                                    {
+                                        interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
+                                    }
+                                }
+                            }
 
                             if (GameManager.instance.playtimeInSeconds > 5)
                             {
@@ -270,6 +283,19 @@ public class Interacting : MonoBehaviour
                 {
                     if (interactable.iOCanvas() != null)
                     {
+                        if (interactableObj.TryGetComponent(out NPC npc))
+                        {
+                            if (npc.choosenOL == null)
+                            {
+                                npc.CheckIfNeededForMission(false);
+
+                                if (!npc.isNeeded)
+                                {
+                                    return;
+                                }
+                            }
+                        }
+
                         if (Vector3.Distance(interactableObj.position, transform.position) > nearestDistance || nearestObjTrans == null)
                         {
                             nearestDistance = Vector3.Distance(interactableObj.position, transform.position);
@@ -324,7 +350,7 @@ public class Interacting : MonoBehaviour
                     if (nearestObjTrans.TryGetComponent(out SeatingObject seatObj) && Vector3.Distance(seatObj.iOCanvasLookAtSitPlaceObj.transform.position, this.gameObject.transform.position) < 0.7f)
                     {
                         if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                            && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                            && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)
                         {
                             howToInteractGO.SetActive(true);
 
@@ -340,7 +366,7 @@ public class Interacting : MonoBehaviour
                             if (door.canInteract)
                             {
                                 if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                                && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                                && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)
                                 {
                                     if (interactable.iOCanvas() != null)
                                     {
@@ -358,7 +384,7 @@ public class Interacting : MonoBehaviour
                             if (door2.canInteract)
                             {
                                 if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                                && !Blackboard.instance.blackboardCam.enabled && ThirdPersonController.instance.canMove)
+                                && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)
                                 {
                                     if (interactable.iOCanvas() != null)
                                     {

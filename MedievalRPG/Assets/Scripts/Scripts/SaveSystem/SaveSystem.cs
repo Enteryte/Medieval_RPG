@@ -62,8 +62,6 @@ public class SaveSystem : MonoBehaviour
                 {
                     if (!dirInfo[i].Contains("_N"))
                     {
-                        Debug.Log(i);
-
                         gameDataFolder = Directory.GetFiles(dirInfo[i]);
 
                         StartScreenManager.instance.continueBtn.interactable = true;

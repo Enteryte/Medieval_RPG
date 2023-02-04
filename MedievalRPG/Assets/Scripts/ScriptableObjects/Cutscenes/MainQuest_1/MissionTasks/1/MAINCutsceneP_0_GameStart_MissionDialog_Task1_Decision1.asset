@@ -23,23 +23,36 @@ MonoBehaviour:
   timesWhenNewSentenceStarts:
   - 6.2
   - 12.2333
-  - 15.65
+  - 15.6
+  canPauseWhilePlaying: 0
   tutorialToTrigger: {fileID: 0}
   changeParentTrans: 0
   hasDecisions: 1
   allDecisions:
   - decisionText: "Sonstige Hilfe f\xFCr den Schmied"
+    decisionSprite: {fileID: 21300000, guid: 71d79bf573254f644a28e7c73e416105, type: 3}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: f8670a47f5804174282610fbebf69d16, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 0
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Sonstige Hilfe im Dorf
+    decisionSprite: {fileID: 21300000, guid: 71d79bf573254f644a28e7c73e416105, type: 3}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: be09fd50b02ef1c4ba317b37976ef386, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 0
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   mBTToCheck: {fileID: 0}

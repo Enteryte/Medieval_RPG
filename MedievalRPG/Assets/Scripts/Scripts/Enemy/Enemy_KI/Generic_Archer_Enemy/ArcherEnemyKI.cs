@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class ArcherEnemyKI : BaseEnemyKI
 
     private bool IsAttackCoroutineStarted;
     private bool IsFleeCoroutineStarted;
+    private bool HasTakenAStep;
 
     public void LinkArrowPool(ArrowPool _arrowPool)
     {
@@ -21,15 +23,14 @@ public class ArcherEnemyKI : BaseEnemyKI
     public override void Init()
     {
         base.Init();
-        if (HardCodeTarget)
-            Target = HardCodeTarget.transform;
-
+        Target = GameManager.instance ? GameManager.instance.playerGO.transform : HardCodeTarget.transform;
         IsInitialized = true;
     }
 
     protected override void Update()
     {
         base.Update();
+
         CompareSight();
         if (!IsSeeingPlayer)
             return;
@@ -39,7 +40,9 @@ public class ArcherEnemyKI : BaseEnemyKI
         else
             Animator.SetBool(Animator.StringToHash("IsFleeing"), false);
         if (!IsAttackCoroutineStarted)
+        {
             StartCoroutine(AttackTrigger());
+        }
     }
 
     private void CompareSight()
@@ -79,7 +82,7 @@ public class ArcherEnemyKI : BaseEnemyKI
 
         if (!IsSeeingPlayer)
             Agent.SetDestination(StartPos);
-        transform.LookAt(Target.transform.position);
+        // transform.LookAt(Target.transform.position);
     }
 
     private void NoticeEnemy()
@@ -116,16 +119,14 @@ public class ArcherEnemyKI : BaseEnemyKI
         while (Vector3.Distance(transform.position, Target.transform.position) < FleeingDistance)
         {
             Flee();
-            yield return new WaitForSeconds(KiStats.AttackCoolDown);
+            yield return new WaitForSeconds(FleeReroutCoolDown);
         }
-
         IsFleeCoroutineStarted = false;
     }
-
-
-
     public void FireArrow()
     {
+        Agent.SetDestination(Vector3.Lerp(transform.position, Target.transform.position, 0.04f));
+        // transform.LookAt(Target);
         ArrowPool.SpawnAndFireArrow(FiringPoint);
     }
 
