@@ -222,6 +222,17 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
             tavernMissionTaskButton.GetComponent<TavernMissionButton>().storedMissionTask = allCurrCorrTasks[i];
             tavernMissionTaskButton.GetComponent<TavernMissionButton>().missionDescriptionTxt.text = allCurrCorrTasks[i].missionButtonDescription;
+
+            if (allCurrCorrTasks[i].isMainMission)
+            {
+                tavernMissionTaskButton.GetComponent<TavernMissionButton>().missionTypeImg.sprite
+                    = tavernMissionTaskButton.GetComponent<TavernMissionButton>().mainQuestSprite;
+            }
+            else
+            {
+                tavernMissionTaskButton.GetComponent<TavernMissionButton>().missionTypeImg.sprite
+                    = tavernMissionTaskButton.GetComponent<TavernMissionButton>().sideQuestSprite;
+            }
         }
 
         if (MissionManager.instance.allCurrAcceptedMissions.Contains(sideMissionButtonPrefab.GetComponent<TavernSideMissionButton>().corrMissionBP))

@@ -184,8 +184,6 @@ public class SceneChangeManager : MonoBehaviour
     {
         PlayerValueManager.instance.isDead = LoadingScreen.instance.playerWasDead;
 
-        Debug.Log(PlayerValueManager.instance.CurrHP + " 222222222222222");
-
         if (level == 1 && startedNewGame)
         {
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim");

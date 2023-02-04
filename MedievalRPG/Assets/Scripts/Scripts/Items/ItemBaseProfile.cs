@@ -92,6 +92,18 @@ public class ItemBaseProfile : ScriptableObject
     public bool hasBeenRead = false;
     [HideInInspector] public MissionTaskBase corresspondingMissionTask;
     [HideInInspector] public CutsceneProfile cutsceneToPlayAfterCloseReadScreen;
+
+    public enum ReadType
+    {
+        none,
+        book,
+        scroll,
+        note
+    }
+
+    public ReadType readType;
+
+    [TextArea(0, 50)] public string noteTxtString;
     #endregion
 
     public bool CheckNeededItemsForBuying()
