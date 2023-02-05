@@ -201,6 +201,9 @@ public class ShopManager : MonoBehaviour
         //DisplayShopItems();
 
         mainShopScreen.SetActive(true);
+
+        moneyTxt.text = PlayerValueManager.instance.money.ToString();
+        weightTxt.text = InventoryManager.instance.currHoldingWeight.ToString() + " / " + InventoryManager.instance.maxHoldingWeight.ToString();
     }
 
     //public void OpenSellScreen()

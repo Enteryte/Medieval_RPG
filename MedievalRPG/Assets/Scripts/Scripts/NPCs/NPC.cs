@@ -244,7 +244,9 @@ public class NPC : MonoBehaviour, IInteractable
 
         //if (UIManager.instance.npcMissionButtonParentObjTrans.childCount > 3)
         //{
-            for (int i = 0; i < UIManager.instance.npcMissionButtonParentObjTrans.childCount; i++)
+        //UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+
+            for (int i = 3; i < UIManager.instance.npcMissionButtonParentObjTrans.childCount; i++)
             {
                 //for (int y = 0; y < UIManager.instance.npcBtnKillianGOs.Length; y++)
                 //{
@@ -260,7 +262,8 @@ public class NPC : MonoBehaviour, IInteractable
                 for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
                 {
                     if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To
-                        && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskCompleted)
+                        && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskCompleted
+                        && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.canBeDisplayed)
                     {
                         if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP)
                         {
@@ -272,6 +275,12 @@ public class NPC : MonoBehaviour, IInteractable
                                 }
 
                                 UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(false);
+
+                                for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
+                                {
+                                    UIManager.instance.npcBtnKillianGOs[x].SetActive(false);
+                                }
+
 
                                 if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.dialogToPlayAfterInteracted != null)
                                 {
@@ -311,6 +320,11 @@ public class NPC : MonoBehaviour, IInteractable
                         {
                             if (doActions)
                             {
+                                for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
+                                {
+                                    UIManager.instance.npcBtnKillianGOs[x].SetActive(false);
+                                }
+
                                 var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
                                 newNPCMissionButton.GetComponent<NPCMissionButton>().storedMT = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y];
@@ -353,7 +367,8 @@ public class NPC : MonoBehaviour, IInteractable
                     MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To
                     && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskCompleted)
                     {
-                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP
+                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.canBeDisplayed)
                         {
                             if (doActions)
                             {

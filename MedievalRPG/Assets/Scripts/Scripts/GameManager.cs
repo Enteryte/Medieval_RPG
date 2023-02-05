@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     public bool displayTutorial = true;
 
     [Header("Pausing Game")]
-    public double pausedCutsceneTime;
+    public double pausedCutsceneTime = -1;
 
     [Header("Player AFK")]
     public AudioSource playerAudioSource;
@@ -593,6 +593,8 @@ public class GameManager : MonoBehaviour
         {
             CutsceneManager.instance.playableDirector.Play();
             CutsceneManager.instance.playableDirector.time = pausedCutsceneTime;
+
+            pausedCutsceneTime = -1;
         }
 
         if (TutorialManager.instance.smallTutorialUI.activeSelf)
@@ -616,6 +618,8 @@ public class GameManager : MonoBehaviour
     public void OpenInventory()
     {
         InventoryManager.instance.inventoryScreen.SetActive(!InventoryManager.instance.inventoryScreen.activeSelf);
+
+        InventoryManager.instance.moneyTxt.text = PlayerValueManager.instance.money.ToString();
 
         if (InventoryManager.instance.inventoryScreen.activeSelf)
         {
