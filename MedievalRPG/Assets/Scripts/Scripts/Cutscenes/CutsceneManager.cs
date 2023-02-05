@@ -28,6 +28,8 @@ public class CutsceneManager : MonoBehaviour
 
     public Transform playerBaseMeshParentTrans;
 
+    public CutsceneProfile[] allCSWAllowedPausing;
+
     [Header("Tutorial")]
     public TutorialBaseProfile decisionTutorial;
 
