@@ -32,6 +32,8 @@ public class NPC : MonoBehaviour, IInteractable
 
     public CinemachineVirtualCamera nPCCVC;
 
+    public GameObject nPCBaseMesh;
+
     [Header("NPC One-Liner")]
     public List<NPCOneLinerProfile> allPossibleOL = new List<NPCOneLinerProfile>();
 
@@ -104,6 +106,12 @@ public class NPC : MonoBehaviour, IInteractable
         if (currWaypoint != null && !GameManager.instance.gameIsPaused)
         {
             navMeshAgent.SetDestination(currWaypoint.transform.position);
+
+            if (nPCBaseMesh.transform.position != Vector3.zero)
+            {
+                nPCBaseMesh.transform.localPosition = Vector3.zero;
+                nPCBaseMesh.transform.localRotation = Quaternion.identity;
+            }
 
             //if (Vector3.Distance(transform.position, currWaypoint.transform.position) <= 1f)
             //{
@@ -206,12 +214,12 @@ public class NPC : MonoBehaviour, IInteractable
         //CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
         //CutsceneManager.instance.playableDirector.Play();
 
-        if (navMeshAgent != null)
-        {
-            navMeshAgent.isStopped = true;
+        //if (navMeshAgent != null)
+        //{
+        //    navMeshAgent.isStopped = true;
 
-            animator.SetBool("IsStanding", true);
-        }
+        //    animator.SetBool("IsStanding", true);
+        //}
 
         //transform.LookAt(GameManager.instance.playerGO.transform);
 

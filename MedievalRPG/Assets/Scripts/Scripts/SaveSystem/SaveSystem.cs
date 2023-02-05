@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class SaveSystem : MonoBehaviour
@@ -790,26 +791,22 @@ public class SaveSystem : MonoBehaviour
     {
         for (int i = 0; i < GameManager.instance.allVillageNPCs.Count; i++)
         {
-            sGO.allNPCPositions.Add(GameManager.instance.allVillageNPCs[i].gameObject.transform.position);
-            sGO.allNPCRotations.Add(GameManager.instance.allVillageNPCs[i].transform.rotation);
+            sGO.allNPCPositions.Add(GameManager.instance.allVillageNPCs[i].gameObject.transform.localPosition);
+            sGO.allNPCRotations.Add(GameManager.instance.allVillageNPCs[i].transform.localRotation);
 
             sGO.isNPCVisible.Add(GameManager.instance.allVillageNPCs[i].gameObject.activeSelf);
+        }
 
-            // Save Waypoints
-            if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
+        // Save Waypoints
+        for (int i = 0; i < GameManager.instance.allWalkingNPCs.Count; i++)
+        {
+            if (GameManager.instance.allWalkingNPCs[i].currWaypoint == null)
             {
-                if (GameManager.instance.allVillageNPCs[i].currWaypoint == null)
-                {
-                    sGO.currWaypointNames.Add(GameManager.instance.allVillageNPCs[i].firstWaypoint.name);
-                }
-                else
-                {
-                    sGO.currWaypointNames.Add(GameManager.instance.allVillageNPCs[i].currWaypoint.name);
-                }
+                sGO.currWaypointNames.Add(GameManager.instance.allWalkingNPCs[i].firstWaypoint.name);
             }
             else
             {
-                sGO.currWaypointNames.Add("");
+                sGO.currWaypointNames.Add(GameManager.instance.allWalkingNPCs[i].currWaypoint.name);
             }
         }
     }
@@ -966,7 +963,7 @@ public class SaveSystem : MonoBehaviour
 
         sGO.currCSID = -1;
 
-        Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsPlaying());
+        //Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsPlaying());
 
         if (GameManager.instance.pausedCutsceneTime != -1)
         {
@@ -1094,6 +1091,9 @@ public class SaveSystem : MonoBehaviour
         {
             EquippingManager.instance.poleynsES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(EquippingManager.instance.poleynsIB, 1);
         }
+
+        InventoryManager.instance.weightTxt.text = InventoryManager.instance.currHoldingWeight + " / " + InventoryManager.instance.maxHoldingWeight;
+        ShopManager.instance.weightTxt.text = InventoryManager.instance.currHoldingWeight + " / " + InventoryManager.instance.maxHoldingWeight;
     }
 
     public void LoadMissions(SaveGameObject sGO)
@@ -1191,23 +1191,51 @@ public class SaveSystem : MonoBehaviour
     {
         for (int i = 0; i < GameManager.instance.allVillageNPCs.Count; i++)
         {
-            GameManager.instance.allVillageNPCs[i].transform.position = sGO.allNPCPositions[i];
-            GameManager.instance.allVillageNPCs[i].transform.rotation = sGO.allNPCRotations[i];
+            if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
+            {
+                GameManager.instance.allVillageNPCs[i].animator.speed = 0;
+
+                GameManager.instance.allVillageNPCs[i].GetComponent<NavMeshAgent>().enabled = false;
+            }
+
+            GameManager.instance.allVillageNPCs[i].transform.localPosition = sGO.allNPCPositions[i];
+            GameManager.instance.allVillageNPCs[i].transform.localRotation = sGO.allNPCRotations[i];
 
             GameManager.instance.allVillageNPCs[i].gameObject.SetActive(sGO.isNPCVisible[i]);
 
-            // Load Waypoints
-            if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
+            //if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
+            //{
+            //    for (int y = 0; y < GameManager.instance.allVillageNPCs[i].allCorrWaypoints.Count; y++)
+            //    {
+            //        if (GameManager.instance.allVillageNPCs[i].allCorrWaypoints[y].name == sGO.currWaypointNames[i])
+            //        {
+            //            GameManager.instance.allVillageNPCs[i].SetNewWaypoint(GameManager.instance.allVillageNPCs[i].allCorrWaypoints[y]);
+            //        }
+            //    }
+            //}
+        }
+
+        // Load Waypoints
+        for (int i = 0; i < GameManager.instance.allWalkingNPCs.Count; i++)
+        {
+            for (int y = 0; y < GameManager.instance.allWalkingNPCs[i].allCorrWaypoints.Count; y++)
             {
-                for (int y = 0; y < GameManager.instance.allVillageNPCs[i].allCorrWaypoints.Count; y++)
+                if (GameManager.instance.allWalkingNPCs[i].allCorrWaypoints[y].name == sGO.currWaypointNames[i])
                 {
-                    if (GameManager.instance.allVillageNPCs[i].allCorrWaypoints[y].name == sGO.currWaypointNames[i])
-                    {
-                        GameManager.instance.allVillageNPCs[i].SetNewWaypoint(GameManager.instance.allVillageNPCs[i].allCorrWaypoints[y]);
-                    }
+                    GameManager.instance.allWalkingNPCs[i].SetNewWaypointWithoutStopping(GameManager.instance.allWalkingNPCs[i].allCorrWaypoints[y]);
+
+                    GameManager.instance.allWalkingNPCs[i].animator.speed = 1;
+
+                    GameManager.instance.allWalkingNPCs[i].GetComponent<NavMeshAgent>().enabled = true;
                 }
             }
         }
+
+        //for (int i = 0; i < GameManager.instance.allWalkingNPCs.Count; i++)
+        //{
+        //    GameManager.instance.allWalkingNPCs[i].nPCBaseMesh.transform.localPosition = Vector3.zero;
+        //    GameManager.instance.allWalkingNPCs[i].nPCBaseMesh.transform.localRotation = Quaternion.identity;
+        //}
     }
 
     public void LoadEnemies(SaveGameObject sGO)

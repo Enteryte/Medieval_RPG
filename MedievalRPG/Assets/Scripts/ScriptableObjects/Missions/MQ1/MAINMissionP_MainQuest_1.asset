@@ -14,27 +14,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionType: 1
   missionName: Hauptquest 1
-  missionDescription: 
+  missionDescription: "Die Jagd heute hat kaum Ertr\xE4ge gebracht, doch das bisschen
+    was erbeutet wurde, sollte so schnell wie m\xF6glich ausgeliefert werden.\n\nWirt
+    Oskar hat um das Fleisch gebeten. Hoffentlich wird es sich mit der Menge zufrieden
+    geben. H\xE4ndlerin Symon wird sich wie \xFCblich den Fellen annehmen. \r\n\r\nCaeldrim
+    wurde bei der Jagd verletzt und sollte sich medizinische Hilfe suchen. Thava,
+    die Kr\xE4uterhexe des Dorfes, hat sicher einen Trank, der helfen wird. Zur Sicherheit
+    sollten die Waffen vom Schmied gepr\xFCft werden. Morrin ist ein alter Freund,
+    also kann vielleicht etwas getan werden, um den Preis zu senken.\r"
   allMissionTasks:
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: Bringe das Fleisch zum Wirten bevor es schlecht wird.
     mTB: {fileID: 11400000, guid: 3cf46aaf5a35347429fedf059bf9a733, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: Bitte den Schmied deine Waffen zu reparieren.
     mTB: {fileID: 11400000, guid: 6543e78eb76a1f4439b242ad1e880caf, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: "Verkaufe das Fell an den H\xE4ndler."
     mTB: {fileID: 11400000, guid: 00943305a07f5834d99500053eff80f9, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: "Gehe zur Kr\xE4uterhexe Thava um deine Wunden zu heilen."
     mTB: {fileID: 11400000, guid: d38da284e8e4e854c80e2bf7946164ef, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: "Frage im Dorf nach dem H\xE4ndler."
     mTB: {fileID: 11400000, guid: 395e7f5a02706214bb199df52f6a0da5, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: Warte auf den Abend um die Felle zu verkaufen.
     mTB: {fileID: 11400000, guid: 7ddf38633d1546743b1cec7fc88e6591, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: "Gehe zur\xFCck zu Symons Haus."
     mTB: {fileID: 11400000, guid: 55583b6707aaec24da72bc462344593a, type: 2}
   missionCompleted: 0
@@ -42,6 +56,8 @@ MonoBehaviour:
   itemRewards: []
   nextMissionToTrigger: {fileID: 11400000, guid: 991c52767c8884245a8405ef256c1c3d, type: 2}
   cutsceneToTrigger: {fileID: 0}
+  nPCWhereToGetMissionFrom: {fileID: 0}
+  cutsceneToTriggerAfterPressedButton: {fileID: 0}
   missionAfterItsActive: {fileID: 0}
   isActive: 0
   changeEnvironment: 0

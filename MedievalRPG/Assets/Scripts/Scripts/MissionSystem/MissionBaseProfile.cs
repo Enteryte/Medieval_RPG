@@ -17,7 +17,7 @@ public class MissionBaseProfile : ScriptableObject
     public MissionType missionType = MissionType.none;
 
     public string missionName;
-    public string missionDescription;
+    [TextArea(0, 10)] public string missionDescription;
 
     public MissionTask[] allMissionTasks;
 
