@@ -16,7 +16,7 @@ public class ArcherEnemyKI : BaseEnemyKI
     private bool IsFleeCoroutineStarted;
     private bool HasTakenAStep;
 
-    public void LinkArrowPool(ArrowPool _arrowPool)
+    public  void LinkArrowPool(ArrowPool _arrowPool)
     {
         ArrowPool = _arrowPool;
     }

@@ -47,15 +47,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
 
     public void Start()
     {
-        if (this.gameObject.TryGetComponent(out MeleeEnemyKi mEKI))
-        {
-            mEKI.Init();
-        }
-        else if (this.gameObject.TryGetComponent(out ArcherEnemyKI aEKI))
-        {
-            aEKI.Init();
-            aEKI.LinkArrowPool(EnemyInitializer.instance.ArrowPool);
-        }
+        
     }
 
     /// <summary>
@@ -74,7 +66,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (HasDied && !IsInitialized)
+        if (HasDied || !IsInitialized)
             return;
 
         if (!IsSeeingPlayer)

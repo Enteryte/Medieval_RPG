@@ -36,10 +36,10 @@ public class EnemyDamager : MonoBehaviour
 
     private void Attack(GameObject _playerGameObject)
     {
-        _playerGameObject.TryGetComponent<GotDamage>(out GotDamage _gdmg);
-        if (!_gdmg)
+        _playerGameObject.TryGetComponent<GotDamage>(out GotDamage gdmg);
+        if (!gdmg)
             throw new Exception("Player Got Damage not at Right place!");
-        _gdmg.GotHit(true);
+        gdmg.GotHit(true);
         PlayerValueManager.instance.CurrHP -= Damage;
         PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
         IsDamaging = false;

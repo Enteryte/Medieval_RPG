@@ -30,6 +30,7 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     #region Unity Events
 
+
     public override void Init()
     {
         base.Init();
