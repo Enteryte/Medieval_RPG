@@ -126,15 +126,15 @@ public class MoveBoss : SkeletonBossActions
         if (mayMove == true)
         {
             anim.SetFloat("Speed", anim.GetFloat("Speed") + blendSpeed * Time.deltaTime);
-            transform.eulerAngles = new Vector3(0, 0, 0);
+            transform.localEulerAngles = new Vector3(0, 0, 0);
             CheckDitsanceFromTargetLocation();
         }
         else
         {
             anim.SetFloat("Speed", 0);
-            RotateTowardsPlayer();
         }
 
+        RotateTowardsPlayer();
         ResetTransform();
     }
 }

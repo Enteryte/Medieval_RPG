@@ -118,7 +118,7 @@ public class SkeletonBossKI : MonoBehaviour
                     Activate("SkeletonMageBossGreen (BossInteractions)");
                     return;
                 }
-                if (choice <= wA + sA + moveChance + interactChance + meteorChance && choice <= wA + sA + moveChance + interactChance)
+                if (choice <= wA + sA + moveChance + interactChance + meteorChance && choice >= wA + sA + moveChance + interactChance)
                 {
                     Activate("SkeletonMageBossGreen (MeteorShield)");
                     return;

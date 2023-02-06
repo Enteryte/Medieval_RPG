@@ -18,7 +18,7 @@ public class BossProjectile : MonoBehaviour
             PlayerValueManager.instance.CurrHP -= damage;
         }
 
-        if(!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("BossHitbox"))
+        if(!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("BossHitbox") && !other.gameObject.CompareTag("Shockwave"))
         {
             Destroy(this.gameObject);
         }
