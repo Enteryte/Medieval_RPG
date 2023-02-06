@@ -9,6 +9,8 @@ public class ItemInfoPopUp : MonoBehaviour
     public TMP_Text itemNameTxt;
     public TMP_Text itemTypeTxt;
 
+    public TMP_Text itemDescriptionTxt;
+
     public TMP_Text buyOrSellPriceTxt;
     public TMP_Text weightTxt;
 
@@ -20,7 +22,7 @@ public class ItemInfoPopUp : MonoBehaviour
     public TMP_Text howMuchMoreOrLessTxt;
 
     [Header("Whats Needed For Buying - UI")]
-    public GameObject wNFBUI;
+    public GameObject[] wNFBUI;
     public Image[] neededItemsImages;
 
     public void SetItemInformationsToDisplay(ItemBaseProfile iBP, bool isPlayerItem)
@@ -28,6 +30,10 @@ public class ItemInfoPopUp : MonoBehaviour
         if (iBP != null)
         {
             itemNameTxt.text = iBP.itemName;
+
+            itemDescriptionTxt.text = iBP.itemDescription.ToString();
+
+            Debug.Log(iBP.itemDescription);
 
             if (iBP.itemType == ItemBaseProfile.ItemType.weapon)
             {
@@ -210,7 +216,8 @@ public class ItemInfoPopUp : MonoBehaviour
             {
                 if (iBP.itemsNeededForBuying.Length > 0)
                 {
-                    wNFBUI.SetActive(true);
+                    wNFBUI[0].SetActive(true);
+                    wNFBUI[1].SetActive(true);
 
                     for (int i = 0; i < neededItemsImages.Length; i++)
                     {
@@ -238,7 +245,8 @@ public class ItemInfoPopUp : MonoBehaviour
                 }
                 else
                 {
-                    wNFBUI.SetActive(false);
+                    wNFBUI[0].SetActive(false);
+                    wNFBUI[1].SetActive(false);
                 }
             }
 

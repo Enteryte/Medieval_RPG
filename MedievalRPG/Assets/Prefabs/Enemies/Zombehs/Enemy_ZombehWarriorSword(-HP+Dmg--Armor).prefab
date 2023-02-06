@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853993433182625393}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5117451476914221550}
-  m_RootOrder: 1
+  m_Father: {fileID: 4847724058147417186}
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &6853136349268924139
 CapsuleCollider:
@@ -73,9 +73,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 2
 --- !u!1 &4341852279154010316
 GameObject:
@@ -139,7 +139,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4847724058147417186}
-  - {fileID: 7741295618437356658}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2869,6 +2868,36 @@ CapsuleCollider:
   m_Height: 2.033904
   m_Direction: 1
   m_Center: {x: 0, y: 0.99253464, z: -0.010878801}
+--- !u!114 &1545206887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847724058147188802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae6b8ac3666454fce83b6453b1afc6f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Anim: {fileID: 4847724058137788944}
+  Head: {fileID: 4847724058147417558}
+  LookAtTargetPos: {x: 0, y: 0, z: 0}
+  LookAtCoolTime: 0.2
+  LookAtHeatTime: 0.2
+  IsLooking: 1
+--- !u!114 &1545206888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847724058147188802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55c7b85289d51e737bb6577045cc2987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7841201779610566451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2960,9 +2989,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 3
 --- !u!65 &2492314192190201980
 BoxCollider:

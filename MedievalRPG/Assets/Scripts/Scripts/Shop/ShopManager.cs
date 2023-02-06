@@ -142,6 +142,17 @@ public class ShopManager : MonoBehaviour
 
                     shopMissionButton.GetComponent<ShopMissionButton>().storedMissionTask = currMerchant.allCurrCorrTasks[i];
                     shopMissionButton.GetComponent<ShopMissionButton>().missionDescriptionTxt.text = currMerchant.allCurrCorrTasks[i].missionButtonDescription;
+
+                    if (shopMissionButton.GetComponent<ShopMissionButton>().storedMission.missionType == MissionBaseProfile.MissionType.main)
+                    {
+                        shopMissionButton.GetComponent<ShopMissionButton>().missionTypeImg.sprite 
+                            = shopMissionButton.GetComponent<ShopMissionButton>().mainQuestSprite;
+                    }
+                    else
+                    {
+                        shopMissionButton.GetComponent<ShopMissionButton>().missionTypeImg.sprite 
+                            = shopMissionButton.GetComponent<ShopMissionButton>().sideQuestSprite;
+                    }
                 }
             }
 
@@ -153,6 +164,17 @@ public class ShopManager : MonoBehaviour
 
                     shopMissionButton.GetComponent<ShopMissionButton>().storedMission = currMerchant.allCorrMissions[i];
                     shopMissionButton.GetComponent<ShopMissionButton>().missionDescriptionTxt.text = currMerchant.allCorrMissions[i].missionDescription;
+
+                    if (shopMissionButton.GetComponent<ShopMissionButton>().storedMission.missionType == MissionBaseProfile.MissionType.main)
+                    {
+                        shopMissionButton.GetComponent<ShopMissionButton>().missionTypeImg.sprite
+                            = shopMissionButton.GetComponent<ShopMissionButton>().mainQuestSprite;
+                    }
+                    else
+                    {
+                        shopMissionButton.GetComponent<ShopMissionButton>().missionTypeImg.sprite
+                            = shopMissionButton.GetComponent<ShopMissionButton>().sideQuestSprite;
+                    }
                 }
             }
         }
@@ -179,6 +201,9 @@ public class ShopManager : MonoBehaviour
         //DisplayShopItems();
 
         mainShopScreen.SetActive(true);
+
+        moneyTxt.text = PlayerValueManager.instance.money.ToString();
+        weightTxt.text = InventoryManager.instance.currHoldingWeight.ToString() + " / " + InventoryManager.instance.maxHoldingWeight.ToString();
     }
 
     //public void OpenSellScreen()

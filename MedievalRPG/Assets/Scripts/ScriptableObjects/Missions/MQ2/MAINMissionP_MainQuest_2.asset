@@ -14,25 +14,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionType: 1
   missionName: Hauptquest 2
-  missionDescription: 
+  missionDescription: "Der Abend ist angebrochen. Irgendetwas beim Friedhof sorgt
+    f\xFCr Unruhe. Normalerweise ist um diese Zeit dort nie was los. Vielleicht ist
+    etwas passiert und jemand braucht Hilfe!"
   allMissionTasks:
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: Siehe nach, was am Friedhof los ist.
     mTB: {fileID: 11400000, guid: bff0933fa60d27c419228838a003ecc2, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: "\xDCberlebe!"
     mTB: {fileID: 11400000, guid: 4546e9e769a7bb44ca63c0e75cf46685, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: Schau dich nach Hinweisen um.
     mTB: {fileID: 11400000, guid: 93bfe8af0fd5094459c4fb999ac42b74, type: 2}
-  - taskName: 
+  - isOptional: 0
+    taskName: 
     taskDescription: Rede mit Symon.
     mTB: {fileID: 11400000, guid: 5b957d350ef4b1049bc7ddc1b45e7afb, type: 2}
-  missionCompleted: 1
+  missionCompleted: 0
   moneyReward: 0
   itemRewards: []
   nextMissionToTrigger: {fileID: 11400000, guid: 8f962719be8510f4d88577c610b2356c, type: 2}
   cutsceneToTrigger: {fileID: 0}
+  nPCWhereToGetMissionFrom: {fileID: 0}
+  cutsceneToTriggerAfterPressedButton: {fileID: 0}
   missionAfterItsActive: {fileID: 0}
   isActive: 0
   changeEnvironment: 0

@@ -16,7 +16,7 @@ MonoBehaviour:
   isOptional: 0
   missionButtonDescription: 
   completeAfterInteracted: 1
-  missionTaskCompleted: 1
+  missionTaskCompleted: 0
   cutsceneToTrigger: {fileID: 0}
   cutsceneToTriggerOnce: {fileID: 0}
   moneyReward: 0
@@ -26,6 +26,8 @@ MonoBehaviour:
   missionTaskToActivate: {fileID: 0}
   missionTaskToActivate2: {fileID: 0}
   isActiveAtStart: 1
+  isMainMission: 0
+  decisionSprite: {fileID: 0}
   nPCToTalkToBaseProfile: {fileID: 0}
   dialogToPlayAfterInteracted: {fileID: 0}
   dialogToPlayAfterPressedButton: {fileID: 0}
@@ -39,7 +41,7 @@ MonoBehaviour:
   itemToCollectBase: {fileID: 11400000, guid: d3e9b97b6fb62a74ca254cbb5915e9d9, type: 2}
   itemToCollectBase2: {fileID: 0}
   howManyToCollect: 8
-  howManyAlreadyCollected: 9
+  howManyAlreadyCollected: 0
   dialogAfterSeenFirstItem: {fileID: 0}
   dialogAfterCollectedFirstItem: {fileID: 0}
   enemyToKillBase: {fileID: 0}

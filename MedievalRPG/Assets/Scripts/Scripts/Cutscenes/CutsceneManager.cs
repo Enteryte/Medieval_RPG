@@ -28,6 +28,11 @@ public class CutsceneManager : MonoBehaviour
 
     public Transform playerBaseMeshParentTrans;
 
+    public CutsceneProfile[] allCSWAllowedPausing;
+
+    [Header("SQ w. Kilian")]
+    public GameObject myaGO;
+
     [Header("Tutorial")]
     public TutorialBaseProfile decisionTutorial;
 
@@ -252,6 +257,10 @@ public class CutsceneManager : MonoBehaviour
         playableDirector.Stop();
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+
+        myaGO.transform.parent = null;
+
+        playableDirector.time = 0;
     }
 
     public void DisplayDecisions()
@@ -432,6 +441,11 @@ public class CutsceneManager : MonoBehaviour
         PrickBoard.instance.Interact(null);
 
         PrickMinigameManager.instance.StartNewMatch();
+    }
+
+    public void SetMyasParent()
+    {
+        myaGO.transform.parent = Interacting.instance.currInteractedObjTrans;
     }
 
     public void PlayIdleTimeline()

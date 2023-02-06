@@ -292,6 +292,21 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             {
                 EquipItemToEquipment(null, 0);
             }
+            else if (storedItemBase.itemType == ItemBaseProfile.ItemType.bookOrNote)
+            {
+                if (storedItemBase.readType == ItemBaseProfile.ReadType.book)
+                {
+                    OpenBookScrollOrNoteUI(InventoryManager.instance.bookUI);
+                }
+                else if (storedItemBase.readType == ItemBaseProfile.ReadType.scroll)
+                {
+                    OpenBookScrollOrNoteUI(InventoryManager.instance.scrollUI);
+                }
+                else if (storedItemBase.readType == ItemBaseProfile.ReadType.note)
+                {
+                    OpenBookScrollOrNoteUI(InventoryManager.instance.noteUI);
+                }
+            }
         }
         else if (clickableSlotType == ClickableSlotType.hotbarSlot)
         {
@@ -1179,6 +1194,28 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         {
             TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(InventoryManager.instance.hotbarTutorial);
         }
+    }
+
+    public void OpenBookScrollOrNoteUI(GameObject goToActivate)
+    {
+        GameManager.currBookOrNote = storedItemBase;
+
+        InventoryManager.instance.bookUI.SetActive(false);
+        InventoryManager.instance.scrollUI.SetActive(false);
+        InventoryManager.instance.noteUI.SetActive(false);
+
+        if (goToActivate == InventoryManager.instance.bookUI)
+        {
+            InventoryManager.instance.bookHandler.StartDisplayingPages();
+        }
+        else if (goToActivate == InventoryManager.instance.noteUI)
+        {
+            InventoryManager.instance.noteTxt.text = storedItemBase.noteTxtString;
+        }
+
+        goToActivate.SetActive(true);
+
+        InventoryManager.instance.bNOSScreenParent.SetActive(true);
     }
 
     public void DisplayAllItemInformationsOnClick()

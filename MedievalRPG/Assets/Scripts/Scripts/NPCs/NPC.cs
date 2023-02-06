@@ -26,10 +26,13 @@ public class NPC : MonoBehaviour, IInteractable
     public GameObject iOCanvasLookAtObj;
 
     public bool isInDialogue = false;
+    public bool isNeeded = false;
 
     [HideInInspector] public List<NPCWaypoint> allCorrWaypoints;
 
     public CinemachineVirtualCamera nPCCVC;
+
+    public GameObject nPCBaseMesh;
 
     [Header("NPC One-Liner")]
     public List<NPCOneLinerProfile> allPossibleOL = new List<NPCOneLinerProfile>();
@@ -100,9 +103,15 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void Update()
     {
-        if (currWaypoint != null && !GameManager.instance.gameIsPaused)
+        if (currWaypoint != null && !GameManager.instance.gameIsPaused && navMeshAgent.isActiveAndEnabled)
         {
             navMeshAgent.SetDestination(currWaypoint.transform.position);
+
+            if (nPCBaseMesh.transform.position != Vector3.zero)
+            {
+                nPCBaseMesh.transform.localPosition = Vector3.zero;
+                nPCBaseMesh.transform.localRotation = Quaternion.identity;
+            }
 
             //if (Vector3.Distance(transform.position, currWaypoint.transform.position) <= 1f)
             //{
@@ -205,12 +214,12 @@ public class NPC : MonoBehaviour, IInteractable
         //CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
         //CutsceneManager.instance.playableDirector.Play();
 
-        if (navMeshAgent != null)
-        {
-            navMeshAgent.isStopped = true;
+        //if (navMeshAgent != null)
+        //{
+        //    navMeshAgent.isStopped = true;
 
-            animator.SetBool("IsStanding", true);
-        }
+        //    animator.SetBool("IsStanding", true);
+        //}
 
         //transform.LookAt(GameManager.instance.playerGO.transform);
 
@@ -229,7 +238,7 @@ public class NPC : MonoBehaviour, IInteractable
             Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
         }
 
-        CheckIfNeededForMission();
+        CheckIfNeededForMission(true);
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()
@@ -237,13 +246,15 @@ public class NPC : MonoBehaviour, IInteractable
         return this.iOCanvas;
     }
 
-    public void CheckIfNeededForMission()
+    public void CheckIfNeededForMission(bool doActions)
     {
         bool isNeeded = false;
 
         //if (UIManager.instance.npcMissionButtonParentObjTrans.childCount > 3)
         //{
-            for (int i = 0; i < UIManager.instance.npcMissionButtonParentObjTrans.childCount; i++)
+        //UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+
+            for (int i = 3; i < UIManager.instance.npcMissionButtonParentObjTrans.childCount; i++)
             {
                 //for (int y = 0; y < UIManager.instance.npcBtnKillianGOs.Length; y++)
                 //{
@@ -259,45 +270,55 @@ public class NPC : MonoBehaviour, IInteractable
                 for (int y = 0; y < MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks.Length; y++)
                 {
                     if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To
-                        && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskCompleted)
+                        && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskCompleted
+                        && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.canBeDisplayed)
                     {
                         if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.nPCToTalkToBaseProfile == nPCBP)
                         {
-                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.completeAfterInteracted)
+                            if (doActions)
                             {
-                                MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
-                            }
+                                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.completeAfterInteracted)
+                                {
+                                    MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB);
+                                }
 
-                            UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(false);
-
-                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.dialogToPlayAfterInteracted != null)
-                            {
-                                CutsceneManager.instance.currCP = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.dialogToPlayAfterInteracted;
-
-                                CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
-                                CutsceneManager.instance.playableDirector.Play();
-                            }
-                            else if (MissionManager.instance.allCurrAcceptedMissions[i].missionName == "Mya in der Klemme")
-                            {
-                                CutsceneManager.instance.playableDirector.playableAsset = Interacting.instance.currInteractedObjTrans.GetComponent<NPC>().idleTimeline;
-                                CutsceneManager.instance.playableDirector.Play();
+                                UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(false);
 
                                 for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
                                 {
-                                    UIManager.instance.npcBtnKillianGOs[x].SetActive(true);
+                                    UIManager.instance.npcBtnKillianGOs[x].SetActive(false);
                                 }
 
-                                Instantiate(UIManager.instance.npcUICloseBtnPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
-                                UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+                                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.dialogToPlayAfterInteracted != null)
+                                {
+                                    CutsceneManager.instance.currCP = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.dialogToPlayAfterInteracted;
 
-                                ThirdPersonController.instance.canMove = false;
+                                    CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+                                    CutsceneManager.instance.playableDirector.Play();
+                                }
+                                else if (MissionManager.instance.allCurrAcceptedMissions[i].missionName == "Mya in der Klemme")
+                                {
+                                    CutsceneManager.instance.playableDirector.playableAsset = Interacting.instance.currInteractedObjTrans.GetComponent<NPC>().idleTimeline;
+                                    CutsceneManager.instance.playableDirector.Play();
 
-                                ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+                                    for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
+                                    {
+                                        UIManager.instance.npcBtnKillianGOs[x].SetActive(true);
+                                    }
 
-                                GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+                                    Instantiate(UIManager.instance.npcUICloseBtnPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
+
+                                    UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+
+                                    ThirdPersonController.instance.canMove = false;
+
+                                    ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+                                    GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+                                }
                             }
-
+                            
                             isNeeded = true;
 
                             break;
@@ -305,25 +326,41 @@ public class NPC : MonoBehaviour, IInteractable
                         else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.talkToAllNPCs 
                             && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.canBeDisplayed && isUsedForMissions)
                         {
-                            var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
+                            if (doActions)
+                            {
+                                for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
+                                {
+                                    UIManager.instance.npcBtnKillianGOs[x].SetActive(false);
+                                }
 
-                            newNPCMissionButton.GetComponent<NPCMissionButton>().storedMT = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y];
-                            newNPCMissionButton.GetComponent<NPCMissionButton>().storedMTB = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
+                                var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
-                            Instantiate(UIManager.instance.npcUICloseBtnPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
+                                newNPCMissionButton.GetComponent<NPCMissionButton>().storedMT = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y];
+                                newNPCMissionButton.GetComponent<NPCMissionButton>().storedMTB = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB;
 
-                            UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+                                if (newNPCMissionButton.GetComponent<NPCMissionButton>().storedMTB != null
+                                    && newNPCMissionButton.GetComponent<NPCMissionButton>().storedMTB.decisionSprite != null)
+                                {
+                                    newNPCMissionButton.GetComponent<NPCMissionButton>().decisionImg.sprite
+                                        = newNPCMissionButton.GetComponent<NPCMissionButton>().storedMTB.decisionSprite;
+                                }
 
-                            CutsceneManager.instance.ChangePlayerParentToCurrInteractObj();
+                                Instantiate(UIManager.instance.npcUICloseBtnPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
-                            CutsceneManager.instance.playableDirector.playableAsset = idleTimeline;
-                            CutsceneManager.instance.playableDirector.Play();
+                                UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
 
-                            ThirdPersonController.instance.canMove = false;
+                                CutsceneManager.instance.ChangePlayerParentToCurrInteractObj();
 
-                            ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+                                CutsceneManager.instance.playableDirector.playableAsset = idleTimeline;
+                                CutsceneManager.instance.playableDirector.Play();
 
-                            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+                                ThirdPersonController.instance.canMove = false;
+
+                                ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+                                GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+
+                            }
 
                             isNeeded = true;
                         }
@@ -338,41 +375,82 @@ public class NPC : MonoBehaviour, IInteractable
                     MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskType == MissionTaskBase.MissionTaskType.talk_To
                     && !MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.missionTaskCompleted)
                     {
-                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP)
+                        if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.nPCToTalkToBaseProfile == nPCBP
+                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.canBeDisplayed)
                         {
-                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.completeAfterInteracted)
+                            if (doActions)
                             {
-                                MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
-                            }
+                                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.completeAfterInteracted)
+                                {
+                                    MissionManager.instance.CompleteMissionTask(MissionManager.instance.allCurrAcceptedMissions[i], MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
+                                }
 
-                            UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(false);
+                                UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(false);
 
-                            Debug.Log(MissionManager.instance.allCurrAcceptedMissions[i]);
-                            Debug.Log(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0]);
-                            Debug.Log(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.dialogToPlayAfterInteracted);
+                                Debug.Log(MissionManager.instance.allCurrAcceptedMissions[i]);
+                                Debug.Log(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0]);
+                                Debug.Log(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.dialogToPlayAfterInteracted);
 
-                            CutsceneManager.instance.currCP = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.dialogToPlayAfterInteracted;
-
-                            if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.dialogToPlayAfterInteracted != null)
-                            {
                                 CutsceneManager.instance.currCP = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.dialogToPlayAfterInteracted;
 
-                                CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
-                                CutsceneManager.instance.playableDirector.Play();
-                            }
-                            else if (MissionManager.instance.allCurrAcceptedMissions[i].missionName == "Mya in der Klemme")
-                            {
-                                CutsceneManager.instance.playableDirector.playableAsset = Interacting.instance.currInteractedObjTrans.GetComponent<NPC>().idleTimeline;
-                                CutsceneManager.instance.playableDirector.Play();
-
-                                for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
+                                if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.dialogToPlayAfterInteracted != null)
                                 {
-                                    UIManager.instance.npcBtnKillianGOs[x].SetActive(true);
+                                    CutsceneManager.instance.currCP = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.dialogToPlayAfterInteracted;
+
+                                    CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.currCP.cutscene;
+                                    CutsceneManager.instance.playableDirector.Play();
+                                }
+                                else if (MissionManager.instance.allCurrAcceptedMissions[i].missionName == "Mya in der Klemme")
+                                {
+                                    CutsceneManager.instance.playableDirector.playableAsset = Interacting.instance.currInteractedObjTrans.GetComponent<NPC>().idleTimeline;
+                                    CutsceneManager.instance.playableDirector.Play();
+
+                                    for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
+                                    {
+                                        UIManager.instance.npcBtnKillianGOs[x].SetActive(true);
+                                    }
+
+                                    Instantiate(UIManager.instance.npcUICloseBtnPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
+
+                                    UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+
+                                    ThirdPersonController.instance.canMove = false;
+
+                                    ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+                                    GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+                                }
+                            }                            
+
+                            isNeeded = true;
+
+                            break;
+                        }
+                        else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.talkToAllNPCs 
+                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.canBeDisplayed && isUsedForMissions)
+                        {
+                            if (doActions)
+                            {
+                                var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
+
+                                newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().storedMT = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0];
+                                newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().storedMTB = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
+
+                                if (newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().storedMTB != null
+                                  && newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().storedMTB.decisionSprite != null)
+                                {
+                                    newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().decisionImg.sprite
+                                        = newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().storedMTB.decisionSprite;
                                 }
 
                                 Instantiate(UIManager.instance.npcUICloseBtnPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
                                 UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
+
+                                CutsceneManager.instance.ChangePlayerParentToCurrInteractObj();
+
+                                CutsceneManager.instance.playableDirector.playableAsset = idleTimeline;
+                                CutsceneManager.instance.playableDirector.Play();
 
                                 ThirdPersonController.instance.canMove = false;
 
@@ -382,40 +460,15 @@ public class NPC : MonoBehaviour, IInteractable
                             }
 
                             isNeeded = true;
-
-                            break;
-                        }
-                        else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.talkToAllNPCs 
-                            && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.canBeDisplayed && isUsedForMissions)
-                        {
-                            var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
-
-                            newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().storedMT = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0];
-                            newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().storedMTB = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB;
-
-                            Instantiate(UIManager.instance.npcUICloseBtnPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
-
-                            UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
-
-                            CutsceneManager.instance.ChangePlayerParentToCurrInteractObj();
-
-                            CutsceneManager.instance.playableDirector.playableAsset = idleTimeline;
-                            CutsceneManager.instance.playableDirector.Play();
-
-                            ThirdPersonController.instance.canMove = false;
-
-                            ThirdPersonController.instance._animator.SetFloat("Speed", 0);
-
-                            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
-
-                            isNeeded = true;
                         }
                     }
                 }
             }
         }
 
-        if (npcAudioType != NPCAudioType.none && !isNeeded && nPCAudioSource != null)
+        this.isNeeded = isNeeded;
+
+        if (npcAudioType != NPCAudioType.none && !isNeeded && nPCAudioSource != null && doActions)
         {
             PlayOneLiner();
         }
