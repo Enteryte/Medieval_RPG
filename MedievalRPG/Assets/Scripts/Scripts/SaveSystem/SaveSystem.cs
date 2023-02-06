@@ -545,7 +545,7 @@ public class SaveSystem : MonoBehaviour
             //PlayerValueManager.instance.staminaSlider.value = sGO.currPlayerStamina;
 
             //LoadMissions(sGO);
-            LoadNPCs(sGO);
+            //LoadNPCs(sGO);
             LoadEnemies(sGO);
             //LoadInventory(sGO);
             LoadInteractableObjects(sGO);

@@ -103,7 +103,7 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void Update()
     {
-        if (currWaypoint != null && !GameManager.instance.gameIsPaused)
+        if (currWaypoint != null && !GameManager.instance.gameIsPaused && navMeshAgent.isActiveAndEnabled)
         {
             navMeshAgent.SetDestination(currWaypoint.transform.position);
 
