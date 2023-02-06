@@ -279,7 +279,7 @@ public class GameManager : MonoBehaviour
         if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.shopScreen.activeSelf 
             && !ShopManager.instance.mainShopScreen.activeSelf)
         {
-            if (StartScreenManager.instance.areYouSureExitGameScreen.activeSelf || Blackboard.instance.blackboardUI.activeSelf)
+            if (StartScreenManager.instance.areYouSureExitGameScreen.activeSelf || Blackboard.instance != null && Blackboard.instance.blackboardUI.activeSelf)
             {
                 return;
             }
@@ -471,7 +471,10 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < allWalkingNPCs.Count; i++)
         {
-            allWalkingNPCs[i].navMeshAgent.isStopped = true;
+            if (allWalkingNPCs[i].navMeshAgent.isActiveAndEnabled)
+            {
+                allWalkingNPCs[i].navMeshAgent.isStopped = true;
+            }
         }
 
         for (int i = 0; i < allMerchants.Count; i++)
@@ -556,7 +559,10 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < allWalkingNPCs.Count; i++)
         {
-            allWalkingNPCs[i].navMeshAgent.isStopped = false;
+            if (allWalkingNPCs[i].navMeshAgent.isActiveAndEnabled)
+            {
+                allWalkingNPCs[i].navMeshAgent.isStopped = false;
+            }
         }
 
         for (int i = 0; i < allMerchants.Count; i++)

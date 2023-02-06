@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: IBP_Gloves
   m_EditorClassIdentifier: 
   itemName: Handschuhe
-  itemDescription: 
+  itemDescription: "Deine H\xE4nde sind dein bestes Werkzeug, also sch\xFCtze sie."
   weight: 0
-  itemType: 0
+  itemType: 3
   neededForMissions: 0
   isNew: 0
   itemSprite: {fileID: 21300000, guid: 6d8397f9b872a714f996dd9b29f95629, type: 3}
@@ -32,6 +32,9 @@ MonoBehaviour:
   normalDamage: 0
   potionType: 0
   potionBuffValue: 0
+  potionBuffLastingTime: 0
   hasBeenRead: 0
   corresspondingMissionTask: {fileID: 0}
   cutsceneToPlayAfterCloseReadScreen: {fileID: 0}
+  readType: 0
+  noteTxtString: 
