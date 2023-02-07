@@ -9,7 +9,6 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private MeleeEnemyKi[] MeleeEnemyKisToSpawn;
     [SerializeField] private ArcherEnemyKI[] ArcherEnemyKisToSpawn;
-
     private void OnTriggerEnter(Collider _other)
     {
         if(AssignedSpawnPoints.Length == 0)
@@ -20,17 +19,17 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        if (AssignedSpawnPoints.Length < (MeleeEnemyKisToSpawn.Length + ArcherEnemyKisToSpawn.Length))
-            throw new Exception($"Too many Enemies, too few Spawnpoints at {gameObject.name}");
         for (int i = 0, j = 0; i < AssignedSpawnPoints.Length; i++)
         {
+            if(i > (MeleeEnemyKisToSpawn.Length + ArcherEnemyKisToSpawn.Length))
+               return;
             if (i <= MeleeEnemyKisToSpawn.Length)
             {
                 BaseEnemyKI myEnemy = Instantiate(MeleeEnemyKisToSpawn[i], AssignedSpawnPoints[i].position,
                     Quaternion.identity);
                 myEnemy.Init();
             }
-            else
+            else 
             {
                 ArcherEnemyKI myEnemy = Instantiate(ArcherEnemyKisToSpawn[j], AssignedSpawnPoints[i].position,
                     Quaternion.identity);

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,13 +13,14 @@ public class EnemyDamager : MonoBehaviour
         Debug.Log($"Hit Gameobject: {_collision.gameObject.name}");
         if (!GameManager.instance)
         {
-            
             return;
         }
+
         if (!IsDamaging || _collision.gameObject == GameManager.instance.playerGO)
             return;
         Attack(_collision.gameObject);
     }
+
     public void Init(float _damage)
     {
         Damage = _damage;
@@ -37,9 +39,10 @@ public class EnemyDamager : MonoBehaviour
     private void Attack(GameObject _playerGameObject)
     {
         _playerGameObject.TryGetComponent<GotDamage>(out GotDamage gdmg);
-        if (!gdmg)
-            throw new Exception("Player Got Damage not at Right place!");
-        gdmg.GotHit(true);
+        if (gdmg)
+            gdmg.GotHit(true);
+        else
+            throw new WarningException("Player Got Damage not at Right place!");
         PlayerValueManager.instance.CurrHP -= Damage;
         PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
         IsDamaging = false;
