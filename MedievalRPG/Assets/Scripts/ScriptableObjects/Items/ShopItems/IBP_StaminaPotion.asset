@@ -12,17 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fb4ee68366dab746b7b0de03db01688, type: 3}
   m_Name: IBP_StaminaPotion
   m_EditorClassIdentifier: 
-  itemName: Manatrank
-  itemDescription: "Man kann trainieren oder man kann sich selbst etwas helfen.\r"
+  itemName: Ausdauertrank
+  itemDescription: "Man kann trainieren oder man kann sich selbst etwas helfen.\r\n\nDieser
+    Trank f\xFCllt deine Stamina ohne zu warten auf."
   weight: 0
-  itemType: 0
+  itemType: 2
   neededForMissions: 0
   isNew: 0
   itemSprite: {fileID: 21300000, guid: 1ba1394d92787ee4780f88bed03397b7, type: 3}
   itemPrefab: {fileID: 0}
-  buyPrice: 0
-  sellingPrice: 0
-  stackable: 0
+  buyPrice: 55
+  sellingPrice: 42
+  stackable: 1
   itemsNeededForBuying: []
   missionsWhereItsNeeded: []
   foodHealValue: 0
@@ -30,7 +31,7 @@ MonoBehaviour:
   weaponType: 0
   isTwoHand: 0
   normalDamage: 0
-  potionType: 0
+  potionType: 2
   potionBuffValue: 0
   potionBuffLastingTime: 0
   hasBeenRead: 0
