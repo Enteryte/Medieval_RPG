@@ -44,6 +44,7 @@ public class InventoryManager : MonoBehaviour
     public float maxHoldingWeight;
     public float currHoldingWeight; // Equipment + Hotbar Weight
 
+    public TMP_Text moneyTxt;
     public TMP_Text weightTxt;
 
     [Header("Current Clicked Button")]
@@ -59,6 +60,16 @@ public class InventoryManager : MonoBehaviour
     public Transform oldHotbarParentTrans;
     public Transform newHotbarParentTrans;
     public GameObject hotbarObj;
+
+    [Header("Book, Note Or Scroll")]
+    public GameObject bNOSScreenParent;
+    public GameObject bookUI;
+    public GameObject scrollUI;
+    public GameObject noteUI;
+
+    public TMP_Text noteTxt;
+
+    public BookHandler bookHandler;
 
     [Header("Tutorial")]
     public TutorialBaseProfile hotbarTutorial;
@@ -82,6 +93,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         weightTxt.text = currHoldingWeight + " / " + maxHoldingWeight;
+        moneyTxt.text = PlayerValueManager.instance.money.ToString();
     }
 
     // Update is called once per frame

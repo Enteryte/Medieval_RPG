@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class SaveSystem : MonoBehaviour
@@ -62,8 +63,6 @@ public class SaveSystem : MonoBehaviour
                 {
                     if (!dirInfo[i].Contains("_N"))
                     {
-                        Debug.Log(i);
-
                         gameDataFolder = Directory.GetFiles(dirInfo[i]);
 
                         StartScreenManager.instance.continueBtn.interactable = true;
@@ -256,6 +255,7 @@ public class SaveSystem : MonoBehaviour
         SaveInteractableObjects(sGO);
         SaveInventory(sGO);
         SaveDaytimeAndWeather(sGO);
+        SaveCutscene(sGO);
 
         currSavingType = SavingType.manual;
 
@@ -301,6 +301,7 @@ public class SaveSystem : MonoBehaviour
             LoadInventory(sGO);
             LoadInteractableObjects(sGO);
             LoadDaytimeAndWeather(sGO);
+            LoadCutscene(sGO);
 
             //LoadInteractableObjects();
             //LoadInventory();
@@ -423,6 +424,8 @@ public class SaveSystem : MonoBehaviour
             LoadEnemies(sGO);
             LoadInventory(sGO);
             LoadInteractableObjects(sGO);
+            LoadDaytimeAndWeather(sGO);
+            LoadCutscene(sGO);
 
             //LoadInteractableObjects();
             //LoadInventory();
@@ -542,7 +545,7 @@ public class SaveSystem : MonoBehaviour
             //PlayerValueManager.instance.staminaSlider.value = sGO.currPlayerStamina;
 
             //LoadMissions(sGO);
-            LoadNPCs(sGO);
+            //LoadNPCs(sGO);
             LoadEnemies(sGO);
             //LoadInventory(sGO);
             LoadInteractableObjects(sGO);
@@ -788,26 +791,22 @@ public class SaveSystem : MonoBehaviour
     {
         for (int i = 0; i < GameManager.instance.allVillageNPCs.Count; i++)
         {
-            sGO.allNPCPositions.Add(GameManager.instance.allVillageNPCs[i].gameObject.transform.position);
-            sGO.allNPCRotations.Add(GameManager.instance.allVillageNPCs[i].transform.rotation);
+            sGO.allNPCPositions.Add(GameManager.instance.allVillageNPCs[i].gameObject.transform.localPosition);
+            sGO.allNPCRotations.Add(GameManager.instance.allVillageNPCs[i].transform.localRotation);
 
             sGO.isNPCVisible.Add(GameManager.instance.allVillageNPCs[i].gameObject.activeSelf);
+        }
 
-            // Save Waypoints
-            if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
+        // Save Waypoints
+        for (int i = 0; i < GameManager.instance.allWalkingNPCs.Count; i++)
+        {
+            if (GameManager.instance.allWalkingNPCs[i].currWaypoint == null)
             {
-                if (GameManager.instance.allVillageNPCs[i].currWaypoint == null)
-                {
-                    sGO.currWaypointNames.Add(GameManager.instance.allVillageNPCs[i].firstWaypoint.name);
-                }
-                else
-                {
-                    sGO.currWaypointNames.Add(GameManager.instance.allVillageNPCs[i].currWaypoint.name);
-                }
+                sGO.currWaypointNames.Add(GameManager.instance.allWalkingNPCs[i].firstWaypoint.name);
             }
             else
             {
-                sGO.currWaypointNames.Add("");
+                sGO.currWaypointNames.Add(GameManager.instance.allWalkingNPCs[i].currWaypoint.name);
             }
         }
     }
@@ -945,6 +944,41 @@ public class SaveSystem : MonoBehaviour
         sGO.isRaining = GameManager.instance.hdrpTOD.WeatherActive();
     }
 
+    public void SaveCutscene(SaveGameObject sGO)
+    {
+        //if (CutsceneManager.instance.currCP == null)
+        //{
+        //    sGO.cutsceneIsCurrPlaying = CutsceneManager.instance.playableDirector.playableAsset != null
+        //        && CutsceneManager.instance.playableDirector.playableGraph.IsPlaying();
+
+        //    Debug.Log("1");
+        //}
+        //else
+        //{
+        //    sGO.cutsceneIsCurrPlaying = CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableGraph.IsPlaying()
+        //        && CutsceneManager.instance.currCP.canPauseWhilePlaying;
+
+        //    Debug.Log("2");
+        //}
+
+        sGO.currCSID = -1;
+
+        //Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsPlaying());
+
+        if (GameManager.instance.pausedCutsceneTime != -1)
+        {
+            for (int i = 0; i < CutsceneManager.instance.allCSWAllowedPausing.Length; i++)
+            {
+                if (CutsceneManager.instance.allCSWAllowedPausing[i].cutscene == CutsceneManager.instance.playableDirector.playableAsset)
+                {
+                    sGO.currCSID = i;
+                }
+            }
+        }
+
+        sGO.currCutsceneTime = CutsceneManager.instance.playableDirector.time;
+    }
+
     public void SaveOptions(SaveGameObject sGO)
     {
         // Audio
@@ -1057,6 +1091,9 @@ public class SaveSystem : MonoBehaviour
         {
             EquippingManager.instance.poleynsES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(EquippingManager.instance.poleynsIB, 1);
         }
+
+        InventoryManager.instance.weightTxt.text = InventoryManager.instance.currHoldingWeight + " / " + InventoryManager.instance.maxHoldingWeight;
+        ShopManager.instance.weightTxt.text = InventoryManager.instance.currHoldingWeight + " / " + InventoryManager.instance.maxHoldingWeight;
     }
 
     public void LoadMissions(SaveGameObject sGO)
@@ -1154,23 +1191,51 @@ public class SaveSystem : MonoBehaviour
     {
         for (int i = 0; i < GameManager.instance.allVillageNPCs.Count; i++)
         {
-            GameManager.instance.allVillageNPCs[i].transform.position = sGO.allNPCPositions[i];
-            GameManager.instance.allVillageNPCs[i].transform.rotation = sGO.allNPCRotations[i];
+            if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
+            {
+                GameManager.instance.allVillageNPCs[i].animator.speed = 0;
+
+                GameManager.instance.allVillageNPCs[i].GetComponent<NavMeshAgent>().enabled = false;
+            }
+
+            GameManager.instance.allVillageNPCs[i].transform.localPosition = sGO.allNPCPositions[i];
+            GameManager.instance.allVillageNPCs[i].transform.localRotation = sGO.allNPCRotations[i];
 
             GameManager.instance.allVillageNPCs[i].gameObject.SetActive(sGO.isNPCVisible[i]);
 
-            // Load Waypoints
-            if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
+            //if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
+            //{
+            //    for (int y = 0; y < GameManager.instance.allVillageNPCs[i].allCorrWaypoints.Count; y++)
+            //    {
+            //        if (GameManager.instance.allVillageNPCs[i].allCorrWaypoints[y].name == sGO.currWaypointNames[i])
+            //        {
+            //            GameManager.instance.allVillageNPCs[i].SetNewWaypoint(GameManager.instance.allVillageNPCs[i].allCorrWaypoints[y]);
+            //        }
+            //    }
+            //}
+        }
+
+        // Load Waypoints
+        for (int i = 0; i < GameManager.instance.allWalkingNPCs.Count; i++)
+        {
+            for (int y = 0; y < GameManager.instance.allWalkingNPCs[i].allCorrWaypoints.Count; y++)
             {
-                for (int y = 0; y < GameManager.instance.allVillageNPCs[i].allCorrWaypoints.Count; y++)
+                if (GameManager.instance.allWalkingNPCs[i].allCorrWaypoints[y].name == sGO.currWaypointNames[i])
                 {
-                    if (GameManager.instance.allVillageNPCs[i].allCorrWaypoints[y].name == sGO.currWaypointNames[i])
-                    {
-                        GameManager.instance.allVillageNPCs[i].SetNewWaypoint(GameManager.instance.allVillageNPCs[i].allCorrWaypoints[y]);
-                    }
+                    GameManager.instance.allWalkingNPCs[i].SetNewWaypointWithoutStopping(GameManager.instance.allWalkingNPCs[i].allCorrWaypoints[y]);
+
+                    GameManager.instance.allWalkingNPCs[i].animator.speed = 1;
+
+                    GameManager.instance.allWalkingNPCs[i].GetComponent<NavMeshAgent>().enabled = true;
                 }
             }
         }
+
+        //for (int i = 0; i < GameManager.instance.allWalkingNPCs.Count; i++)
+        //{
+        //    GameManager.instance.allWalkingNPCs[i].nPCBaseMesh.transform.localPosition = Vector3.zero;
+        //    GameManager.instance.allWalkingNPCs[i].nPCBaseMesh.transform.localRotation = Quaternion.identity;
+        //}
     }
 
     public void LoadEnemies(SaveGameObject sGO)
@@ -1283,6 +1348,23 @@ public class SaveSystem : MonoBehaviour
         }
     }
 
+    public void LoadCutscene(SaveGameObject sGO)
+    {
+        Debug.Log("33333333333333333333333333333333333333333333333333333333");
+
+        if (sGO.currCutsceneTime > 0)
+        {
+            CutsceneManager.instance.currCP = CutsceneManager.instance.allCSWAllowedPausing[sGO.currCSID];
+            CutsceneManager.instance.playableDirector.playableAsset = CutsceneManager.instance.allCSWAllowedPausing[sGO.currCSID].cutscene;
+
+            CutsceneManager.instance.playableDirector.Play();
+
+            CutsceneManager.instance.playableDirector.time = sGO.currCutsceneTime;
+
+            Debug.Log(sGO.currCutsceneTime);
+        }
+    }
+
     public void LoadOptions(SaveGameObject sGO)
     {
         OptionManager.instance.masterSlider.value = sGO.masterSlValue;
@@ -1307,12 +1389,12 @@ public class SaveSystem : MonoBehaviour
         OptionManager.instance.CameraSensiSliderOnValueChange();
         OptionManager.instance.MouseSensiSliderOnValueChange();
 
-        OptionManager.instance.controllerToggle.isOn = false;
+        //OptionManager.instance.controllerToggle.isOn = false;
 
-        for (int i = 0; i < sGO.keyTxtStrings.Count; i++)
-        {
-            OptionManager.instance.keyTxts[i].text = sGO.keyTxtStrings[i];
-        }
+        //for (int i = 0; i < sGO.keyTxtStrings.Count; i++)
+        //{
+        //    OptionManager.instance.keyTxts[i].text = sGO.keyTxtStrings[i];
+        //}
     }
     #endregion
 }

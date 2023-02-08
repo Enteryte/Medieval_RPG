@@ -16,6 +16,19 @@ public class DoDamage : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (isActive != true || !other.gameObject.CompareTag("Enemy")) return;
+
+        if(other.gameObject.CompareTag("BossHitbox"))
+        {
+            if(lightAttack == true)
+            {
+                other.gameObject.GetComponent<SkeletonBossStats>().CurrentHP -= lightDamage;
+            }
+            else
+            {
+                other.gameObject.GetComponent<SkeletonBossStats>().CurrentHP -= heavyDamage;
+            }
+        }
+
         if (other.TryGetComponent(out EnemyHealth eHealth))
         {
             if (lightAttack)

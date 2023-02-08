@@ -8,6 +8,8 @@ public class NPCMissionButton : MonoBehaviour
     public MissionTask storedMT;
     public MissionTaskBase storedMTB;
 
+    public Image decisionImg;
+
     [Header("Check Money")]
     public bool checkMoney = false;
     public int minMoneyValue;

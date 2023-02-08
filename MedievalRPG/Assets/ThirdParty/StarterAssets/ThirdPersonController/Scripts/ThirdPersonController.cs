@@ -23,6 +23,8 @@ namespace StarterAssets
         public float normalMoveSpeed = 2;
         public float MoveSpeed = 2.0f;
 
+        [SerializeField] private WeightToAnimator mass;
+
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;
 
@@ -410,6 +412,11 @@ namespace StarterAssets
             if (InventoryManager.instance.currHoldingWeight > InventoryManager.instance.maxHoldingWeight || DebuffManager.instance.slowPlayerDebuff)
             {
                 _animator.speed = 0.6f;
+
+                if(mass.animationSpeed == 0)
+                {
+                    _animator.speed = 0;
+                }
             }
 
             PlayerValueManager.instance.RemoveStamina(rollStaminaReduceValue);
@@ -576,6 +583,8 @@ namespace StarterAssets
                     targetSpeed = MoveSpeed;
                 //}
             }
+
+            //targetSpeed *= mass.animationSpeed;
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 

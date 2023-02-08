@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: IBP_SpeedPotion
   m_EditorClassIdentifier: 
   itemName: Schnelligkeitstrank
-  itemDescription: 
+  itemDescription: "Geduld ist gut, Tempo ist besser.\r\n\nDieser Trank erh\xF6ht
+    deine allgemeine Geschwindigkeit f\xFCr ... Sekunden und bereit dich von Geschwindigkeitsdebuffs."
   weight: 0
-  itemType: 0
+  itemType: 2
   neededForMissions: 0
   isNew: 0
   itemSprite: {fileID: 21300000, guid: 6b025040b9190a34fa053e896eb57811, type: 3}
   itemPrefab: {fileID: 0}
-  buyPrice: 0
-  sellingPrice: 0
-  stackable: 0
+  buyPrice: 125
+  sellingPrice: 94
+  stackable: 1
   itemsNeededForBuying: []
   missionsWhereItsNeeded: []
   foodHealValue: 0
@@ -30,8 +31,11 @@ MonoBehaviour:
   weaponType: 0
   isTwoHand: 0
   normalDamage: 0
-  potionType: 0
-  potionBuffValue: 0
+  potionType: 3
+  potionBuffValue: 10
+  potionBuffLastingTime: 0
   hasBeenRead: 0
   corresspondingMissionTask: {fileID: 0}
   cutsceneToPlayAfterCloseReadScreen: {fileID: 0}
+  readType: 0
+  noteTxtString: 

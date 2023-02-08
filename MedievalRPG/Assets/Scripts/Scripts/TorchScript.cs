@@ -15,6 +15,26 @@ public class TorchScript : MonoBehaviour
             Flame.transform.position = this.gameObject.transform.position;
             Flame.transform.localScale = new Vector3(2, 2, 2);
             Flame.transform.parent = other.transform;
+
+            //if (other.gameObject.CompareTag("BossHitbox"))
+            //{
+            //    if (lightAttack == true)
+            //    {
+            //        other.gameObject.GetComponent<SkeletonBossStats>().CurrentHP -= lightDamage;
+            //    }
+            //    else
+            //    {
+            //        other.gameObject.GetComponent<SkeletonBossStats>().CurrentHP -= heavyDamage;
+            //    }
+            //}
+
+            //if (other.TryGetComponent(out EnemyHealth eHealth))
+            //{
+            //    if (lightAttack)
+            //        eHealth.LightDamage(lightDamage);
+            //    if (heavyAttack)
+            //        eHealth.HeavyDamage(heavyDamage);
+            //}
         }
     }
 }

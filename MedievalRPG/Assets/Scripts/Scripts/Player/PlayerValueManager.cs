@@ -33,6 +33,8 @@ public class PlayerValueManager : MonoBehaviour
                 {
                     currHP = value;
                 }
+
+                healthSlider.value = CurrHP;
             }
         }
     }

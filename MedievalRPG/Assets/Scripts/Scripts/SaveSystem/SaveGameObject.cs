@@ -124,6 +124,11 @@ public class SaveGameObject
 
     public bool isRaining;
 
+    // Cutscene
+    public bool cutsceneIsCurrPlaying;
+    public int currCSID;
+    public double currCutsceneTime;
+
     // Options
     // - Audio
     public float masterSlValue;

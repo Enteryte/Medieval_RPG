@@ -12,6 +12,10 @@ public class StoneDamage : MonoBehaviour
         {
             collision.gameObject.GetComponent<EnemyHealth>().HeavyDamage(stoneDamage);
         }
+        if (collision.gameObject.CompareTag("BossHitbox"))
+        {
+            collision.gameObject.GetComponent<SkeletonBossStats>().CurrentHP -= stoneDamage;
+        }
         Destroy(this);
     }
 }

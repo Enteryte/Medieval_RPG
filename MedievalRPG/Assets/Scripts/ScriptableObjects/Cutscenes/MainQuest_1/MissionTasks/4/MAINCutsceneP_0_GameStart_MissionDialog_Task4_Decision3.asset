@@ -31,21 +31,27 @@ MonoBehaviour:
   hasDecisions: 1
   allDecisions:
   - decisionText: Annehmen
+    decisionSprite: {fileID: 21300000, guid: 8b8dc6373f8bacc4db6d8856853be92f, type: 3}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 356ed1865bf4bb64baffab69431a6d14, type: 2}
     missionToActivate: {fileID: 0}
     isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 0
     checkMoney: 0
     minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Ablehnen
+    decisionSprite: {fileID: 21300000, guid: dfcc201f2cac247418588a8f8601299a, type: 3}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: b43689f21f5976c4080b0f43475e1d8f, type: 2}
     missionToActivate: {fileID: 0}
     isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 0
     checkMoney: 0
     minMoneyValue: 0
     itemToGet: {fileID: 0}
