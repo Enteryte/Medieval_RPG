@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6363657790122724983
 Transform:
   m_ObjectHideFlags: 0
@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae3bd2e3d4b2aa4e8c27f6436667983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lengthOfDay: 1
-  lengthOfNight: 1
+  lengthOfDay: 30
+  lengthOfNight: 30
   dayDestinationTemperature: 6413
   dayDestinationIntensityV: 10000
   dayDestinationIntensityL: 100000
@@ -76,7 +76,7 @@ MonoBehaviour:
   lightData: {fileID: 6938501747300588398}
   vol: {fileID: 1370663461306054007}
   lightObject: {fileID: 6938501747300588395}
-  stopTime: 0
+  stopTime: 1
   currentDayTime: 0
   timeInHoursAndMinutes: 0
 --- !u!114 &1370663461306054007
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_IsGlobal: 1
   priority: 0
   blendDistance: 0
-  weight: 0.048
+  weight: 0.101
   sharedProfile: {fileID: 11400000, guid: 88cb89abbd7a6be4781b21e9cfe89fdf, type: 2}
 --- !u!1 &6938501747300588395
 GameObject:
@@ -141,7 +141,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.9452581, b: 0.80566037, a: 1}
-  m_Intensity: 78197.45
+  m_Intensity: 13316.32
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -184,7 +184,7 @@ Light:
   m_LightShadowCasterMode: 2
   m_AreaSize: {x: 0.5, y: 0.5}
   m_BounceIntensity: 1
-  m_ColorTemperature: 8170
+  m_ColorTemperature: 4530
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 78197.45
+  m_Intensity: 13316.32
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0

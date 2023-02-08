@@ -6,36 +6,42 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
-    public float SetMasterVolume { private get; set; }
-    private float EnvironmentalVolume;
+    public float SetMasterVolume { private get; set; } = 1.0f;
+    private float EnvironmentalVolume = 0.5f;
     public float GetEnvironmentalVolume => EnvironmentalVolume * SetMasterVolume;
+
     public float SetEnvironmentalVolume
     {
-        set => EnvironmentalVolume =(value >= 1.0f) ? 1.0f : value;
+        set => EnvironmentalVolume = Mathf.Min(1.0f, value);
     }
-    private float VoiceVolume;
+
+    private float VoiceVolume = 0.5f;
     public float GetVoiceVolume => VoiceVolume * SetMasterVolume;
+
     public float SetVoiceVolume
     {
-        set => VoiceVolume = (value >= 1.0f) ? 1.0f : value;
+        set => VoiceVolume = Mathf.Min(1.0f, value);
     }
-    
-    private float MusicVolume;
+
+    private float MusicVolume = 0.5f;
     public float GetMusicVolume => MusicVolume * SetMasterVolume;
+
     public float SetMusicVolume
     {
-        set => MusicVolume = (value >= 1.0f) ? 1.0f : value;
+        set => MusicVolume = Mathf.Min(1.0f, value);
     }
-    private float SFXVolume;
+
+    private float SFXVolume = 0.5f;
     public float GetSFXVolume => SFXVolume * SetMasterVolume;
+
     public float SetSFXVolume
     {
-        set => SFXVolume = (value >= 1.0f) ? 1.0f : value;
+        set => SFXVolume = Mathf.Min(1.0f, value);
     }
 
     private void Awake()
     {
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
             Destroy(this);
         Instance = this;
     }
