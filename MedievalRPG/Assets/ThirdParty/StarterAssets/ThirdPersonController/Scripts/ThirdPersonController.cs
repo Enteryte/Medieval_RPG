@@ -584,7 +584,7 @@ namespace StarterAssets
                 //}
             }
 
-            targetSpeed *= mass.animationSpeed;
+            //targetSpeed *= mass.animationSpeed;
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
