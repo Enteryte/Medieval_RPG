@@ -1,25 +1,31 @@
-
 using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class ArcherEnemyKI : BaseEnemyKI
 {
     [SerializeField] private Transform FiringPoint;
-    [SerializeField] private float FleeingDistance;
+    [SerializeField] private float PersonalSpace;
+    [SerializeField] private float RunningLength;
     [SerializeField] private float FleeReroutCoolDown;
-    
+
+
+    private Vector3 FlightTargetPos;
+
     private ArrowPool ArrowPool;
 
     private bool IsAttackCoroutineStarted;
     private bool IsFleeCoroutineStarted;
     private bool HasTakenAStep;
 
-    public  void LinkArrowPool(ArrowPool _arrowPool)
+    public void LinkArrowPool(ArrowPool _arrowPool)
     {
         ArrowPool = _arrowPool;
     }
+
     public override void Init()
     {
         base.Init();
@@ -32,10 +38,14 @@ public class ArcherEnemyKI : BaseEnemyKI
         base.Update();
 
         CompareSight();
-        if (!IsSeeingPlayer|| IsFleeCoroutineStarted)
+        if (!IsSeeingPlayer || IsFleeCoroutineStarted)
             return;
-        Animator.gameObject.transform.LookAt(Target);
-        if (Vector3.Distance(transform.position, Target.position) < FleeingDistance)
+        if (IsAttackCoroutineStarted)
+        {
+            Vector3 targetHorizontal = new Vector3(Target.position.x, 0.0f, Target.position.z);
+            transform.LookAt(targetHorizontal);
+        }
+        if (Vector3.Distance(transform.position, Target.position) < PersonalSpace)
             StartCoroutine(FleeCheck());
         else
             Animator.SetBool(Animator.StringToHash("IsFleeing"), false);
@@ -55,7 +65,7 @@ public class ArcherEnemyKI : BaseEnemyKI
             OnSightGained();
         else //If the current state was Seeing -> Not seeing
             // OnSightLost();
-        WasSeeingPlayer = IsSeeingPlayer;
+            WasSeeingPlayer = IsSeeingPlayer;
     }
 
     private void OnSightGained()
@@ -79,10 +89,6 @@ public class ArcherEnemyKI : BaseEnemyKI
             if (IsSeeingPlayer)
                 break;
         }
-
-        // if (!IsSeeingPlayer)
-        //     Agent.SetDestination(StartPos);
-        // transform.LookAt(Target.transform.position);
     }
 
     private void NoticeEnemy()
@@ -90,60 +96,79 @@ public class ArcherEnemyKI : BaseEnemyKI
         HasSeenPlayer = true;
         Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
         Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
-        
     }
 
     private void Flee()
     {
-        //Bearbeiten Transform.position => New Vector3, Max Position 
-        Vector3 flightPos = transform.position - Target.transform.position;
-        // StartPos = Vector3.Lerp(flightPos, Target.transform.position, 0.1f);
+        Vector3 flightDir = transform.position - Target.transform.position;
+        flightDir = flightDir.normalized;
+        flightDir *= RunningLength;
+        FlightTargetPos = Target.position + flightDir;
+        if (NavMesh.SamplePosition(FlightTargetPos, out NavMeshHit hit, RunningLength, NavMesh.AllAreas))
+        {
+            Animator.SetBool(Animator.StringToHash("IsFleeing"), true);
+            Agent.SetDestination(hit.position);
+        }
+        else
+        {
+            bool isHit = false;
+            float RandomizerValue = 1.0f;
+            while (!isHit)
+            {
+                Vector3 randomMod = new Vector3(Random.Range(-RandomizerValue, RandomizerValue), 0.0f, Random.Range(-RandomizerValue, RandomizerValue));
+                if (NavMesh.SamplePosition(FlightTargetPos, out hit, RunningLength, NavMesh.AllAreas))
+                {
+                    isHit = true;
+                    Agent.SetDestination(hit.position);
+                }
 
-        Animator.SetBool(Animator.StringToHash("IsFleeing"), true);
-        Agent.SetDestination(flightPos);
+                RandomizerValue += 0.2f;
+            }
+        }
     }
 
     private IEnumerator AttackTrigger()
     {
         IsAttackCoroutineStarted = true;
-        while (IsSeeingPlayer)
+        Agent.enabled = false;
+        while (!IsFleeCoroutineStarted)
         {
             Animator.SetTrigger(Animator.StringToHash("AttackLaunch"));
             yield return new WaitForSeconds(KiStats.AttackCoolDown);
         }
-
         IsAttackCoroutineStarted = false;
+        Agent.enabled = true;
     }
 
     private IEnumerator FleeCheck()
     {
+        Agent.enabled = true;
         IsFleeCoroutineStarted = true;
-        while (Vector3.Distance(transform.position, Target.transform.position) < FleeingDistance)
+        while (Vector3.Distance(transform.position, Target.transform.position) < PersonalSpace)
         {
             Flee();
             yield return new WaitForSeconds(FleeReroutCoolDown);
         }
+
         IsFleeCoroutineStarted = false;
     }
+
     public void FireArrow()
     {
-        Agent.SetDestination(Vector3.Lerp(transform.position, Target.transform.position, 0.04f));
-        // transform.LookAt(Target);
         ArrowPool.SpawnAndFireArrow(FiringPoint);
     }
 
     public override void Death()
     {
         base.Death();
-        
     }
 
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
         Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, FleeingDistance);
-        
+        Gizmos.DrawWireSphere(transform.position, PersonalSpace);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(FlightTargetPos, Vector3.one);
     }
-    
 }

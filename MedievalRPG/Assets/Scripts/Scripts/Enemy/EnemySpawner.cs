@@ -2,42 +2,37 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private string Tutorial = "Diese Funktion benötigt entweder einen Collider oder kann auch als Manuell ausgeführt werden um Gegner zu Spawnen.\n Welche Art Collider ist Irellevant, er muss allerdings auf IsTrigger gesetzt sein.";
     [SerializeField] private Transform[] AssignedSpawnPoints;
 
-    [SerializeField] private MeleeEnemyKi[] MeleeEnemyKisToSpawn;
-    [SerializeField] private ArcherEnemyKI[] ArcherEnemyKisToSpawn;
+    [SerializeField] private BaseEnemyKI[] EnemyKisToSpawn;
     [SerializeField] private ArrowPool ArrowPool;
+
     private void OnTriggerEnter(Collider _other)
     {
-        if(AssignedSpawnPoints.Length == 0)
+        if (AssignedSpawnPoints.Length == 0 || EnemyKisToSpawn.Length == 0)
             return;
         SpawnEnemies();
-        Destroy(gameObject);
+        Destroy(gameObject);//Maybe turn this into a dst check if the others later want the player to be able to escape after all and allow it to just despawn it's spawned enemies.
     }
 
     public void SpawnEnemies()
     {
-        for (int i = 0, j = 0; i < AssignedSpawnPoints.Length; i++)
+        for (int i = 0; i < AssignedSpawnPoints.Length; i++)
         {
-            if(i > (MeleeEnemyKisToSpawn.Length + ArcherEnemyKisToSpawn.Length))
-               return;
-            if (i <= MeleeEnemyKisToSpawn.Length && MeleeEnemyKisToSpawn.Length > 0)
+            if (i > EnemyKisToSpawn.Length)
             {
-                BaseEnemyKI myEnemy = Instantiate(MeleeEnemyKisToSpawn[i], AssignedSpawnPoints[i].position, Quaternion.identity);
-                myEnemy.Init();
+                Debug.Log($"I({i}) is bigger than the EKTS({EnemyKisToSpawn.Length})");
+                return;
             }
-            else
-            {
-                ArcherEnemyKI myEnemy = Instantiate(ArcherEnemyKisToSpawn[j], AssignedSpawnPoints[i].position, Quaternion.identity);
-                myEnemy.Init();
-                myEnemy.LinkArrowPool(ArrowPool);
-                // Debug.Log("Archer Spawned");
-                j++;
-            }
+            BaseEnemyKI myEnemy = Instantiate(EnemyKisToSpawn[i], AssignedSpawnPoints[i].position, AssignedSpawnPoints[i].rotation);
+            Debug.Log($"{myEnemy.name} has Spawned");
+            myEnemy.Init();
+            if (myEnemy is ArcherEnemyKI myArcherEnemy)
+                myArcherEnemy.LinkArrowPool(ArrowPool);
         }
     }
 }
