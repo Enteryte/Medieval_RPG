@@ -18,7 +18,7 @@ public class Interacting : MonoBehaviour
     [Range(0, 360)] public float viewAngle;
     [Range(0, 360)] public float viewAngle2;
     [Range(0, 360)] public float viewAngle3; // Only for sitting
-    [Range(0, 360)] public float viewAngle4; // Only for sitting
+    [Range(0, 360)] public float viewAngle4; // Only for merchants ( far away merchants )
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -349,9 +349,12 @@ public class Interacting : MonoBehaviour
                 {
                     if (nearestObjTrans.TryGetComponent(out SeatingObject seatObj) && Vector3.Distance(seatObj.iOCanvasLookAtSitPlaceObj.transform.position, this.gameObject.transform.position) < 0.7f)
                     {
+                        Debug.Log("SEAT");
+
                         if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
                             && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)
                         {
+                            Debug.Log("SEAT2");
                             howToInteractGO.SetActive(true);
 
                             howToInteractTxt.text = interactable.GetInteractUIText();

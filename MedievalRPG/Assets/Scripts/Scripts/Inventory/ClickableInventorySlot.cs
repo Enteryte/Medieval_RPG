@@ -66,6 +66,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     this.gameObject.GetComponent<Button>().interactable = true;
                 }
             }
+
+            isNewSymbol.gameObject.SetActive(storedItemBase.isNew);
         }
 
         if (clickableSlotType != ClickableSlotType.categoryButton)
@@ -109,6 +111,11 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     correspondingMainScreenHotbarSlotBtn.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
                 }
             }
+        }
+
+        if (clickableSlotType == ClickableSlotType.inventorySlot)
+        {
+            isNewSymbol.gameObject.SetActive(storedItemBase.isNew);
         }
     }
 
