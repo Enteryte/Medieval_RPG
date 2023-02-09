@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [SerializeField] private string Tutorial = "Diese Funktion benötigt entweder einen Collider oder kann auch als Manuell ausgeführt werden um Gegner zu Spawnen.\n Welche Art Collider ist Irellevant, er muss allerdings auf IsTrigger gesetzt sein.";
     [SerializeField] private Transform[] AssignedSpawnPoints;
 
     [SerializeField] private MeleeEnemyKi[] MeleeEnemyKisToSpawn;
     [SerializeField] private ArcherEnemyKI[] ArcherEnemyKisToSpawn;
+    [SerializeField] private ArrowPool ArrowPool;
     private void OnTriggerEnter(Collider _other)
     {
         if(AssignedSpawnPoints.Length == 0)
@@ -23,18 +25,17 @@ public class EnemySpawner : MonoBehaviour
         {
             if(i > (MeleeEnemyKisToSpawn.Length + ArcherEnemyKisToSpawn.Length))
                return;
-            if (i <= MeleeEnemyKisToSpawn.Length)
+            if (i <= MeleeEnemyKisToSpawn.Length && MeleeEnemyKisToSpawn.Length > 0)
             {
-                BaseEnemyKI myEnemy = Instantiate(MeleeEnemyKisToSpawn[i], AssignedSpawnPoints[i].position,
-                    Quaternion.identity);
+                BaseEnemyKI myEnemy = Instantiate(MeleeEnemyKisToSpawn[i], AssignedSpawnPoints[i].position, Quaternion.identity);
                 myEnemy.Init();
             }
-            else 
+            else
             {
-                ArcherEnemyKI myEnemy = Instantiate(ArcherEnemyKisToSpawn[j], AssignedSpawnPoints[i].position,
-                    Quaternion.identity);
+                ArcherEnemyKI myEnemy = Instantiate(ArcherEnemyKisToSpawn[j], AssignedSpawnPoints[i].position, Quaternion.identity);
                 myEnemy.Init();
-                myEnemy.LinkArrowPool(EnemyInitializer.instance.ArrowPool);
+                myEnemy.LinkArrowPool(ArrowPool);
+                // Debug.Log("Archer Spawned");
                 j++;
             }
         }

@@ -9,7 +9,7 @@ public class ArcherEnemyKI : BaseEnemyKI
     [SerializeField] private Transform FiringPoint;
     [SerializeField] private float FleeingDistance;
     [SerializeField] private float FleeReroutCoolDown;
-
+    
     private ArrowPool ArrowPool;
 
     private bool IsAttackCoroutineStarted;
@@ -32,9 +32,9 @@ public class ArcherEnemyKI : BaseEnemyKI
         base.Update();
 
         CompareSight();
-        if (!IsSeeingPlayer)
+        if (!IsSeeingPlayer|| IsFleeCoroutineStarted)
             return;
-        if (IsFleeCoroutineStarted) return;
+        Animator.gameObject.transform.LookAt(Target);
         if (Vector3.Distance(transform.position, Target.position) < FleeingDistance)
             StartCoroutine(FleeCheck());
         else
@@ -80,8 +80,8 @@ public class ArcherEnemyKI : BaseEnemyKI
                 break;
         }
 
-        if (!IsSeeingPlayer)
-            Agent.SetDestination(StartPos);
+        // if (!IsSeeingPlayer)
+        //     Agent.SetDestination(StartPos);
         // transform.LookAt(Target.transform.position);
     }
 
@@ -90,10 +90,12 @@ public class ArcherEnemyKI : BaseEnemyKI
         HasSeenPlayer = true;
         Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
         Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
+        
     }
 
     private void Flee()
     {
+        //Bearbeiten Transform.position => New Vector3, Max Position 
         Vector3 flightPos = transform.position - Target.transform.position;
         // StartPos = Vector3.Lerp(flightPos, Target.transform.position, 0.1f);
 

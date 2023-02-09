@@ -37,18 +37,21 @@ public class NPCStumble : MonoBehaviour
         Anim = GetComponent<Animator>();
         AudioSource = GetComponent<AudioSource>();
         LayerIndex = Anim.GetLayerIndex("Bottom Layer");
+        // Debug.Log($"Layer Index: {LayerIndex}. Name: {Anim.GetLayerName(LayerIndex)}");
         AudioSource.volume = AudioManager.Instance.GetVoiceVolume;
     }
 
     private void SetWeightZero()
     {
         Anim.SetLayerWeight(LayerIndex, 0.0f);
+        // Debug.Log($"Weight set to: {Anim.GetLayerWeight(LayerIndex)}");
         IsRockBottom = true;
     }
     
     private void SetWeightOne()
     {
         Anim.SetLayerWeight(LayerIndex, 1.0f);
+        // Debug.Log($"Weight set to: {Anim.GetLayerWeight(LayerIndex)}");
         IsRockBottom = false;
     }
     
