@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,11 @@ public class ArrowPool : MonoBehaviour
 
     private EnemyArrowController[] ArrowControllers;
 
+    private void Start()
+    {
+        
+        InitializeArrows(0.5f, 2f, 1.2f);
+    }
 
     /// <summary>
     /// With this, one can set the gameplay affecting values according to the Difficulty of the game
@@ -32,7 +38,7 @@ public class ArrowPool : MonoBehaviour
         Transform target = HardCodeTarget ? HardCodeTarget : GameManager.instance.playerGO.transform;
         for (int i = 0; i < ArrowControllers.Length; i++)
         {
-            ArrowControllers[i] = Instantiate(ArrowPrefab);
+            ArrowControllers[i] = Instantiate(ArrowPrefab, ArrowParent);
             ArrowControllers[i].gameObject.name = $"Arrow {i}";
             ArrowControllers[i].Initialize(this, _perfectionDistance, DespawnTime, _damage, _speed, target);
         }

@@ -28,8 +28,9 @@ public class MeleeEnemyKi : BaseEnemyKI
     [SerializeField] private float RepathCoolDownLength = 0.2f;
     private float RepathCoolDown = 0.2f;
 
-    #region Unity Events
+    [SerializeField] private float MinDistance = 1.0f;
 
+    #region Unity Events
 
     public override void Init()
     {
@@ -46,6 +47,16 @@ public class MeleeEnemyKi : BaseEnemyKI
     {
         base.Update();
         SightEvent(IsSeeingPlayer);
+        if (Vector3.Distance(transform.position, Target.position) < MinDistance)
+        {
+            
+            Agent.destination = Target.position;
+            if (Agent.enabled)
+                Agent.enabled = false;
+            transform.LookAt(Target);
+        }
+        else if (!Agent.enabled)
+            Agent.enabled = true;
 
         //Putting the Attack Detection into an if so it only checks when it has the player within it's sight for better performance.
         if (!IsSeeingPlayer)
@@ -128,11 +139,12 @@ public class MeleeEnemyKi : BaseEnemyKI
         if (IsInAttackRange)
         {
             RepathCoolDown = 0f;
-            if (!Agent.isStopped)
-            {
-                Agent.isStopped = true;
-                Agent.ResetPath();
-            }
+            if (Agent.enabled)
+                if (!Agent.isStopped)
+                {
+                    Agent.isStopped = true;
+                    Agent.ResetPath();
+                }
 
             //Attack
             if (!IsAttackCoroutineStarted)
@@ -147,9 +159,6 @@ public class MeleeEnemyKi : BaseEnemyKI
             Agent.isStopped = false;
             var targetPos = Target.position;
             Agent.destination = targetPos;
-
-            //Animator.ResetTrigger("AttackLaunch");
-            //transform.LookAt(Target.transform);
         }
     }
 
