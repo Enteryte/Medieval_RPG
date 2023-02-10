@@ -42,8 +42,8 @@ public class ArcherEnemyKI : BaseEnemyKI
             return;
         if (IsAttackCoroutineStarted)
         {
-            Vector3 targetHorizontal = new Vector3(Target.position.x, 0.0f, Target.position.z);
-            transform.LookAt(targetHorizontal);
+            // Vector3 targetHorizontal = new Vector3(Target.position.x, 0.0f, Target.position.z);
+            transform.LookAt(Target.position);
         }
         if (Vector3.Distance(transform.position, Target.position) < PersonalSpace)
             StartCoroutine(FleeCheck());
@@ -112,17 +112,20 @@ public class ArcherEnemyKI : BaseEnemyKI
         else
         {
             bool isHit = false;
-            float RandomizerValue = 1.0f;
+            float randomizerValue = 1.0f;
             while (!isHit)
             {
-                Vector3 randomMod = new Vector3(Random.Range(-RandomizerValue, RandomizerValue), 0.0f, Random.Range(-RandomizerValue, RandomizerValue));
+                Vector3 randomMod = new Vector3(Random.Range(-randomizerValue, randomizerValue),
+                    0.0f,
+                    Random.Range(-randomizerValue, randomizerValue));
+                FlightTargetPos += randomMod;
                 if (NavMesh.SamplePosition(FlightTargetPos, out hit, RunningLength, NavMesh.AllAreas))
                 {
                     isHit = true;
                     Agent.SetDestination(hit.position);
                 }
 
-                RandomizerValue += 0.2f;
+                randomizerValue += 0.2f;
             }
         }
     }

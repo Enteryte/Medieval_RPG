@@ -12,12 +12,10 @@ public class LocomotionAgent : MonoBehaviour
     private Vector2 SmoothDeltaPos = Vector2.zero;
     private Vector2 Velocity = Vector2.zero;
     private const float TOLERANCE = 0.5f;
-    private float SqrTolerance;
 
 
-    void Start()
+    private void Start()
     {
-        SqrTolerance = Mathf.Pow(TOLERANCE, 2);
         Anim = GetComponent<Animator>();
         Agent = GetComponentInParent<NavMeshAgent>();
         LA = GetComponent<LookAter>();
@@ -25,10 +23,9 @@ public class LocomotionAgent : MonoBehaviour
         Agent.updatePosition = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        var transformAcc = Parent.transform;
+        Transform transformAcc = Parent.transform;
         Vector3 worldDeltaPos = Agent.nextPosition - transformAcc.position;
 
         float deltaX = Vector3.Dot(transformAcc.right, worldDeltaPos);
@@ -49,8 +46,6 @@ public class LocomotionAgent : MonoBehaviour
 
         if (LA)
             LA.LookAtTargetPos = Agent.steeringTarget + transform.forward;
-        // if (worldDeltaPos.magnitude > Agent.radius)
-        //     Agent.nextPosition = Parent.position + 0.9f * worldDeltaPos;
     }
 
     private void OnAnimatorMove()

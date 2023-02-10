@@ -13,10 +13,9 @@ public class ArrowPool : MonoBehaviour
     [SerializeField] private Transform HardCodeTarget;
 
     private EnemyArrowController[] ArrowControllers;
-
+//Temporary Function, replace it with something external.
     private void Start()
     {
-        
         InitializeArrows(0.5f, 2f, 1.2f);
     }
 
@@ -67,13 +66,15 @@ public class ArrowPool : MonoBehaviour
             Debug.Log("Arrow Fired without any arrows existing.");
             return;
         }
-        for (int i = 0; i < ArrowControllers.Length; i++)
+
+        foreach (EnemyArrowController arrow in ArrowControllers)
         {
-            if (ArrowControllers[i].gameObject.activeSelf)
+            if (arrow.gameObject.activeSelf)
                 continue;
-            ArrowControllers[i].gameObject.transform.position = _place.transform.position;
-            ArrowControllers[i].gameObject.SetActive(true);
-            ArrowControllers[i].Fire();
+            arrow.transform.position = _place.transform.position;
+            arrow.transform.parent = null;
+            arrow.gameObject.SetActive(true);
+            arrow.Fire();
             break;
         }
     }
@@ -81,6 +82,8 @@ public class ArrowPool : MonoBehaviour
     public void DespawnArrow(EnemyArrowController _arrowToDespawn)
     {
         _arrowToDespawn.gameObject.SetActive(false);
-        _arrowToDespawn.transform.position = Vector3.zero;
+        Transform despawnArrowTransform = _arrowToDespawn.transform;
+        despawnArrowTransform.parent = ArrowParent;
+        despawnArrowTransform.position = Vector3.zero;
     }
 }

@@ -13,7 +13,7 @@ public class GotDamage : MonoBehaviour
 
     public void GotHit(bool enemyDamage)
     {
-        Debug.Log("Hit");
+        Debug.Log($"Hit = {enemyDamage}");
 
         if(enemyDamage == true)
         {
