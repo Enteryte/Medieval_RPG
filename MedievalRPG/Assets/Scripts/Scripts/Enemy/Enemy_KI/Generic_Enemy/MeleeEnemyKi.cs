@@ -20,9 +20,6 @@ public class MeleeEnemyKi : BaseEnemyKI
     //The Transforms for the Detectors, must be an amount divisible by 2
     private RayDetection[] RayDetectorsAttack;
 
-    Coroutine attackCoro;
-
-
     [Header("Dev Variables")] private bool IsAttackCoroutineStarted;
     private bool IsSearching;
     [SerializeField] private float RepathCoolDownLength = 0.2f;
@@ -50,9 +47,12 @@ public class MeleeEnemyKi : BaseEnemyKI
         if (Vector3.Distance(transform.position, Target.position) < MinDistance)
         {
             
-            Agent.destination = Target.position;
             if (Agent.enabled)
+            {
+                Agent.destination = transform.position;
                 Agent.enabled = false;
+            }
+
             transform.LookAt(Target);
         }
         else if (!Agent.enabled)
@@ -120,11 +120,6 @@ public class MeleeEnemyKi : BaseEnemyKI
     {
         while (IsInAttackRange)
         {
-            //if (Vector3.Distance(Target.transform.position, this.gameObject.transform.position) > 0.5f)
-            //{
-            //    StopCoroutine(attackCoro);
-            //}
-
             IsAttackCoroutineStarted = true;
             Animator.SetTrigger(Animator.StringToHash("AttackLaunch"));
             yield return new WaitForSeconds(KiStats.AttackCoolDown);
@@ -148,7 +143,7 @@ public class MeleeEnemyKi : BaseEnemyKI
 
             //Attack
             if (!IsAttackCoroutineStarted)
-                attackCoro = StartCoroutine(AttackTrigger());
+                StartCoroutine(AttackTrigger());
         }
         else
         {

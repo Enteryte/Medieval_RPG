@@ -24,12 +24,8 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < AssignedSpawnPoints.Length; i++)
         {
             if (i > EnemyKisToSpawn.Length)
-            {
-                Debug.Log($"I({i}) is bigger than the EKTS({EnemyKisToSpawn.Length})");
                 return;
-            }
             BaseEnemyKI myEnemy = Instantiate(EnemyKisToSpawn[i], AssignedSpawnPoints[i].position, AssignedSpawnPoints[i].rotation);
-            Debug.Log($"{myEnemy.name} has Spawned");
             myEnemy.Init();
             if (myEnemy is ArcherEnemyKI myArcherEnemy)
                 myArcherEnemy.LinkArrowPool(ArrowPool);

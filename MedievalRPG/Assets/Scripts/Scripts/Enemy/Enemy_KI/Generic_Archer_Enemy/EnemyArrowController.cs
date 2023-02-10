@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class EnemyArrowController : MonoBehaviour
@@ -32,13 +33,6 @@ public class EnemyArrowController : MonoBehaviour
 
     private void OnCollisionEnter(Collision _collision)
     {
-        
-    }
-
-    private void OnTriggerEnter(Collider _collision)
-    {
-        Debug.Log($"{gameObject.name} hit {_collision.gameObject.name}");
-        //Do Damage after checking if you hit the player or not
         if (!_collision.gameObject.CompareTag("Player"))
             return;
         HasCollided = true;
@@ -48,9 +42,19 @@ public class EnemyArrowController : MonoBehaviour
         if (!_collision.gameObject.CompareTag("Player")) 
             transform.SetParent(_collision.transform);
         Rb.Sleep();
+    }
+
+    private void OnTriggerEnter(Collider _collision)
+    {
+        Debug.Log($"{gameObject.name} hit {_collision.gameObject.name}");
+        //Do Damage after checking if you hit the player or not
+        
         //Do Something the arrow sticks or something, parent it to the player until despawn.
-        // _collision.gameObject.GetComponent(Insert PlayerhealthDamageScript Here)
-        //Insert PlayerhealthDamageScript Here.DoDamage(Damage);
+        _collision.TryGetComponent<GotDamage>(out GotDamage gdmg);
+        if (gdmg)
+            gdmg.GotHit(true);
+        PlayerValueManager.instance.CurrHP -= Damage;
+        PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
     }
 
     public void Fire()

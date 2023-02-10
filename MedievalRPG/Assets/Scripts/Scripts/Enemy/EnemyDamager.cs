@@ -12,9 +12,7 @@ public class EnemyDamager : MonoBehaviour
     {
         Debug.Log($"Hit Gameobject: {_collision.gameObject.name}");
         if (!GameManager.instance)
-        {
             return;
-        }
 
         if (!IsDamaging || _collision.gameObject == GameManager.instance.playerGO)
             return;
@@ -38,11 +36,8 @@ public class EnemyDamager : MonoBehaviour
 
     private void Attack(GameObject _playerGameObject)
     {
-        _playerGameObject.TryGetComponent<GotDamage>(out GotDamage gdmg);
-        if (gdmg)
-            gdmg.GotHit(true);
-        else
-            throw new WarningException("Player Got Damage not at Right place!");
+        if (_playerGameObject.TryGetComponent(out GotDamage gDmg))
+            gDmg.GotHit(true);
         PlayerValueManager.instance.CurrHP -= Damage;
         PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
         IsDamaging = false;
