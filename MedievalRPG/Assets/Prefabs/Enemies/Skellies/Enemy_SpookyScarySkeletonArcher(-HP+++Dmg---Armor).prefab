@@ -818,7 +818,7 @@ GameObject:
   - component: {fileID: 6787530355641554144}
   m_Layer: 12
   m_Name: Hitbox
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -873,7 +873,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028853700292108100}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.0000001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -2608,7 +2608,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 6740947398921618455}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.49
   m_Height: 4
   m_Direction: 1
@@ -2689,7 +2689,7 @@ GameObject:
   - component: {fileID: 3990679572474912121}
   - component: {fileID: 5664829812521682032}
   - component: {fileID: 8169654544299737275}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Enemy_SpookyScarySkeletonArcher(-HP+++Dmg---Armor)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2734,7 +2734,7 @@ MonoBehaviour:
   SightContainer: {fileID: 3704353024204817998}
   Tolerance: 1.19
   FiringPoint: {fileID: 2821798670182175154}
-  PersonalSpace: 5
+  PersonalSpace: 4
   RunningLength: 6
   FleeReroutCoolDown: 1
 --- !u!195 &8169654544299737275
@@ -2747,8 +2747,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2
-  m_Acceleration: 5
+  m_Speed: 1
+  m_Acceleration: 3
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0

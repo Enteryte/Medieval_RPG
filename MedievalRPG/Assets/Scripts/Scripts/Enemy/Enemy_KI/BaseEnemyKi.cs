@@ -63,7 +63,6 @@ public abstract class BaseEnemyKI : MonoBehaviour
 
         if (!IsSeeingPlayer)
             IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
-
     }
 
     /// <summary>
@@ -75,21 +74,35 @@ public abstract class BaseEnemyKI : MonoBehaviour
         Animator.speed = _speed;
     }
 
-    protected bool DetectorCheck(RayDetection[] _detectors)
-    {
-        return _detectors.Any(_rayDetection => _rayDetection.Sight());
-    }
+    protected bool DetectorCheck(RayDetection[] _detectors) => _detectors.Any(_rayDetection => _rayDetection.Sight());
 
+    public void GotHitReaction()
+    {
+        IsSeeingPlayer = true;
+    }
     #endregion
 
+    public void RestartAgent()
+    {
+        Agent.isStopped = false;
+    }
     public virtual void Death()
     {
         //TODO: Turn of all other scripts, animators, etc
         HasDied = true;
-        Animator.SetBool(Animator.StringToHash("IsDead"), true);
+        Animator.SetTrigger(Animator.StringToHash("Dies"));
+        Animator.SetBool(Animator.StringToHash("IsDead"),true);
         Agent.enabled = false;
+        GetComponentInChildren<LocomotionAgent>().enabled = false;
+        Destroy(Health.gameObject);
+
+        enabled = false;
     }
 
+    public void DisableAnimator()
+    {
+        Animator.enabled = false;
+    }
     /// <summary>
     /// The Function that appoints the Detectors into their Position according to the Field of View
     /// </summary>
