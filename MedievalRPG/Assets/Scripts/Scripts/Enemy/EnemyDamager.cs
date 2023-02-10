@@ -14,7 +14,7 @@ public class EnemyDamager : MonoBehaviour
         if (!GameManager.instance)
             return;
 
-        if (!IsDamaging || _collision.gameObject == GameManager.instance.playerGO)
+        if (!IsDamaging || _collision.gameObject != GameManager.instance.playerGO)
             return;
         Attack(_collision.gameObject);
     }
