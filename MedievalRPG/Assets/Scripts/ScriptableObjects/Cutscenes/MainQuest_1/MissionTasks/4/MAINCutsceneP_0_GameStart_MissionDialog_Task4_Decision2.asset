@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df470a69912d4064e86f315fcc6c32cc, type: 3}
+  m_Name: MAINCutsceneP_0_GameStart_MissionDialog_Task4_Decision2
+  m_EditorClassIdentifier: 
+  cutscene: {fileID: 11400000, guid: 4558b990664efb14184b02a45f15977d, type: 2}
+  fadeIn: 1
+  isNightCutscene: 0
+  isNotADialogue: 0
+  cantBeSkipped: 0
+  playCutsceneMoreThanOnce: 0
+  alreadyPlayedCutscene: 0
+  timeTillWhereToSkip: 0
+  timesWhenNewSentenceStarts:
+  - 6.15
+  - 16.98
+  canPauseWhilePlaying: 0
+  tutorialToTrigger: {fileID: 0}
+  changeParentTrans: 0
+  hasDecisions: 1
+  allDecisions:
+  - decisionText: Annehmen
+    arguePointsToGain: 0
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: 5f9571861381c6045b4ce91a85a28f26, type: 2}
+    missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  - decisionText: Ablehnen
+    arguePointsToGain: 0
+    needsToBeClicked: 1
+    cutsceneToPlay: {fileID: 11400000, guid: b6b5a6f50f2f860459067b371f09f04c, type: 2}
+    missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    checkMoney: 0
+    minMoneyValue: 0
+    itemToGet: {fileID: 0}
+    amountToGet: 0
+  mBTToCheck: {fileID: 0}
+  cutsceneToChangeTo: {fileID: 0}
+  missionToComplete: {fileID: 0}
+  missionTaskToComplete: {fileID: 0}
+  missionToPlayAfter: {fileID: 0}
+  playNewCutsceneAfterDeactivatedObj: 0
+  gameObjectToDeactivateName: 
+  cutsceneToPlayAfter: {fileID: 0}
+  corresspondingMission: {fileID: 0}
+  missionTaskToActivate: {fileID: 0}

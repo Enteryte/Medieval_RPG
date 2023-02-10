@@ -12,6 +12,11 @@ public class NPCWaypoint : MonoBehaviour
     public float stayingTime;
     [Min(0)] public int standingAnimNumber = 0;
 
+    public void Start()
+    {
+        correspondingNPCObj.GetComponent<NPC>().allCorrWaypoints.Add(this);
+    }
+
     public IEnumerator StartStayingForSpecificTime()
     {
         float currStayingTime = 0;
@@ -40,14 +45,14 @@ public class NPCWaypoint : MonoBehaviour
     {
         if (other.gameObject == correspondingNPCObj && correspondingNPCObj.GetComponent<NPC>().currWaypoint == this)
         {
-            if (stayForSpecificTime)
-            {
-                StartCoroutine(StartStayingForSpecificTime());
-            }
-            else
-            {
+            //if (stayForSpecificTime)
+            //{
+            //    StartCoroutine(StartStayingForSpecificTime());
+            //}
+            //else
+            //{
                 correspondingNPCObj.GetComponent<NPC>().SetNewWaypointWithoutStopping(nextWaypoint.GetComponent<NPCWaypoint>());
-            }
+            //}
         }
     }
 }

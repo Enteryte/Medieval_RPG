@@ -13,21 +13,22 @@ public class CutsceneTriggerBox : MonoBehaviour
 
     public CutsceneProfile cutsceneToTrigger; // Better more a dialogue or monologue  than an actual cutscene.
 
+    public bool triggerOnExit = false;
+
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == GameManager.instance.playerGO)
+        if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.currCP.cantBeSkipped && CutsceneManager.instance.playableDirector.playableGraph.IsValid()
+            && CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())
         {
-            if (triggerWithoutMission)
-            {
-                CutsceneManager.instance.currCP = cutsceneToTrigger;
-                CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
-                CutsceneManager.instance.playableDirector.Play();
+            Debug.Log("ZUHJ-----------------------------------------------------------NKM;");
+            return;
+        }
 
-                Destroy(this.gameObject);
-            }
-            else if (triggerWhenMissionIsAccepted)
+        if (!triggerOnExit)
+        {
+            if (other.gameObject == GameManager.instance.playerGO && !CutsceneManager.instance.playableDirector.playableGraph.IsValid())
             {
-                if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMission))
+                if (triggerWithoutMission)
                 {
                     CutsceneManager.instance.currCP = cutsceneToTrigger;
                     CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
@@ -35,18 +36,72 @@ public class CutsceneTriggerBox : MonoBehaviour
 
                     Destroy(this.gameObject);
                 }
-            }
-            else if (triggerWhenMissionTaskIsCompleted)
-            {
-                if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMission))
+                else if (triggerWhenMissionIsAccepted)
                 {
-                    if (correspondingMissionTask.missionTaskCompleted)
+                    if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMission))
                     {
                         CutsceneManager.instance.currCP = cutsceneToTrigger;
                         CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
                         CutsceneManager.instance.playableDirector.Play();
 
                         Destroy(this.gameObject);
+                    }
+                }
+                else if (triggerWhenMissionTaskIsCompleted)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMission))
+                    {
+                        if (correspondingMissionTask.missionTaskCompleted)
+                        {
+                            CutsceneManager.instance.currCP = cutsceneToTrigger;
+                            CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
+                            CutsceneManager.instance.playableDirector.Play();
+
+                            Destroy(this.gameObject);
+                        }
+                    }
+                }
+            }
+        }       
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (triggerOnExit)
+        {
+            if (other.gameObject == GameManager.instance.playerGO && !CutsceneManager.instance.playableDirector.playableGraph.IsValid())
+            {
+                if (triggerWithoutMission)
+                {
+                    CutsceneManager.instance.currCP = cutsceneToTrigger;
+                    CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
+                    CutsceneManager.instance.playableDirector.Play();
+
+                    Destroy(this.gameObject);
+                }
+                else if (triggerWhenMissionIsAccepted)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMission))
+                    {
+                        CutsceneManager.instance.currCP = cutsceneToTrigger;
+                        CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
+                        CutsceneManager.instance.playableDirector.Play();
+
+                        Destroy(this.gameObject);
+                    }
+                }
+                else if (triggerWhenMissionTaskIsCompleted)
+                {
+                    if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMission))
+                    {
+                        if (correspondingMissionTask.missionTaskCompleted)
+                        {
+                            CutsceneManager.instance.currCP = cutsceneToTrigger;
+                            CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
+                            CutsceneManager.instance.playableDirector.Play();
+
+                            Destroy(this.gameObject);
+                        }
                     }
                 }
             }

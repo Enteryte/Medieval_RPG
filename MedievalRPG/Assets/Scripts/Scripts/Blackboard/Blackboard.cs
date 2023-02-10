@@ -2,6 +2,7 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Blackboard : MonoBehaviour, IInteractable
 {
@@ -9,30 +10,47 @@ public class Blackboard : MonoBehaviour, IInteractable
 
     [HideInInspector] public InteractableObjectCanvas iOCanvas;
 
-    public Camera blackboardCam;
-    public BlackboardMissionButton[] allBlackboardMB;
+    //public Camera blackboardCam;
+    //public BlackboardMissionButton[] allBlackboardMB;
+
+    public GameObject blackboardUI;
+    public GameObject noteTxtParentGO;
+    public TMP_Text currNoteTxt;
 
     public void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     public void Start()
     {
-        InstantiateIOCanvas();
+        if (instance == this)
+        {
+            InstantiateIOCanvas();
+        }
     }
 
     public void Update()
     {
-        if (blackboardCam.enabled)
+        if (blackboardUI.activeSelf && !noteTxtParentGO.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
-                blackboardCam.enabled = false;
+                blackboardUI.SetActive(false);
 
                 ThirdPersonController.instance.canMove = true;
+            }
+        }
+        else if (blackboardUI.activeSelf && noteTxtParentGO.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                noteTxtParentGO.SetActive(false);
             }
         }
     }
@@ -87,7 +105,9 @@ public class Blackboard : MonoBehaviour, IInteractable
             Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
         }
 
-        blackboardCam.enabled = true;
+        blackboardUI.SetActive(true);
+
+        //blackboardCam.enabled = true;
 
         ThirdPersonController.instance.canMove = false;
     }

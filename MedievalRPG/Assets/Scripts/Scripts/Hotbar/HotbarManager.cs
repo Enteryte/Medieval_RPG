@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class HotbarManager : MonoBehaviour
     public GameObject howManyToHotbarScreen;
 
     [Header("Hotbar")]
-    public HotbarSlotButton[] allHotbarSlotBtn;
+    public ClickableInventorySlot[] allHotbarSlotBtn;
 
     public static HotbarSlotButton currHSB;
     public static ItemBaseProfile currDraggedIBP;
@@ -21,6 +22,11 @@ public class HotbarManager : MonoBehaviour
     public bool draggedHotbarItem = false;
     public bool startedOnHSB = false;
     public static GameObject lastDraggedStoredItemHS;
+
+    public bool isUsingItem = false;
+
+    [Header("If Using Item")]
+    public AnimationClip drinkingAnim;
 
     public void Awake()
     {

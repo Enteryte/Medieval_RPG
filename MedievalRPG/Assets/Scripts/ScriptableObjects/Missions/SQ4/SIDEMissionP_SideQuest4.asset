@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a63e71d0e410d041a2b62762f32f80b, type: 3}
+  m_Name: SIDEMissionP_SideQuest4
+  m_EditorClassIdentifier: 
+  missionType: 2
+  missionName: Schuldeneintreiber
+  missionDescription: "Thava ist viel zu gutm\xFCtig und l\xE4sst ihre Kunden mal
+    wieder \xFCber sie trampeln. Der Schneider hat immer noch nicht f\xFCr seine
+    Ware bezahlt. Vielleicht springt ja eine Belohnung f\xFCr die Person raus, die
+    ihr das Geld bringt."
+  allMissionTasks:
+  - isOptional: 0
+    taskName: Finde den Schneider und bringe ihn dazu, endlich zu zahlen.
+    taskDescription: Finde den Schneider und bringe ihn dazu, endlich zu zahlen.
+    mTB: {fileID: 11400000, guid: 3d6789ea13a51144f8c0c2c37a5184f5, type: 2}
+  - isOptional: 0
+    taskName: "Gehe zu Thava zur\xFCck."
+    taskDescription: "Gehe zu Thava zur\xFCck."
+    mTB: {fileID: 11400000, guid: 9b57641e2c0d1404baa7320a10dd1d10, type: 2}
+  missionCompleted: 0
+  moneyReward: 0
+  itemRewards: []
+  nextMissionToTrigger: {fileID: 0}
+  cutsceneToTrigger: {fileID: 0}
+  nPCWhereToGetMissionFrom: {fileID: 11400000, guid: 2452ae39de8e2fb4881c2e2e2d441f82, type: 2}
+  cutsceneToTriggerAfterPressedButton: {fileID: 11400000, guid: f258d89f13062564884428137b8446d0, type: 2}
+  missionAfterItsActive: {fileID: 0}
+  isActive: 0
+  changeEnvironment: 0
+  itemToChangeAfterMissionNames: []

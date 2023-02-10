@@ -22,7 +22,7 @@ public class ItemBaseProfile : ScriptableObject
     }
 
     [Tooltip("The type of the item.")] public ItemType itemType;
-    [Tooltip("Determines whether an item is used for or in a mission.")] public int minLvlToUse;
+    //[Tooltip("Determines whether an item is used for or in a mission.")] public int minLvlToUse;
     [Tooltip("Determines whether an item is used for or in a mission.")] public bool neededForMissions = false;
     [Tooltip("Determines whether an item was in the players inventory before.")] public bool isNew = false;
 
@@ -32,13 +32,16 @@ public class ItemBaseProfile : ScriptableObject
 
     [Header("Shop Values")]
     [Tooltip("The purchase price of the item.")] [Min(0)] public int buyPrice;
-    [Tooltip("The selling price of the item.")] [Min(0)] public int sellingPrice;
+    [Tooltip("The selling price of the item.")] public int sellingPrice;
 
-    public float previewSpawnPositionZ;
+    //public float previewSpawnPositionZ;
 
     [Header("Inventory Values")]
     //[Tooltip("Indicates how often the item is currently in the inventory.")] [Min(0)] public int amountInInventory;
     [Tooltip("Determines whether an item in the inventory is stackable.")] [Min(0)] public bool stackable;
+
+    [Header("Needed Items For Buying")]
+    public ItemBaseProfile[] itemsNeededForBuying;
 
     #region NeededForMission Values
     [HideInInspector] [Tooltip("An array of missions, where the item is needed.")] [Min(0)] public GameObject[] missionsWhereItsNeeded; // MUSS DURCH MISSIONBASEPROFILES
@@ -57,7 +60,7 @@ public class ItemBaseProfile : ScriptableObject
         sword,
         shield,
         bow,
-        halberd,
+        greatsword,
         axe,
         torch,
         stone
@@ -67,6 +70,7 @@ public class ItemBaseProfile : ScriptableObject
 
     [HideInInspector] public bool isTwoHand = false;
     [HideInInspector] [Tooltip("The normal damage value of the weapon.")] [Min(0)] public float normalDamage;
+    public ItemStat[] otherItemStats;
     #endregion
 
     #region PotionItem Values
@@ -81,7 +85,51 @@ public class ItemBaseProfile : ScriptableObject
 
     [HideInInspector] [Tooltip("The type of the potion.")] public PotionType potionType;
     [HideInInspector] [Tooltip("The normal damage value of the weapon.")] [Min(0)] public float potionBuffValue;
+    [HideInInspector] [Tooltip("The normal damage value of the weapon.")] [Min(0)] public float potionBuffLastingTime;
     #endregion
+
+    #region
+    public bool hasBeenRead = false;
+    [HideInInspector] public MissionTaskBase corresspondingMissionTask;
+    [HideInInspector] public CutsceneProfile cutsceneToPlayAfterCloseReadScreen;
+
+    public enum ReadType
+    {
+        none,
+        book,
+        scroll,
+        note
+    }
+
+    public ReadType readType;
+
+    [TextArea(0, 50)] public string noteTxtString;
+    #endregion
+
+    public bool CheckNeededItemsForBuying()
+    {
+        var hasItemNumbers = 0;
+
+        for (int i = 0; i < itemsNeededForBuying.Length; i++)
+        {
+            for (int y = 0; y < InventoryManager.instance.inventory.slots.Count; y++)
+            {
+                if (InventoryManager.instance.inventory.slots[y].itemBase == itemsNeededForBuying[i])
+                {
+                    hasItemNumbers += 1;
+                }
+            }
+        }
+
+        if (hasItemNumbers == itemsNeededForBuying.Length)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     [CustomEditor(typeof(ItemBaseProfile))]
     public class ItemBaseProfileEditor : Editor
@@ -93,6 +141,8 @@ public class ItemBaseProfile : ScriptableObject
             ItemBaseProfile iBP = (ItemBaseProfile)target;
 
             EditorGUILayout.Space();
+
+            iBP.sellingPrice = iBP.buyPrice - ((iBP.buyPrice * 20) / 80);
 
             if (iBP.neededForMissions)
             {
@@ -155,6 +205,19 @@ public class ItemBaseProfile : ScriptableObject
                     EditorGUILayout.HelpBox("PotionType: You need to set the type of the potion.", MessageType.Warning);
                 }
             }
+            else if (iBP.itemType == ItemType.bookOrNote)
+            {
+                var serializedObject = new SerializedObject(target);
+                var property = serializedObject.FindProperty("corresspondingMissionTask");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property, true);
+                serializedObject.ApplyModifiedProperties();
+
+                var property2 = serializedObject.FindProperty("cutsceneToPlayAfterCloseReadScreen");
+                serializedObject.Update();
+                EditorGUILayout.PropertyField(property2, true);
+                serializedObject.ApplyModifiedProperties();
+            }
 
             CheckIfItemValueIsZero(iBP.buyPrice);
             CheckIfItemValueIsZero(iBP.sellingPrice);
@@ -175,4 +238,22 @@ public class ItemBaseProfile : ScriptableObject
             }
         }
     }
+}
+
+public class ItemStat
+{
+    public enum ItemStatType
+    {
+        none,
+        plusProcentDmg,
+        minusProcentDmg,
+        plusProcentDmgSkeleton,
+        minusProcentDmgSkeleton,
+        plusProcentDmgUndead,
+        minusProcentDmgUndead
+    }
+
+    public float statValue;
+
+    public ItemStatType itemStatType;
 }

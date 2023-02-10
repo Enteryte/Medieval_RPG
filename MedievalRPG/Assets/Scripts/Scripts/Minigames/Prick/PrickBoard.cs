@@ -5,13 +5,26 @@ using UnityEngine;
 
 public class PrickBoard : MonoBehaviour, IInteractable
 {
+    public static PrickBoard instance;
+
     [HideInInspector] public InteractableObjectCanvas iOCanvas;
 
     public Transform prickManagerTrans;
 
+    [Header("SQ3 T3. w. Kilian")]
+    public bool isPlayingAgainstKilian = false;
+
+    public AudioSource prickMGAudioSource;
+    public AudioClip[] kilianAudioClipsWhilePlaying;
+
+    public CutsceneProfile cutsceneToPlayIfLost;
+    public CutsceneProfile cutsceneToPlayIfWon;
+
     void Start()
     {
         InstantiateIOCanvas();
+
+        instance = this;
     }
 
     public void InstantiateIOCanvas()
@@ -41,6 +54,8 @@ public class PrickBoard : MonoBehaviour, IInteractable
         {
             Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
         }
+
+        CutsceneManager.instance.DeactivateHUDUI();
     }
 
     public string GetInteractUIText()

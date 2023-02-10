@@ -34,13 +34,36 @@ public class GuessTheCardMinigameManager : MonoBehaviour
     public GameObject addBetAmountBtn;
     public GameObject reduceBetAmountBtn;
 
+    [Header("Tutorial")]
+    public TutorialBaseProfile welcomeTutorial;
+    public TutorialBaseProfile chooseACardTutorial;
+
     public void Awake()
     {
-        instance = this;
+        //if (instance == null)
+        //{
+            instance = this;
+
+        gTCUI = GameManager.instance.gTCMGUI;
+        //}
+        //else
+        //{
+        //    instance.gTCUI = this.gTCUI;
+        //}
     }
 
     public void OnEnable()
     {
+        //if (instance != this || instance != null)
+        //{
+        //    //    instance.gTCUI = this.gTCUI;
+
+        //    return;
+        //    //}
+        //}
+
+        gTCUI = GameManager.instance.gTCMGUI;
+
         gTCUI.SetActive(true);
 
         ThirdPersonController.instance.canMove = false;
@@ -57,6 +80,8 @@ public class GuessTheCardMinigameManager : MonoBehaviour
         currPlayerMoneyTxt.text = PlayerValueManager.instance.money.ToString();
 
         startGameBtn.GetComponent<Button>().interactable = false;
+
+        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(welcomeTutorial);
     }
 
     public void Update()
@@ -176,6 +201,8 @@ public class GuessTheCardMinigameManager : MonoBehaviour
         }
 
         board.GetComponent<Animator>().enabled = false;
+
+        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(chooseACardTutorial);
     }
 
     public void AddBetAmount()

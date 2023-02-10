@@ -8,6 +8,8 @@ public class Door : MonoBehaviour, IInteractable
 
     public bool isOpen = false;
 
+    [HideInInspector] public bool canInteract = true;
+
     public float speed = 1;
     public float rotationAmount = 90f;
     public float forwardDirection = 0;
@@ -17,15 +19,30 @@ public class Door : MonoBehaviour, IInteractable
 
     public Coroutine animationCoroutine;
 
+    public MissionBaseProfile[] correspondingMissions;
+    public MissionTaskBase[] correspondingMissionTasks;
+
+    [Header("Needed Items For Opening")]
+    public List<ItemBaseProfile> neededItemsForOpening;
+
+    public bool isLocked = false;
+
     public void Awake()
     {
         startRotation = transform.rotation.eulerAngles;
         forward = transform.right;
+
+        if (neededItemsForOpening.Count > 0)
+        {
+            isLocked = true;
+        }
     }
 
     public void Start()
     {
         InstantiateIOCanvas();
+
+        GameManager.instance.allInteractableDoors.Add(this);
     }
 
     public void OpenDoor(Vector3 playerPos)
@@ -105,13 +122,52 @@ public class Door : MonoBehaviour, IInteractable
 
     public string GetInteractUIText()
     {
-        if (isOpen)
+        if (correspondingMissions.Length > 0 && !isLocked)
         {
-            return "Schlieﬂen";
+            for (int i = 0; i < correspondingMissions.Length; i++)
+            {
+                if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMissions[i]) && !correspondingMissionTasks[i].missionTaskCompleted && correspondingMissionTasks[i].canBeDisplayed)
+                {
+                    return "Interagieren";
+                }
+            }
+
+            return "";
         }
         else
         {
-            return "÷ffnen";
+            if (neededItemsForOpening.Count > 0 && isLocked)
+            {
+                var itemsInInv = 0;
+
+                for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
+                {
+                    if (neededItemsForOpening.Contains(InventoryManager.instance.inventory.slots[i].itemBase))
+                    {
+                        itemsInInv += 1;
+                    }
+                }
+
+                if (itemsInInv == neededItemsForOpening.Count)
+                {
+                    return "Aufschlieﬂen";
+                }
+                else
+                {
+                    return "Verschlossen";
+                }
+            }
+            else
+            {
+                if (isOpen)
+                {
+                    return "Schlieﬂen";
+                }
+                else
+                {
+                    return "÷ffnen";
+                }
+            }
         }
     }
 
@@ -133,13 +189,48 @@ public class Door : MonoBehaviour, IInteractable
 
     public void Interact(Transform transform)
     {
-        if (isOpen)
+        if (correspondingMissions.Length > 0 && !isLocked)
         {
-            CloseDoor();
+            for (int i = 0; i < correspondingMissions.Length; i++)
+            {
+                if (MissionManager.instance.allCurrAcceptedMissions.Contains(correspondingMissions[i]) && !correspondingMissionTasks[i].missionTaskCompleted && correspondingMissionTasks[i].canBeDisplayed)
+                {
+                    if (correspondingMissionTasks[i].completeAfterInteracted)
+                    {
+                        correspondingMissionTasks[i].missionTaskCompleted = true;
+                    }
+
+                    CutsceneManager.instance.currCP = correspondingMissionTasks[i].cutsceneToTrigger;
+                    CutsceneManager.instance.playableDirector.playableAsset = correspondingMissionTasks[i].cutsceneToTrigger.cutscene;
+                    CutsceneManager.instance.playableDirector.Play();
+                }
+            }
         }
         else
         {
-            OpenDoor(GameManager.instance.playerGO.transform.position);
+            if (neededItemsForOpening.Count > 0 && isLocked)
+            {
+                if (GetInteractUIText() == "Aufschlieﬂen")
+                {
+                    for (int i = 0; i < neededItemsForOpening.Count; i++)
+                    {
+                        InventoryManager.instance.inventory.RemoveItem(neededItemsForOpening[i], 1);
+                    }
+
+                    isLocked = false;
+                }
+            }
+            else
+            {
+                if (isOpen)
+                {
+                    CloseDoor();
+                }
+                else
+                {
+                    OpenDoor(GameManager.instance.playerGO.transform.position);
+                }
+            }
         }
     }
 
