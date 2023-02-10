@@ -1308,10 +1308,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.46
-  m_Height: 1.84
+  m_Radius: 0.49
+  m_Height: 4
   m_Direction: 1
-  m_Center: {x: 0, y: 0.93, z: 0}
+  m_Center: {x: 0, y: 2.01, z: 0}
 --- !u!114 &5901562912245196568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2030,6 +2030,7 @@ MonoBehaviour:
   EnemyDamager: {fileID: 4959356707431266280}
   AttackContainer: {fileID: 982788574}
   RepathCoolDownLength: 0.2
+  MinDistance: 1
 --- !u!195 &237045143
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2918,7 +2919,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.26
+  m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -2978,8 +2979,6 @@ MonoBehaviour:
   Anim: {fileID: 8109204317566075536}
   Head: {fileID: 4474724049457147552}
   LookAtTargetPos: {x: 0, y: 0, z: 0}
-  LookAtCoolTime: 0.2
-  LookAtHeatTime: 0.2
   IsLooking: 1
 --- !u!1 &7477471030959057881
 GameObject:
