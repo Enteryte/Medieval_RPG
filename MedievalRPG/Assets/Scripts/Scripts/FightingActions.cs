@@ -217,10 +217,10 @@ public class FightingActions : MonoBehaviour
     #region Attacks
     private void OnLightAttackShoot()
     {
-        if (!TPC.canMove)
-        {
-            return;
-        }
+        //if (!TPC.canMove)
+        //{
+        //    return;
+        //}
 
         //transform.LookAt(GameManager.instance.TEST.transform);
 
@@ -259,8 +259,6 @@ public class FightingActions : MonoBehaviour
             }
             if (equippedWeaponL.CompareTag("Shield") && holdBlock == true && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
-                Debug.Log("NEIN");
-
                 weaponScriptL.heavyAttack = false;
                 weaponScriptL.lightAttack = true;
                 anim.SetTrigger("ShieldSmack");
@@ -346,10 +344,10 @@ public class FightingActions : MonoBehaviour
 
     private void OnHeavyAttackZoom()
     {
-        if (!TPC.canMove)
-        {
-            return;
-        }
+        //if (!TPC.canMove)
+        //{
+        //    return;
+        //}
 
         if (equippedWeaponR == null && equippedWeaponL == null)
         {

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7032588511894036598}
   - component: {fileID: 8127400437036710070}
   - component: {fileID: 217304579076228898}
+  - component: {fileID: 1718087223}
   m_Layer: 13
   m_Name: Shield
   m_TagString: Shield
@@ -59,11 +60,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8467adba27240141bfd7bd6dcd61f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightDamage: 0
-  heavyDamage: 0
+  lightDamage: 10
+  heavyDamage: 100
   isActive: 0
   lightAttack: 0
   heavyAttack: 0
+--- !u!114 &1718087223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8371274797016080687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e27521b8834e7499238d485a9fef7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iBP: {fileID: 0}
+  iOCanvas: {fileID: 0}
+  amountToGet: 1
+  whereToGrabItemTrans: {fileID: 0}
+  corresspondingMissionTask: {fileID: 0}
+  cutsceneToPlayAfterCollected: {fileID: 0}
+  onlyExamineObject: 0
+  hasExaminedObject: 0
+  cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
+  itemsToGet: []
+  amountsToGet: 
+  moneyAmount: 0
+  isOpen: 0
 --- !u!1001 &4142823147196299114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76,20 +103,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.7513
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.7513
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.7513
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.907
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.042
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_LocalRotation.x
@@ -97,11 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -109,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
