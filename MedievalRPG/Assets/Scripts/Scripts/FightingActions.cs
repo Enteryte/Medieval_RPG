@@ -32,6 +32,11 @@ public class FightingActions : MonoBehaviour
     private bool mayRemoveStamina = true;
     private bool zooms = false;
 
+    public GameObject stoneWeapon;
+
+    public ItemBaseProfile stoneIBP;
+    public static ItemBaseProfile lastWeapon;
+
     public void Awake()
     {
         instance = this;
@@ -254,6 +259,8 @@ public class FightingActions : MonoBehaviour
             }
             if (equippedWeaponL.CompareTag("Shield") && holdBlock == true && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
+                Debug.Log("NEIN");
+
                 weaponScriptL.heavyAttack = false;
                 weaponScriptL.lightAttack = true;
                 anim.SetTrigger("ShieldSmack");
@@ -369,6 +376,11 @@ public class FightingActions : MonoBehaviour
         }
 
         //FABIENNE: Stamina loss bei Angriffen
+        if (equippedWeaponR == null)
+        {
+            return;
+        }
+
         if (equippedWeaponR.CompareTag("SwordOnehanded") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
             weaponScriptR.lightAttack = false;
@@ -427,7 +439,7 @@ public class FightingActions : MonoBehaviour
         if (equippedWeaponL.CompareTag("Shield") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
             holdBlock = !holdBlock;
-            TPC.canMove = !holdBlock;
+            //TPC.canMove = !holdBlock;
             anim.SetBool("HoldBlock", holdBlock);
             //FABIENNE: Stamina ziehen
 
@@ -464,6 +476,10 @@ public class FightingActions : MonoBehaviour
         stone.transform.position = equippedWeaponR.transform.position;
         equippedWeaponR.gameObject.SetActive(false);
         Stone.GetComponent<Rigidbody>().AddForce(Stone.transform.forward * throwSpeed, ForceMode.Impulse);
+
+        InventoryManager.instance.RemoveHoldingWeight(stoneIBP.weight, 1);
+        EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = null;
+        EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
 
         equippedWeaponR = null;
     }

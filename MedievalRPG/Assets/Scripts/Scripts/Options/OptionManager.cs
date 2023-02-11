@@ -8,7 +8,10 @@ public class OptionManager : MonoBehaviour
 {
     public static OptionManager instance;
 
-    [Header("Audio")] public Slider masterSlider;
+    public Toggle tutorialToggle;
+
+    [Header("Audio")]
+    public Slider masterSlider;
     public Slider environmentSlider;
     public Slider voiceSlider;
     public Slider musicSlider;
@@ -20,11 +23,13 @@ public class OptionManager : MonoBehaviour
     public TMP_Text musicSliderTxt;
     public TMP_Text sfxSliderTxt;
 
-    [Header("Video")] public Toggle windowModeToggle;
+    [Header("Video")]
+    public Toggle windowModeToggle;
     public TMP_Dropdown resolutionDropdown;
     public Toggle subtitleToggle;
 
-    [Header("Controls")] public Slider cameraSensiSlider;
+    [Header("Controls")]
+    public Slider cameraSensiSlider;
     public Slider mouseSensiSlider;
     public Toggle controllerToggle;
 

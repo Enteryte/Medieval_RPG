@@ -182,6 +182,9 @@ public class SaveSystem : MonoBehaviour
 
         if (!Directory.Exists(Application.persistentDataPath + "/OptionsData"))
         {
+            OptionManager.instance.tutorialToggle.isOn = true;
+            StartScreenManager.instance.showTutorialToggle.isOn = !OptionManager.instance.tutorialToggle.isOn;
+
             // Set Start-Option-Values
             OptionManager.instance.masterSlider.value = 0.5f;
             OptionManager.instance.environmentSlider.value = 0.5f;
@@ -466,7 +469,7 @@ public class SaveSystem : MonoBehaviour
 
                     break;
                 }
-                else if(dirInfo[i].Contains("_T") && LoadingScreen.currLSP.sceneToLoadIndex == 2)
+                else if (dirInfo[i].Contains("_T") && LoadingScreen.currLSP.sceneToLoadIndex == 2)
                 {
                     continuePath = dirInfo[i];
 
@@ -644,7 +647,7 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveTutorial(SaveGameObject sGO)
     {
-        sGO.displayTutorial = GameManager.instance.displayTutorial;
+        //sGO.displayTutorial = GameManager.instance.displayTutorial;
 
         for (int i = 0; i < TutorialManager.instance.allCompletedTutorials.Count; i++)
         {
@@ -981,6 +984,8 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveOptions(SaveGameObject sGO)
     {
+        sGO.useTutorial = OptionManager.instance.tutorialToggle.isOn;
+
         // Audio
         sGO.masterSlValue = OptionManager.instance.masterSlider.value;
         sGO.environmentSlValue = OptionManager.instance.environmentSlider.value;
@@ -1013,7 +1018,7 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadTutorial(SaveGameObject sGO)
     {
-        GameManager.instance.displayTutorial = sGO.displayTutorial;
+        //GameManager.instance.displayTutorial = sGO.displayTutorial;
 
         TutorialManager.instance.allCompletedTutorials.Clear();
 
@@ -1367,6 +1372,9 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadOptions(SaveGameObject sGO)
     {
+        OptionManager.instance.tutorialToggle.isOn = sGO.useTutorial;
+        StartScreenManager.instance.showTutorialToggle.isOn = !OptionManager.instance.tutorialToggle.isOn;
+
         OptionManager.instance.masterSlider.value = sGO.masterSlValue;
         OptionManager.instance.environmentSlider.value = sGO.environmentSlValue;
         OptionManager.instance.voiceSlider.value = sGO.voiceSlValue;

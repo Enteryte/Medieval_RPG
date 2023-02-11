@@ -836,6 +836,15 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             }
         }
 
+        if (FightingActions.instance.equippedWeaponR != null)
+        {
+            FightingActions.lastWeapon = FightingActions.instance.equippedWeaponR.GetComponent<Item>().iBP;
+        }
+        else
+        {
+            FightingActions.lastWeapon = null;
+        }
+
         InventoryManager.instance.DisplayItemsOfCategory();
     }
 
@@ -1156,6 +1165,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
             //storedAmountTxt.text = "";
         }
+
+        this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
     }
 
     // Press Enter

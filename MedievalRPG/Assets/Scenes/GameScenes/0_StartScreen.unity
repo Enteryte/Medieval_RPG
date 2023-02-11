@@ -905,7 +905,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "M\xF6chtest du das Tutorial \xFCberspringen?\nDu kannst es jederzeit in
-    den Optionen an- \nund ausschalten."
+    den Optionen an- und \nausschalten."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 705696621b40c1d4bb45f925511162d7, type: 2}
   m_sharedMaterial: {fileID: 2766935698080480103, guid: 705696621b40c1d4bb45f925511162d7, type: 2}
@@ -2635,6 +2635,8 @@ MonoBehaviour:
   canPressAnyKey: 0
   areYouSureNewGameScreen: {fileID: 1703306648}
   closeAreYouSureNewGameScreenAnim: {fileID: 7400000, guid: af8c5e610e3664345bd316ff267333ad, type: 2}
+  areYouSureTutorialScreen: {fileID: 717680404}
+  closeAreYouSureTutorialCloseAnim: {fileID: 7400000, guid: a2c10fdcdd699f64cac58192b9a71c9a, type: 2}
   dontAskOnDeleteDataAgain: 0
   areYouSureDeleteSavaDataScreen: {fileID: 328232740}
   closeAreYouSureDeleteSavaDataAnim: {fileID: 7400000, guid: f6318a5d3bcaf334e97a38be37417519, type: 2}
@@ -2643,6 +2645,7 @@ MonoBehaviour:
   closeAreYouSureExitGameAnim: {fileID: 7400000, guid: d934d73475f5b4240968a7f8075e4ccc, type: 2}
   areYouSureBackToMMScreen: {fileID: 1296194706}
   closeAreYouSureBackToMMAnim: {fileID: 7400000, guid: 03fa6ac129be65e448eb26ac216e511f, type: 2}
+  showTutorialToggle: {fileID: 1182152414}
   saveGameSlotPrefab: {fileID: 2471401507723296639, guid: 32b70cbf59cd5bf4ba9d2f1eb8430609, type: 3}
   saveGameSlotParentObj: {fileID: 406369827}
   saveGameScreenshot: {fileID: 38978394}
@@ -4450,6 +4453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9303b4ed860f3d34ca1c87f03fb7efb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialToggle: {fileID: 998033820}
   masterSlider: {fileID: 873325527}
   environmentSlider: {fileID: 1919867156}
   voiceSlider: {fileID: 482299579}
@@ -4508,6 +4512,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bae5901d622c6f591af138216844963d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &998033820 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+  m_PrefabInstance: {fileID: 2168254814488803602}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1026004228 stripped
@@ -4879,6 +4894,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 589155578}
+        m_TargetAssemblyTypeName: StartScreenManager, Assembly-CSharp
+        m_MethodName: ToggleOptionsTutorialToggleOnOff
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5339,7 +5366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.13333334, g: 0.10980392, b: 0.101960786, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10750,7 +10777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814603044043, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814648953984, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -11002,7 +11029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2168254815051021546, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2168254815051021547, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_Pivot.x
@@ -11112,6 +11139,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -28.810408
       objectReference: {fileID: 0}
+    - target: {fileID: 2168254815125299192, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: openScreenAnim
+      value: 
+      objectReference: {fileID: 7400000, guid: 85ebf5a4563131f4b974e0b338df957a, type: 2}
     - target: {fileID: 2168254815125299195, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -11232,6 +11263,10 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 268435455
       objectReference: {fileID: 0}
+    - target: {fileID: 2168254815318116254, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: openScreenAnim
+      value: 
+      objectReference: {fileID: 7400000, guid: 85ebf5a4563131f4b974e0b338df957a, type: 2}
     - target: {fileID: 2168254815368475298, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.8
@@ -11486,7 +11521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2168254815956664073, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816031013096, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -11532,6 +11567,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2168254816059091732, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: openScreenAnim
+      value: 
+      objectReference: {fileID: 7400000, guid: 85ebf5a4563131f4b974e0b338df957a, type: 2}
     - target: {fileID: 2168254816059091734, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 268435455
@@ -11951,6 +11990,34 @@ PrefabInstance:
     - target: {fileID: 7662980350494063764, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.8365765
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 589155578}
+    - target: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleAskForTutorialToggleOnOff
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StartScreenManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7847087970666644643, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_LocalScale.y

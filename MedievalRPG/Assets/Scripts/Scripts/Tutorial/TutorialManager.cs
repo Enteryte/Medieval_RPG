@@ -107,7 +107,7 @@ public class TutorialManager : MonoBehaviour
 
     public void CheckIfTutorialIsAlreadyCompleted(TutorialBaseProfile tutorialBaseToCheck)
     {
-        if (GameManager.instance.displayTutorial)
+        if (OptionManager.instance.tutorialToggle.isOn)
         {
             if (!allCompletedTutorials.Contains(tutorialBaseToCheck))
             {
@@ -122,12 +122,15 @@ public class TutorialManager : MonoBehaviour
     #region CutsceneEvents
     public void TriggerWelcomeTutorial()
     {
-        allCompletedTutorials.Add(CutsceneManager.instance.currCP.tutorialToTrigger);
+        if (OptionManager.instance.tutorialToggle.isOn)
+        {
+            allCompletedTutorials.Add(CutsceneManager.instance.currCP.tutorialToTrigger);
 
-        currTBP = CutsceneManager.instance.currCP.tutorialToTrigger;
-        OpenTutorialUI();
+            currTBP = CutsceneManager.instance.currCP.tutorialToTrigger;
+            OpenTutorialUI();
 
-        GameManager.instance.normalPlayerFollowCamCVC.enabled = true;
+            GameManager.instance.normalPlayerFollowCamCVC.enabled = true;
+        }
     }
 
     public void TriggerNextTutorial()

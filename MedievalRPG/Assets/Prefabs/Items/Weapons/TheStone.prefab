@@ -95,7 +95,8 @@ GameObject:
   - component: {fileID: 6948878868123181622}
   - component: {fileID: 8463524092494229835}
   - component: {fileID: -7952929115714726194}
-  m_Layer: 0
+  - component: {fileID: 8173095237614576056}
+  m_Layer: 11
   m_Name: TheStone
   m_TagString: Stone
   m_Icon: {fileID: 0}
@@ -110,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2988612437622947283}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.10922014, y: 1.7511017, z: 0.37150073}
+  m_LocalPosition: {x: -102.1436, y: -0.89107966, z: 1.5223618}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -161,6 +162,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stoneDamage: 250
+  dontDoDmg: 0
+  timeTillOff: 5
+  currTime: 0
+--- !u!114 &8173095237614576056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2988612437622947283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e27521b8834e7499238d485a9fef7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iBP: {fileID: 11400000, guid: 51c23fb48820469468fef43ae4e909c4, type: 2}
+  iOCanvas: {fileID: 0}
+  amountToGet: 1
+  whereToGrabItemTrans: {fileID: 0}
+  corresspondingMissionTask: {fileID: 0}
+  cutsceneToPlayAfterCollected: {fileID: 0}
+  onlyExamineObject: 0
+  hasExaminedObject: 0
+  cutsceneToPlayAfterExamine: {fileID: 0}
+  deactivateAfterExamine: 1
+  itemsToGet: []
+  amountsToGet: 
+  moneyAmount: 0
+  isOpen: 0
 --- !u!1001 &6105041743119304198
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -101,7 +101,18 @@ public class Item : MonoBehaviour, IInteractable
             {
                 GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", false);
 
-                InventoryManager.instance.inventory.AddItem(iBP, amountToGet);
+                if (iBP == FightingActions.instance.stoneIBP && FightingActions.lastWeapon == FightingActions.instance.stoneIBP)
+                {
+                    EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().EquipItemToEquipment(iBP, 1);
+                    FightingActions.instance.stoneWeapon.SetActive(true);
+
+                    Destroy(iOCanvas.gameObject);
+                    Destroy(this.gameObject);
+                }
+                else
+                {
+                    InventoryManager.instance.inventory.AddItem(iBP, amountToGet);
+                }
 
                 MessageManager.instance.CreateCollectedMessage(iBP);
 

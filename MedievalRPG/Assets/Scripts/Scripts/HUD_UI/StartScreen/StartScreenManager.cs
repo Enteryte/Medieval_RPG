@@ -24,6 +24,9 @@ public class StartScreenManager : MonoBehaviour
     public GameObject areYouSureNewGameScreen;
     public AnimationClip closeAreYouSureNewGameScreenAnim;
 
+    public GameObject areYouSureTutorialScreen;
+    public AnimationClip closeAreYouSureTutorialCloseAnim;
+
     public bool dontAskOnDeleteDataAgain = false;
     public static LoadSlot currClickedLoadSlot;
     public GameObject areYouSureDeleteSavaDataScreen;
@@ -35,6 +38,8 @@ public class StartScreenManager : MonoBehaviour
 
     public GameObject areYouSureBackToMMScreen;
     public AnimationClip closeAreYouSureBackToMMAnim;
+
+    public Toggle showTutorialToggle;
 
     public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
@@ -79,8 +84,77 @@ public class StartScreenManager : MonoBehaviour
                 // Start new game
                 mainObjectAnimator.Rebind();
                 mainObjectAnimator.enabled = true;
+
+                //if (areYouSureNewGameScreen.activeSelf)
+                //{
+                    mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
+                    mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
+                //}
+                //else
+                //{
+                //    mainAnimator.Play(closeAreYouSureTutorialCloseAnim.name);
+                //    mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
+                //}
+
+                SceneChangeManager.instance.startedNewGame = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
                 mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
-                mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
+            }
+        }
+        else if (areYouSureTutorialScreen.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
+                {
+                    var dirInfo = Directory.GetDirectories(Application.persistentDataPath + "/SaveData/");
+
+                    if (dirInfo.Length > 0)
+                    {
+                        //mainObjectAnimator.Rebind();
+                        //mainObjectAnimator.enabled = true;
+
+                        areYouSureTutorialScreen.SetActive(false);
+
+                        areYouSureNewGameScreen.SetActive(true);
+                        //mainAnimator.Play(open.name);
+                        mainAnimator.Play("AreYouSureToStartNewGameAnim");
+
+                    }
+                    else
+                    {
+                        //OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
+
+                        //Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+
+                        SaveSystem.instance.SaveOptions();
+
+                        // Start new game
+                        mainObjectAnimator.Rebind();
+                        mainObjectAnimator.enabled = true;
+
+                        mainAnimator.Play(closeAreYouSureTutorialCloseAnim.name);
+                        mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
+                    }
+                }
+                else
+                {
+                    //OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
+                    //Debug.Log(!showTutorialToggle.isOn);
+                    //Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+
+                    SaveSystem.instance.SaveOptions();
+
+                    // Start new game
+                    mainObjectAnimator.Rebind();
+                    mainObjectAnimator.enabled = true;
+
+                    mainAnimator.Play(closeAreYouSureTutorialCloseAnim.name);
+                    mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
+                }
 
                 SceneChangeManager.instance.startedNewGame = true;
             }
@@ -251,6 +325,28 @@ public class StartScreenManager : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    public void ToggleOptionsTutorialToggleOnOff()
+    {
+        if (areYouSureTutorialScreen.activeSelf)
+        {
+            OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
+
+            Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+            Debug.Log(showTutorialToggle.isOn);
+        }
+    }
+
+    public void ToggleAskForTutorialToggleOnOff()
+    {
+        if (!areYouSureTutorialScreen.activeSelf)
+        {
+            showTutorialToggle.isOn = !OptionManager.instance.tutorialToggle.isOn;
+
+            Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+            Debug.Log(showTutorialToggle.isOn);
         }
     }
 

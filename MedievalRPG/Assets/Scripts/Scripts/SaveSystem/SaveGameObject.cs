@@ -130,6 +130,8 @@ public class SaveGameObject
     public double currCutsceneTime;
 
     // Options
+    public bool useTutorial;
+
     // - Audio
     public float masterSlValue;
     public float environmentSlValue;
