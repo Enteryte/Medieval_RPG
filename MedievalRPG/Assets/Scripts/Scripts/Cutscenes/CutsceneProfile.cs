@@ -54,6 +54,9 @@ public class CutsceneProfile : ScriptableObject
     public MissionBaseProfile corresspondingMission;
     public MissionTaskBase missionTaskToActivate;
 
+    [Header("Music")]
+    public AudioClip musicAfterCSFinished;
+
     //[CustomEditor(typeof(CutsceneProfile))]
     //public class CutsceneProfileEditor : Editor
     //{

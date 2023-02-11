@@ -60,10 +60,15 @@ public class GameManager : MonoBehaviour
     public GameObject prickMGUI;
     public GameObject gTCMGUI;
 
+    public AudioSource musicAudioSource;
+
     [Header("Day-Night + Weather")]
     public HDRPTimeOfDay hdrpTOD;
 
     public bool changeDaytime = false;
+
+    public float maxRainingDuration;
+    public float currRainingDuration = 0;
 
     [Header("Saving/Loading")]
     public GameObject saveGameSlotPrefab;
@@ -107,6 +112,8 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
+        maxRainingDuration = 10;
+
         //if (instance == null)
         //{
             instance = this;
@@ -272,6 +279,21 @@ public class GameManager : MonoBehaviour
                     CutsceneManager.instance.playableDirector.Play();
 
                     correspondingCutsceneProfilAtNight = null; // ---------------------------------> NEEDS TO BE SAVED
+                }
+            }
+        }
+
+        if (!gameIsPaused && hdrpTOD.WeatherActive())
+        {
+            if (currRainingDuration < maxRainingDuration)
+            {
+                currRainingDuration += Time.deltaTime;
+
+                if (currRainingDuration >= maxRainingDuration)
+                {
+                    hdrpTOD.StopWeather(false);
+
+                    currRainingDuration = 0;
                 }
             }
         }

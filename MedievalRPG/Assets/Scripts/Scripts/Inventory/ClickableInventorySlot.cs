@@ -1314,6 +1314,12 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             {
                 InventoryManager.instance.itemInfoPopUp.gameObject.SetActive(false);
             }
+
+            if (isNewSymbol != null)
+            {
+                storedItemBase.isNew = false;
+                isNewSymbol.gameObject.SetActive(false);
+            }
         }
         else
         {
@@ -1328,6 +1334,12 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                 {
                     ShopManager.instance.itemInfoPopUpRight.gameObject.GetComponent<ItemInfoPopUp>().SetItemInformationsToDisplay(storedItemBase, isShopPlayerItem);
                     ShopManager.instance.itemInfoPopUpRight.gameObject.SetActive(true);
+                }
+
+                if (isNewSymbol != null)
+                {
+                    storedItemBase.isNew = false;
+                    isNewSymbol.gameObject.SetActive(false);
                 }
             }
         }

@@ -18,6 +18,14 @@ public class FightManager : MonoBehaviour
 
     public GameObject crosshairGO;
 
+    [Header("In Fight")]
+    public bool isInFight = false;
+
+    public AudioClip fightMusic;
+    public static AudioClip lastMusicClip;
+
+    public List<BaseEnemyKI> enemiesInFight;
+
     //public int CurrArrowAmount
     //{
     //    get
@@ -133,5 +141,52 @@ public class FightManager : MonoBehaviour
         }
 
         Debug.Log("TARGETED ENEMY - ");
+    }
+
+    public IEnumerator FadeOldMusicOut()
+    {
+        float currentTime = 0;
+        float start = GameManager.instance.musicAudioSource.volume;
+
+        while (currentTime < 1f)
+        {
+            currentTime += Time.deltaTime;
+            GameManager.instance.musicAudioSource.volume = Mathf.Lerp(start, 0, currentTime / 1f);
+
+            yield return null;
+        }
+
+        if (isInFight)
+        {
+            lastMusicClip = GameManager.instance.musicAudioSource.clip;
+
+            GameManager.instance.musicAudioSource.clip = fightMusic;
+        }
+        else
+        {
+            GameManager.instance.musicAudioSource.clip = lastMusicClip;
+        }
+
+        GameManager.instance.musicAudioSource.Play();
+
+        yield break;
+    }
+
+    public IEnumerator FadeNewMusicIn()
+    {
+        Debug.Log("NEW MUSIC");
+
+        float currentTime = 0;
+        float start = 0;
+
+        while (currentTime < 1f)
+        {
+            currentTime += Time.deltaTime;
+            GameManager.instance.musicAudioSource.volume = Mathf.Lerp(start, OptionManager.instance.musicSlider.value, currentTime / 1f);
+
+            yield return null;
+        }
+
+        yield break;
     }
 }

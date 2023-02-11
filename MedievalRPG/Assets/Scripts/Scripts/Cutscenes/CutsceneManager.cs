@@ -583,5 +583,58 @@ public class CutsceneManager : MonoBehaviour
         PlayerValueManager.instance.currStamina = PlayerValueManager.instance.normalStamina;
         PlayerValueManager.instance.staminaSlider.value = PlayerValueManager.instance.currStamina;
     }
+
+    public void FadeMusicOut()
+    {
+        StartCoroutine(FadeOldMusicOut());
+    }
+
+    public void FadeMusicIn()
+    {
+        Debug.Log("NEW MUSIC");
+
+        StartCoroutine(FadeNewMusicIn());
+    }
+
+    public IEnumerator FadeOldMusicOut()
+    {
+        float currentTime = 0;
+        float start = GameManager.instance.musicAudioSource.volume;
+
+        while (currentTime < 1f)
+        {
+            currentTime += Time.deltaTime;
+            GameManager.instance.musicAudioSource.volume = Mathf.Lerp(start, 0, currentTime / 1f);
+
+            yield return null;
+        }
+
+        GameManager.instance.musicAudioSource.clip = null;
+
+        yield break;
+    }
+
+    public IEnumerator FadeNewMusicIn()
+    {
+        Debug.Log("NEW MUSIC");
+
+        float currentTime = 0;
+        float start = 0;
+
+        GameManager.instance.musicAudioSource.volume = 0;
+
+        GameManager.instance.musicAudioSource.clip = currCP.musicAfterCSFinished;
+        GameManager.instance.musicAudioSource.Play();
+
+        while (currentTime < 1f)
+        {
+            currentTime += Time.deltaTime;
+            GameManager.instance.musicAudioSource.volume = Mathf.Lerp(start, OptionManager.instance.musicSlider.value, currentTime / 1f);
+
+            yield return null;
+        }
+
+        yield break;
+    }
     #endregion
 }

@@ -192,6 +192,8 @@ public class SceneChangeManager : MonoBehaviour
         {
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_2");
 
+            GameManager.instance.musicAudioSource.Play();
+
             Debug.Log(PlayerValueManager.instance.CurrHP + " 222222222222222");
 
             if (level == 1 && PlayerValueManager.instance.isDead)
@@ -212,6 +214,8 @@ public class SceneChangeManager : MonoBehaviour
         }
         else
         {
+            GameManager.instance.musicAudioSource.Play();
+
             StartScreenManager.currSelectedSSMBtn = null;
             Debug.Log(StartScreenManager.currSelectedSSMBtn);
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_3");
