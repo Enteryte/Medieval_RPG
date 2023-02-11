@@ -227,5 +227,7 @@ public class SceneChangeManager : MonoBehaviour
         //}
 
         StartScreenManager.instance.mainAnimator.enabled = false;
+
+        StartScreenManager.instance.dontChangeToggle = false;
     }
 }

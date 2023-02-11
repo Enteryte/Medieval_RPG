@@ -49,6 +49,7 @@ public class StartScreenManager : MonoBehaviour
     public Button loadSaveDataBtn;
 
     public bool changeBackToMM = false;
+    public bool dontChangeToggle = false;
 
     public void Awake()
     {
@@ -114,6 +115,16 @@ public class StartScreenManager : MonoBehaviour
 
                     if (dirInfo.Length > 0)
                     {
+                        dontChangeToggle = true;
+
+                        //OptionManager.instance.tutorialToggle.isOn = showTutorialToggle.isOn;
+
+                        //OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
+
+                        //Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+
+                        SaveSystem.instance.SaveOptions();
+
                         //mainObjectAnimator.Rebind();
                         //mainObjectAnimator.enabled = true;
 
@@ -126,6 +137,10 @@ public class StartScreenManager : MonoBehaviour
                     }
                     else
                     {
+                        dontChangeToggle = true;
+
+                        //OptionManager.instance.tutorialToggle.isOn = showTutorialToggle.isOn;
+
                         //OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
 
                         //Debug.Log(OptionManager.instance.tutorialToggle.isOn);
@@ -142,6 +157,10 @@ public class StartScreenManager : MonoBehaviour
                 }
                 else
                 {
+                    dontChangeToggle = true;
+
+                    //OptionManager.instance.tutorialToggle.isOn = showTutorialToggle.isOn;
+
                     //OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
                     //Debug.Log(!showTutorialToggle.isOn);
                     //Debug.Log(OptionManager.instance.tutorialToggle.isOn);
@@ -330,24 +349,26 @@ public class StartScreenManager : MonoBehaviour
 
     public void ToggleOptionsTutorialToggleOnOff()
     {
-        if (areYouSureTutorialScreen.activeSelf)
-        {
+        //if (!dontChangeToggle)
+        //{
+            //{
             OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
 
             Debug.Log(OptionManager.instance.tutorialToggle.isOn);
             Debug.Log(showTutorialToggle.isOn);
-        }
+        //}
+        //}
     }
 
     public void ToggleAskForTutorialToggleOnOff()
     {
-        if (!areYouSureTutorialScreen.activeSelf)
-        {
-            showTutorialToggle.isOn = !OptionManager.instance.tutorialToggle.isOn;
+        //if (!areYouSureTutorialScreen.activeSelf && !dontAskOnDeleteDataAgain)
+        //{
+        showTutorialToggle.isOn = !OptionManager.instance.tutorialToggle.isOn;
 
-            Debug.Log(OptionManager.instance.tutorialToggle.isOn);
-            Debug.Log(showTutorialToggle.isOn);
-        }
+        Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+        Debug.Log(showTutorialToggle.isOn);
+        //}
     }
 
     public Sprite LoadNewSprite(string FilePath, float PixelsPerUnit = 100.0f)

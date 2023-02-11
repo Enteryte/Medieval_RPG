@@ -2652,6 +2652,7 @@ MonoBehaviour:
   continueBtn: {fileID: 702420755}
   loadSaveDataBtn: {fileID: 888717527}
   changeBackToMM: 0
+  dontChangeToggle: 0
 --- !u!114 &606727233 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 606727233, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
@@ -3450,6 +3451,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &808447389 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2774796378501777465, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+  m_PrefabInstance: {fileID: 2168254814488803602}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &809201611
 GameObject:
   m_ObjectHideFlags: 0
@@ -4519,12 +4525,41 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
   m_PrefabInstance: {fileID: 2168254814488803602}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 808447389}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &998033822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808447389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 589155578}
+          m_TargetAssemblyTypeName: StartScreenManager, Assembly-CSharp
+          m_MethodName: ToggleAskForTutorialToggleOnOff
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &1026004228 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1026004228, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
@@ -4814,6 +4849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1182152413}
   - component: {fileID: 1182152414}
+  - component: {fileID: 1182152415}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -4902,19 +4938,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 589155578}
-        m_TargetAssemblyTypeName: StartScreenManager, Assembly-CSharp
-        m_MethodName: ToggleOptionsTutorialToggleOnOff
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   m_IsOn: 0
+--- !u!114 &1182152415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182152412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 589155578}
+          m_TargetAssemblyTypeName: StartScreenManager, Assembly-CSharp
+          m_MethodName: ToggleOptionsTutorialToggleOnOff
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1187898466
 GameObject:
   m_ObjectHideFlags: 0
@@ -11993,7 +12046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
