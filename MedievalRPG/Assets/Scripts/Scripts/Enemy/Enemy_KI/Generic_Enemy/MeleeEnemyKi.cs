@@ -63,6 +63,18 @@ public class MeleeEnemyKi : BaseEnemyKI
         {
             Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), false);
 
+            if (FightManager.instance.enemiesInFight.Contains(this))
+            {
+                FightManager.instance.enemiesInFight.Remove(this);
+
+                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic && FightManager.instance.enemiesInFight.Count <= 0)
+                {
+                    FightManager.instance.isInFight = false;
+
+                    FightManager.instance.FadeOldMusicOut();
+                }
+            }
+
             return;
         }
 
@@ -110,6 +122,18 @@ public class MeleeEnemyKi : BaseEnemyKI
         HasSeenPlayer = true;
         Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
         Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
+
+        if (!FightManager.instance.enemiesInFight.Contains(this))
+        {
+            FightManager.instance.enemiesInFight.Add(this);
+
+            if (GameManager.instance.musicAudioSource.clip != FightManager.instance.fightMusic)
+            {
+                FightManager.instance.isInFight = true;
+
+                FightManager.instance.FadeOldMusicOut();
+            }
+        }
     }
 
     #endregion
@@ -178,6 +202,18 @@ public class MeleeEnemyKi : BaseEnemyKI
             IsSearching = true;
             Vector3 placeToGo = Target.position;
             Agent.SetDestination(placeToGo);
+
+            if (!FightManager.instance.enemiesInFight.Contains(this))
+            {
+                FightManager.instance.enemiesInFight.Add(this);
+
+                if (GameManager.instance.musicAudioSource.clip != FightManager.instance.fightMusic)
+                {
+                    FightManager.instance.isInFight = true;
+
+                    FightManager.instance.FadeOldMusicOut();
+                }
+            }
         }
 
         if (IsSearching && Agent.velocity.sqrMagnitude <= Tolerance)
