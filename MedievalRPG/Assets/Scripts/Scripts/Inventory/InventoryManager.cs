@@ -94,6 +94,11 @@ public class InventoryManager : MonoBehaviour
 
         weightTxt.text = currHoldingWeight + " / " + maxHoldingWeight;
         moneyTxt.text = PlayerValueManager.instance.money.ToString();
+
+        for (int i = 0; i < inventory.database.items.Length; i++)
+        {
+            inventory.database.items[i].isNew = true;
+        }
     }
 
     // Update is called once per frame

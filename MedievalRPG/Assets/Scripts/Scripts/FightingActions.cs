@@ -32,6 +32,11 @@ public class FightingActions : MonoBehaviour
     private bool mayRemoveStamina = true;
     private bool zooms = false;
 
+    public GameObject stoneWeapon;
+
+    public ItemBaseProfile stoneIBP;
+    public static ItemBaseProfile lastWeapon;
+
     public void Awake()
     {
         instance = this;
@@ -212,10 +217,15 @@ public class FightingActions : MonoBehaviour
     #region Attacks
     private void OnLightAttackShoot()
     {
-        if (!TPC.canMove)
+        if (GameManager.instance.gameIsPaused)
         {
             return;
         }
+
+        //if (!TPC.canMove)
+        //{
+        //    return;
+        //}
 
         //transform.LookAt(GameManager.instance.TEST.transform);
 
@@ -267,7 +277,6 @@ public class FightingActions : MonoBehaviour
 
         if (equippedWeaponR != null)
         {
-            //FABIENNE: Stamina loss bei Angriffen
             if (equippedWeaponR.CompareTag("SwordOnehanded") && holdBlock == false && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 weaponScriptR.heavyAttack = false;
@@ -339,10 +348,15 @@ public class FightingActions : MonoBehaviour
 
     private void OnHeavyAttackZoom()
     {
-        if (!TPC.canMove)
+        if (GameManager.instance.gameIsPaused)
         {
             return;
         }
+
+        //if (!TPC.canMove)
+        //{
+        //    return;
+        //}
 
         if (equippedWeaponR == null && equippedWeaponL == null)
         {
@@ -369,6 +383,11 @@ public class FightingActions : MonoBehaviour
         }
 
         //FABIENNE: Stamina loss bei Angriffen
+        if (equippedWeaponR == null)
+        {
+            return;
+        }
+
         if (equippedWeaponR.CompareTag("SwordOnehanded") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
             weaponScriptR.lightAttack = false;
@@ -419,6 +438,11 @@ public class FightingActions : MonoBehaviour
 
     private void OnBlockAimTorch()
     {
+        if (GameManager.instance.gameIsPaused)
+        {
+            return;
+        }
+
         if (equippedWeaponL == null)
         {
             return;
@@ -427,7 +451,7 @@ public class FightingActions : MonoBehaviour
         if (equippedWeaponL.CompareTag("Shield") && PlayerValueManager.instance.currStamina - 15 >= 0)
         {
             holdBlock = !holdBlock;
-            TPC.canMove = !holdBlock;
+            //TPC.canMove = !holdBlock;
             anim.SetBool("HoldBlock", holdBlock);
             //FABIENNE: Stamina ziehen
 
@@ -461,9 +485,14 @@ public class FightingActions : MonoBehaviour
     public void ThrowStone()
     {
         GameObject Stone = Instantiate(stone);
-        stone.transform.position = equippedWeaponR.transform.position;
+        Stone.transform.position = equippedWeaponR.transform.position;
+        Stone.transform.rotation = this.gameObject.transform.localRotation;
         equippedWeaponR.gameObject.SetActive(false);
         Stone.GetComponent<Rigidbody>().AddForce(Stone.transform.forward * throwSpeed, ForceMode.Impulse);
+
+        InventoryManager.instance.RemoveHoldingWeight(stoneIBP.weight, 1);
+        EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = null;
+        EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
 
         equippedWeaponR = null;
     }
@@ -472,6 +501,11 @@ public class FightingActions : MonoBehaviour
     #region Miscellaneous
      private void OnRoll()
     {
+        if (GameManager.instance.gameIsPaused)
+        {
+            return;
+        }
+
         if (PlayerValueManager.instance.currStamina - TPC.rollStaminaReduceValue >= 0)
         {
             StartCoroutine(GameManager.instance.playerGO.GetComponent<ThirdPersonController>().Roll());

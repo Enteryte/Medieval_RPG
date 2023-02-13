@@ -205,6 +205,9 @@ public class Merchant : MonoBehaviour, IInteractable
             GameManager.instance.allNPCScreamingHandler[i].isPlayingAudio = false;
         }
 
+        //CutsceneManager.instance.DeactivateHUDUI();
+        GameManager.instance.cantPauseRN = true;
+
         //CheckIfNeededForMission();
         //}
     }

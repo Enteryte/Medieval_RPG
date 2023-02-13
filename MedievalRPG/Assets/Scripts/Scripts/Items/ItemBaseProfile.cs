@@ -63,7 +63,9 @@ public class ItemBaseProfile : ScriptableObject
         greatsword,
         axe,
         torch,
-        stone
+        stone,
+        mace,
+        arrow
     }
 
     [HideInInspector] [Tooltip("The type of the weapon.")] public WeaponType weaponType;

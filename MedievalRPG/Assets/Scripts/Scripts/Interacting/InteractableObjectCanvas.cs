@@ -77,6 +77,11 @@ public class InteractableObjectCanvas : MonoBehaviour
 
         if (!isADoor && !isANPC && !isASeatingObj)
         {
+            if (correspondingGO == null)
+            {
+                Destroy(this.gameObject);
+            }
+
             this.gameObject.transform.position = Camera.main.WorldToScreenPoint(correspondingGO.transform.position);
         }
         else if(!isADoor && isANPC && !isASeatingObj)

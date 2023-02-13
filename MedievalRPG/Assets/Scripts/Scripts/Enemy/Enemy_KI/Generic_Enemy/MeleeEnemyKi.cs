@@ -63,6 +63,18 @@ public class MeleeEnemyKi : BaseEnemyKI
         {
             Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), false);
 
+            if (FightManager.instance.enemiesInFight.Contains(this))
+            {
+                FightManager.instance.enemiesInFight.Remove(this);
+
+                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic && FightManager.instance.enemiesInFight.Count <= 0)
+                {
+                    FightManager.instance.isInFight = false;
+
+                    FightManager.instance.FadeOldMusicOut();
+                }
+            }
+
             return;
         }
 
@@ -92,7 +104,7 @@ public class MeleeEnemyKi : BaseEnemyKI
                 break;
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             case true when !_isSeeingPlayer:
-                // Search();
+                Search();
                 break;
         }
     }
@@ -101,15 +113,24 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     private void NoticeEnemy()
     {
-        //ToDo: Remove this temporary check when in the game.
-        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-        if (!HardCodeTarget)
-            Target = GameManager.instance.playerGO.transform;
-        else
-            Target = HardCodeTarget.transform;
+        if (!GameManager.instance)
+            throw new Exception("No Game Manager Found");
+        Target = GameManager.instance.playerGO.transform;
         HasSeenPlayer = true;
         Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
         Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
+
+        if (!FightManager.instance.enemiesInFight.Contains(this))
+        {
+            FightManager.instance.enemiesInFight.Add(this);
+
+            if (GameManager.instance.musicAudioSource.clip != FightManager.instance.fightMusic)
+            {
+                FightManager.instance.isInFight = true;
+
+                FightManager.instance.FadeOldMusicOut();
+            }
+        }
     }
 
     #endregion
@@ -178,6 +199,18 @@ public class MeleeEnemyKi : BaseEnemyKI
             IsSearching = true;
             Vector3 placeToGo = Target.position;
             Agent.SetDestination(placeToGo);
+
+            if (!FightManager.instance.enemiesInFight.Contains(this))
+            {
+                FightManager.instance.enemiesInFight.Add(this);
+
+                if (GameManager.instance.musicAudioSource.clip != FightManager.instance.fightMusic)
+                {
+                    FightManager.instance.isInFight = true;
+
+                    FightManager.instance.FadeOldMusicOut();
+                }
+            }
         }
 
         if (IsSearching && Agent.velocity.sqrMagnitude <= Tolerance)
@@ -248,6 +281,8 @@ public class MeleeEnemyKi : BaseEnemyKI
         VisualizeDetectors(Color.red, KiStats.AttackRange, AttackContainer);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(StartPos, new Vector3(KiStats.PatrollingRange * 2f, 0, KiStats.PatrollingRange * 2f));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(Agent.destination, new Vector3(0.1f, 1.0f, 0.1f));
     }
 
     #endregion

@@ -59,6 +59,9 @@ public class SaveGameObject
     public List<int> allCurrCollectMissionProgresses = new List<int>();
     public List<int> allCurrExamineMissionProgresses = new List<int>();
 
+    // Item-Database
+    public List<bool> itemIsNew = new List<bool>();
+
     // Inventory
     //public float currHoldingWeight;
     public List<int> itemID = new List<int>();
@@ -123,6 +126,7 @@ public class SaveGameObject
     public float timeOfDay;
 
     public bool isRaining;
+    public float currRainingDuration;
 
     // Cutscene
     public bool cutsceneIsCurrPlaying;
@@ -130,6 +134,8 @@ public class SaveGameObject
     public double currCutsceneTime;
 
     // Options
+    public bool useTutorial;
+
     // - Audio
     public float masterSlValue;
     public float environmentSlValue;

@@ -1,0 +1,225 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2216031390754167651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2216031390754167660}
+  m_Layer: 0
+  m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2216031390754167660
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2216031390754167651}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 0.025, y: 0.025, z: 0.025}
+  m_Children: []
+  m_Father: {fileID: 6686661826700814696}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 711, y: 400}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &6686661826700814702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6686661826700814696}
+  - component: {fileID: 6686661826700814703}
+  - component: {fileID: 6686661826700814699}
+  - component: {fileID: 6686661826700814697}
+  m_Layer: 0
+  m_Name: Easy Credits Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6686661826700814696
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686661826700814702}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2216031390754167660}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6686661826700814703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686661826700814702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e0e0b00c408a4249a4492e7078a3f41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileName: Credits
+  data:
+  - "Programming,Design,Art,Animation,Onerat Games\r"
+  - "Dylan J Walker,Dylan J Walker,Dylan J Walker,Dylan J Walker,\r"
+  - "Alison,Alison,Alison,Alison,\r"
+  - "Squeak,Doc,Emmett,Alan,\r"
+  - ',,Marty,,'
+  startingPassComplete: 1
+  startDelay: 1
+  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  scrollSpeed: 1
+  TextCentering: 0.15
+  TitleLogoCentering: -0.15
+  KeepTitleCentered: 1
+  GameTitleImage: {fileID: 21300000, guid: f17954062dba9ef4f813b8fdb490ca2f, type: 3}
+  gameTitleScale: 15
+  GameTitle: 
+  gameTitleFont: {fileID: 0}
+  GameTitleWordSpacing: 0
+  GameTitleCharacterSpacing: 0
+  GameTitleLineSpacing: 70
+  GameTitlefontSize: 22
+  GameTitleColor: {r: 0.83091974, g: 0, b: 1, a: 1}
+  SectionLineSpacing: 20
+  roleFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  RoleWordSpacing: 0
+  RoleCharacterSpacing: 63.2
+  RoleLineSpacing: 10
+  RolefontSize: 22
+  roleColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  titleFont: {fileID: 0}
+  TitleWordSpacing: 22.7
+  TitleCharacterSpacing: 3.6
+  LegalFont: {fileID: 0}
+  LegalWordSpacing: 0
+  LegalCharacterSpacing: 32.8
+  LegalColor: {r: 1, g: 1, b: 1, a: 1}
+  LegalFontSize: 12
+  TitleLineSpacing: 5
+  LegalLineSpacing: 0
+  TitlefontSize: 18
+  titleColor: {r: 1, g: 1, b: 1, a: 1}
+  startPointOffset: 0
+  ExitToSceneOnEnd: 1
+  exitTime: 0
+  SceneToExitTo: 0
+  KeepLegalLineCentred: 1
+  LegalLine: Credits powered by Easy Credits
+  EnablePreview: 0
+  PreviewScroll: 0
+  OnCreditsStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCreditsEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  inlayType: 1
+  Inlays:
+  - EasyCreditsInlays: {fileID: 11400000, guid: 23d3d3fedb87bd643a16f9c9953b193c,
+      type: 2}
+    Centering: -0.5
+    Spacing: 35
+    Scale: 4
+  - EasyCreditsInlays: {fileID: 11400000, guid: bef2e93d43ce20447879fa06d7862252,
+      type: 2}
+    Centering: -0.5
+    Spacing: 35
+    Scale: 4
+  - EasyCreditsInlays: {fileID: 11400000, guid: ccea7fd4a3a59c04d886c78154d1e7b6,
+      type: 2}
+    Centering: -0.5
+    Spacing: 35
+    Scale: 4
+  - EasyCreditsInlays: {fileID: 11400000, guid: 065976f7425d24749a93713bcbe56148,
+      type: 2}
+    Centering: -0.5
+    Spacing: 35
+    Scale: 4
+  StationaryInlays:
+  - EasyCreditsInlays: {fileID: 11400000, guid: 23d3d3fedb87bd643a16f9c9953b193c,
+      type: 2}
+    StartTime: 7
+    EndTime: 11
+    Scale: 0.5
+  - EasyCreditsInlays: {fileID: 11400000, guid: cab8a93199700b64ea94c3e037131174,
+      type: 2}
+    StartTime: 12
+    EndTime: 16
+    Scale: 0.5
+  cinematicRoleCentering: -59
+  creditType: 1
+  InlayPostionLeftRight: 0.7
+  InlayPostionUpDown: 0.5
+  gameTitleAnchor: 514
+  roleAnchor: 516
+  titleAnchor: 513
+  legalAnchor: 258
+  DataFormat: 0
+  SectionElements:
+  - SectionElement: {fileID: 11400000, guid: d604b921b9b64a54d8e5e5aab416fa78, type: 2}
+  - SectionElement: {fileID: 11400000, guid: 5d1d0be82a94e7540a9eff1dea12f275, type: 2}
+  - SectionElement: {fileID: 11400000, guid: 4b62d25f9a3af4549b5996e8cbb2025a, type: 2}
+  - SectionElement: {fileID: 11400000, guid: 26b500196192a5c42b5d9d5d31accffb, type: 2}
+  - SectionElement: {fileID: 11400000, guid: ab497f2b84c65574ab9915a1484d7cce, type: 2}
+  scroll: 1
+  AdvancedEditing: 0
+  CanvasRenderMode: 1
+  CameraOrthographic: 1
+  Camera: {fileID: 0}
+--- !u!114 &6686661826700814699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686661826700814702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddc320671341d974697ab38216c46bb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6686661826700814697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686661826700814702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 459ff81bd639dda44b75263d6a930bcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DistanceToMove: 0
+  panel: {fileID: 0}
+  canvasObj: {fileID: 2216031390754167651}
+  startDelay: 1
+  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  scrollSpeed: 1
+  scroll: 1
+  offset: 0
+  LastElement: {fileID: 0}

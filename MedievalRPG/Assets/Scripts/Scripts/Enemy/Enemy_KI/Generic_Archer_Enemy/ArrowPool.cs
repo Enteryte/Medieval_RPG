@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrowPool : MonoBehaviour
@@ -11,35 +8,37 @@ public class ArrowPool : MonoBehaviour
     [SerializeField] private int ArrowsToGenerate;
     [SerializeField] private float DespawnTime;
     [SerializeField] private Transform HardCodeTarget;
+    
+    [SerializeField]public float ArrowDamage = 20f;
+    [SerializeField]public float ArrowSpeed = 6f;
 
     private EnemyArrowController[] ArrowControllers;
 //Temporary Function, replace it with something external.
     private void Start()
     {
-        InitializeArrows(0.5f, 2f, 1.2f);
+        InitializeArrows(ArrowDamage, ArrowSpeed);
     }
 
     /// <summary>
     /// With this, one can set the gameplay affecting values according to the Difficulty of the game
     /// </summary>
-    /// <param name="_perfectionDistance">How far the Arrow can come near the player before not perfectly tracking it anymore.</param>
     /// <param name="_damage">How much damage the Arrow is supposed to cause</param>
     /// <param name="_speed">How fast the Arrow should go.</param>
-    public void InitializeArrows(float _perfectionDistance, float _damage, float _speed)
+    public void InitializeArrows(float _damage, float _speed)
     {
         DestroyArrows();
-        GenerateArrows(_perfectionDistance, _damage, _speed);
+        GenerateArrows( _damage, _speed);
     }
 
-    private void GenerateArrows(float _perfectionDistance, float _damage, float _speed)
+    private void GenerateArrows(float _damage, float _speed)
     {
         ArrowControllers = new EnemyArrowController[ArrowsToGenerate];
         Transform target = HardCodeTarget ? HardCodeTarget : GameManager.instance.playerGO.transform;
         for (int i = 0; i < ArrowControllers.Length; i++)
         {
             ArrowControllers[i] = Instantiate(ArrowPrefab, ArrowParent);
-            ArrowControllers[i].gameObject.name = $"Arrow {i}";
-            ArrowControllers[i].Initialize(this, _perfectionDistance, DespawnTime, _damage, _speed, target);
+            ArrowControllers[i].gameObject.name = $"Arrow Nr. {i}";
+            ArrowControllers[i].Initialize(this, DespawnTime, _damage, _speed, target);
         }
     }
 
@@ -71,8 +70,9 @@ public class ArrowPool : MonoBehaviour
         {
             if (arrow.gameObject.activeSelf)
                 continue;
-            arrow.transform.position = _place.transform.position;
-            arrow.transform.parent = null;
+            Transform arrowTransform = arrow.transform;
+            arrowTransform.position = _place.transform.position;
+            arrowTransform.parent = null;
             arrow.gameObject.SetActive(true);
             arrow.Fire();
             break;

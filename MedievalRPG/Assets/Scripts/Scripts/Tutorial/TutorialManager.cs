@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using StarterAssets;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -45,6 +46,14 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    //public void Update()
+    //{
+    //    if (bigTutorialUI.activeSelf && GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.speed > 0)
+    //    {
+    //        GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.speed = 0;
+    //    }
+    //}
+
     public void OpenTutorialUI()
     {
         animator.enabled = false;
@@ -81,6 +90,7 @@ public class TutorialManager : MonoBehaviour
             animator.enabled = true;
             animator.Play(openBigTutorialUIAnim.name);
 
+            //GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
             GameManager.instance.PauseGame();
         }
     }
@@ -107,7 +117,7 @@ public class TutorialManager : MonoBehaviour
 
     public void CheckIfTutorialIsAlreadyCompleted(TutorialBaseProfile tutorialBaseToCheck)
     {
-        if (GameManager.instance.displayTutorial)
+        if (OptionManager.instance.tutorialToggle.isOn)
         {
             if (!allCompletedTutorials.Contains(tutorialBaseToCheck))
             {
@@ -122,12 +132,15 @@ public class TutorialManager : MonoBehaviour
     #region CutsceneEvents
     public void TriggerWelcomeTutorial()
     {
-        allCompletedTutorials.Add(CutsceneManager.instance.currCP.tutorialToTrigger);
+        if (OptionManager.instance.tutorialToggle.isOn)
+        {
+            allCompletedTutorials.Add(CutsceneManager.instance.currCP.tutorialToTrigger);
 
-        currTBP = CutsceneManager.instance.currCP.tutorialToTrigger;
-        OpenTutorialUI();
+            currTBP = CutsceneManager.instance.currCP.tutorialToTrigger;
+            OpenTutorialUI();
 
-        GameManager.instance.normalPlayerFollowCamCVC.enabled = true;
+            GameManager.instance.normalPlayerFollowCamCVC.enabled = true;
+        }
     }
 
     public void TriggerNextTutorial()

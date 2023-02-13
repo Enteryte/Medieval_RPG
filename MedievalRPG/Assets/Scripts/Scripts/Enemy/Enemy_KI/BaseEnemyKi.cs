@@ -2,10 +2,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-// ReSharper disable once CheckNamespace
 public abstract class BaseEnemyKI : MonoBehaviour
 {
-    //TODO: Cut this down and have the basic functions remain here, then let the melee and archer KI inherit from it.
     [Header("Includes")] [SerializeField] protected SO_KI_Stats KiStats;
     [SerializeField] protected EnemyBaseProfile BaseStats;
     [SerializeField] protected Animator Animator;
@@ -36,6 +34,9 @@ public abstract class BaseEnemyKI : MonoBehaviour
     //How low the speed is to be considered not moving, just in case Navmesh doesn't do it's job stopping
     [SerializeField]
     protected float Tolerance;
+    [SerializeField]
+    private float PlayerTooFarAwayDst = 50f;
+		
 
     protected float SqrTolerance;
 
@@ -61,9 +62,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
         if (HasDied || !IsInitialized)
             return;
 
-        if (!IsSeeingPlayer)
+        if (!IsSeeingPlayer|| Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
             IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
-
     }
 
     /// <summary>
@@ -75,21 +75,36 @@ public abstract class BaseEnemyKI : MonoBehaviour
         Animator.speed = _speed;
     }
 
-    protected bool DetectorCheck(RayDetection[] _detectors)
-    {
-        return _detectors.Any(_rayDetection => _rayDetection.Sight());
-    }
+    protected bool DetectorCheck(RayDetection[] _detectors) => _detectors.Any(_rayDetection => _rayDetection.Sight());
 
+    public void GotHitReaction()
+    {
+        IsSeeingPlayer = true;
+    }
     #endregion
 
+    public void RestartAgent()
+    {
+        Agent.isStopped = false;
+    }
+    // ReSharper disable Unity.PerformanceAnalysis
     public virtual void Death()
     {
         //TODO: Turn of all other scripts, animators, etc
         HasDied = true;
-        Animator.SetBool(Animator.StringToHash("IsDead"), true);
+        Animator.SetTrigger(Animator.StringToHash("Dies"));
+        Animator.SetBool(Animator.StringToHash("IsDead"),true);
         Agent.enabled = false;
+        GetComponentInChildren<LocomotionAgent>().enabled = false;
+        Destroy(Health.gameObject);
+
+        enabled = false;
     }
 
+    public void DisableAnimator()
+    {
+        Animator.enabled = false;
+    }
     /// <summary>
     /// The Function that appoints the Detectors into their Position according to the Field of View
     /// </summary>
