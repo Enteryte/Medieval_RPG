@@ -23,6 +23,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected Transform Target;
     protected Vector3 StartPos;
 
+    public bool wasntSpawned = false;
 
     [Header("Detectors")] [SerializeField] protected RayDetection RayDetectionPrefab;
     [SerializeField] protected Transform SightContainer;
@@ -35,14 +36,26 @@ public abstract class BaseEnemyKI : MonoBehaviour
     [SerializeField]
     protected float Tolerance;
     [SerializeField]
-    private float PlayerTooFarAwayDst = 50f;
-		
+    private float PlayerTooFarAwayDst = 50f;		
 
     protected float SqrTolerance;
 
     private int CheckValue;
 
     #region Unity Events
+
+    public void Start()
+    {
+        if (wasntSpawned)
+        {
+            Init();
+
+            if (this.gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
+            {
+                archerEKI.LinkArrowPool(FightManager.instance.enemyArrowPool);
+            }
+        }
+    }
 
     /// <summary>
     /// The Method for Initialization
