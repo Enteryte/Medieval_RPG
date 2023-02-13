@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Windows;
 
 public class OptionManager : MonoBehaviour
 {
@@ -10,8 +11,7 @@ public class OptionManager : MonoBehaviour
 
     public Toggle tutorialToggle;
 
-    [Header("Audio")]
-    public Slider masterSlider;
+    [Header("Audio")] public Slider masterSlider;
     public Slider environmentSlider;
     public Slider voiceSlider;
     public Slider musicSlider;
@@ -23,13 +23,11 @@ public class OptionManager : MonoBehaviour
     public TMP_Text musicSliderTxt;
     public TMP_Text sfxSliderTxt;
 
-    [Header("Video")]
-    public Toggle windowModeToggle;
+    [Header("Video")] public Toggle windowModeToggle;
     public TMP_Dropdown resolutionDropdown;
     public Toggle subtitleToggle;
 
-    [Header("Controls")]
-    public Slider cameraSensiSlider;
+    [Header("Controls")] public Slider cameraSensiSlider;
     public Slider mouseSensiSlider;
     public Toggle controllerToggle;
 
@@ -38,58 +36,58 @@ public class OptionManager : MonoBehaviour
 
     public TMP_Text[] keyTxts;
 
+    public SensitivityContainer Sensitivity;
+
     public void Awake()
     {
         if (instance == null)
-        {
             instance = this;
-        }
         else
-        {
-            Destroy(this.gameObject);
-        }
+            Destroy(gameObject);
     }
 
     #region Slider: OnValueChange()
 
     public void MasterSliderOnValueChange()
     {
-        masterSliderTxt.text = ((int)(masterSlider.value * 100)).ToString() + " / 100";
+        masterSliderTxt.text = (int)(masterSlider.value * 100) + " / 100";
         AudioManager.Instance.SetMasterVolume = masterSlider.value;
     }
 
     public void EnvironmentSliderOnValueChange()
     {
-        environmentSliderTxt.text = ((int)(environmentSlider.value * 100)).ToString() + " / 100";
+        environmentSliderTxt.text = (int)(environmentSlider.value * 100) + " / 100";
         AudioManager.Instance.SetEnvironmentalVolume = environmentSlider.value;
     }
 
     public void VoiceSliderOnValueChange()
     {
-        voiceSliderTxt.text = ((int)(voiceSlider.value * 100)).ToString() + " / 100";
+        voiceSliderTxt.text = (int)(voiceSlider.value * 100) + " / 100";
         AudioManager.Instance.SetVoiceVolume = voiceSlider.value;
     }
 
     public void MusicSliderOnValueChange()
     {
-        musicSliderTxt.text = ((int)(musicSlider.value * 100)).ToString() + " / 100";
+        musicSliderTxt.text = (int)(musicSlider.value * 100) + " / 100";
         AudioManager.Instance.SetMusicVolume = musicSlider.value;
     }
 
     public void SFXSliderOnValueChange()
     {
-        sfxSliderTxt.text = ((int)(sfxSlider.value * 100)).ToString() + " / 100";
+        sfxSliderTxt.text = (int)(sfxSlider.value * 100) + " / 100";
         AudioManager.Instance.SetSFXVolume = sfxSlider.value;
     }
 
-    public void CameraSensiSliderOnValueChange()
+    public void CameraSensitivitySliderOnValueChange()
     {
-        cameraSensiSliderTxt.text = ((int)(cameraSensiSlider.value * 100)).ToString() + " / 100";
+        cameraSensiSliderTxt.text = (int)(cameraSensiSlider.value * 100) + " / 100";
+        Sensitivity.Camera = cameraSensiSlider.value;
     }
 
-    public void MouseSensiSliderOnValueChange()
+    public void MouseSensitivitySliderOnValueChange()
     {
-        mouseSensiSliderTxt.text = ((int)(mouseSensiSlider.value * 100)).ToString() + " / 100";
+        mouseSensiSliderTxt.text = (int)(mouseSensiSlider.value * 100) + " / 100";
+        Sensitivity.Mouse = mouseSensiSlider.value;
     }
 
     public void ResolutionUpdate()
@@ -114,11 +112,16 @@ public class OptionManager : MonoBehaviour
                 screenWidth = 1280;
                 screenHeight = 960;
                 break;
-
         }
 
         Screen.SetResolution(screenWidth, screenHeight, windowModeToggle.isOn);
     }
 
     #endregion
+}
+
+public struct SensitivityContainer
+{
+    public float Camera;
+    public float Mouse;
 }
