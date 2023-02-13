@@ -277,7 +277,6 @@ public class FightingActions : MonoBehaviour
 
         if (equippedWeaponR != null)
         {
-            //FABIENNE: Stamina loss bei Angriffen
             if (equippedWeaponR.CompareTag("SwordOnehanded") && holdBlock == false && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 weaponScriptR.heavyAttack = false;
@@ -486,7 +485,8 @@ public class FightingActions : MonoBehaviour
     public void ThrowStone()
     {
         GameObject Stone = Instantiate(stone);
-        stone.transform.position = equippedWeaponR.transform.position;
+        Stone.transform.position = equippedWeaponR.transform.position;
+        Stone.transform.rotation = this.gameObject.transform.localRotation;
         equippedWeaponR.gameObject.SetActive(false);
         Stone.GetComponent<Rigidbody>().AddForce(Stone.transform.forward * throwSpeed, ForceMode.Impulse);
 
