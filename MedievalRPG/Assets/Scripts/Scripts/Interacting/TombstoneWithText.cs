@@ -17,7 +17,15 @@ public class TombstoneWithText : MonoBehaviour, IInteractable
     // Update is called once per frame
     void Update()
     {
-        
+        // Tombstone
+        if (Input.GetKeyDown(KeyCode.Escape) && UIManager.instance.readTombstoneUI.activeSelf && UIManager.instance.tombstoneTextToDisplayTxt.text == textToDisplay)
+        {
+            UIManager.instance.readTombstoneUI.SetActive(false);
+            GameManager.instance.gameIsPaused = false;
+
+            GameManager.instance.ContinueGame();
+            GameManager.instance.cantPauseRN = false;
+        }
     }
 
     public void InstantiateIOCanvas()
@@ -48,6 +56,10 @@ public class TombstoneWithText : MonoBehaviour, IInteractable
         UIManager.instance.tombstoneTextToDisplayTxt.text = textToDisplay;
 
         GameManager.instance.gameIsPaused = true;
+
+        GameManager.instance.cantPauseRN = true;
+
+        GameManager.instance.PauseGame();
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()

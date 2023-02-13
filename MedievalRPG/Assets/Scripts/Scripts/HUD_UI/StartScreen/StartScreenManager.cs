@@ -98,11 +98,21 @@ public class StartScreenManager : MonoBehaviour
                 //}
 
                 SceneChangeManager.instance.startedNewGame = true;
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
         }
         else if (areYouSureTutorialScreen.activeSelf)
@@ -176,11 +186,21 @@ public class StartScreenManager : MonoBehaviour
                 }
 
                 SceneChangeManager.instance.startedNewGame = true;
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
         }
         else if (areYouSureDeleteSavaDataScreen.activeSelf)
@@ -192,7 +212,7 @@ public class StartScreenManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                // WIP: Delete SavaData
+                // --------------------------------------------------------------------------> WIP: Delete SavaData
 
                 mainAnimator.Play(closeAreYouSureDeleteSavaDataAnim.name);
 
@@ -214,6 +234,11 @@ public class StartScreenManager : MonoBehaviour
 
                 StartScreenManager.instance.saveGameScreenshot.enabled = false;
                 StartScreenManager.instance.saveGameScreenshot.sprite = null;
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -222,6 +247,11 @@ public class StartScreenManager : MonoBehaviour
 
                 StartScreenManager.instance.saveGameScreenshot.enabled = false;
                 StartScreenManager.instance.saveGameScreenshot.sprite = null;
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
         }
         else if (areYouSureExitGameScreen.activeSelf)
@@ -238,6 +268,11 @@ public class StartScreenManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mainAnimator.Play(closeAreYouSureExitGameAnim.name);
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
         }
         else if (areYouSureBackToMMScreen.activeSelf)
@@ -251,6 +286,11 @@ public class StartScreenManager : MonoBehaviour
 
                 SceneChangeManager.instance.loadingScreen.SetActive(true);
                 SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -260,6 +300,11 @@ public class StartScreenManager : MonoBehaviour
                 currSelectedLoadSlotBtn = null;
 
                 mainAnimator.Play(closeAreYouSureBackToMMAnim.name);
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
         }
     }

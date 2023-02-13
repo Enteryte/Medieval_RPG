@@ -39,11 +39,15 @@ public class Blackboard : MonoBehaviour, IInteractable
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+                GameManager.instance.ContinueGame();
 
                 blackboardUI.SetActive(false);
 
                 ThirdPersonController.instance.canMove = true;
+
+                GameManager.instance.cantPauseRN = false;
+
+                GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
             }
         }
         else if (blackboardUI.activeSelf && noteTxtParentGO.activeSelf)
@@ -54,24 +58,6 @@ public class Blackboard : MonoBehaviour, IInteractable
             }
         }
     }
-
-    //public void AddMissionToBlackboard(MissionBaseProfile missionToAdd)
-    //{
-    //    if (!MissionManager.instance.allCurrAcceptedMissions.Contains(missionToAdd))
-    //    {
-    //        allOpenNotAcceptedMissions.Add(missionToAdd);
-    //    }
-    //}
-
-    //public void RemoveMissionFromBlackboard(MissionBaseProfile missionToRemove)
-    //{
-    //    allOpenNotAcceptedMissions.Remove(missionToRemove);
-
-    //    if (!MissionManager.instance.allCurrAcceptedMissions.Contains(missionToRemove))
-    //    {
-    //        MissionManager.instance.allCurrAcceptedMissions.Add(missionToRemove);
-    //    }
-    //}
 
     public void InstantiateIOCanvas()
     {
@@ -110,6 +96,9 @@ public class Blackboard : MonoBehaviour, IInteractable
         //blackboardCam.enabled = true;
 
         ThirdPersonController.instance.canMove = false;
+
+        GameManager.instance.PauseGame();
+        GameManager.instance.cantPauseRN = true;
     }
 
     InteractableObjectCanvas IInteractable.iOCanvas()

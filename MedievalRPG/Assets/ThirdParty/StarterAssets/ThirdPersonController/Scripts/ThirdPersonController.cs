@@ -23,7 +23,7 @@ namespace StarterAssets
         public float normalMoveSpeed = 2;
         public float MoveSpeed = 2.0f;
 
-        [SerializeField] private WeightToAnimator mass;
+        [SerializeField] public WeightToAnimator mass;
 
         [Tooltip("Sprint speed of the character in m/s")]
         public float SprintSpeed = 5.335f;

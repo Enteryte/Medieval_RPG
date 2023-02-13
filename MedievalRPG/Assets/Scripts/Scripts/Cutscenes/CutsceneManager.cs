@@ -30,6 +30,9 @@ public class CutsceneManager : MonoBehaviour
 
     public CutsceneProfile[] allCSWAllowedPausing;
 
+    [Header("CS w. Alchemist")]
+    public GameObject alchemistGO;
+
     [Header("SQ w. Kilian")]
     public GameObject myaGO;
 
@@ -39,6 +42,9 @@ public class CutsceneManager : MonoBehaviour
     [Header("Skip Cutscene")]
     public Animator cutsceneUIAnimator;
     public GameObject skipCutsceneUI;
+
+    [Header("Player Death")]
+    public TimelineAsset afterPlayerDiedTL;
 
     public void Awake()
     {
@@ -57,7 +63,43 @@ public class CutsceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playableDirector.playableAsset != null && !TutorialManager.instance.bigTutorialUI.activeSelf /*&& !TutorialManager.instance.smallTutorialUI.activeSelf */
+        if (playableDirector.playableAsset != null && playableDirector.playableAsset.name == afterPlayerDiedTL.name)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && playableDirector.time < PlayerValueManager.instance.afterPlayerDiedSkippingTime1)
+            {
+                cutsceneUIAnimator.Rebind();
+                cutsceneUIAnimator.enabled = true;
+
+                if (!GameManager.instance.playedTheGameThrough)
+                {
+                    pressedTime += Time.deltaTime;
+
+                    if (playableDirector.time > PlayerValueManager.instance.afterPlayerDiedSkippingTime1)
+                    {
+                        cutsceneUIAnimator.enabled = false;
+                        skipCutsceneUI.SetActive(false);
+                    }
+
+                    if (pressedTime >= timeToPressToSkipCS)
+                    {
+                        SkipDeathCutscene();
+
+                        pressedTime = 0;
+                    }                   
+                }
+                else
+                {
+                    SkipDeathCutscene();
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                cutsceneUIAnimator.enabled = false;
+                skipCutsceneUI.SetActive(false);
+            }
+        }
+        else if (playableDirector.playableAsset != null && !TutorialManager.instance.bigTutorialUI.activeSelf /*&& !TutorialManager.instance.smallTutorialUI.activeSelf */
             && !GameManager.instance.pauseMenuScreen.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape) && currCP != null && currCP.isNotADialogue && !currCP.cantBeSkipped)
@@ -226,7 +268,36 @@ public class CutsceneManager : MonoBehaviour
 
     public void SkipCutscene(/*float timeTillWhereToSkip*/)
     {
-        playableDirector.time = currCP.timeTillWhereToSkip;
+        if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableAsset == CutsceneManager.instance.afterPlayerDiedTL)
+        {
+            playableDirector.time = PlayerValueManager.instance.afterPlayerDiedSkippingTime1;
+
+            Debug.Log(playableDirector.time);
+
+            cutsceneUIAnimator.enabled = false;
+            skipCutsceneUI.SetActive(false);
+
+            return;
+        }
+
+        if (playableDirector.time > currCP.timeTillWhereToSkip)
+        {
+            playableDirector.time = currCP.timeTillWhereToSkip;
+        }
+        else if (currCP.timeTillWhereToSkip2 > 0)
+        {
+            playableDirector.time = currCP.timeTillWhereToSkip2;
+        }
+
+        cutsceneUIAnimator.enabled = false;
+        skipCutsceneUI.SetActive(false);
+    }
+
+    public void SkipDeathCutscene()
+    {
+        playableDirector.time = PlayerValueManager.instance.afterPlayerDiedSkippingTime1;
+
+        Debug.Log(playableDirector.time);
 
         cutsceneUIAnimator.enabled = false;
         skipCutsceneUI.SetActive(false);
@@ -319,6 +390,9 @@ public class CutsceneManager : MonoBehaviour
 
         ThirdPersonController.instance.canMove = true;
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+
+        GameManager.instance.gameIsPaused = false;
+        GameManager.instance.cantPauseRN = false;
     }
 
     #region TimelineSignals: Optional
@@ -446,6 +520,37 @@ public class CutsceneManager : MonoBehaviour
     public void SetMyasParent()
     {
         myaGO.transform.parent = Interacting.instance.currInteractedObjTrans;
+    }
+
+    public void SetPlayerParentToAlchemist()
+    {
+        GameManager.instance.playerGO.transform.parent = alchemistGO.transform;
+    }
+
+    public void ChangeSceneToMainMenu()
+    {
+        if (LoadingScreen.instance != null)
+        {
+            LoadingScreen.instance.placeNameTxt.text = "";
+            LoadingScreen.instance.backgroundImg.sprite = null;
+            LoadingScreen.instance.descriptionTxt.text = "";
+
+            LoadingScreen.instance.gameObject.SetActive(true);
+            LoadingScreen.instance.ActivateAnimator();
+
+            //SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
+            SceneChangeManager.instance.GetComponent<Animator>().Rebind();
+            //SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
+
+            SaveSystem.instance.SaveAutomatic();
+
+            SceneChangeManager.instance.loadingScreen.SetActive(true);
+            SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     public void PlayIdleTimeline()

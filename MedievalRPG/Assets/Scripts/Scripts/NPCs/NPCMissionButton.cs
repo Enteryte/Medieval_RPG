@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -65,6 +66,9 @@ public class NPCMissionButton : MonoBehaviour
             CutsceneManager.instance.playableDirector.playableAsset = Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<NPC>().cPMissionTaskMya.cutscene;
 
             CutsceneManager.instance.playableDirector.Play();
+
+            ThirdPersonController.instance.canMove = false;
+            GameManager.instance.gameIsPaused = true;
         }
         else if (cutsceneToPlay != null)
         {
@@ -78,6 +82,8 @@ public class NPCMissionButton : MonoBehaviour
         else
         {
             Debug.Log("CLOSE");
+
+            GameManager.instance.cantPauseRN = false;
             CutsceneManager.instance.CloseCutscene();
         }
 
@@ -97,6 +103,6 @@ public class NPCMissionButton : MonoBehaviour
             }
         }
 
-        Interacting.instance.nearestObjTrans = null;        
+        Interacting.instance.nearestObjTrans = null;
     }
 }

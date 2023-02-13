@@ -42,6 +42,9 @@ public class WeightToAnimator : MonoBehaviour
     
     private void Update()
     {
-        CheckSpeed();
+        if (!GameManager.instance.gameIsPaused)
+        {
+            CheckSpeed();
+        }
     }
 }
