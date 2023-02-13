@@ -25,10 +25,11 @@ public class EnemySpawner : MonoBehaviour
         {
             if (i > EnemyKisToSpawn.Length)
                 return;
-            BaseEnemyKI myEnemy = Instantiate(EnemyKisToSpawn[i], AssignedSpawnPoints[i].position, AssignedSpawnPoints[i].rotation);
+            BaseEnemyKI myEnemy = Instantiate(EnemyKisToSpawn[i], AssignedSpawnPoints[i].position, Quaternion.identity);
             myEnemy.Init();
             if (myEnemy is ArcherEnemyKI myArcherEnemy)
                 myArcherEnemy.LinkArrowPool(ArrowPool);
+            myEnemy.transform.rotation = AssignedSpawnPoints[i].rotation;
         }
     }
 }

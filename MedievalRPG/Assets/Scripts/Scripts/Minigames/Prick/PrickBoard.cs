@@ -56,6 +56,9 @@ public class PrickBoard : MonoBehaviour, IInteractable
         }
 
         CutsceneManager.instance.DeactivateHUDUI();
+
+        GameManager.instance.PauseGame();
+        GameManager.instance.cantPauseRN = true;
     }
 
     public string GetInteractUIText()

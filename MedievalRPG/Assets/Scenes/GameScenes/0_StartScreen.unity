@@ -987,6 +987,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2168254814672034653, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
   m_PrefabInstance: {fileID: 2168254814488803602}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &226713263 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1400867094234018016, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+  m_PrefabInstance: {fileID: 2168254814488803602}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2168254814488803604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &227719856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1490,7 +1501,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &406694956
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4417,6 +4428,8 @@ MonoBehaviour:
   pauseMenuScreen: {fileID: 589155572}
   startScreenMainUI: {fileID: 1307490287}
   startScreenMainUIButtonParent: {fileID: 1313137038}
+  saveGameBtn: {fileID: 226713263}
+  loadGameBtn: {fileID: 888717527}
   playerWasDead: 0
 --- !u!114 &991766510
 MonoBehaviour:
@@ -8614,8 +8627,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 68493046, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
+      vaCameraSensibilitySliderOnValueChange{fileID: 0}
     - target: {fileID: 68493046, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -20
@@ -10641,8 +10653,7 @@ PrefabInstance:
       value: 0.1847992
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814350689701, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
+      propertyPath: mMouseSensibilitySliderOnValueChangeue: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814374402679, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.x

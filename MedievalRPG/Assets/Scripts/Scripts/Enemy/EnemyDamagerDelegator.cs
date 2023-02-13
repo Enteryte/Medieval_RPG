@@ -9,7 +9,7 @@ public class EnemyDamagerDelegator : MonoBehaviour
     [SerializeField] private EnemyDamager EnemyDamager;
 
     private MeleeEnemyKi ParentKI;
-    public NavMeshAgent navmeshAgent;
+    private NavMeshAgent NavmeshAgent;
 
     private void Start()
     {
@@ -20,6 +20,7 @@ public class EnemyDamagerDelegator : MonoBehaviour
     {
         ParentKI.RestartAgent();
     }
+
     private void DisableAnimator()
     {
         ParentKI.DisableAnimator();
@@ -31,16 +32,15 @@ public class EnemyDamagerDelegator : MonoBehaviour
         yield return new WaitForSeconds(10f);
         Destroy(transform.parent.gameObject);
     }
+
     public void DamageOn()
     {
-        //navmeshAgent.isStopped = true;
 
         EnemyDamager.DamageOn();
     }
 
     public void DamageOff()
     {
-        //navmeshAgent.isStopped = false;
 
         EnemyDamager.DamageOff();
     }

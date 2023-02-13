@@ -11,8 +11,6 @@ public class EnemyHealth : MonoBehaviour
     private float MaxLifePoints;
     public float LifePoints { get; private set; }
 
-    public bool isDead = false;
-
     public void Initialize(EnemyBaseProfile _stats, Animator _anim, BaseEnemyKI _ai)
     {
         Stats = _stats;

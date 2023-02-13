@@ -77,23 +77,6 @@ public class ShopManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && shopScreen != null && shopScreen.activeSelf)
-        {
-            if (hMScreen.gameObject.activeSelf)
-            {
-                hMScreen.gameObject.SetActive(false);
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.Return) && shopScreen != null && shopScreen.activeSelf)
-        {
-            if (hMScreen.gameObject.activeSelf)
-            {
-                hMScreen.gameObject.SetActive(false);
-
-                BuyOrSellItem(HowManyScreen.currIBP, (int)hMScreen.howManySSlider.value);
-            }
-        }
-
         if (itemInfoPopUpLeft.activeSelf)
         {
             itemInfoPopUpLeft.transform.position = Input.mousePosition;
@@ -101,22 +84,7 @@ public class ShopManager : MonoBehaviour
         else if (itemInfoPopUpRight.activeSelf)
         {
             itemInfoPopUpRight.transform.position = Input.mousePosition;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape) && !hMScreen.gameObject.activeSelf)
-        {
-            if (mainShopScreen.activeSelf)
-            {
-                CutsceneManager.instance.playableDirector.playableAsset = currMerchant.idleTimeline;
-                CutsceneManager.instance.playableDirector.Play();
-
-                mainShopScreen.SetActive(false);
-            }
-            else if (shopScreen.activeSelf)
-            {              
-                CloseMSScreenButton.CloseScreen();
-            }
-        }
+        }       
     }
 
     public void DisplayMainScreenButtons()
@@ -143,16 +111,16 @@ public class ShopManager : MonoBehaviour
                     shopMissionButton.GetComponent<ShopMissionButton>().storedMissionTask = currMerchant.allCurrCorrTasks[i];
                     shopMissionButton.GetComponent<ShopMissionButton>().missionDescriptionTxt.text = currMerchant.allCurrCorrTasks[i].missionButtonDescription;
 
-                    if (shopMissionButton.GetComponent<ShopMissionButton>().storedMission.missionType == MissionBaseProfile.MissionType.main)
-                    {
-                        shopMissionButton.GetComponent<ShopMissionButton>().missionTypeImg.sprite 
-                            = shopMissionButton.GetComponent<ShopMissionButton>().mainQuestSprite;
-                    }
-                    else
-                    {
-                        shopMissionButton.GetComponent<ShopMissionButton>().missionTypeImg.sprite 
-                            = shopMissionButton.GetComponent<ShopMissionButton>().sideQuestSprite;
-                    }
+                    //if (shopMissionButton.GetComponent<ShopMissionButton>().storedMission.missionType == MissionBaseProfile.MissionType.main)
+                    //{
+                    //    shopMissionButton.GetComponent<ShopMissionButton>().missionTypeImg.sprite 
+                    //        = shopMissionButton.GetComponent<ShopMissionButton>().mainQuestSprite;
+                    //}
+                    //else
+                    //{
+                    //    shopMissionButton.GetComponent<ShopMissionButton>().missionTypeImg.sprite 
+                    //        = shopMissionButton.GetComponent<ShopMissionButton>().sideQuestSprite;
+                    //}
                 }
             }
 
@@ -163,7 +131,7 @@ public class ShopManager : MonoBehaviour
                     var shopMissionButton = Instantiate(missionButtonPrefab, mainScreenButtonParentTrans);
 
                     shopMissionButton.GetComponent<ShopMissionButton>().storedMission = currMerchant.allCorrMissions[i];
-                    shopMissionButton.GetComponent<ShopMissionButton>().missionDescriptionTxt.text = currMerchant.allCorrMissions[i].missionDescription;
+                    shopMissionButton.GetComponent<ShopMissionButton>().missionDescriptionTxt.text = currMerchant.allCorrMissions[i].missionName;
 
                     if (shopMissionButton.GetComponent<ShopMissionButton>().storedMission.missionType == MissionBaseProfile.MissionType.main)
                     {

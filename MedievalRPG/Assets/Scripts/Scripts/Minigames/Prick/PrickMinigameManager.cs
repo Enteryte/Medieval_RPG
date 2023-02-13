@@ -32,6 +32,7 @@ public class PrickMinigameManager : MonoBehaviour
     public Button startNewMatchBtn;
 
     public GameObject prickUI;
+    public GameObject endPrickRoundUI;
 
     [Header("Cards")]
     public List<PrickCardBase> allCards;
@@ -116,8 +117,18 @@ public class PrickMinigameManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && startNewMatchBtn.GetComponent<Button>().interactable && prickEnemy.currentPlayableCards.Count == 0)
+        //if (Input.GetKeyDown(KeyCode.Escape) && prickEnemy.currentPlayableCards.Count > 0 || Input.GetKeyDown(KeyCode.Escape) & playerCardGOs)
+        if (Input.GetKeyDown(KeyCode.Escape) && !TutorialManager.instance.bigTutorialUI.activeSelf/* && startNewMatchBtn.GetComponent<Button>().interactable && prickEnemy.currentPlayableCards.Count == 0*/)
         {
+            //if (endPrickRoundUI.activeSelf)
+            //{
+            //    endPrickRoundUI.SetActive(false);
+            //}
+            //else
+            //{
+            //    endPrickRoundUI.SetActive(true);
+            //}
+
             prickUI.SetActive(false);
             prickCamera.enabled = false;
 
@@ -125,19 +136,29 @@ public class PrickMinigameManager : MonoBehaviour
 
             GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
-            this.enabled = false;
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && PlayerValueManager.instance.money == 0)
-        {
-            prickUI.SetActive(false);
-            prickCamera.enabled = false;
+            GameManager.instance.ContinueGame();
+            GameManager.instance.cantPauseRN = false;
 
-            ThirdPersonController.instance.canMove = true;
-
-            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+            CutsceneManager.instance.ActivateHUDUI();
 
             this.enabled = false;
         }
+        //else if (Input.GetKeyDown(KeyCode.Escape) && PlayerValueManager.instance.money == 0)
+        //{
+        //    prickUI.SetActive(false);
+        //    prickCamera.enabled = false;
+
+        //    ThirdPersonController.instance.canMove = true;
+
+        //    GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+
+        //    GameManager.instance.ContinueGame();
+        //    GameManager.instance.cantPauseRN = false;
+
+        //    CutsceneManager.instance.ActivateHUDUI();
+
+        //    this.enabled = false;
+        //}
     }
 
     public void DisablePrickAnimator()

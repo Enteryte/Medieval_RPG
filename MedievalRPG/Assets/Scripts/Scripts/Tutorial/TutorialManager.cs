@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using StarterAssets;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -45,6 +46,14 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    //public void Update()
+    //{
+    //    if (bigTutorialUI.activeSelf && GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.speed > 0)
+    //    {
+    //        GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.speed = 0;
+    //    }
+    //}
+
     public void OpenTutorialUI()
     {
         animator.enabled = false;
@@ -81,6 +90,7 @@ public class TutorialManager : MonoBehaviour
             animator.enabled = true;
             animator.Play(openBigTutorialUIAnim.name);
 
+            //GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
             GameManager.instance.PauseGame();
         }
     }

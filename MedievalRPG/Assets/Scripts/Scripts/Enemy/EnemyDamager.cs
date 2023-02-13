@@ -15,7 +15,7 @@ public class EnemyDamager : MonoBehaviour
         Debug.Log($"Hit Gameobject: {_collision.gameObject.name}");
         if (!GameManager.instance)
             return;
-        if(_collision.gameObject.CompareTag("Shield"))
+        if (_collision.gameObject.CompareTag("Shield"))
         {
             //Add Recoil Animation and stop the damager here.
             anim.SetTrigger(Animator.StringToHash("Recoil"));
@@ -48,9 +48,21 @@ public class EnemyDamager : MonoBehaviour
     private void Attack(GameObject _playerGameObject)
     {
         if (_playerGameObject.TryGetComponent(out GotDamage gDmg))
-            gDmg.GotHit(true);
-        PlayerValueManager.instance.CurrHP -= Damage;
-        PlayerValueManager.instance.healthSlider.value = PlayerValueManager.instance.CurrHP;
-        IsDamaging = false;
+        {
+            try
+            {
+                gDmg.GotHit(true);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error in GotHit method: " + ex.Message);
+            }
+            PlayerValueManager.instance.CurrHP -= Damage;
+            IsDamaging = false;
+        }
+        else
+        {
+            Debug.LogError("No GotDamage Component");
+        }
     }
 }

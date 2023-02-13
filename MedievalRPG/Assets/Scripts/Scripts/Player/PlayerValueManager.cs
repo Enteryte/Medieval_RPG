@@ -72,6 +72,8 @@ public class PlayerValueManager : MonoBehaviour
     public TimelineAsset whenDeathTL;
     public LoadingScreenProfile deathLSP;
 
+    public float afterPlayerDiedSkippingTime1;
+
     public bool isDead = false;
 
     public void Awake()
@@ -182,6 +184,7 @@ public class PlayerValueManager : MonoBehaviour
 
         isDead = true;
 
+        CutsceneManager.instance.currCP = null;
         CutsceneManager.instance.playableDirector.playableAsset = whenDeathTL;
         CutsceneManager.instance.playableDirector.Play();
 

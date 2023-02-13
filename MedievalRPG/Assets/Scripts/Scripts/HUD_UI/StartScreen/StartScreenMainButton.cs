@@ -99,6 +99,11 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
             {
                 screenToOpen.SetActive(true);
 
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = true;
+                }
+
                 StartScreenManager.instance.mainAnimator.enabled = true;
                 StartScreenManager.instance.mainAnimator.Rebind();
                 StartScreenManager.instance.mainAnimator.Play(openScreenAnim.name);
@@ -149,6 +154,11 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
             if (screenToOpen != null)
             {
                 screenToOpen.SetActive(true);
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = true;
+                }
 
                 StartScreenManager.instance.mainAnimator.enabled = true;
                 StartScreenManager.instance.mainAnimator.Rebind();

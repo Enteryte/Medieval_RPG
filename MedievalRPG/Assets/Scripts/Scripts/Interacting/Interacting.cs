@@ -74,6 +74,11 @@ public class Interacting : MonoBehaviour
         //Debug.Log(CutsceneManager.instance.currCP.cantBeSkipped);
         //Debug.Log(CutsceneManager.instance.playableDirector.playableGraph.IsPlaying());
 
+        if (GameManager.instance.pauseMenuScreen.activeSelf || !GameManager.instance.playerStatsGO.activeSelf)
+        {
+            return;
+        }
+
         FindTargets();
 
         //Debug.Log(Vector3.Distance(playerHeadObj.transform.position, playerHandObj.transform.position));

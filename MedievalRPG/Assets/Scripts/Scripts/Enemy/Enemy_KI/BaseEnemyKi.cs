@@ -2,10 +2,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-// ReSharper disable once CheckNamespace
 public abstract class BaseEnemyKI : MonoBehaviour
 {
-    //TODO: Cut this down and have the basic functions remain here, then let the melee and archer KI inherit from it.
     [Header("Includes")] [SerializeField] protected SO_KI_Stats KiStats;
     [SerializeField] protected EnemyBaseProfile BaseStats;
     [SerializeField] protected Animator Animator;
@@ -25,6 +23,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected Transform Target;
     protected Vector3 StartPos;
 
+    public bool wasntSpawned = false;
 
     [Header("Detectors")] [SerializeField] protected RayDetection RayDetectionPrefab;
     [SerializeField] protected Transform SightContainer;
@@ -36,12 +35,27 @@ public abstract class BaseEnemyKI : MonoBehaviour
     //How low the speed is to be considered not moving, just in case Navmesh doesn't do it's job stopping
     [SerializeField]
     protected float Tolerance;
+    [SerializeField]
+    private float PlayerTooFarAwayDst = 50f;		
 
     protected float SqrTolerance;
 
     private int CheckValue;
 
     #region Unity Events
+
+    public void Start()
+    {
+        if (wasntSpawned)
+        {
+            Init();
+
+            if (this.gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
+            {
+                archerEKI.LinkArrowPool(FightManager.instance.enemyArrowPool);
+            }
+        }
+    }
 
     /// <summary>
     /// The Method for Initialization
@@ -61,7 +75,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
         if (HasDied || !IsInitialized)
             return;
 
-        if (!IsSeeingPlayer)
+        if (!IsSeeingPlayer|| Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
             IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
     }
 
@@ -86,6 +100,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
     {
         Agent.isStopped = false;
     }
+    // ReSharper disable Unity.PerformanceAnalysis
     public virtual void Death()
     {
         //TODO: Turn of all other scripts, animators, etc

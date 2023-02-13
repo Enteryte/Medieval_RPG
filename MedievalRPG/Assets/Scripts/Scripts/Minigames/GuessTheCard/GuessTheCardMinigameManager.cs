@@ -86,7 +86,7 @@ public class GuessTheCardMinigameManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && startGameBtn.GetComponent<Button>().interactable)
+        if (Input.GetKeyDown(KeyCode.Escape) && !TutorialManager.instance.bigTutorialUI.activeSelf/*&& startGameBtn.GetComponent<Button>().interactable*/)
         {
             gTCUI.SetActive(false);
             gTCCamera.enabled = false;
@@ -96,18 +96,28 @@ public class GuessTheCardMinigameManager : MonoBehaviour
             GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
             this.enabled = false;
+
+            CutsceneManager.instance.ActivateHUDUI();
+
+            GameManager.instance.ContinueGame();
+            GameManager.instance.cantPauseRN = false;
         }
-        else if (Input.GetKeyDown(KeyCode.Escape) && PlayerValueManager.instance.money == 0)
-        {
-            gTCUI.SetActive(false);
-            gTCCamera.enabled = false;
+        //else if (Input.GetKeyDown(KeyCode.Escape) && PlayerValueManager.instance.money == 0)
+        //{
+        //    gTCUI.SetActive(false);
+        //    gTCCamera.enabled = false;
 
-            ThirdPersonController.instance.canMove = true;
+        //    ThirdPersonController.instance.canMove = true;
 
-            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+        //    GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
-            this.enabled = false;
-        }
+        //    this.enabled = false;
+
+        //    CutsceneManager.instance.ActivateHUDUI();
+
+        //    GameManager.instance.ContinueGame();
+        //    GameManager.instance.cantPauseRN = false;
+        //}
     }
 
     public void StartGame()

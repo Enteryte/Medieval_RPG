@@ -217,6 +217,11 @@ public class FightingActions : MonoBehaviour
     #region Attacks
     private void OnLightAttackShoot()
     {
+        if (GameManager.instance.gameIsPaused)
+        {
+            return;
+        }
+
         //if (!TPC.canMove)
         //{
         //    return;
@@ -356,6 +361,11 @@ public class FightingActions : MonoBehaviour
 
     private void OnHeavyAttackZoom()
     {
+        if (GameManager.instance.gameIsPaused)
+        {
+            return;
+        }
+
         //if (!TPC.canMove)
         //{
         //    return;
@@ -441,6 +451,11 @@ public class FightingActions : MonoBehaviour
 
     private void OnBlockAimTorch()
     {
+        if (GameManager.instance.gameIsPaused)
+        {
+            return;
+        }
+
         if (equippedWeaponL == null)
         {
             return;
@@ -499,6 +514,11 @@ public class FightingActions : MonoBehaviour
     #region Miscellaneous
      private void OnRoll()
     {
+        if (GameManager.instance.gameIsPaused)
+        {
+            return;
+        }
+
         if (PlayerValueManager.instance.currStamina - TPC.rollStaminaReduceValue >= 0)
         {
             StartCoroutine(GameManager.instance.playerGO.GetComponent<ThirdPersonController>().Roll());

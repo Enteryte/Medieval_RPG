@@ -53,6 +53,9 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenuScreen;
     public bool gameIsPaused = false;
 
+    public bool cantPauseRN = false;
+    public bool areYouSureScreenIsActive = false;
+
     public GameObject arrowHUDDisplayGO;
 
     public GameObject canvasParentGO;
@@ -148,6 +151,11 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+        if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableAsset == CutsceneManager.instance.afterPlayerDiedTL)
+        {
+            return;
+        }
+
         //if (Input.GetKeyDown(KeyCode.Alpha5))
         //{
         //    CutsceneManager.instance.SleepTillEvening();
@@ -229,21 +237,26 @@ public class GameManager : MonoBehaviour
         //    ThirdPersonController.instance._animator.SetLayerWeight(1, 0);
         //}
 
-        // Tombstone
-        if (Input.GetKeyDown(KeyCode.Escape) && UIManager.instance.readTombstoneUI.activeSelf && !pauseMenuScreen.activeSelf)
-        {
-            UIManager.instance.readTombstoneUI.SetActive(false);
-            gameIsPaused = false;
-        }
-
         // Open/Close Inventory
-        if (Input.GetKeyDown(KeyCode.I) && !ShopManager.instance.shopScreen.activeSelf)
+        if (!readBookOrNoteScreen.activeSelf && !pauseMenuScreen.activeSelf)
         {
-            OpenInventory();
-
-            if (MissionLogScreenHandler.instance != null)
+            if (Input.GetKeyDown(KeyCode.I) && !InventoryManager.instance.inventoryScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf && !Blackboard.instance.blackboardUI.activeSelf && !cantPauseRN)
             {
-                MissionLogScreenHandler.instance.DisplayMissions();
+                OpenInventory();
+
+                if (MissionLogScreenHandler.instance != null)
+                {
+                    MissionLogScreenHandler.instance.DisplayMissions();
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.I) && InventoryManager.instance.inventoryScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf && !Blackboard.instance.blackboardUI.activeSelf/* && !cantPauseRN*/)
+            {
+                OpenInventory();
+
+                if (MissionLogScreenHandler.instance != null)
+                {
+                    MissionLogScreenHandler.instance.DisplayMissions();
+                }
             }
         }
 
@@ -298,19 +311,88 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (pauseMenuScreen != null && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.shopScreen.activeSelf 
-            && !ShopManager.instance.mainShopScreen.activeSelf)
+        // NPC UI
+        if (Input.GetKeyDown(KeyCode.Escape) && UIManager.instance.npcMissionButtonParentObjTrans.gameObject.activeSelf/* && UIManager.instance.npcMissionButtonParentObjTrans.gameObject.activeSelf*/)
         {
-            if (StartScreenManager.instance.areYouSureExitGameScreen.activeSelf || Blackboard.instance != null && Blackboard.instance.blackboardUI.activeSelf)
+            GameManager.instance.cantPauseRN = false;
+            CutsceneManager.instance.CloseCutscene();
+
+            UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(false);
+
+            if (UIManager.instance.npcBtnKillianGOs.Length > 0)
             {
-                return;
+                for (int i = 0; i < UIManager.instance.npcBtnKillianGOs.Length; i++)
+                {
+                    if (UIManager.instance.npcBtnKillianGOs[i] != null)
+                    {
+                        UIManager.instance.npcBtnKillianGOs[i].SetActive(false);
+                    }
+                }
             }
 
+            Interacting.instance.nearestObjTrans = null;
+
+            FightingActions.instance.PlayerCanMove();
+        }
+        else if (ShopManager.instance.currMerchant != null) // --------------> SHOP
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && ShopManager.instance.shopScreen != null && ShopManager.instance.shopScreen.activeSelf && ShopManager.instance.hMScreen.gameObject.activeSelf)
+            {
+                //if (hMScreen.gameObject.activeSelf)
+                //{
+                ShopManager.instance.hMScreen.gameObject.SetActive(false);
+                //}
+            }
+            else if (Input.GetKeyDown(KeyCode.Return) && ShopManager.instance.shopScreen != null && ShopManager.instance.shopScreen.activeSelf && ShopManager.instance.hMScreen.gameObject.activeSelf)
+            {
+                //if (hMScreen.gameObject.activeSelf)
+                //{
+                ShopManager.instance.hMScreen.gameObject.SetActive(false);
+
+                ShopManager.instance.BuyOrSellItem(HowManyScreen.currIBP, (int)ShopManager.instance.hMScreen.howManySSlider.value);
+                //}
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape) && !ShopManager.instance.hMScreen.gameObject.activeSelf)
+            {
+                if (ShopManager.instance.mainShopScreen.activeSelf)
+                {
+                    CutsceneManager.instance.playableDirector.playableAsset = ShopManager.instance.currMerchant.idleTimeline;
+                    CutsceneManager.instance.playableDirector.Play();
+
+                    ShopManager.instance.mainShopScreen.SetActive(false);
+                }
+                else if (ShopManager.instance.shopScreen.activeSelf)
+                {
+                    CloseMSScreenButton.CloseScreen();
+                }
+            }
+        } // ----------------------> PAUSING / CONTINUE
+        else if (pauseMenuScreen != null && !cantPauseRN && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.mainShopScreen.activeSelf
+            &&  !UIManager.instance.readTombstoneUI.activeSelf && !areYouSureScreenIsActive)
+        {
+            //if (StartScreenManager.instance.areYouSureExitGameScreen.activeSelf || Blackboard.instance != null && Blackboard.instance.blackboardUI.activeSelf)
+            //{
+            //    return;
+            //}
+
+            //if (ShopManager.instance.currMerchant != null)
+            //{
+            //    Debug.Log("----------------------------------egergre--------");
+            //    return;
+            //}
+            //else
+            //{
+            //    Debug.Log(ShopManager.instance.currMerchant);
+            //}
+
             if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf
-                && !TutorialManager.instance.bigTutorialUI.activeSelf /* &&*/ /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*//*alid()*/)
+                && !TutorialManager.instance.bigTutorialUI.activeSelf /* && /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*//*alid()*/)
             {
                 if (CutsceneManager.instance.currCP == null)
                 {
+                    LoadingScreen.instance.saveGameBtn.interactable = !FightManager.instance.isInFight;
+                    LoadingScreen.instance.loadGameBtn.interactable = !FightManager.instance.isInFight;
+
                     LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
                     LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
                     pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
@@ -323,6 +405,9 @@ public class GameManager : MonoBehaviour
                     }
                     else
                     {
+                        LoadingScreen.instance.saveGameBtn.interactable = true;
+                        LoadingScreen.instance.loadGameBtn.interactable = true;
+
                         ContinueGame();
                     }
                 }
@@ -411,7 +496,7 @@ public class GameManager : MonoBehaviour
             //    Debug.Log(readBookOrNoteScreen.activeSelf);
             //    Debug.Log(ShopManager.instance.shopScreen.activeSelf);
             //}
-        }
+        }        
 
         // Close Tutorial ( Big )
         if (gameIsPaused && TutorialManager.currTBP != null)
@@ -641,17 +726,23 @@ public class GameManager : MonoBehaviour
         StartScreenManager.instance.mainAnimator.enabled = false;
 
         gameIsPaused = false;
+
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
     }
 
     public void OpenInventory()
     {
         InventoryManager.instance.inventoryScreen.SetActive(!InventoryManager.instance.inventoryScreen.activeSelf);
+        cantPauseRN = InventoryManager.instance.inventoryScreen.activeSelf;
 
         InventoryManager.instance.moneyTxt.text = PlayerValueManager.instance.money.ToString();
 
         if (InventoryManager.instance.inventoryScreen.activeSelf)
         {
             ThirdPersonController.instance._animator.Play("Inventory Pose");
+
+            PauseGame();
+            cantPauseRN = true;
 
             Debug.Log("fghbj");
         }
@@ -662,6 +753,9 @@ public class GameManager : MonoBehaviour
             ThirdPersonController.instance._animator.enabled = true;
 
             FightingActions.instance.GetWeapon();
+
+            ContinueGame();
+            cantPauseRN = false;
 
             //Debug.Log("fghbj2");
         }

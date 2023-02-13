@@ -62,7 +62,8 @@ public class MeleeEnemyKi : BaseEnemyKI
         if (!IsSeeingPlayer)
         {
             Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), false);
-
+            if(!FightManager.instance)
+                return;
             if (FightManager.instance.enemiesInFight.Contains(this))
             {
                 FightManager.instance.enemiesInFight.Remove(this);
@@ -91,7 +92,7 @@ public class MeleeEnemyKi : BaseEnemyKI
         switch (HasSeenPlayer)
         {
             case false when !_isSeeingPlayer:
-                if (!KiStats.PatrolsWhileVibing || Agent.velocity.sqrMagnitude >= SqrTolerance)
+                if (!KiStats.PatrolsWhileVibing || Vector3.Distance(transform.position, Agent.destination) >= SqrTolerance)
                     break;
                 StartCoroutine(TimeToLookAtNewRandomTarget());
                 break;
@@ -104,7 +105,7 @@ public class MeleeEnemyKi : BaseEnemyKI
                 break;
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             case true when !_isSeeingPlayer:
-                // Search();
+                Search();
                 break;
         }
     }
@@ -113,16 +114,13 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     private void NoticeEnemy()
     {
-        //ToDo: Remove this temporary check when in the game.
-        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-        if (!HardCodeTarget)
-            Target = GameManager.instance.playerGO.transform;
-        else
-            Target = HardCodeTarget.transform;
+        if (!GameManager.instance)
+            throw new Exception("No Game Manager Found");
+        Target = GameManager.instance.playerGO.transform;
         HasSeenPlayer = true;
         Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
         Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
-
+        if (!FightManager.instance) return;
         if (!FightManager.instance.enemiesInFight.Contains(this))
         {
             FightManager.instance.enemiesInFight.Add(this);
@@ -271,11 +269,6 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     #endregion
 
-    public override void Death()
-    {
-        base.Death();
-    }
-
     #region EditorDepictors
 
     protected override void OnDrawGizmos()
@@ -284,6 +277,8 @@ public class MeleeEnemyKi : BaseEnemyKI
         VisualizeDetectors(Color.red, KiStats.AttackRange, AttackContainer);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(StartPos, new Vector3(KiStats.PatrollingRange * 2f, 0, KiStats.PatrollingRange * 2f));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(Agent.destination, new Vector3(0.1f, 1.0f, 0.1f));
     }
 
     #endregion

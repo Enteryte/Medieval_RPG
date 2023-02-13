@@ -13,4 +13,6 @@ public class LoadingScreenProfile : ScriptableObject
     public string descriptionTextString;
 
     public int sceneToLoadIndex;
+
+    public AudioClip mainSceneMusicClip;
 }
