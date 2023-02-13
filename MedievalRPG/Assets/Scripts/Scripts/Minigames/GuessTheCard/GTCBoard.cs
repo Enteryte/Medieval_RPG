@@ -39,6 +39,11 @@ public class GTCBoard : MonoBehaviour, IInteractable
         {
             Destroy(MessageManager.instance.collectedMessageParentObj.transform.GetChild(i).gameObject);
         }
+
+        CutsceneManager.instance.DeactivateHUDUI();
+
+        GameManager.instance.PauseGame();
+        GameManager.instance.cantPauseRN = true;
     }
 
     public string GetInteractUIText()

@@ -66,6 +66,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     this.gameObject.GetComponent<Button>().interactable = true;
                 }
             }
+
+            isNewSymbol.gameObject.SetActive(storedItemBase.isNew);
         }
 
         if (clickableSlotType != ClickableSlotType.categoryButton)
@@ -109,6 +111,11 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     correspondingMainScreenHotbarSlotBtn.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
                 }
             }
+        }
+
+        if (clickableSlotType == ClickableSlotType.inventorySlot)
+        {
+            isNewSymbol.gameObject.SetActive(storedItemBase.isNew);
         }
     }
 
@@ -829,6 +836,15 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             }
         }
 
+        if (FightingActions.instance.equippedWeaponR != null)
+        {
+            FightingActions.lastWeapon = FightingActions.instance.equippedWeaponR.GetComponent<Item>().iBP;
+        }
+        else
+        {
+            FightingActions.lastWeapon = null;
+        }
+
         InventoryManager.instance.DisplayItemsOfCategory();
     }
 
@@ -1149,6 +1165,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
             //storedAmountTxt.text = "";
         }
+
+        this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
     }
 
     // Press Enter
@@ -1296,6 +1314,12 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             {
                 InventoryManager.instance.itemInfoPopUp.gameObject.SetActive(false);
             }
+
+            if (isNewSymbol != null)
+            {
+                storedItemBase.isNew = false;
+                isNewSymbol.gameObject.SetActive(false);
+            }
         }
         else
         {
@@ -1310,6 +1334,12 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                 {
                     ShopManager.instance.itemInfoPopUpRight.gameObject.GetComponent<ItemInfoPopUp>().SetItemInformationsToDisplay(storedItemBase, isShopPlayerItem);
                     ShopManager.instance.itemInfoPopUpRight.gameObject.SetActive(true);
+                }
+
+                if (isNewSymbol != null)
+                {
+                    storedItemBase.isNew = false;
+                    isNewSymbol.gameObject.SetActive(false);
                 }
             }
         }

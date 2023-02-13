@@ -18,7 +18,6 @@ public class EnemyInitializer : MonoBehaviour
         //Debug.Log("ISHEREMFGZHJNKM;");
 
         ////Todo: Replace those magic numbers when this can be set via difficulty options
-        ArrowPool.InitializeArrows(0.5f, 2f, 1.2f);
         //for (int i = 0; i < MeleeEnemies.Length; i++)
         //{
         //    MeleeEnemies[i].Init();

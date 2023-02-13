@@ -24,6 +24,9 @@ public class StartScreenManager : MonoBehaviour
     public GameObject areYouSureNewGameScreen;
     public AnimationClip closeAreYouSureNewGameScreenAnim;
 
+    public GameObject areYouSureTutorialScreen;
+    public AnimationClip closeAreYouSureTutorialCloseAnim;
+
     public bool dontAskOnDeleteDataAgain = false;
     public static LoadSlot currClickedLoadSlot;
     public GameObject areYouSureDeleteSavaDataScreen;
@@ -36,6 +39,8 @@ public class StartScreenManager : MonoBehaviour
     public GameObject areYouSureBackToMMScreen;
     public AnimationClip closeAreYouSureBackToMMAnim;
 
+    public Toggle showTutorialToggle;
+
     public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
     public Image saveGameScreenshot;
@@ -44,6 +49,7 @@ public class StartScreenManager : MonoBehaviour
     public Button loadSaveDataBtn;
 
     public bool changeBackToMM = false;
+    public bool dontChangeToggle = false;
 
     public void Awake()
     {
@@ -79,15 +85,122 @@ public class StartScreenManager : MonoBehaviour
                 // Start new game
                 mainObjectAnimator.Rebind();
                 mainObjectAnimator.enabled = true;
-                mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
-                mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
+
+                //if (areYouSureNewGameScreen.activeSelf)
+                //{
+                    mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
+                    mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
+                //}
+                //else
+                //{
+                //    mainAnimator.Play(closeAreYouSureTutorialCloseAnim.name);
+                //    mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
+                //}
 
                 SceneChangeManager.instance.startedNewGame = true;
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
+            }
+        }
+        else if (areYouSureTutorialScreen.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
+                {
+                    var dirInfo = Directory.GetDirectories(Application.persistentDataPath + "/SaveData/");
+
+                    if (dirInfo.Length > 0)
+                    {
+                        dontChangeToggle = true;
+
+                        //OptionManager.instance.tutorialToggle.isOn = showTutorialToggle.isOn;
+
+                        //OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
+
+                        //Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+
+                        SaveSystem.instance.SaveOptions();
+
+                        //mainObjectAnimator.Rebind();
+                        //mainObjectAnimator.enabled = true;
+
+                        areYouSureTutorialScreen.SetActive(false);
+
+                        areYouSureNewGameScreen.SetActive(true);
+                        //mainAnimator.Play(open.name);
+                        mainAnimator.Play("AreYouSureToStartNewGameAnim");
+
+                    }
+                    else
+                    {
+                        dontChangeToggle = true;
+
+                        //OptionManager.instance.tutorialToggle.isOn = showTutorialToggle.isOn;
+
+                        //OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
+
+                        //Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+
+                        SaveSystem.instance.SaveOptions();
+
+                        // Start new game
+                        mainObjectAnimator.Rebind();
+                        mainObjectAnimator.enabled = true;
+
+                        mainAnimator.Play(closeAreYouSureTutorialCloseAnim.name);
+                        mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
+                    }
+                }
+                else
+                {
+                    dontChangeToggle = true;
+
+                    //OptionManager.instance.tutorialToggle.isOn = showTutorialToggle.isOn;
+
+                    //OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
+                    //Debug.Log(!showTutorialToggle.isOn);
+                    //Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+
+                    SaveSystem.instance.SaveOptions();
+
+                    // Start new game
+                    mainObjectAnimator.Rebind();
+                    mainObjectAnimator.enabled = true;
+
+                    mainAnimator.Play(closeAreYouSureTutorialCloseAnim.name);
+                    mainObjectAnimator.Play("OpenLoadingScreenInStartScreenAnim");
+                }
+
+                SceneChangeManager.instance.startedNewGame = true;
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                mainAnimator.Play(closeAreYouSureNewGameScreenAnim.name);
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
         }
         else if (areYouSureDeleteSavaDataScreen.activeSelf)
@@ -99,7 +212,7 @@ public class StartScreenManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                // WIP: Delete SavaData
+                // --------------------------------------------------------------------------> WIP: Delete SavaData
 
                 mainAnimator.Play(closeAreYouSureDeleteSavaDataAnim.name);
 
@@ -121,6 +234,11 @@ public class StartScreenManager : MonoBehaviour
 
                 StartScreenManager.instance.saveGameScreenshot.enabled = false;
                 StartScreenManager.instance.saveGameScreenshot.sprite = null;
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -129,6 +247,11 @@ public class StartScreenManager : MonoBehaviour
 
                 StartScreenManager.instance.saveGameScreenshot.enabled = false;
                 StartScreenManager.instance.saveGameScreenshot.sprite = null;
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
         }
         else if (areYouSureExitGameScreen.activeSelf)
@@ -145,6 +268,11 @@ public class StartScreenManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mainAnimator.Play(closeAreYouSureExitGameAnim.name);
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
         }
         else if (areYouSureBackToMMScreen.activeSelf)
@@ -158,6 +286,11 @@ public class StartScreenManager : MonoBehaviour
 
                 SceneChangeManager.instance.loadingScreen.SetActive(true);
                 SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -167,6 +300,11 @@ public class StartScreenManager : MonoBehaviour
                 currSelectedLoadSlotBtn = null;
 
                 mainAnimator.Play(closeAreYouSureBackToMMAnim.name);
+
+                if (GameManager.instance != null)
+                {
+                    GameManager.instance.areYouSureScreenIsActive = false;
+                }
             }
         }
     }
@@ -252,6 +390,30 @@ public class StartScreenManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ToggleOptionsTutorialToggleOnOff()
+    {
+        //if (!dontChangeToggle)
+        //{
+            //{
+            OptionManager.instance.tutorialToggle.isOn = !showTutorialToggle.isOn;
+
+            Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+            Debug.Log(showTutorialToggle.isOn);
+        //}
+        //}
+    }
+
+    public void ToggleAskForTutorialToggleOnOff()
+    {
+        //if (!areYouSureTutorialScreen.activeSelf && !dontAskOnDeleteDataAgain)
+        //{
+        showTutorialToggle.isOn = !OptionManager.instance.tutorialToggle.isOn;
+
+        Debug.Log(OptionManager.instance.tutorialToggle.isOn);
+        Debug.Log(showTutorialToggle.isOn);
+        //}
     }
 
     public Sprite LoadNewSprite(string FilePath, float PixelsPerUnit = 100.0f)

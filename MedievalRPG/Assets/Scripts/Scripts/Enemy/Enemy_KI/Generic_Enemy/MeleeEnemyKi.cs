@@ -20,16 +20,14 @@ public class MeleeEnemyKi : BaseEnemyKI
     //The Transforms for the Detectors, must be an amount divisible by 2
     private RayDetection[] RayDetectorsAttack;
 
-    Coroutine attackCoro;
-
-
     [Header("Dev Variables")] private bool IsAttackCoroutineStarted;
     private bool IsSearching;
     [SerializeField] private float RepathCoolDownLength = 0.2f;
     private float RepathCoolDown = 0.2f;
 
-    #region Unity Events
+    [SerializeField] private float MinDistance = 1.0f;
 
+    #region Unity Events
 
     public override void Init()
     {
@@ -46,11 +44,36 @@ public class MeleeEnemyKi : BaseEnemyKI
     {
         base.Update();
         SightEvent(IsSeeingPlayer);
+        if (Vector3.Distance(transform.position, Target.position) < MinDistance)
+        {
+            
+            if (Agent.enabled)
+            {
+                Agent.destination = transform.position;
+                Agent.enabled = false;
+            }
+
+            transform.LookAt(Target);
+        }
+        else if (!Agent.enabled)
+            Agent.enabled = true;
 
         //Putting the Attack Detection into an if so it only checks when it has the player within it's sight for better performance.
         if (!IsSeeingPlayer)
         {
             Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), false);
+
+            if (FightManager.instance.enemiesInFight.Contains(this))
+            {
+                FightManager.instance.enemiesInFight.Remove(this);
+
+                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic && FightManager.instance.enemiesInFight.Count <= 0)
+                {
+                    FightManager.instance.isInFight = false;
+
+                    FightManager.instance.FadeOldMusicOut();
+                }
+            }
 
             return;
         }
@@ -81,7 +104,7 @@ public class MeleeEnemyKi : BaseEnemyKI
                 break;
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             case true when !_isSeeingPlayer:
-                // Search();
+                Search();
                 break;
         }
     }
@@ -90,15 +113,24 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     private void NoticeEnemy()
     {
-        //ToDo: Remove this temporary check when in the game.
-        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-        if (!HardCodeTarget)
-            Target = GameManager.instance.playerGO.transform;
-        else
-            Target = HardCodeTarget.transform;
+        if (!GameManager.instance)
+            throw new Exception("No Game Manager Found");
+        Target = GameManager.instance.playerGO.transform;
         HasSeenPlayer = true;
         Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
         Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
+
+        if (!FightManager.instance.enemiesInFight.Contains(this))
+        {
+            FightManager.instance.enemiesInFight.Add(this);
+
+            if (GameManager.instance.musicAudioSource.clip != FightManager.instance.fightMusic)
+            {
+                FightManager.instance.isInFight = true;
+
+                FightManager.instance.FadeOldMusicOut();
+            }
+        }
     }
 
     #endregion
@@ -109,11 +141,6 @@ public class MeleeEnemyKi : BaseEnemyKI
     {
         while (IsInAttackRange)
         {
-            //if (Vector3.Distance(Target.transform.position, this.gameObject.transform.position) > 0.5f)
-            //{
-            //    StopCoroutine(attackCoro);
-            //}
-
             IsAttackCoroutineStarted = true;
             Animator.SetTrigger(Animator.StringToHash("AttackLaunch"));
             yield return new WaitForSeconds(KiStats.AttackCoolDown);
@@ -128,15 +155,16 @@ public class MeleeEnemyKi : BaseEnemyKI
         if (IsInAttackRange)
         {
             RepathCoolDown = 0f;
-            if (!Agent.isStopped)
-            {
-                Agent.isStopped = true;
-                Agent.ResetPath();
-            }
+            if (Agent.enabled)
+                if (!Agent.isStopped)
+                {
+                    Agent.isStopped = true;
+                    Agent.ResetPath();
+                }
 
             //Attack
             if (!IsAttackCoroutineStarted)
-                attackCoro = StartCoroutine(AttackTrigger());
+                StartCoroutine(AttackTrigger());
         }
         else
         {
@@ -147,9 +175,6 @@ public class MeleeEnemyKi : BaseEnemyKI
             Agent.isStopped = false;
             var targetPos = Target.position;
             Agent.destination = targetPos;
-
-            //Animator.ResetTrigger("AttackLaunch");
-            //transform.LookAt(Target.transform);
         }
     }
 
@@ -174,6 +199,18 @@ public class MeleeEnemyKi : BaseEnemyKI
             IsSearching = true;
             Vector3 placeToGo = Target.position;
             Agent.SetDestination(placeToGo);
+
+            if (!FightManager.instance.enemiesInFight.Contains(this))
+            {
+                FightManager.instance.enemiesInFight.Add(this);
+
+                if (GameManager.instance.musicAudioSource.clip != FightManager.instance.fightMusic)
+                {
+                    FightManager.instance.isInFight = true;
+
+                    FightManager.instance.FadeOldMusicOut();
+                }
+            }
         }
 
         if (IsSearching && Agent.velocity.sqrMagnitude <= Tolerance)
@@ -244,6 +281,8 @@ public class MeleeEnemyKi : BaseEnemyKI
         VisualizeDetectors(Color.red, KiStats.AttackRange, AttackContainer);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(StartPos, new Vector3(KiStats.PatrollingRange * 2f, 0, KiStats.PatrollingRange * 2f));
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(Agent.destination, new Vector3(0.1f, 1.0f, 0.1f));
     }
 
     #endregion

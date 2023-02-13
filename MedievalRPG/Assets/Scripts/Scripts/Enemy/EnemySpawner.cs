@@ -2,41 +2,34 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private Transform[] AssignedSpawnPoints;
 
-    [SerializeField] private MeleeEnemyKi[] MeleeEnemyKisToSpawn;
-    [SerializeField] private ArcherEnemyKI[] ArcherEnemyKisToSpawn;
+    [SerializeField] private BaseEnemyKI[] EnemyKisToSpawn;
+    [SerializeField] private ArrowPool ArrowPool;
+
     private void OnTriggerEnter(Collider _other)
     {
-        if(AssignedSpawnPoints.Length == 0)
+        if (AssignedSpawnPoints.Length == 0 || EnemyKisToSpawn.Length == 0)
             return;
         SpawnEnemies();
-        Destroy(gameObject);
+        Destroy(gameObject);//Maybe turn this into a dst check if the others later want the player to be able to escape after all and allow it to just despawn it's spawned enemies.
     }
 
     public void SpawnEnemies()
     {
-        for (int i = 0, j = 0; i < AssignedSpawnPoints.Length; i++)
+        for (int i = 0; i < AssignedSpawnPoints.Length; i++)
         {
-            if(i > (MeleeEnemyKisToSpawn.Length + ArcherEnemyKisToSpawn.Length))
-               return;
-            if (i <= MeleeEnemyKisToSpawn.Length)
-            {
-                BaseEnemyKI myEnemy = Instantiate(MeleeEnemyKisToSpawn[i], AssignedSpawnPoints[i].position,
-                    Quaternion.identity);
-                myEnemy.Init();
-            }
-            else 
-            {
-                ArcherEnemyKI myEnemy = Instantiate(ArcherEnemyKisToSpawn[j], AssignedSpawnPoints[i].position,
-                    Quaternion.identity);
-                myEnemy.Init();
-                myEnemy.LinkArrowPool(EnemyInitializer.instance.ArrowPool);
-                j++;
-            }
+            if (i > EnemyKisToSpawn.Length)
+                return;
+            BaseEnemyKI myEnemy = Instantiate(EnemyKisToSpawn[i], AssignedSpawnPoints[i].position, Quaternion.identity);
+            myEnemy.Init();
+            if (myEnemy is ArcherEnemyKI myArcherEnemy)
+                myArcherEnemy.LinkArrowPool(ArrowPool);
+            myEnemy.transform.rotation = AssignedSpawnPoints[i].rotation;
         }
     }
 }

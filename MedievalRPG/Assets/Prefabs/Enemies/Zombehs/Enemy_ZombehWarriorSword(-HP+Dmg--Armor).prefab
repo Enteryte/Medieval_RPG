@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 5117451476914221550}
   - component: {fileID: 5704885986285443827}
   - component: {fileID: 5863456180467336199}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Enemy_ZombehWarriorSword(-HP+Dmg--Armor)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5117451476914221549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.24, y: 0, z: -8.12}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -166,6 +166,7 @@ MonoBehaviour:
   EnemyDamager: {fileID: 8046214475336541078}
   AttackContainer: {fileID: 3643032722518968386}
   RepathCoolDownLength: 0.1
+  MinDistance: 1
 --- !u!195 &5863456180467336199
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2767,6 +2768,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 306882876510475203, guid: 746041d87bbb1934aa613f48eff3b825, type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 306882876510475203, guid: 746041d87bbb1934aa613f48eff3b825, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -2864,10 +2869,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.32594466
-  m_Height: 2.033904
+  m_Radius: 0.49
+  m_Height: 4
   m_Direction: 1
-  m_Center: {x: 0, y: 0.99253464, z: -0.010878801}
+  m_Center: {x: 0, y: 2.01, z: 0}
 --- !u!114 &1545206887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2883,8 +2888,6 @@ MonoBehaviour:
   Anim: {fileID: 4847724058137788944}
   Head: {fileID: 4847724058147417558}
   LookAtTargetPos: {x: 0, y: 0, z: 0}
-  LookAtCoolTime: 0.2
-  LookAtHeatTime: 0.2
   IsLooking: 1
 --- !u!114 &1545206888
 MonoBehaviour:

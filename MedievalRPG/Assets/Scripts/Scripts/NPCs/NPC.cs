@@ -472,5 +472,11 @@ public class NPC : MonoBehaviour, IInteractable
         {
             PlayOneLiner();
         }
+
+        if (isNeeded)
+        {
+            GameManager.instance.cantPauseRN = true;
+            FightingActions.instance.PlayerCantMove();
+        }
     }
 }

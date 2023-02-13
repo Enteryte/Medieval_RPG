@@ -1,13 +1,9 @@
-using System;
-using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using Random = UnityEngine.Random;
 
-// ReSharper disable once CheckNamespace
 public abstract class BaseEnemyKI : MonoBehaviour
 {
-    //TODO: Cut this down and have the basic functions remain here, then let the melee and archer KI inherit from it.
     [Header("Includes")] [SerializeField] protected SO_KI_Stats KiStats;
     [SerializeField] protected EnemyBaseProfile BaseStats;
     [SerializeField] protected Animator Animator;
@@ -22,7 +18,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected bool WasSeeingPlayer;
     protected bool HasSeenPlayer;
 
-    protected bool HasDied;
+    private bool HasDied;
 
     protected Transform Target;
     protected Vector3 StartPos;
@@ -32,23 +28,21 @@ public abstract class BaseEnemyKI : MonoBehaviour
     [SerializeField] protected Transform SightContainer;
 
     //The Transforms for the Detectors, must be an amount divisible by 2
-    protected RayDetection[] RayDetectorsSight;
+    private RayDetection[] RayDetectorsSight;
 
     [Header("Dev Variables")]
     //How low the speed is to be considered not moving, just in case Navmesh doesn't do it's job stopping
     [SerializeField]
     protected float Tolerance;
+    [SerializeField]
+    private float PlayerTooFarAwayDst = 50f;
+		
 
     protected float SqrTolerance;
 
     private int CheckValue;
 
     #region Unity Events
-
-    public void Start()
-    {
-        
-    }
 
     /// <summary>
     /// The Method for Initialization
@@ -57,7 +51,6 @@ public abstract class BaseEnemyKI : MonoBehaviour
     {
         StartPos = transform.position;
         SqrTolerance = Tolerance * Tolerance;
-        // ReSharper disable once StringLiteralTypo
         Animator.SetBool(Animator.StringToHash("IsKnockDownable"), KiStats.IsKnockDownable);
         RayDetectorsSight = SetDetectors(KiStats.SightDetectorCountHalf, SightContainer, KiStats.DetectionFOV,
             KiStats.DetectionRange, Color.cyan);
@@ -69,9 +62,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
         if (HasDied || !IsInitialized)
             return;
 
-        if (!IsSeeingPlayer)
+        if (!IsSeeingPlayer|| Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
             IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
-
     }
 
     /// <summary>
@@ -83,25 +75,36 @@ public abstract class BaseEnemyKI : MonoBehaviour
         Animator.speed = _speed;
     }
 
-    protected bool DetectorCheck(RayDetection[] _detectors)
-    {
-        CheckValue = 0;
-        for (int i = 0; i < _detectors.Length; i++)
-            CheckValue += _detectors[i].Sight() ? 1 : 0;
-        // Debug.Log(CheckValue);
-        return (CheckValue > 0);
-    }
+    protected bool DetectorCheck(RayDetection[] _detectors) => _detectors.Any(_rayDetection => _rayDetection.Sight());
 
+    public void GotHitReaction()
+    {
+        IsSeeingPlayer = true;
+    }
     #endregion
 
+    public void RestartAgent()
+    {
+        Agent.isStopped = false;
+    }
+    // ReSharper disable Unity.PerformanceAnalysis
     public virtual void Death()
     {
-        //TODO: Turn of all other scripts, animators, etc. and turn the enemy into a ragdoll
+        //TODO: Turn of all other scripts, animators, etc
         HasDied = true;
-        Animator.SetBool(Animator.StringToHash("IsDead"), true);
+        Animator.SetTrigger(Animator.StringToHash("Dies"));
+        Animator.SetBool(Animator.StringToHash("IsDead"),true);
         Agent.enabled = false;
+        GetComponentInChildren<LocomotionAgent>().enabled = false;
+        Destroy(Health.gameObject);
+
+        enabled = false;
     }
 
+    public void DisableAnimator()
+    {
+        Animator.enabled = false;
+    }
     /// <summary>
     /// The Function that appoints the Detectors into their Position according to the Field of View
     /// </summary>

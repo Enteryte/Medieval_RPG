@@ -59,5 +59,10 @@ public class CloseMSScreenButton : MonoBehaviour
 
         CutsceneManager.instance.playableDirector.playableAsset = ShopManager.instance.currMerchant.mEndBuyingShopPA[randomMerchantDialogue];
         CutsceneManager.instance.playableDirector.Play();
+
+        ShopManager.instance.currMerchant = null;
+
+        GameManager.instance.ContinueGame();
+        GameManager.instance.cantPauseRN = false;
     }
 }

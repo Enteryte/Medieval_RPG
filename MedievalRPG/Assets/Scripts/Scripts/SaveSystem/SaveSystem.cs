@@ -182,6 +182,9 @@ public class SaveSystem : MonoBehaviour
 
         if (!Directory.Exists(Application.persistentDataPath + "/OptionsData"))
         {
+            OptionManager.instance.tutorialToggle.isOn = true;
+            StartScreenManager.instance.showTutorialToggle.isOn = !OptionManager.instance.tutorialToggle.isOn;
+
             // Set Start-Option-Values
             OptionManager.instance.masterSlider.value = 0.5f;
             OptionManager.instance.environmentSlider.value = 0.5f;
@@ -253,7 +256,7 @@ public class SaveSystem : MonoBehaviour
         SaveEnemies(sGO);
         SaveMissions(sGO);
         SaveInteractableObjects(sGO);
-        SaveInventory(sGO);
+        SaveInventoryAndItemDatabase(sGO);
         SaveDaytimeAndWeather(sGO);
         SaveCutscene(sGO);
 
@@ -298,7 +301,7 @@ public class SaveSystem : MonoBehaviour
             LoadMissions(sGO);
             LoadNPCs(sGO);
             LoadEnemies(sGO);
-            LoadInventory(sGO);
+            LoadInventoryAndItemDatabase(sGO);
             LoadInteractableObjects(sGO);
             LoadDaytimeAndWeather(sGO);
             LoadCutscene(sGO);
@@ -422,7 +425,7 @@ public class SaveSystem : MonoBehaviour
             LoadMissions(sGO);
             LoadNPCs(sGO);
             LoadEnemies(sGO);
-            LoadInventory(sGO);
+            LoadInventoryAndItemDatabase(sGO);
             LoadInteractableObjects(sGO);
             LoadDaytimeAndWeather(sGO);
             LoadCutscene(sGO);
@@ -466,7 +469,7 @@ public class SaveSystem : MonoBehaviour
 
                     break;
                 }
-                else if(dirInfo[i].Contains("_T") && LoadingScreen.currLSP.sceneToLoadIndex == 2)
+                else if (dirInfo[i].Contains("_T") && LoadingScreen.currLSP.sceneToLoadIndex == 2)
                 {
                     continuePath = dirInfo[i];
 
@@ -586,7 +589,35 @@ public class SaveSystem : MonoBehaviour
             LoadMissions(sGO);
             //LoadNPCs(sGO);
             //LoadEnemies(sGO);
-            LoadInventory(sGO);
+            LoadInventoryAndItemDatabase(sGO);
+
+            if (continuePath.Contains("_D2") || continuePath.Contains("_D1") || LoadingScreen.currLSP.sceneToLoadIndex == 3 || LoadingScreen.currLSP.sceneToLoadIndex == 4)
+            {
+                if (sGO.changeDaytime)
+                {
+                    GameManager.instance.correspondingCutsceneProfilAtNight = null;
+
+                    GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
+                }
+                else
+                {
+                    GameManager.instance.correspondingCutsceneProfilAtNight = GameManager.instance.cutsceneProfileAtNightHolder;
+
+                    GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 0;
+                }
+
+                GameManager.instance.changeDaytime = sGO.changeDaytime;
+
+                GameManager.instance.hdrpTOD.TimeOfDay = sGO.timeOfDay;
+
+                GameManager.instance.currRainingDuration = 0;
+            }
+            else
+            {
+                LoadDaytimeAndWeather(sGO);
+            }
+
+            LoadBuffsAndDebuffs(sGO);
             //LoadInteractableObjects(sGO);
 
             //LoadInteractableObjects();
@@ -644,7 +675,7 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveTutorial(SaveGameObject sGO)
     {
-        sGO.displayTutorial = GameManager.instance.displayTutorial;
+        //sGO.displayTutorial = GameManager.instance.displayTutorial;
 
         for (int i = 0; i < TutorialManager.instance.allCompletedTutorials.Count; i++)
         {
@@ -663,8 +694,13 @@ public class SaveSystem : MonoBehaviour
         sGO.currPlayerStamina = PlayerValueManager.instance.staminaSlider.value;
     }
 
-    public void SaveInventory(SaveGameObject sGO)
+    public void SaveInventoryAndItemDatabase(SaveGameObject sGO)
     {
+        for (int i = 0; i < InventoryManager.instance.inventory.database.items.Length; i++)
+        {
+            sGO.itemIsNew.Add(InventoryManager.instance.inventory.database.items[i].isNew);
+        }
+
         for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
         {
             sGO.itemID.Add(InventoryManager.instance.inventory.slots[i].itemID);
@@ -942,6 +978,7 @@ public class SaveSystem : MonoBehaviour
 
         // Weather
         sGO.isRaining = GameManager.instance.hdrpTOD.WeatherActive();
+        sGO.currRainingDuration = GameManager.instance.currRainingDuration;
     }
 
     public void SaveCutscene(SaveGameObject sGO)
@@ -981,6 +1018,8 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveOptions(SaveGameObject sGO)
     {
+        sGO.useTutorial = OptionManager.instance.tutorialToggle.isOn;
+
         // Audio
         sGO.masterSlValue = OptionManager.instance.masterSlider.value;
         sGO.environmentSlValue = OptionManager.instance.environmentSlider.value;
@@ -1013,7 +1052,7 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadTutorial(SaveGameObject sGO)
     {
-        GameManager.instance.displayTutorial = sGO.displayTutorial;
+        //GameManager.instance.displayTutorial = sGO.displayTutorial;
 
         TutorialManager.instance.allCompletedTutorials.Clear();
 
@@ -1039,8 +1078,13 @@ public class SaveSystem : MonoBehaviour
         PlayerValueManager.instance.staminaSlider.value = sGO.currPlayerStamina;
     }
 
-    public void LoadInventory(SaveGameObject sGO)
+    public void LoadInventoryAndItemDatabase(SaveGameObject sGO)
     {
+        for (int i = 0; i < InventoryManager.instance.inventory.database.items.Length; i++)
+        {
+            InventoryManager.instance.inventory.database.items[i].isNew = sGO.itemIsNew[i];
+        }
+
         for (int i = 0; i < HotbarManager.instance.allHotbarSlotBtn.Length; i++)
         {
             HotbarManager.instance.allHotbarSlotBtn[i].ClearHotbarSlot();
@@ -1346,6 +1390,8 @@ public class SaveSystem : MonoBehaviour
         {
             GameManager.instance.hdrpTOD.StartWeather(0);
         }
+
+        GameManager.instance.currRainingDuration = sGO.currRainingDuration;
     }
 
     public void LoadCutscene(SaveGameObject sGO)
@@ -1367,6 +1413,9 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadOptions(SaveGameObject sGO)
     {
+        OptionManager.instance.tutorialToggle.isOn = sGO.useTutorial;
+        StartScreenManager.instance.showTutorialToggle.isOn = !OptionManager.instance.tutorialToggle.isOn;
+
         OptionManager.instance.masterSlider.value = sGO.masterSlValue;
         OptionManager.instance.environmentSlider.value = sGO.environmentSlValue;
         OptionManager.instance.voiceSlider.value = sGO.voiceSlValue;

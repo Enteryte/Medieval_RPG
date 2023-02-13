@@ -24,6 +24,9 @@ public class LoadingScreen : MonoBehaviour
     public GameObject startScreenMainUI;
     public GameObject startScreenMainUIButtonParent;
 
+    public Button saveGameBtn;
+    public Button loadGameBtn;
+
     public bool playerWasDead = false;
 
     public void Awake()

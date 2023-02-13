@@ -21,10 +21,6 @@ public class RayDetection : MonoBehaviour
     /// </summary>
     public bool Sight()
     {
-        if (HardTarget)
-            return Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, Range) &&
-                   hit.transform == HardTarget.transform;
-        else
             return Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, Range) &&
                    hit.transform.gameObject == GameManager.instance.playerGO;
     }

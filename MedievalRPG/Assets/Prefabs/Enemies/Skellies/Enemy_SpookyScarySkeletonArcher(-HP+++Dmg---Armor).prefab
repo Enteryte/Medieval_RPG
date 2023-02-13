@@ -818,7 +818,7 @@ GameObject:
   - component: {fileID: 6787530355641554144}
   m_Layer: 12
   m_Name: Hitbox
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -830,13 +830,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028853700292108100}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3990679572474912121}
-  m_RootOrder: 1
+  m_Father: {fileID: 6253097849494527661}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2288375902330112192
 CapsuleCollider:
@@ -848,10 +848,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.36
-  m_Height: 1.8
+  m_Radius: 0.5
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1115182316914900920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -873,13 +873,13 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028853700292108100}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.0000001
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 2
 --- !u!1 &2305795413871305708
 GameObject:
@@ -2339,13 +2339,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6106121193613166209}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.4440603, z: -0.020302773}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3990679572474912121}
-  m_RootOrder: 2
+  m_Father: {fileID: 6253097849494527661}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6163252453345029537
 GameObject:
@@ -2539,6 +2539,7 @@ GameObject:
   - component: {fileID: 6253097849494527661}
   - component: {fileID: 11078170838861015}
   - component: {fileID: 1638291413}
+  - component: {fileID: 924655964995921852}
   m_Layer: 0
   m_Name: SkeletonArcher
   m_TagString: Untagged
@@ -2560,6 +2561,8 @@ Transform:
   m_Children:
   - {fileID: 7845126644448875833}
   - {fileID: 3185103529210518378}
+  - {fileID: 678266374027480594}
+  - {fileID: 3704353024204817998}
   m_Father: {fileID: 3990679572474912121}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2596,6 +2599,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AI: {fileID: 5664829812521682032}
+--- !u!136 &924655964995921852
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6740947398921618455}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 0.49
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.01, z: 0}
 --- !u!1 &6757037584871636190
 GameObject:
   m_ObjectHideFlags: 0
@@ -2672,7 +2689,7 @@ GameObject:
   - component: {fileID: 3990679572474912121}
   - component: {fileID: 5664829812521682032}
   - component: {fileID: 8169654544299737275}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Enemy_SpookyScarySkeletonArcher(-HP+++Dmg---Armor)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2692,8 +2709,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6253097849494527661}
-  - {fileID: 678266374027480594}
-  - {fileID: 3704353024204817998}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2719,8 +2734,9 @@ MonoBehaviour:
   SightContainer: {fileID: 3704353024204817998}
   Tolerance: 1.19
   FiringPoint: {fileID: 2821798670182175154}
-  FleeingDistance: 5
-  FleeReroutCoolDown: 4
+  PersonalSpace: 4
+  RunningLength: 6
+  FleeReroutCoolDown: 1
 --- !u!195 &8169654544299737275
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2731,8 +2747,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 1
+  m_Acceleration: 3
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
