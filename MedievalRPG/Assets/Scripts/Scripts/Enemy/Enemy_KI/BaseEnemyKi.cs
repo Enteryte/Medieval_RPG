@@ -87,6 +87,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
     {
         Agent.isStopped = false;
     }
+    // ReSharper disable Unity.PerformanceAnalysis
     public virtual void Death()
     {
         //TODO: Turn of all other scripts, animators, etc
