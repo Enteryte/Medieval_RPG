@@ -6,6 +6,9 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
+
+    [SerializeField] private AudioData data;
+
     public float SetMasterVolume { private get; set; } = 1.0f;
     private float EnvironmentalVolume = 0.5f;
     public float GetEnvironmentalVolume => EnvironmentalVolume * SetMasterVolume;
@@ -13,6 +16,7 @@ public class AudioManager : MonoBehaviour
     public float SetEnvironmentalVolume
     {
         set => EnvironmentalVolume = Mathf.Min(1.0f, value);
+        //data.
     }
 
     private float VoiceVolume = 0.5f;
