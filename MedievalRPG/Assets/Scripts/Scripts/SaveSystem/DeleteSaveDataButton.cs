@@ -33,7 +33,9 @@ public class DeleteSaveDataButton : MonoBehaviour
                 {
                     if (dirInfo[i].ToString() == StartScreenManager.currClickedLoadSlot.correspondingSaveDataDirectory.ToString())
                     {
+#if UNITY_EDITOR
                         FileUtil.DeleteFileOrDirectory(StartScreenManager.currClickedLoadSlot.correspondingSaveDataDirectory.ToString());
+#endif
                     }
                 }
             }

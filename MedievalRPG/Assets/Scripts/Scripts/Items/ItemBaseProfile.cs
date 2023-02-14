@@ -133,6 +133,7 @@ public class ItemBaseProfile : ScriptableObject
         }
     }
 
+#if UNITY_EDITOR
     [CustomEditor(typeof(ItemBaseProfile))]
     public class ItemBaseProfileEditor : Editor
     {
@@ -240,6 +241,7 @@ public class ItemBaseProfile : ScriptableObject
             }
         }
     }
+#endif
 }
 
 public class ItemStat

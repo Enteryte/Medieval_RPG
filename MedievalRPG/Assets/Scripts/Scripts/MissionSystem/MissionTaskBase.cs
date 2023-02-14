@@ -104,6 +104,7 @@ public class MissionTaskBase : ScriptableObject
     [HideInInspector] public int howManyAlreadyExamined;
     #endregion
 
+#if UNITY_EDITOR
     [CustomEditor(typeof(MissionTaskBase))]
     public class MissionTaskEditor : Editor
     {
@@ -243,4 +244,5 @@ public class MissionTaskBase : ScriptableObject
             EditorUtility.SetDirty(target);
         }
     }
+#endif
 }

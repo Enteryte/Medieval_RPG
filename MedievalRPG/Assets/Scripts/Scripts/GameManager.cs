@@ -601,7 +601,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < allMeleeEnemies.Count; i++)
         {
             allMeleeEnemies[i].SetAnimatorSpeed(0f);
-
+            allMeleeEnemies[i].GetComponent<NavMeshAgent>().destination = transform.position;
             allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = true;
         }
 
