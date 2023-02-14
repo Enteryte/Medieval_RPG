@@ -42,6 +42,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
 
     private int CheckValue;
 
+    private Collider[] colls;
+
     #region Unity Events
 
     public void Start()
@@ -54,6 +56,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
             {
                 archerEKI.LinkArrowPool(FightManager.instance.enemyArrowPool);
             }
+
+            colls = GetComponentsInChildren<Collider>();
         }
     }
 
@@ -110,6 +114,11 @@ public abstract class BaseEnemyKI : MonoBehaviour
         Agent.enabled = false;
         GetComponentInChildren<LocomotionAgent>().enabled = false;
         Destroy(Health.gameObject);
+
+        for (int i = 0; i < colls.Length; i++)
+        {
+            colls[i].enabled = false;
+        }
 
         enabled = false;
     }

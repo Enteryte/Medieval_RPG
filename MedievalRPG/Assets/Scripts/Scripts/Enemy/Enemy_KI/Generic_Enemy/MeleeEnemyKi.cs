@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 // ReSharper disable once CheckNamespace
 public class MeleeEnemyKi : BaseEnemyKI
 {
+    [SerializeField] private float playerDetectionDistance;
+
     // ReSharper disable once IdentifierTypo
     [SerializeField] private EnemyDamager EnemyDamager;
 
@@ -46,6 +48,8 @@ public class MeleeEnemyKi : BaseEnemyKI
         {
             return;
         }
+
+        CheckDistanceToPlayer();
 
         base.Update();
         SightEvent(IsSeeingPlayer);
@@ -119,6 +123,17 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     #region NoticingBehaviour
 
+    private void CheckDistanceToPlayer()
+    {
+        if(Vector3.Distance(this.transform.position, GameManager.instance.playerGO.transform.position) <= playerDetectionDistance)
+        {
+            Target = GameManager.instance.playerGO.transform;
+            HasSeenPlayer = true;
+            Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
+            Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
+        }
+    }
+    
     private void NoticeEnemy()
     {
         if (!GameManager.instance)
