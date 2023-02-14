@@ -280,7 +280,7 @@ public class CutsceneManager : MonoBehaviour
             return;
         }
 
-        if (playableDirector.time > currCP.timeTillWhereToSkip)
+        if (playableDirector.time < currCP.timeTillWhereToSkip)
         {
             playableDirector.time = currCP.timeTillWhereToSkip;
         }

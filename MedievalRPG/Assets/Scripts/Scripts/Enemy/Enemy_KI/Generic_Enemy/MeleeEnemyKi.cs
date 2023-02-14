@@ -62,7 +62,8 @@ public class MeleeEnemyKi : BaseEnemyKI
         if (!IsSeeingPlayer)
         {
             Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), false);
-
+            if(!FightManager.instance)
+                return;
             if (FightManager.instance.enemiesInFight.Contains(this))
             {
                 FightManager.instance.enemiesInFight.Remove(this);
@@ -91,7 +92,7 @@ public class MeleeEnemyKi : BaseEnemyKI
         switch (HasSeenPlayer)
         {
             case false when !_isSeeingPlayer:
-                if (!KiStats.PatrolsWhileVibing || Agent.velocity.sqrMagnitude >= SqrTolerance)
+                if (!KiStats.PatrolsWhileVibing || Vector3.Distance(transform.position, Agent.destination) >= SqrTolerance)
                     break;
                 StartCoroutine(TimeToLookAtNewRandomTarget());
                 break;
@@ -119,7 +120,7 @@ public class MeleeEnemyKi : BaseEnemyKI
         HasSeenPlayer = true;
         Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
         Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
-
+        if (!FightManager.instance) return;
         if (!FightManager.instance.enemiesInFight.Contains(this))
         {
             FightManager.instance.enemiesInFight.Add(this);
@@ -267,11 +268,6 @@ public class MeleeEnemyKi : BaseEnemyKI
     }
 
     #endregion
-
-    public override void Death()
-    {
-        base.Death();
-    }
 
     #region EditorDepictors
 

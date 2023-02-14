@@ -14,6 +14,8 @@ public class LoadingScreen : MonoBehaviour
     public Image backgroundImg;
     public TMP_Text descriptionTxt;
 
+    //public AudioClip musicAfterPlayerDied; // Village Main-Music
+
     [Header("LoadingScreen-Profile")]
     public static LoadingScreenProfile currLSP;
     public static Vector3 currSpawnPos;

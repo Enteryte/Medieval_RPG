@@ -18,6 +18,9 @@ public class FightManager : MonoBehaviour
 
     public GameObject crosshairGO;
 
+    [Header("Enemies")]
+    public ArrowPool enemyArrowPool;
+
     [Header("In Fight")]
     public bool isInFight = false;
 
@@ -96,6 +99,24 @@ public class FightManager : MonoBehaviour
                 targetCVC.gameObject.SetActive(false);
             }
         }
+
+        // ---------------------------------> NUR ZUM TESTEN
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Debug.Log("UUUUUUUUUUUUUUUUUUUU");
+
+            isInFight = true;
+            StartCoroutine(FadeOldMusicOut());
+        }
+
+        // ---------------------------------> NUR ZUM TESTEN
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            Debug.Log("OOOOOOOOOOOOOOOOO");
+
+            isInFight = false;
+            StartCoroutine(FadeOldMusicOut());
+        }
     }
 
     public void UpdateArrowHUDDisplay()
@@ -168,6 +189,8 @@ public class FightManager : MonoBehaviour
         }
 
         GameManager.instance.musicAudioSource.Play();
+
+        StartCoroutine(FadeNewMusicIn());
 
         yield break;
     }

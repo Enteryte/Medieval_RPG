@@ -222,7 +222,7 @@ public class SaveSystem : MonoBehaviour
         Save();
     }
 
-    // Bzw. nach dem Erfüllen einer Mission / Nach der Cutscene der erfüllten Mission
+    // Bzw. nach dem Erfï¿½llen einer Mission / Nach der Cutscene der erfï¿½llten Mission
     public void SaveCheckpoint()
     {
         currSavingType = SavingType.checkpoint;
@@ -1435,8 +1435,8 @@ public class SaveSystem : MonoBehaviour
         OptionManager.instance.MusicSliderOnValueChange();
         OptionManager.instance.SFXSliderOnValueChange();
 
-        OptionManager.instance.CameraSensiSliderOnValueChange();
-        OptionManager.instance.MouseSensiSliderOnValueChange();
+        OptionManager.instance.CameraSensitivitySliderOnValueChange();
+        OptionManager.instance.MouseSensitivitySliderOnValueChange();
 
         //OptionManager.instance.controllerToggle.isOn = false;
 
