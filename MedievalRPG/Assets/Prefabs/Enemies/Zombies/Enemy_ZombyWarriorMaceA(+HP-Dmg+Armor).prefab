@@ -210,7 +210,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -2855,6 +2855,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c7b85289d51e737bb6577045cc2987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &281180190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7760975551883565618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e97f37ef9bcb042b790d33e53c63cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eBP: {fileID: 11400000, guid: cbfc56b18f414b842802ba2def78b75d, type: 2}
+  iOCanvas: {fileID: 0}
+  isDead: 0
+  despawnAfterTime: 1
+  despawnTime: 15
+  lootItems: []
+  lootMoney: 0
+  cutsceneToPlayAfterExamine: {fileID: 0}
 --- !u!114 &4909941762197394755
 MonoBehaviour:
   m_ObjectHideFlags: 0

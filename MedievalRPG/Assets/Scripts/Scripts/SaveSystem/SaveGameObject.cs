@@ -33,8 +33,11 @@ public class SaveGameObject
     public List<string> currWaypointNames = new List<string>();
 
     // Enemies
-    public List<Vector3> allEnemyPositions = new List<Vector3>();
-    public List<Quaternion> allEnemyRotations = new List<Quaternion>();
+    public List<Vector3> allMeleeEnemyPositions = new List<Vector3>();
+    public List<Quaternion> allMeleeEnemyRotations = new List<Quaternion>();
+
+    public List<Vector3> allArcherEnemyPositions = new List<Vector3>();
+    public List<Quaternion> allArcherEnemyRotations = new List<Quaternion>();
 
     // --------------------------------------------- WIP: Noch schauen, ob man das überhaupt benötigt.
     //// Merchants

@@ -242,7 +242,7 @@ public class Interacting : MonoBehaviour
 
                     if (interactableObj != null && interactableObj.GetComponent<Enemy>())
                     {
-                        //Debug.Log(interactableObj.gameObject.name);
+                        Debug.Log("ENEMYYYYYYYYYYYYYYYYYYYYYYYYYYY: " + interactableObj.gameObject.name);
 
                         if (FightingActions.instance.equippedWeaponL != null
                         && FightingActions.instance.equippedWeaponL.gameObject.GetComponent<Item>().iBP.weaponType != ItemBaseProfile.WeaponType.bow)
@@ -263,6 +263,17 @@ public class Interacting : MonoBehaviour
                                 FightManager.instance.TargetEnemy(interactableObj.gameObject);
                             }
                         }
+                        else
+                        {
+                            if (Input.GetKeyDown(KeyCode.Q))
+                            {
+                                FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log(interactableObj.gameObject.name);
                     }
                 }
             }

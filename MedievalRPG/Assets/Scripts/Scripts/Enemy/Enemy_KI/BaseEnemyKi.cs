@@ -19,6 +19,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected bool HasSeenPlayer;
 
     private bool HasDied;
+    public Enemy enemy;
 
     protected Transform Target;
     protected Vector3 StartPos;
@@ -58,6 +59,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
             }
 
             colls = GetComponentsInChildren<Collider>();
+
+            enemy = this.gameObject.GetComponentInChildren<Enemy>();
         }
     }
 
@@ -115,10 +118,15 @@ public abstract class BaseEnemyKI : MonoBehaviour
         GetComponentInChildren<LocomotionAgent>().enabled = false;
         Destroy(Health.gameObject);
 
-        for (int i = 0; i < colls.Length; i++)
+        if (enemy.despawnAfterTime)
         {
-            colls[i].enabled = false;
+            for (int i = 0; i < colls.Length; i++)
+            {
+                colls[i].enabled = false;
+            }
         }
+
+        enemy.EnemyDie();
 
         enabled = false;
     }
