@@ -256,7 +256,7 @@ public class FightingActions : MonoBehaviour
                     Arrow.transform.rotation = Quaternion.LookRotation(transform.forward, new Vector3(0, 0, 0));
                 }
 
-                Arrow.GetComponent<Rigidbody>().AddForce(transform.forward * shotSpeed, ForceMode.Impulse);
+                Arrow.GetComponent<Rigidbody>().AddForce(Arrow.transform.forward * shotSpeed, ForceMode.Impulse);
                 Arrow = null;
                 aims = !aims;
                 
@@ -466,7 +466,6 @@ public class FightingActions : MonoBehaviour
             holdBlock = !holdBlock;
             //TPC.canMove = !holdBlock;
             anim.SetBool("HoldBlock", holdBlock);
-            //FABIENNE: Stamina ziehen
 
             PlayerValueManager.instance.RemoveStamina(15);
         }
