@@ -51,18 +51,21 @@ public class NPCScreamingHandler : MonoBehaviour
                 {
                     currWaitTime += Time.deltaTime;
 
-                    if (currWaitTime > nPCAudioSource.clip.length)
+                    if (nPCAudioSource.clip != null)
                     {
-                        animator.SetBool("AudioIsPlaying", false);
-                    }
+                        if (currWaitTime > nPCAudioSource.clip.length)
+                        {
+                            animator.SetBool("AudioIsPlaying", false);
+                        }
 
-                    if (currWaitTime >= waitTime)
-                    {
-                        isPlayingAudio = false;
+                        if (currWaitTime >= waitTime)
+                        {
+                            isPlayingAudio = false;
 
-                        currWaitTime = 0;
+                            currWaitTime = 0;
 
-                        //animator.enabled = false;
+                            //animator.enabled = false;
+                        }
                     }
                 }
             }

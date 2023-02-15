@@ -748,6 +748,18 @@ public class GameManager : MonoBehaviour
 
     public void OpenInventory()
     {
+        if (InventoryManager.instance.selectHotbarSlotScreen.activeSelf)
+        {
+            InventoryManager.instance.selectHotbarSlotScreen.SetActive(false);
+            InventoryManager.instance.currClickedBtn.animator.enabled = false;
+            InventoryManager.instance.currClickedBtn.boarder.gameObject.SetActive(false);
+
+            InventoryManager.instance.hotbarObj.transform.parent = InventoryManager.instance.oldHotbarParentTrans;
+
+            InventoryManager.instance.currClickedBtn = null;
+            return;
+        }
+
         InventoryManager.instance.inventoryScreen.SetActive(!InventoryManager.instance.inventoryScreen.activeSelf);
         cantPauseRN = InventoryManager.instance.inventoryScreen.activeSelf;
 

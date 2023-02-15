@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour, IInteractable
     {
         float passedTime = 0;
 
-        while ( passedTime < despawnTime)
+        while (passedTime < despawnTime)
         {
             passedTime += Time.deltaTime;
 
@@ -84,7 +84,16 @@ public class Enemy : MonoBehaviour, IInteractable
             Destroy(iOCanvas.gameObject);
         }
 
-        Destroy(this.gameObject);
+        if (this.gameObject.transform.parent.GetComponent<MeleeEnemyKi>() != null && GameManager.instance.allMeleeEnemies.Contains(this.gameObject.transform.parent.GetComponent<MeleeEnemyKi>()))
+        {
+            GameManager.instance.allMeleeEnemies.Remove(this.gameObject.transform.parent.GetComponent<MeleeEnemyKi>());
+        }
+        else if (this.gameObject.transform.parent.GetComponent<ArcherEnemyKI>() != null && GameManager.instance.allArcherEnemies.Contains(this.gameObject.transform.parent.GetComponent<ArcherEnemyKI>()))
+        {
+            GameManager.instance.allArcherEnemies.Remove(this.gameObject.transform.parent.GetComponent<ArcherEnemyKI>());
+        }
+
+        Destroy(this.gameObject.transform.parent.gameObject);
     }
 
     public void InstantiateIOCanvas()

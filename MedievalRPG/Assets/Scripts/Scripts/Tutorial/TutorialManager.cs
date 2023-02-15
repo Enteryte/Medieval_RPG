@@ -103,15 +103,18 @@ public class TutorialManager : MonoBehaviour
 
         GameManager.instance.ContinuePlayerActions();
 
-        if (currTBP.tutorialToTrigger == null)
+        if (!InventoryManager.instance.inventoryScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf)
         {
-            GameManager.instance.ContinueGame();
+            if (currTBP.tutorialToTrigger == null)
+            {
+                GameManager.instance.ContinueGame();
 
-            currTBP = null;
-        }
-        else if (currTBP.tutorialToTrigger.useSmallTutorialUI)
-        {
-            GameManager.instance.ContinueGame();
+                currTBP = null;
+            }
+            else if (currTBP.tutorialToTrigger.useSmallTutorialUI)
+            {
+                GameManager.instance.ContinueGame();
+            }
         }
     }
 
