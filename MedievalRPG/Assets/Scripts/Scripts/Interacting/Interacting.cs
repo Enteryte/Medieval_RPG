@@ -434,16 +434,33 @@ public class Interacting : MonoBehaviour
                         {
                             if (door2.canInteract)
                             {
-                                if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                                && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)
+                                if (Blackboard.instance != null)
                                 {
-                                    if (interactable.iOCanvas() != null)
+                                    if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                                        && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)
                                     {
-                                        howToInteractGO.SetActive(true);
+                                        if (interactable.iOCanvas() != null)
+                                        {
+                                            howToInteractGO.SetActive(true);
 
-                                        howToInteractTxt.text = interactable.GetInteractUIText();
+                                            howToInteractTxt.text = interactable.GetInteractUIText();
 
-                                        timeTillInteract = interactable.GetTimeTillInteract();
+                                            timeTillInteract = interactable.GetTimeTillInteract();
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (!ShopManager.instance.shopScreen.activeSelf && ThirdPersonController.instance.canMove)
+                                    {
+                                        if (interactable.iOCanvas() != null)
+                                        {
+                                            howToInteractGO.SetActive(true);
+
+                                            howToInteractTxt.text = interactable.GetInteractUIText();
+
+                                            timeTillInteract = interactable.GetTimeTillInteract();
+                                        }
                                     }
                                 }
                             }
