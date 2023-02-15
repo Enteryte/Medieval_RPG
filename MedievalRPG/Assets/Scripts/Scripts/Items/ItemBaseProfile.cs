@@ -199,7 +199,14 @@ public class ItemBaseProfile : ScriptableObject
 
                 CheckIfItemValueIsZero(iBP.potionBuffValue);
 
-                iBP.stackable = true;
+                if(iBP.weaponType == WeaponType.arrow)
+                {
+                    iBP.stackable = true;
+                }
+                else
+                {
+                    iBP.stackable = false;
+                }
 
                 if (iBP.potionType == PotionType.none)
                 {
