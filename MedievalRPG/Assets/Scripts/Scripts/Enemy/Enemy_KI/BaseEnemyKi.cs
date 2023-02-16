@@ -37,13 +37,13 @@ public abstract class BaseEnemyKI : MonoBehaviour
     [SerializeField]
     protected float Tolerance;
     [SerializeField]
-    private float PlayerTooFarAwayDst = 50f;
-    [SerializeField] private float playerDetectionDistance;
+    private float PlayerTooFarAwayDst = 50f;		
+
     protected float SqrTolerance;
 
     private int CheckValue;
 
-    private Collider[] Colls;
+    private Collider[] colls;
 
     #region Unity Events
 
@@ -53,8 +53,10 @@ public abstract class BaseEnemyKI : MonoBehaviour
         {
             Init();
 
-            if (gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
+            if (this.gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
+            {
                 archerEKI.LinkArrowPool(FightManager.instance.enemyArrowPool);
+            }
 
             colls = GetComponentsInChildren<Collider>();
 
@@ -73,8 +75,6 @@ public abstract class BaseEnemyKI : MonoBehaviour
         RayDetectorsSight = SetDetectors(KiStats.SightDetectorCountHalf, SightContainer, KiStats.DetectionFOV,
             KiStats.DetectionRange, Color.cyan);
         Health.Initialize(BaseStats, Animator, this);
-        Target = GameManager.instance.playerGO.transform;
-        
     }
 
     protected virtual void Update()
@@ -83,12 +83,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
             return;
 
         if (!IsSeeingPlayer|| Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
-        {
             IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
-            if(!IsSeeingPlayer)
-                if(Vector3.Distance(this.transform.position, GameManager.instance.playerGO.transform.position) <= playerDetectionDistance)
-                    GotHitReaction();
-        }
     }
 
     /// <summary>
