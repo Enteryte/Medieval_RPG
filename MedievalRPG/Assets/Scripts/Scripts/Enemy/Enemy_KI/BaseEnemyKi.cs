@@ -45,7 +45,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
 
     private int CheckValue;
 
-    private Collider[] colls;
+    private Collider[] Colls;
 
     private EnemySpawner MySpawner;
     private bool WasAlerted;
