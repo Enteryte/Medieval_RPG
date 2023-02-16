@@ -50,13 +50,17 @@ public class MeleeEnemyKi : BaseEnemyKI
             return;
         }
 
-        CheckDistanceToPlayer();
-
         base.Update();
         SightEvent(IsSeeingPlayer);
+        if (!IsSeeingPlayer)
+        {
+            Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), false);
+            return;
+        }
+
+        FightManagerAddEnemy();
         if (Vector3.Distance(transform.position, Target.position) < MinDistance)
         {
-            
             if (Agent.enabled)
             {
                 Agent.destination = transform.position;
@@ -75,12 +79,13 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     private void FightManagerAddEnemy()
     {
+        if (!FightManager.instance) return;
         if (FightManager.instance.enemiesInFight.Contains(this)) return;
-        
+
         FightManager.instance.enemiesInFight.Add(this);
 
         if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic) return;
-        
+
         FightManager.instance.isInFight = true;
         FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
     }
@@ -92,7 +97,8 @@ public class MeleeEnemyKi : BaseEnemyKI
         switch (HasSeenPlayer)
         {
             case false when !_isSeeingPlayer:
-                if (!KiStats.PatrolsWhileVibing || Vector3.Distance(transform.position, Agent.destination) >= SqrTolerance)
+                if (!KiStats.PatrolsWhileVibing ||
+                    Vector3.Distance(transform.position, Agent.destination) >= SqrTolerance)
                     break;
                 StartCoroutine(TimeToLookAtNewRandomTarget());
                 break;
@@ -142,7 +148,7 @@ public class MeleeEnemyKi : BaseEnemyKI
                 }
 
             //Attack
-            if (!IsAttackCoroutineStarted) 
+            if (!IsAttackCoroutineStarted)
                 StartCoroutine(AttackTrigger());
         }
         else
@@ -206,22 +212,7 @@ public class MeleeEnemyKi : BaseEnemyKI
         if (IsSeeingPlayer) yield return null;
         Agent.SetDestination(StartPos);
 
-        if (FightManager.instance)
-        {
-            if (FightManager.instance.enemiesInFight.Contains(this))
-            {
-                FightManager.instance.enemiesInFight.Remove(this);
-
-                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic &&
-                    FightManager.instance.enemiesInFight.Count <= 0)
-                {
-                    FightManager.instance.isInFight = false;
-
-                    FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
-                }
-            }
-        }
-
+        FightManagerRemoveEnemy();
     }
 
     #endregion
@@ -253,13 +244,19 @@ public class MeleeEnemyKi : BaseEnemyKI
         RandomTarget = GenerateRandomTarget();
         Agent.SetDestination(RandomTarget);
 
+        FightManagerRemoveEnemy();
+    }
+
+    private void FightManagerRemoveEnemy()
+    {
         if (FightManager.instance)
         {
             if (FightManager.instance.enemiesInFight.Contains(this))
             {
                 FightManager.instance.enemiesInFight.Remove(this);
 
-                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic && FightManager.instance.enemiesInFight.Count <= 0)
+                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic &&
+                    FightManager.instance.enemiesInFight.Count <= 0)
                 {
                     FightManager.instance.isInFight = false;
 

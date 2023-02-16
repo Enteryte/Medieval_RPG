@@ -56,10 +56,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
         {
             Init();
 
-            if (this.gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
-            {
+            if (gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
                 archerEKI.LinkArrowPool(FightManager.instance.enemyArrowPool);
-            }
 
             Colls = GetComponentsInChildren<Collider>();
         }
@@ -75,6 +73,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
         RayDetectorsSight = SetDetectors(KiStats.SightDetectorCountHalf, SightContainer, KiStats.DetectionFOV,
             KiStats.DetectionRange, Color.cyan);
         Health.Initialize(BaseStats, Animator, this);
+        Target = GameManager.instance.playerGO.transform;
+        MySpawner = _mySpawner;
     }
     protected virtual void Update()
     {
@@ -82,7 +82,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
             return;
 
         if (!IsSeeingPlayer|| Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
-            IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
+            if(Vector3.Distance(transform.position, Target.position) <= PlayerDetectionDistance)
+                IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
     }
     /// <summary>
     /// Sets the Speed of the Animator
