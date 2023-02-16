@@ -3722,6 +3722,7 @@ GameObject:
   m_Component:
   - component: {fileID: 877161494}
   - component: {fileID: 877161493}
+  - component: {fileID: 877161495}
   m_Layer: 0
   m_Name: Empty:Audio(Music)
   m_TagString: Untagged
@@ -3840,6 +3841,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &877161495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877161492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c778433c6e09f514e9fffc5e4dc1cced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
 --- !u!114 &888717527 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2168254816061504925, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
@@ -4533,6 +4547,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae5901d622c6f591af138216844963d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnvironmentalVolume: 0.5
+  VoiceVolume: 0.5
+  MusicVolume: 0.5
+  EffectsVolume: 0.5
 --- !u!114 &998033820 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
@@ -7682,7 +7700,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 14.081512}
+  m_AnchoredPosition: {x: 0, y: 14.081543}
   m_SizeDelta: {x: 0, y: 28.1629}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854623362
@@ -8627,7 +8645,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 68493046, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_LocalScale.y
-      vaCameraSensibilitySliderOnValueChange{fileID: 0}
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 68493046, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -20
@@ -10625,6 +10644,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814350689701, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: 
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2168254814350689701, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
       objectReference: {fileID: 0}
@@ -10651,9 +10674,6 @@ PrefabInstance:
     - target: {fileID: 2168254814350689701, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0.1847992
-      objectReference: {fileID: 0}
-    - target: {fileID: 2168254814350689701, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
-      propertyPath: mMouseSensibilitySliderOnValueChangeue: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814374402679, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.x
