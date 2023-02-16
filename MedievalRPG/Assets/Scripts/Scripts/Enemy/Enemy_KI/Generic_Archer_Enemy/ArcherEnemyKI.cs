@@ -29,7 +29,6 @@ public class ArcherEnemyKI : BaseEnemyKI
     public override void Init()
     {
         base.Init();
-        Target = GameManager.instance ? GameManager.instance.playerGO.transform : HardCodeTarget.transform;
         IsInitialized = true;
     }
 

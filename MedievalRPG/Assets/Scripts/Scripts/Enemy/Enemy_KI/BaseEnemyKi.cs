@@ -36,13 +36,13 @@ public abstract class BaseEnemyKI : MonoBehaviour
     [SerializeField]
     protected float Tolerance;
     [SerializeField]
-    private float PlayerTooFarAwayDst = 50f;		
-
+    private float PlayerTooFarAwayDst = 50f;
+    [SerializeField] private float playerDetectionDistance;
     protected float SqrTolerance;
 
     private int CheckValue;
 
-    private Collider[] colls;
+    private Collider[] Colls;
 
     #region Unity Events
 
@@ -52,12 +52,10 @@ public abstract class BaseEnemyKI : MonoBehaviour
         {
             Init();
 
-            if (this.gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
-            {
+            if (gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
                 archerEKI.LinkArrowPool(FightManager.instance.enemyArrowPool);
-            }
 
-            colls = GetComponentsInChildren<Collider>();
+            Colls = GetComponentsInChildren<Collider>();
         }
     }
 
@@ -72,6 +70,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
         RayDetectorsSight = SetDetectors(KiStats.SightDetectorCountHalf, SightContainer, KiStats.DetectionFOV,
             KiStats.DetectionRange, Color.cyan);
         Health.Initialize(BaseStats, Animator, this);
+        Target = GameManager.instance.playerGO.transform;
+        
     }
 
     protected virtual void Update()
@@ -80,7 +80,12 @@ public abstract class BaseEnemyKI : MonoBehaviour
             return;
 
         if (!IsSeeingPlayer|| Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
+        {
             IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
+            if(!IsSeeingPlayer)
+                if(Vector3.Distance(this.transform.position, GameManager.instance.playerGO.transform.position) <= playerDetectionDistance)
+                    GotHitReaction();
+        }
     }
 
     /// <summary>
@@ -115,9 +120,9 @@ public abstract class BaseEnemyKI : MonoBehaviour
         GetComponentInChildren<LocomotionAgent>().enabled = false;
         Destroy(Health.gameObject);
 
-        for (int i = 0; i < colls.Length; i++)
+        for (int i = 0; i < Colls.Length; i++)
         {
-            colls[i].enabled = false;
+            Colls[i].enabled = false;
         }
 
         enabled = false;
