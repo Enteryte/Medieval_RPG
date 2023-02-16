@@ -45,7 +45,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
 
     private int CheckValue;
 
-    private Collider[] Colls;
+    private Collider[] colls;
 
     private EnemySpawner MySpawner;
     private bool WasAlerted;
@@ -56,8 +56,10 @@ public abstract class BaseEnemyKI : MonoBehaviour
         {
             Init();
 
-            if (gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
+            if (this.gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
+            {
                 archerEKI.LinkArrowPool(FightManager.instance.enemyArrowPool);
+            }
 
             Colls = GetComponentsInChildren<Collider>();
         }
@@ -73,25 +75,14 @@ public abstract class BaseEnemyKI : MonoBehaviour
         RayDetectorsSight = SetDetectors(KiStats.SightDetectorCountHalf, SightContainer, KiStats.DetectionFOV,
             KiStats.DetectionRange, Color.cyan);
         Health.Initialize(BaseStats, Animator, this);
-        Target = GameManager.instance.playerGO.transform;
-        WasNotSpawned = false;
-        MySpawner = _mySpawner;
     }
     protected virtual void Update()
     {
         if (HasDied || !IsInitialized)
             return;
 
-        DetectPlayerAttempt();
-    }
-    private void DetectPlayerAttempt()
-    {
-        if (IsSeeingPlayer && !(Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)) return;
-        IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
-        if (IsSeeingPlayer) return;
-        if (!(Vector3.Distance(this.transform.position, GameManager.instance.playerGO.transform.position) <=
-              PlayerDetectionDistance)) return;
-        UnusualNoticePlayerReaction();
+        if (!IsSeeingPlayer|| Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
+            IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
     }
     /// <summary>
     /// Sets the Speed of the Animator

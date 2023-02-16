@@ -7,10 +7,13 @@ using Random = UnityEngine.Random;
 // ReSharper disable once CheckNamespace
 public class MeleeEnemyKi : BaseEnemyKI
 {
+    [SerializeField] private float playerDetectionDistance;
+
     // ReSharper disable once IdentifierTypo
     [SerializeField] private EnemyDamager EnemyDamager;
 
     private bool IsInAttackRange;
+
 
     private Vector3 RandomTarget;
 
@@ -43,27 +46,23 @@ public class MeleeEnemyKi : BaseEnemyKI
     protected override void Update()
     {
         if (GameManager.instance.gameIsPaused)
-            return;
-        base.Update();
-        SightEvent(IsSeeingPlayer);
-
-        //Putting the Attack Detection into an if so it only checks when it has the player within it's sight for better performance.
-        if (!IsSeeingPlayer)
         {
-            Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), false);
             return;
         }
 
-        if (FightManager.instance)
-            FightManagerAddEnemy();
+        CheckDistanceToPlayer();
 
+        base.Update();
+        SightEvent(IsSeeingPlayer);
         if (Vector3.Distance(transform.position, Target.position) < MinDistance)
         {
+            
             if (Agent.enabled)
             {
                 Agent.destination = transform.position;
                 Agent.enabled = false;
             }
+
             transform.LookAt(Target);
         }
         else if (!Agent.enabled)
@@ -93,8 +92,7 @@ public class MeleeEnemyKi : BaseEnemyKI
         switch (HasSeenPlayer)
         {
             case false when !_isSeeingPlayer:
-                if (!KiStats.PatrolsWhileVibing ||
-                    Vector3.Distance(transform.position, Agent.destination) >= SqrTolerance)
+                if (!KiStats.PatrolsWhileVibing || Vector3.Distance(transform.position, Agent.destination) >= SqrTolerance)
                     break;
                 StartCoroutine(TimeToLookAtNewRandomTarget());
                 break;
@@ -261,8 +259,7 @@ public class MeleeEnemyKi : BaseEnemyKI
             {
                 FightManager.instance.enemiesInFight.Remove(this);
 
-                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic &&
-                    FightManager.instance.enemiesInFight.Count <= 0)
+                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic && FightManager.instance.enemiesInFight.Count <= 0)
                 {
                     FightManager.instance.isInFight = false;
 
