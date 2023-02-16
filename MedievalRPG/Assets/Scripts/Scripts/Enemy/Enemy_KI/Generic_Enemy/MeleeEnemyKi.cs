@@ -7,13 +7,10 @@ using Random = UnityEngine.Random;
 // ReSharper disable once CheckNamespace
 public class MeleeEnemyKi : BaseEnemyKI
 {
-    [SerializeField] private float playerDetectionDistance;
-
     // ReSharper disable once IdentifierTypo
     [SerializeField] private EnemyDamager EnemyDamager;
 
     private bool IsInAttackRange;
-
 
     private Vector3 RandomTarget;
 
@@ -46,55 +43,50 @@ public class MeleeEnemyKi : BaseEnemyKI
     protected override void Update()
     {
         if (GameManager.instance.gameIsPaused)
-        {
             return;
-        }
-
-        CheckDistanceToPlayer();
-
         base.Update();
         SightEvent(IsSeeingPlayer);
-        if (Vector3.Distance(transform.position, Target.position) < MinDistance)
-        {
-            
-            if (Agent.enabled)
-            {
-                Agent.destination = transform.position;
-                Agent.enabled = false;
-            }
-
-            transform.LookAt(Target);
-        }
-        else if (!Agent.enabled)
-            Agent.enabled = true;
 
         //Putting the Attack Detection into an if so it only checks when it has the player within it's sight for better performance.
         if (!IsSeeingPlayer)
         {
             Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), false);
-
             return;
         }
-        else
+
+        if (FightManager.instance)
+            FightManagerAddEnemy();
+
+        if (Vector3.Distance(transform.position, Target.position) < MinDistance)
         {
-            if (!FightManager.instance) return;
-            if (!FightManager.instance.enemiesInFight.Contains(this))
+            if (Agent.enabled)
             {
-                FightManager.instance.enemiesInFight.Add(this);
-
-                if (GameManager.instance.musicAudioSource.clip != FightManager.instance.fightMusic)
-                {
-                    FightManager.instance.isInFight = true;
-
-                    FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
-                }
+                Agent.destination = transform.position;
+                Agent.enabled = false;
             }
+            transform.LookAt(Target);
         }
+        else if (!Agent.enabled)
+            Agent.enabled = true;
 
         IsSearching = false;
-
         IsInAttackRange = DetectorCheck(RayDetectorsAttack);
         Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), IsInAttackRange);
+    }
+
+    private void FightManagerAddEnemy()
+    {
+        if (!FightManager.instance.enemiesInFight.Contains(this))
+        {
+            FightManager.instance.enemiesInFight.Add(this);
+
+            if (GameManager.instance.musicAudioSource.clip != FightManager.instance.fightMusic)
+            {
+                FightManager.instance.isInFight = true;
+
+                FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
+            }
+        }
     }
 
     #endregion
@@ -104,7 +96,8 @@ public class MeleeEnemyKi : BaseEnemyKI
         switch (HasSeenPlayer)
         {
             case false when !_isSeeingPlayer:
-                if (!KiStats.PatrolsWhileVibing || Vector3.Distance(transform.position, Agent.destination) >= SqrTolerance)
+                if (!KiStats.PatrolsWhileVibing ||
+                    Vector3.Distance(transform.position, Agent.destination) >= SqrTolerance)
                     break;
                 StartCoroutine(TimeToLookAtNewRandomTarget());
                 break;
@@ -124,22 +117,10 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     #region NoticingBehaviour
 
-    private void CheckDistanceToPlayer()
-    {
-        if(Vector3.Distance(this.transform.position, GameManager.instance.playerGO.transform.position) <= playerDetectionDistance)
-        {
-            Target = GameManager.instance.playerGO.transform;
-            HasSeenPlayer = true;
-            Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
-            Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
-        }
-    }
-    
     private void NoticeEnemy()
     {
         if (!GameManager.instance)
             throw new Exception("No Game Manager Found");
-        Target = GameManager.instance.playerGO.transform;
         HasSeenPlayer = true;
         Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
         Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
@@ -271,7 +252,8 @@ public class MeleeEnemyKi : BaseEnemyKI
                     {
                         FightManager.instance.enemiesInFight.Remove(this);
 
-                        if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic && FightManager.instance.enemiesInFight.Count <= 0)
+                        if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic &&
+                            FightManager.instance.enemiesInFight.Count <= 0)
                         {
                             FightManager.instance.isInFight = false;
 
@@ -293,7 +275,8 @@ public class MeleeEnemyKi : BaseEnemyKI
                 {
                     FightManager.instance.enemiesInFight.Remove(this);
 
-                    if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic && FightManager.instance.enemiesInFight.Count <= 0)
+                    if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic &&
+                        FightManager.instance.enemiesInFight.Count <= 0)
                     {
                         FightManager.instance.isInFight = false;
 
@@ -341,7 +324,8 @@ public class MeleeEnemyKi : BaseEnemyKI
             {
                 FightManager.instance.enemiesInFight.Remove(this);
 
-                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic && FightManager.instance.enemiesInFight.Count <= 0)
+                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic &&
+                    FightManager.instance.enemiesInFight.Count <= 0)
                 {
                     FightManager.instance.isInFight = false;
 
