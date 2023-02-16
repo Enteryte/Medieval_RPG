@@ -52,12 +52,13 @@ MonoBehaviour:
   Agent: {fileID: 3686884061637289935}
   Health: {fileID: 6336155826390902895}
   HardCodeTarget: {fileID: 0}
-  wasntSpawned: 1
+  Enemy: {fileID: 273020799349000728}
+  WasNotSpawned: 0
   RayDetectionPrefab: {fileID: 6247046261946202479, guid: 5aa4d775553884342a6bcf626a24b45d, type: 3}
   SightContainer: {fileID: 8801463117624794604}
   Tolerance: 1
   PlayerTooFarAwayDst: 10
-  playerDetectionDistance: 2
+  PlayerDetectionDistance: 1
   EnemyDamager: {fileID: 8784149211968227078}
   AttackContainer: {fileID: 5835531675471031178}
   RepathCoolDownLength: 0.1
@@ -3037,19 +3038,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c7b85289d51e737bb6577045cc2987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1055202034774088955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2392480716313711498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6130c37e3bff794abe2e36cae66a592, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemyDamager: {fileID: 8784149211968227078}
 --- !u!114 &273020799349000728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3070,6 +3058,19 @@ MonoBehaviour:
   lootItems: []
   lootMoney: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+--- !u!114 &1055202034774088955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2392480716313711498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6130c37e3bff794abe2e36cae66a592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyDamager: {fileID: 8784149211968227078}
 --- !u!4 &2392480716314005022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 306882876510113535, guid: 746041d87bbb1934aa613f48eff3b825, type: 3}

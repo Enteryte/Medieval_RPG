@@ -25,20 +25,22 @@ public class LocomotionAgent : MonoBehaviour
 
     private void Update()
     {
+        
         Transform transformAcc = Parent.transform;
         Vector3 worldDeltaPos = Agent.nextPosition - transformAcc.position;
 
         float deltaX = Vector3.Dot(transformAcc.right, worldDeltaPos);
         float deltaY = Vector3.Dot(transformAcc.forward, worldDeltaPos);
-        Vector2 deltaPos = new Vector2(deltaX, deltaY);
+        Vector2 deltaPos = new(deltaX, deltaY);
 
         float smooth = Mathf.Min(1.0f, Time.deltaTime / 0.15f);
         SmoothDeltaPos = Vector2.Lerp(SmoothDeltaPos, deltaPos, smooth);
 
         if (Time.deltaTime > 1e-5f)
             Velocity = SmoothDeltaPos / Time.deltaTime;
-
-        bool shouldMove = Velocity.magnitude > TOLERANCE && Agent.remainingDistance > Agent.radius;
+        bool shouldMove = false;
+        if(Agent.enabled)
+            shouldMove = Velocity.magnitude > TOLERANCE && Agent.remainingDistance > Agent.radius;
 
         Anim.SetBool(Animator.StringToHash("IsMoving"), shouldMove);
         Anim.SetFloat(Animator.StringToHash("VelX"), Velocity.x);

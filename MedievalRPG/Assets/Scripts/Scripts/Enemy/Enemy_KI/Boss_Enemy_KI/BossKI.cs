@@ -41,7 +41,7 @@ public class BossKI : BaseEnemyKI
     const int MiddleStrength = 3;
     const int HighStrength = 5;
 
-    public override void Init()
+    public override void Init(EnemySpawner _mySpawner)
     {
         base.Init();
         for (int i = 0; i < SideDetectors.Length; i++)

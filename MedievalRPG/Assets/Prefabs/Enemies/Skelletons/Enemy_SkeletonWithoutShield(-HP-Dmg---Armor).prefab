@@ -1252,6 +1252,7 @@ GameObject:
   - component: {fileID: 8109204317566075536}
   - component: {fileID: 5760192927884614512}
   - component: {fileID: 5901562912245196568}
+  - component: {fileID: 2628547413590300039}
   m_Layer: 12
   m_Name: SkeletonWarrior
   m_TagString: Enemy
@@ -1325,6 +1326,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyDamager: {fileID: 4959356707431266280}
+--- !u!114 &2628547413590300039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252252199117029968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e97f37ef9bcb042b790d33e53c63cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eBP: {fileID: 0}
+  iOCanvas: {fileID: 0}
+  isDead: 0
+  despawnAfterTime: 1
+  despawnTime: 15
+  lootItems: []
+  lootMoney: 0
+  cutsceneToPlayAfterExamine: {fileID: 0}
 --- !u!1 &3272749374839929497
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,12 +2044,13 @@ MonoBehaviour:
   Agent: {fileID: 237045143}
   Health: {fileID: 6854543641762457645}
   HardCodeTarget: {fileID: 0}
-  wasntSpawned: 1
+  Enemy: {fileID: 2628547413590300039}
+  WasNotSpawned: 0
   RayDetectionPrefab: {fileID: 6247046261946202479, guid: 5aa4d775553884342a6bcf626a24b45d, type: 3}
   SightContainer: {fileID: 2004182896}
   Tolerance: 1
   PlayerTooFarAwayDst: 10
-  playerDetectionDistance: 2
+  PlayerDetectionDistance: 1
   EnemyDamager: {fileID: 4959356707431266280}
   AttackContainer: {fileID: 982788574}
   RepathCoolDownLength: 0.2

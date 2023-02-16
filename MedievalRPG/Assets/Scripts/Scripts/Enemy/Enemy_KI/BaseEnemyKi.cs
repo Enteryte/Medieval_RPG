@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public abstract class BaseEnemyKI : MonoBehaviour
 {
@@ -19,12 +21,12 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected bool HasSeenPlayer;
 
     private bool HasDied;
-    public Enemy enemy;
+    [SerializeField]protected Enemy Enemy;
 
     protected Transform Target;
     protected Vector3 StartPos;
-
-    public bool wasntSpawned = false;
+    [SerializeField]
+    private bool WasNotSpawned;
 
     [Header("Detectors")] [SerializeField] protected RayDetection RayDetectionPrefab;
     [SerializeField] protected Transform SightContainer;
@@ -38,34 +40,32 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected float Tolerance;
     [SerializeField]
     private float PlayerTooFarAwayDst = 50f;
-    [SerializeField] private float playerDetectionDistance;
+    [SerializeField] private float PlayerDetectionDistance;
     protected float SqrTolerance;
 
     private int CheckValue;
 
     private Collider[] Colls;
 
+    private EnemySpawner MySpawner;
+    private bool WasAlerted;
     #region Unity Events
-
     public void Start()
     {
-        if (wasntSpawned)
+        if (WasNotSpawned)
         {
             Init();
 
             if (gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
                 archerEKI.LinkArrowPool(FightManager.instance.enemyArrowPool);
 
-            colls = GetComponentsInChildren<Collider>();
-
-            enemy = this.gameObject.GetComponentInChildren<Enemy>();
+            Colls = GetComponentsInChildren<Collider>();
         }
     }
-
     /// <summary>
     /// The Method for Initialization
     /// </summary>
-    public virtual void Init()
+    public virtual void Init(EnemySpawner _mySpawner = null)
     {
         StartPos = transform.position;
         SqrTolerance = Tolerance * Tolerance;
@@ -74,48 +74,42 @@ public abstract class BaseEnemyKI : MonoBehaviour
             KiStats.DetectionRange, Color.cyan);
         Health.Initialize(BaseStats, Animator, this);
         Target = GameManager.instance.playerGO.transform;
-        
+        WasNotSpawned = false;
+        MySpawner = _mySpawner;
     }
-
     protected virtual void Update()
     {
         if (HasDied || !IsInitialized)
             return;
 
-        if (!IsSeeingPlayer|| Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
-        {
-            IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
-            if(!IsSeeingPlayer)
-                if(Vector3.Distance(this.transform.position, GameManager.instance.playerGO.transform.position) <= playerDetectionDistance)
-                    GotHitReaction();
-        }
+        DetectPlayerAttempt();
     }
-
+    private void DetectPlayerAttempt()
+    {
+        if (IsSeeingPlayer && !(Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)) return;
+        IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
+        if (IsSeeingPlayer) return;
+        if (!(Vector3.Distance(this.transform.position, GameManager.instance.playerGO.transform.position) <=
+              PlayerDetectionDistance)) return;
+        UnusualNoticePlayerReaction();
+    }
     /// <summary>
     /// Sets the Speed of the Animator
     /// </summary>
     /// <param name="_speed">The New Value</param>
-    public void SetAnimatorSpeed(float _speed)
-    {
-        Animator.speed = _speed;
-    }
-
+    public void SetAnimatorSpeed(float _speed) => Animator.speed = _speed;
     protected bool DetectorCheck(RayDetection[] _detectors) => _detectors.Any(_rayDetection => _rayDetection.Sight());
-
-    public void GotHitReaction()
+    public void UnusualNoticePlayerReaction(bool _wasAlerted =false)
     {
         IsSeeingPlayer = true;
+        WasAlerted = true;
     }
-    #endregion
 
-    public void RestartAgent()
-    {
-        Agent.isStopped = false;
-    }
+    public void RestartAgent() => Agent.isStopped = false;
+    #endregion
     // ReSharper disable Unity.PerformanceAnalysis
     public virtual void Death()
     {
-        //TODO: Turn of all other scripts, animators, etc
         HasDied = true;
         Animator.SetTrigger(Animator.StringToHash("Dies"));
         Animator.SetBool(Animator.StringToHash("IsDead"),true);
@@ -123,22 +117,28 @@ public abstract class BaseEnemyKI : MonoBehaviour
         GetComponentInChildren<LocomotionAgent>().enabled = false;
         Destroy(Health.gameObject);
 
-        if (enemy.despawnAfterTime)
-        {
-            for (int i = 0; i < colls.Length; i++)
-            {
-                colls[i].enabled = false;
-            }
-        }
+        if (Enemy.despawnAfterTime)
+            for (int i = 0; i < Colls.Length; i++)
+                Colls[i].enabled = false;
 
-        enemy.EnemyDie();
+        Enemy.EnemyDie();
 
         enabled = false;
     }
 
-    public void DisableAnimator()
+    public void DisableAnimator() => Animator.enabled = false;
+
+
+    protected void NoticeEnemy()
     {
-        Animator.enabled = false;
+        if (!GameManager.instance)
+            throw new Exception("No Game Manager Found");
+        HasSeenPlayer = true;
+        Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
+        Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
+
+        if (MySpawner && !WasAlerted) 
+            MySpawner.AlertAllAssignedEnemies();
     }
     /// <summary>
     /// The Function that appoints the Detectors into their Position according to the Field of View
@@ -171,10 +171,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
 
     #region EditorDepictors
 
-    protected virtual void OnDrawGizmos()
-    {
-        VisualizeDetectors(Color.cyan, KiStats.DetectionRange, SightContainer);
-    }
+    protected virtual void OnDrawGizmos() => VisualizeDetectors(Color.cyan, KiStats.DetectionRange, SightContainer);
 
     protected void VisualizeDetectors(Color _lineColor, float _range, Transform _container)
     {

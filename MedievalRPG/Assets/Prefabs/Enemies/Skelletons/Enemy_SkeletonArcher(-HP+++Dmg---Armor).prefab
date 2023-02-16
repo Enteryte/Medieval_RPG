@@ -2539,6 +2539,7 @@ GameObject:
   - component: {fileID: 11078170838861015}
   - component: {fileID: 1638291413}
   - component: {fileID: 924655964995921852}
+  - component: {fileID: 8823859502474028977}
   m_Layer: 12
   m_Name: SkeletonArcher
   m_TagString: Enemy
@@ -2612,6 +2613,26 @@ CapsuleCollider:
   m_Height: 4
   m_Direction: 1
   m_Center: {x: 0, y: 2.01, z: 0}
+--- !u!114 &8823859502474028977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6740947398921618455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e97f37ef9bcb042b790d33e53c63cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eBP: {fileID: 11400000, guid: 138bb9371d689324baef484cec4034b3, type: 2}
+  iOCanvas: {fileID: 0}
+  isDead: 0
+  despawnAfterTime: 1
+  despawnTime: 15
+  lootItems: []
+  lootMoney: 0
+  cutsceneToPlayAfterExamine: {fileID: 0}
 --- !u!1 &6757037584871636190
 GameObject:
   m_ObjectHideFlags: 0
@@ -2729,11 +2750,13 @@ MonoBehaviour:
   Agent: {fileID: 8169654544299737275}
   Health: {fileID: 1115182316914900920}
   HardCodeTarget: {fileID: 0}
-  wasntSpawned: 1
+  Enemy: {fileID: 8823859502474028977}
+  WasNotSpawned: 0
   RayDetectionPrefab: {fileID: 6247046261946202479, guid: 5aa4d775553884342a6bcf626a24b45d, type: 3}
   SightContainer: {fileID: 3704353024204817998}
   Tolerance: 1.19
   PlayerTooFarAwayDst: 50
+  PlayerDetectionDistance: 1
   FiringPoint: {fileID: 2821798670182175154}
   PersonalSpace: 4
   RunningLength: 6
