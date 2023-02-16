@@ -22,7 +22,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void LightDamage(float _lightDamageTaken)
     {
-        AI.GotHitReaction();
+        AI.UnusualNoticePlayerReaction();
         LifePoints -= _lightDamageTaken;
         if (!DeathCheck())
             Anim.SetTrigger(Animator.StringToHash("LightAttackTaken"));
@@ -30,7 +30,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void HeavyDamage(float _heavyDamageTaken)
     {
-        AI.GotHitReaction();
+        AI.UnusualNoticePlayerReaction();
         LifePoints -= _heavyDamageTaken;
         if (!DeathCheck())
             Anim.SetTrigger(Animator.StringToHash("HeavyAttackTaken"));
