@@ -48,6 +48,7 @@ public class OptionManager : MonoBehaviour
 
     #region Slider: OnValueChange()
 
+    #region Sound
     public void MasterSliderOnValueChange()
     {
         masterSliderTxt.text = (int)(masterSlider.value * 100) + " / 100";
@@ -82,6 +83,9 @@ public class OptionManager : MonoBehaviour
         AudioManager.Instance.EffectsVolume = sfxSlider.value;
         AudioManager.Instance.SetEffectsVolume();
     }
+    #endregion
+    
+    #region Sensitivity
 
     public void CameraSensitivitySliderOnValueChange()
     {
@@ -94,7 +98,8 @@ public class OptionManager : MonoBehaviour
         mouseSensiSliderTxt.text = (int)(mouseSensiSlider.value * 100) + " / 100";
         Sensitivity.Mouse = mouseSensiSlider.value;
     }
-
+    #endregion
+    
     public void ResolutionUpdate()
     {
         int screenWidth = 0;
@@ -102,20 +107,20 @@ public class OptionManager : MonoBehaviour
         switch (resolutionDropdown.value)
         {
             case 0:
-                screenWidth = 1900;
+                screenWidth = 1920;
                 screenHeight = 1080;
                 break;
             case 1:
-                screenWidth = 1680;
-                screenHeight = 1050;
+                screenWidth = 1280;
+                screenHeight = 720;
                 break;
             case 2:
-                screenWidth = 1280;
-                screenHeight = 1024;
+                screenWidth = 854;
+                screenHeight = 480;
                 break;
             case 3:
-                screenWidth = 1280;
-                screenHeight = 960;
+                screenWidth = 640;
+                screenHeight = 360;
                 break;
         }
 
