@@ -188,7 +188,14 @@ public class ItemBaseProfile : ScriptableObject
 
                 CheckIfItemValueIsZero(iBP.normalDamage);
 
-                iBP.stackable = false;
+                if (iBP.weaponType == WeaponType.arrow)
+                {
+                    iBP.stackable = true;
+                }
+                else
+                {
+                    iBP.stackable = false;
+                }
             }
             else if (iBP.itemType == ItemType.potion)
             {

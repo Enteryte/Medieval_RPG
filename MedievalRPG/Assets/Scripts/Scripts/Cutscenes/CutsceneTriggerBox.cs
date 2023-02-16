@@ -62,6 +62,8 @@ public class CutsceneTriggerBox : MonoBehaviour
                     }
                 }
             }
+
+            Destroy(this.gameObject);
         }       
     }
 
@@ -105,6 +107,8 @@ public class CutsceneTriggerBox : MonoBehaviour
                     }
                 }
             }
+
+            Destroy(this.gameObject);
         }
     }
 }

@@ -159,6 +159,7 @@ MonoBehaviour:
   Agent: {fileID: 5863456180467336199}
   Health: {fileID: 3862914163020827559}
   HardCodeTarget: {fileID: 0}
+  enemy: {fileID: 0}
   wasntSpawned: 1
   RayDetectionPrefab: {fileID: 6247046261946202479, guid: 5aa4d775553884342a6bcf626a24b45d, type: 3}
   SightContainer: {fileID: 1751983557692751396}
@@ -2907,6 +2908,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c7b85289d51e737bb6577045cc2987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7268299338802898013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847724058147188802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e97f37ef9bcb042b790d33e53c63cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eBP: {fileID: 11400000, guid: 83ec9647a7355fb41b9b6d4782157ee8, type: 2}
+  iOCanvas: {fileID: 0}
+  isDead: 0
+  despawnAfterTime: 1
+  despawnTime: 15
+  lootItems: []
+  lootMoney: 0
+  cutsceneToPlayAfterExamine: {fileID: 0}
 --- !u!114 &7841201779610566451
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -30,6 +30,8 @@ public class MissionTriggerBox : MonoBehaviour
                     CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
                     CutsceneManager.instance.playableDirector.Play();
                 }
+
+                Destroy(this.gameObject);
             }
         }
     }

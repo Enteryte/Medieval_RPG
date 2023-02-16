@@ -26,6 +26,7 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     [SerializeField] private float MinDistance = 1.0f;
 
+
     #region Unity Events
 
     public override void Init()

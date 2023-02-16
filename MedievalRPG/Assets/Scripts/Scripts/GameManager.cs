@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> allInteractableObjects;
     public List<Door> allInteractableDoors;
     public List<MeleeEnemyKi> allMeleeEnemies;
+    public List<ArcherEnemyKI> allArcherEnemies;
 
     //public BeerScreenMissionButton bSMButton;
     public GameObject readBookOrNoteScreen;
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
     [Header("Day-Night + Weather")]
     public HDRPTimeOfDay hdrpTOD;
 
+    public bool shouldChangeTime = true;
     public bool changeDaytime = false;
 
     public float maxRainingDuration;
@@ -280,7 +282,7 @@ public class GameManager : MonoBehaviour
         //}
 
         // Day-Night
-        if (!gameIsPaused && changeDaytime)
+        if (!gameIsPaused && changeDaytime && shouldChangeTime)
         {
             if (hdrpTOD.TimeOfDay >= 16.8f && CutsceneManager.instance.currCP == null 
                 || hdrpTOD.TimeOfDay >= 16.8f && !CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())
@@ -605,6 +607,13 @@ public class GameManager : MonoBehaviour
             allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = true;
         }
 
+        for (int i = 0; i < allArcherEnemies.Count; i++)
+        {
+            allArcherEnemies[i].SetAnimatorSpeed(0f);
+            allArcherEnemies[i].GetComponent<NavMeshAgent>().destination = transform.position;
+            allArcherEnemies[i].GetComponent<NavMeshAgent>().isStopped = true;
+        }
+
         if (PrickMinigameManager.instance != null)
         {
             PrickMinigameManager.instance.prickCardAnimator.speed = 0;
@@ -697,6 +706,13 @@ public class GameManager : MonoBehaviour
             allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = false;
         }
 
+        for (int i = 0; i < allArcherEnemies.Count; i++)
+        {
+            allArcherEnemies[i].SetAnimatorSpeed(1f);
+
+            allArcherEnemies[i].GetComponent<NavMeshAgent>().isStopped = false;
+        }
+
         if (PrickMinigameManager.instance != null)
         {
             PrickMinigameManager.instance.prickCardAnimator.speed = 1;
@@ -732,6 +748,18 @@ public class GameManager : MonoBehaviour
 
     public void OpenInventory()
     {
+        if (InventoryManager.instance.selectHotbarSlotScreen.activeSelf)
+        {
+            InventoryManager.instance.selectHotbarSlotScreen.SetActive(false);
+            InventoryManager.instance.currClickedBtn.animator.enabled = false;
+            InventoryManager.instance.currClickedBtn.boarder.gameObject.SetActive(false);
+
+            InventoryManager.instance.hotbarObj.transform.parent = InventoryManager.instance.oldHotbarParentTrans;
+
+            InventoryManager.instance.currClickedBtn = null;
+            return;
+        }
+
         InventoryManager.instance.inventoryScreen.SetActive(!InventoryManager.instance.inventoryScreen.activeSelf);
         cantPauseRN = InventoryManager.instance.inventoryScreen.activeSelf;
 
