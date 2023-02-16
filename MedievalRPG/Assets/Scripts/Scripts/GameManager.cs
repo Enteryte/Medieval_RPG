@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
 
     public ItemBaseProfile iBPOfEscapeRope;
 
-    public bool playedTheGameThrough = false; // Soll true sein, sobald der Spieler das Spiel zum ersten Mal durchgespielt hat.
+    public bool
+        playedTheGameThrough = false; // Soll true sein, sobald der Spieler das Spiel zum ersten Mal durchgespielt hat.
 
     public List<NPC> allVillageNPCs;
     public List<NPC> allWalkingNPCs;
@@ -41,7 +42,9 @@ public class GameManager : MonoBehaviour
 
     public bool isNight = false; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
     public CutsceneProfile cutsceneProfileAtNightHolder;
-    public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
+
+    public CutsceneProfile
+        correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
 
     public GameObject cutsceneBlackFadeGO;
     public GameObject interactCanvasasParentGO;
@@ -66,8 +69,7 @@ public class GameManager : MonoBehaviour
 
     public AudioSource musicAudioSource;
 
-    [Header("Day-Night + Weather")]
-    public HDRPTimeOfDay hdrpTOD;
+    [Header("Day-Night + Weather")] public HDRPTimeOfDay hdrpTOD;
 
     public bool shouldChangeTime = true;
     public bool changeDaytime = false;
@@ -75,24 +77,20 @@ public class GameManager : MonoBehaviour
     public float maxRainingDuration;
     public float currRainingDuration = 0;
 
-    [Header("Saving/Loading")]
-    public GameObject saveGameSlotPrefab;
+    [Header("Saving/Loading")] public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
 
     public float autoSaveTime;
     public float passedTimeTillLastSave = 0;
 
-    [Header("Tutorial")]
-    public TutorialBaseProfile meleeTutorial;
+    [Header("Tutorial")] public TutorialBaseProfile meleeTutorial;
     public TutorialBaseProfile rangedTutorial;
 
     public bool displayTutorial = true;
 
-    [Header("Pausing Game")]
-    public double pausedCutsceneTime = -1;
+    [Header("Pausing Game")] public double pausedCutsceneTime = -1;
 
-    [Header("Player AFK")]
-    public AudioSource playerAudioSource;
+    [Header("Player AFK")] public AudioSource playerAudioSource;
     public AudioClip[] allAFKPlayerAudioClips;
 
     public bool isAFK = false;
@@ -100,8 +98,7 @@ public class GameManager : MonoBehaviour
     public float timeTillAfk;
     public float timeSinceLastButtonPressed = 0;
 
-    [Header("NPC One-Liner")]
-    public NPCOneLinerProfile quietMaleOL;
+    [Header("NPC One-Liner")] public NPCOneLinerProfile quietMaleOL;
     public NPCOneLinerProfile[] allMaleProfiles;
 
     public NPCOneLinerProfile quietFemaleOL;
@@ -110,8 +107,7 @@ public class GameManager : MonoBehaviour
     [Header("Cutscenes To Reset On New Game")]
     public List<CutsceneProfile> cutscenesToReset;
 
-    [Header("New-Game-Values")]
-    public bool alreadySpokeWThava = false;
+    [Header("New-Game-Values")] public bool alreadySpokeWThava = false;
     public bool alreadySpokeWOskar = false;
     public bool alreadySpokeWMorrin = false;
 
@@ -121,10 +117,10 @@ public class GameManager : MonoBehaviour
 
         //if (instance == null)
         //{
-            instance = this;
+        instance = this;
 
-            //DontDestroyOnLoad(this.gameObject);
-            //DontDestroyOnLoad(canvasParentGO);
+        //DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(canvasParentGO);
         //}
         //else
         //{
@@ -153,7 +149,8 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableAsset == CutsceneManager.instance.afterPlayerDiedTL)
+        if (CutsceneManager.instance.playableDirector.playableAsset != null &&
+            CutsceneManager.instance.playableDirector.playableAsset == CutsceneManager.instance.afterPlayerDiedTL)
         {
             return;
         }
@@ -242,7 +239,9 @@ public class GameManager : MonoBehaviour
         // Open/Close Inventory
         if (!readBookOrNoteScreen.activeSelf && !pauseMenuScreen.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.I) && !InventoryManager.instance.inventoryScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf && !Blackboard.instance.blackboardUI.activeSelf && !cantPauseRN)
+            if (Input.GetKeyDown(KeyCode.I) && !InventoryManager.instance.inventoryScreen.activeSelf &&
+                !ShopManager.instance.shopScreen.activeSelf && !Blackboard.instance.blackboardUI.activeSelf &&
+                !cantPauseRN)
             {
                 OpenInventory();
 
@@ -251,7 +250,9 @@ public class GameManager : MonoBehaviour
                     MissionLogScreenHandler.instance.DisplayMissions();
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.I) && InventoryManager.instance.inventoryScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf && !Blackboard.instance.blackboardUI.activeSelf/* && !cantPauseRN*/)
+            else if (Input.GetKeyDown(KeyCode.I) && InventoryManager.instance.inventoryScreen.activeSelf &&
+                     !ShopManager.instance.shopScreen.activeSelf &&
+                     !Blackboard.instance.blackboardUI.activeSelf /* && !cantPauseRN*/)
             {
                 OpenInventory();
 
@@ -284,13 +285,14 @@ public class GameManager : MonoBehaviour
         // Day-Night
         if (!gameIsPaused && changeDaytime && shouldChangeTime)
         {
-            if (hdrpTOD.TimeOfDay >= 16.8f && CutsceneManager.instance.currCP == null 
+            if (hdrpTOD.TimeOfDay >= 16.8f && CutsceneManager.instance.currCP == null
                 || hdrpTOD.TimeOfDay >= 16.8f && !CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())
             {
                 if (correspondingCutsceneProfilAtNight != null)
                 {
                     CutsceneManager.instance.currCP = correspondingCutsceneProfilAtNight;
-                    CutsceneManager.instance.playableDirector.playableAsset = correspondingCutsceneProfilAtNight.cutscene;
+                    CutsceneManager.instance.playableDirector.playableAsset =
+                        correspondingCutsceneProfilAtNight.cutscene;
                     CutsceneManager.instance.playableDirector.Play();
 
                     correspondingCutsceneProfilAtNight = null; // ---------------------------------> NEEDS TO BE SAVED
@@ -314,7 +316,9 @@ public class GameManager : MonoBehaviour
         }
 
         // NPC UI
-        if (Input.GetKeyDown(KeyCode.Escape) && UIManager.instance.npcMissionButtonParentObjTrans.gameObject.activeSelf/* && UIManager.instance.npcMissionButtonParentObjTrans.gameObject.activeSelf*/)
+        if (Input.GetKeyDown(KeyCode.Escape) &&
+            UIManager.instance.npcMissionButtonParentObjTrans.gameObject
+                .activeSelf /* && UIManager.instance.npcMissionButtonParentObjTrans.gameObject.activeSelf*/)
         {
             GameManager.instance.cantPauseRN = false;
             CutsceneManager.instance.CloseCutscene();
@@ -338,27 +342,31 @@ public class GameManager : MonoBehaviour
         }
         else if (ShopManager.instance.currMerchant != null) // --------------> SHOP
         {
-            if (Input.GetKeyDown(KeyCode.Escape) && ShopManager.instance.shopScreen != null && ShopManager.instance.shopScreen.activeSelf && ShopManager.instance.hMScreen.gameObject.activeSelf)
+            if (Input.GetKeyDown(KeyCode.Escape) && ShopManager.instance.shopScreen != null &&
+                ShopManager.instance.shopScreen.activeSelf && ShopManager.instance.hMScreen.gameObject.activeSelf)
             {
                 //if (hMScreen.gameObject.activeSelf)
                 //{
                 ShopManager.instance.hMScreen.gameObject.SetActive(false);
                 //}
             }
-            else if (Input.GetKeyDown(KeyCode.Return) && ShopManager.instance.shopScreen != null && ShopManager.instance.shopScreen.activeSelf && ShopManager.instance.hMScreen.gameObject.activeSelf)
+            else if (Input.GetKeyDown(KeyCode.Return) && ShopManager.instance.shopScreen != null &&
+                     ShopManager.instance.shopScreen.activeSelf && ShopManager.instance.hMScreen.gameObject.activeSelf)
             {
                 //if (hMScreen.gameObject.activeSelf)
                 //{
                 ShopManager.instance.hMScreen.gameObject.SetActive(false);
 
-                ShopManager.instance.BuyOrSellItem(HowManyScreen.currIBP, (int)ShopManager.instance.hMScreen.howManySSlider.value);
+                ShopManager.instance.BuyOrSellItem(HowManyScreen.currIBP,
+                    (int)ShopManager.instance.hMScreen.howManySSlider.value);
                 //}
             }
             else if (Input.GetKeyDown(KeyCode.Escape) && !ShopManager.instance.hMScreen.gameObject.activeSelf)
             {
                 if (ShopManager.instance.mainShopScreen.activeSelf)
                 {
-                    CutsceneManager.instance.playableDirector.playableAsset = ShopManager.instance.currMerchant.idleTimeline;
+                    CutsceneManager.instance.playableDirector.playableAsset =
+                        ShopManager.instance.currMerchant.idleTimeline;
                     CutsceneManager.instance.playableDirector.Play();
 
                     ShopManager.instance.mainShopScreen.SetActive(false);
@@ -369,8 +377,10 @@ public class GameManager : MonoBehaviour
                 }
             }
         } // ----------------------> PAUSING / CONTINUE
-        else if (pauseMenuScreen != null && !cantPauseRN && !TutorialManager.instance.bigTutorialUI.activeSelf/* && TutorialManager.currTBP == null*/  && !ShopManager.instance.mainShopScreen.activeSelf
-            &&  !UIManager.instance.readTombstoneUI.activeSelf && !areYouSureScreenIsActive)
+        else if (pauseMenuScreen != null && !cantPauseRN &&
+                 !TutorialManager.instance.bigTutorialUI.activeSelf /* && TutorialManager.currTBP == null*/ &&
+                 !ShopManager.instance.mainShopScreen.activeSelf
+                 && !UIManager.instance.readTombstoneUI.activeSelf && !areYouSureScreenIsActive)
         {
             //if (StartScreenManager.instance.areYouSureExitGameScreen.activeSelf || Blackboard.instance != null && Blackboard.instance.blackboardUI.activeSelf)
             //{
@@ -387,8 +397,10 @@ public class GameManager : MonoBehaviour
             //    Debug.Log(ShopManager.instance.currMerchant);
             //}
 
-            if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf
-                && !TutorialManager.instance.bigTutorialUI.activeSelf /* && /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*//*alid()*/)
+            if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf &&
+                !ShopManager.instance.shopScreen.activeSelf
+                && !TutorialManager.instance.bigTutorialUI
+                    .activeSelf /* && /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*/ /*alid()*/)
             {
                 if (CutsceneManager.instance.currCP == null)
                 {
@@ -399,7 +411,8 @@ public class GameManager : MonoBehaviour
                     LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
                     pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
 
-                    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+                    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance,
+                        ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
 
                     if (pauseMenuScreen.activeSelf)
                     {
@@ -413,13 +426,15 @@ public class GameManager : MonoBehaviour
                         ContinueGame();
                     }
                 }
-                else if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.currCP.canPauseWhilePlaying)
+                else if (CutsceneManager.instance.currCP != null &&
+                         CutsceneManager.instance.currCP.canPauseWhilePlaying)
                 {
                     LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
                     LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
                     pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
 
-                    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+                    FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance,
+                        ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
 
                     if (pauseMenuScreen.activeSelf)
                     {
@@ -498,7 +513,7 @@ public class GameManager : MonoBehaviour
             //    Debug.Log(readBookOrNoteScreen.activeSelf);
             //    Debug.Log(ShopManager.instance.shopScreen.activeSelf);
             //}
-        }        
+        }
 
         // Close Tutorial ( Big )
         if (gameIsPaused && TutorialManager.currTBP != null)
@@ -520,10 +535,12 @@ public class GameManager : MonoBehaviour
 
                     if (!currBookOrNote.hasBeenRead && currBookOrNote.cutsceneToPlayAfterCloseReadScreen != null)
                     {
-                        if (currBookOrNote.corresspondingMissionTask != null && currBookOrNote.corresspondingMissionTask.canBeDisplayed)
+                        if (currBookOrNote.corresspondingMissionTask != null &&
+                            currBookOrNote.corresspondingMissionTask.canBeDisplayed)
                         {
                             CutsceneManager.instance.currCP = currBookOrNote.cutsceneToPlayAfterCloseReadScreen;
-                            CutsceneManager.instance.playableDirector.playableAsset = currBookOrNote.cutsceneToPlayAfterCloseReadScreen.cutscene;
+                            CutsceneManager.instance.playableDirector.playableAsset =
+                                currBookOrNote.cutsceneToPlayAfterCloseReadScreen.cutscene;
                             CutsceneManager.instance.playableDirector.Play();
 
                             currBookOrNote.hasBeenRead = true;
@@ -531,7 +548,8 @@ public class GameManager : MonoBehaviour
                         else if (currBookOrNote.corresspondingMissionTask == null)
                         {
                             CutsceneManager.instance.currCP = currBookOrNote.cutsceneToPlayAfterCloseReadScreen;
-                            CutsceneManager.instance.playableDirector.playableAsset = currBookOrNote.cutsceneToPlayAfterCloseReadScreen.cutscene;
+                            CutsceneManager.instance.playableDirector.playableAsset =
+                                currBookOrNote.cutsceneToPlayAfterCloseReadScreen.cutscene;
                             CutsceneManager.instance.playableDirector.Play();
 
                             currBookOrNote.hasBeenRead = true;
@@ -602,16 +620,19 @@ public class GameManager : MonoBehaviour
         // Enemies
         for (int i = 0; i < allMeleeEnemies.Count; i++)
         {
+            if (!allMeleeEnemies[i].TryGetComponent(out NavMeshAgent agent)) 
+                return;
             allMeleeEnemies[i].SetAnimatorSpeed(0f);
-            allMeleeEnemies[i].GetComponent<NavMeshAgent>().destination = transform.position;
-            allMeleeEnemies[i].GetComponent<NavMeshAgent>().isStopped = true;
+            agent.destination = transform.position;
+            agent.isStopped = true;
         }
 
         for (int i = 0; i < allArcherEnemies.Count; i++)
         {
+            if(!allArcherEnemies[i].TryGetComponent(out NavMeshAgent agent)) return;
             allArcherEnemies[i].SetAnimatorSpeed(0f);
-            allArcherEnemies[i].GetComponent<NavMeshAgent>().destination = transform.position;
-            allArcherEnemies[i].GetComponent<NavMeshAgent>().isStopped = true;
+            agent.destination = transform.position;
+            agent.isStopped = true;
         }
 
         if (PrickMinigameManager.instance != null)
@@ -619,7 +640,8 @@ public class GameManager : MonoBehaviour
             PrickMinigameManager.instance.prickCardAnimator.speed = 0;
         }
 
-        if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid())
+        if (CutsceneManager.instance.playableDirector.playableAsset != null &&
+            CutsceneManager.instance.playableDirector.playableGraph.IsValid())
         {
             pausedCutsceneTime = CutsceneManager.instance.playableDirector.time;
             CutsceneManager.instance.playableDirector.Pause();
@@ -718,7 +740,8 @@ public class GameManager : MonoBehaviour
             PrickMinigameManager.instance.prickCardAnimator.speed = 1;
         }
 
-        if (CutsceneManager.instance.playableDirector.playableAsset != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid())
+        if (CutsceneManager.instance.playableDirector.playableAsset != null &&
+            CutsceneManager.instance.playableDirector.playableGraph.IsValid())
         {
             CutsceneManager.instance.playableDirector.Play();
             CutsceneManager.instance.playableDirector.time = pausedCutsceneTime;
@@ -743,7 +766,8 @@ public class GameManager : MonoBehaviour
 
         gameIsPaused = false;
 
-        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance,
+            ThirdPersonController.instance._input, true);
     }
 
     public void OpenInventory()
@@ -797,9 +821,11 @@ public class GameManager : MonoBehaviour
             {
                 if (!InventoryManager.currIBP.neededForMissions)
                 {
-                    if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay != ItemBaseProfile.ItemType.none)
+                    if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay !=
+                        ItemBaseProfile.ItemType.none)
                     {
-                        if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay == InventoryManager.currIBP.itemType)
+                        if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay ==
+                            InventoryManager.currIBP.itemType)
                         {
                             InventoryManager.instance.allInvCategoryButton[i].ChangeCurrentInvItemCategory();
                         }
@@ -807,7 +833,8 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay == ItemBaseProfile.ItemType.none)
+                    if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay ==
+                        ItemBaseProfile.ItemType.none)
                     {
                         InventoryManager.instance.allInvCategoryButton[i].ChangeCurrentInvItemCategory();
                     }
@@ -815,14 +842,16 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay == ItemBaseProfile.ItemType.food)
+                if (InventoryManager.instance.allInvCategoryButton[i].itemTypeToDisplay ==
+                    ItemBaseProfile.ItemType.food)
                 {
                     InventoryManager.instance.allInvCategoryButton[i].ChangeCurrentInvItemCategory();
                 }
             }
         }
 
-        FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, !InventoryManager.instance.inventoryScreen.activeSelf);
+        FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input,
+            !InventoryManager.instance.inventoryScreen.activeSelf);
 
         ThirdPersonController.instance._animator.SetFloat("Speed", 0);
 
@@ -830,7 +859,8 @@ public class GameManager : MonoBehaviour
         {
             if (EquippingManager.instance.leftWeaponES.currEquippedItem != null)
             {
-                if (EquippingManager.instance.leftWeaponES.currEquippedItem.weaponType == ItemBaseProfile.WeaponType.bow)
+                if (EquippingManager.instance.leftWeaponES.currEquippedItem.weaponType ==
+                    ItemBaseProfile.WeaponType.bow)
                 {
                     TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(rangedTutorial);
                 }
@@ -841,7 +871,8 @@ public class GameManager : MonoBehaviour
             }
             else if (EquippingManager.instance.rightWeaponES.currEquippedItem != null)
             {
-                if (EquippingManager.instance.rightWeaponES.currEquippedItem.weaponType == ItemBaseProfile.WeaponType.bow)
+                if (EquippingManager.instance.rightWeaponES.currEquippedItem.weaponType ==
+                    ItemBaseProfile.WeaponType.bow)
                 {
                     TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(rangedTutorial);
                 }
@@ -897,7 +928,8 @@ public class GameManager : MonoBehaviour
 
                 if (sOG.currentMainMissionName != "")
                 {
-                    newSGSlot.GetComponent<LoadSlot>().loadGameNameTxt.text = "<b>" + sOG.currentMainMissionName + "</b>, " + sOG.dayOfSaving.ToString();
+                    newSGSlot.GetComponent<LoadSlot>().loadGameNameTxt.text = "<b>" + sOG.currentMainMissionName +
+                                                                              "</b>, " + sOG.dayOfSaving.ToString();
                 }
                 else
                 {
@@ -918,7 +950,8 @@ public class GameManager : MonoBehaviour
     {
         Sprite newSprite;
         Texture2D SpriteTexture = LoadTexture(FilePath);
-        newSprite = Sprite.Create(SpriteTexture, new Rect(0, 0, SpriteTexture.width, SpriteTexture.height), new Vector2(0, 0), PixelsPerUnit);
+        newSprite = Sprite.Create(SpriteTexture, new Rect(0, 0, SpriteTexture.width, SpriteTexture.height),
+            new Vector2(0, 0), PixelsPerUnit);
 
         return newSprite;
     }
