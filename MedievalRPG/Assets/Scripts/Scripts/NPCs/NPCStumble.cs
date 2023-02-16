@@ -38,7 +38,7 @@ public class NPCStumble : MonoBehaviour
         AudioSource = GetComponent<AudioSource>();
         LayerIndex = Anim.GetLayerIndex("Bottom Layer");
         // Debug.Log($"Layer Index: {LayerIndex}. Name: {Anim.GetLayerName(LayerIndex)}");
-        AudioSource.volume = AudioManager.Instance.GetVoiceVolume;
+        AudioSource.volume = AudioManager.Instance.VoiceVolume;
     }
 
     private void SetWeightZero()

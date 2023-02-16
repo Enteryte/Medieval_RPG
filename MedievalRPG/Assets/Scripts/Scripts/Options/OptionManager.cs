@@ -51,31 +51,36 @@ public class OptionManager : MonoBehaviour
     public void MasterSliderOnValueChange()
     {
         masterSliderTxt.text = (int)(masterSlider.value * 100) + " / 100";
-        AudioManager.Instance.SetMasterVolume = masterSlider.value;
+        AudioManager.Instance.MasterVolume = masterSlider.value;
+        AudioManager.Instance.SetMasterVolume();
     }
 
     public void EnvironmentSliderOnValueChange()
     {
         environmentSliderTxt.text = (int)(environmentSlider.value * 100) + " / 100";
-        AudioManager.Instance.SetEnvironmentalVolume = environmentSlider.value;
+        AudioManager.Instance.EnvironmentalVolume = environmentSlider.value;
+        AudioManager.Instance.SetEnvironmentalVolume();
     }
 
     public void VoiceSliderOnValueChange()
     {
         voiceSliderTxt.text = (int)(voiceSlider.value * 100) + " / 100";
-        AudioManager.Instance.SetVoiceVolume = voiceSlider.value;
+        AudioManager.Instance.VoiceVolume = voiceSlider.value;
+        AudioManager.Instance.SetVoiceVolume();
     }
 
     public void MusicSliderOnValueChange()
     {
         musicSliderTxt.text = (int)(musicSlider.value * 100) + " / 100";
-        AudioManager.Instance.SetMusicVolume = musicSlider.value;
+        AudioManager.Instance.MusicVolume = musicSlider.value;
+        AudioManager.Instance.SetMusicVolume();
     }
 
     public void SFXSliderOnValueChange()
     {
         sfxSliderTxt.text = (int)(sfxSlider.value * 100) + " / 100";
-        AudioManager.Instance.SetSFXVolume = sfxSlider.value;
+        AudioManager.Instance.EffectsVolume = sfxSlider.value;
+        AudioManager.Instance.SetEffectsVolume();
     }
 
     public void CameraSensitivitySliderOnValueChange()
