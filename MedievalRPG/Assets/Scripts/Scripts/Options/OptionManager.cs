@@ -86,7 +86,6 @@ public class OptionManager : MonoBehaviour
     #endregion
     
     #region Sensitivity
-
     public void CameraSensitivitySliderOnValueChange()
     {
         cameraSensiSliderTxt.text = (int)(cameraSensiSlider.value * 100) + " / 100";

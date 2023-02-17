@@ -80,8 +80,6 @@ namespace StarterAssets
         [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
         public float CameraAngleOverride = 0.0f;
 
-        public float lookSensitivity;
-
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
@@ -145,6 +143,8 @@ namespace StarterAssets
 
         private bool _hasAnimator;
 
+        private SensitivityContainer sensitivity;
+
         private bool IsCurrentDeviceMouse
         {
             get
@@ -198,6 +198,8 @@ namespace StarterAssets
         {
             if (instance == this)
             {
+                sensitivity = FindObjectOfType<OptionManager>().Sensitivity;
+
                 _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
                 //_hasAnimator = TryGetComponent(out _animator);
@@ -527,8 +529,8 @@ namespace StarterAssets
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * lookSensitivity;
-                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * lookSensitivity;
+                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier * sensitivity.Camera;
+                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier * sensitivity.Camera;
             }
 
             // clamp our rotations so our values are limited 360 degrees
