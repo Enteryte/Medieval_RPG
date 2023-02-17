@@ -48,36 +48,44 @@ public class OptionManager : MonoBehaviour
 
     #region Slider: OnValueChange()
 
+    #region Sound
     public void MasterSliderOnValueChange()
     {
         masterSliderTxt.text = (int)(masterSlider.value * 100) + " / 100";
-        AudioManager.Instance.SetMasterVolume = masterSlider.value;
+        AudioManager.Instance.MasterVolume = masterSlider.value;
+        AudioManager.Instance.SetMasterVolume();
     }
 
     public void EnvironmentSliderOnValueChange()
     {
         environmentSliderTxt.text = (int)(environmentSlider.value * 100) + " / 100";
-        AudioManager.Instance.SetEnvironmentalVolume = environmentSlider.value;
+        AudioManager.Instance.EnvironmentalVolume = environmentSlider.value;
+        AudioManager.Instance.SetEnvironmentalVolume();
     }
 
     public void VoiceSliderOnValueChange()
     {
         voiceSliderTxt.text = (int)(voiceSlider.value * 100) + " / 100";
-        AudioManager.Instance.SetVoiceVolume = voiceSlider.value;
+        AudioManager.Instance.VoiceVolume = voiceSlider.value;
+        AudioManager.Instance.SetVoiceVolume();
     }
 
     public void MusicSliderOnValueChange()
     {
         musicSliderTxt.text = (int)(musicSlider.value * 100) + " / 100";
-        AudioManager.Instance.SetMusicVolume = musicSlider.value;
+        AudioManager.Instance.MusicVolume = musicSlider.value;
+        AudioManager.Instance.SetMusicVolume();
     }
 
     public void SFXSliderOnValueChange()
     {
         sfxSliderTxt.text = (int)(sfxSlider.value * 100) + " / 100";
-        AudioManager.Instance.SetSFXVolume = sfxSlider.value;
+        AudioManager.Instance.EffectsVolume = sfxSlider.value;
+        AudioManager.Instance.SetEffectsVolume();
     }
-
+    #endregion
+    
+    #region Sensitivity
     public void CameraSensitivitySliderOnValueChange()
     {
         cameraSensiSliderTxt.text = (int)(cameraSensiSlider.value * 100) + " / 100";
@@ -89,7 +97,8 @@ public class OptionManager : MonoBehaviour
         mouseSensiSliderTxt.text = (int)(mouseSensiSlider.value * 100) + " / 100";
         Sensitivity.Mouse = mouseSensiSlider.value;
     }
-
+    #endregion
+    
     public void ResolutionUpdate()
     {
         int screenWidth = 0;
@@ -97,20 +106,20 @@ public class OptionManager : MonoBehaviour
         switch (resolutionDropdown.value)
         {
             case 0:
-                screenWidth = 1900;
+                screenWidth = 1920;
                 screenHeight = 1080;
                 break;
             case 1:
-                screenWidth = 1680;
-                screenHeight = 1050;
+                screenWidth = 1280;
+                screenHeight = 720;
                 break;
             case 2:
-                screenWidth = 1280;
-                screenHeight = 1024;
+                screenWidth = 854;
+                screenHeight = 480;
                 break;
             case 3:
-                screenWidth = 1280;
-                screenHeight = 960;
+                screenWidth = 640;
+                screenHeight = 360;
                 break;
         }
 

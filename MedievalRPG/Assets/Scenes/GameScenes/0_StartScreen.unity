@@ -3722,6 +3722,7 @@ GameObject:
   m_Component:
   - component: {fileID: 877161494}
   - component: {fileID: 877161493}
+  - component: {fileID: 877161495}
   m_Layer: 0
   m_Name: Empty:Audio(Music)
   m_TagString: Untagged
@@ -3840,6 +3841,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &877161495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877161492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c778433c6e09f514e9fffc5e4dc1cced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
 --- !u!114 &888717527 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2168254816061504925, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
@@ -4533,6 +4547,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae5901d622c6f591af138216844963d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnvironmentalVolume: 0.5
+  VoiceVolume: 0.5
+  MusicVolume: 0.5
+  EffectsVolume: 0.5
 --- !u!114 &998033820 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7790182452625073744, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
@@ -7682,7 +7700,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 14.081512}
+  m_AnchoredPosition: {x: 0, y: 14.081543}
   m_SizeDelta: {x: 0, y: 28.1629}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854623362
@@ -8627,7 +8645,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 68493046, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_LocalScale.y
-      vaCameraSensibilitySliderOnValueChange{fileID: 0}
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 68493046, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -20
@@ -8822,7 +8841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 236194126, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_text
-      value: 1900 x 1080
+      value: 1920 x 1080
       objectReference: {fileID: 0}
     - target: {fileID: 275882737, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_IsActive
@@ -9776,6 +9795,10 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 991766511}
+    - target: {fileID: 1382581571, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CameraSensitivitySliderOnValueChange
+      objectReference: {fileID: 0}
     - target: {fileID: 1383255766, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -10030,19 +10053,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_Options.m_Options.Array.data[0].m_Text
-      value: 1900 x 1080
+      value: 1920 x 1080
       objectReference: {fileID: 0}
     - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_Options.m_Options.Array.data[1].m_Text
-      value: 1680 x 1050
+      value: 1280 x 720
       objectReference: {fileID: 0}
     - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_Options.m_Options.Array.data[2].m_Text
-      value: 1280 x 1024
+      value: 854 x 480
       objectReference: {fileID: 0}
     - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_Options.m_Options.Array.data[3].m_Text
-      value: 1280 x 960
+      value: 640 x 360
       objectReference: {fileID: 0}
     - target: {fileID: 1656554954, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
@@ -10292,6 +10315,10 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 991766511}
+    - target: {fileID: 1868190476, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MouseSensitivitySliderOnValueChange
+      objectReference: {fileID: 0}
     - target: {fileID: 1895878000, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -10625,6 +10652,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814350689701, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: 
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2168254814350689701, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
       objectReference: {fileID: 0}
@@ -10651,9 +10682,6 @@ PrefabInstance:
     - target: {fileID: 2168254814350689701, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0.1847992
-      objectReference: {fileID: 0}
-    - target: {fileID: 2168254814350689701, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
-      propertyPath: mMouseSensibilitySliderOnValueChangeue: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2168254814374402679, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchorMax.x
