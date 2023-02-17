@@ -86,7 +86,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.671
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -337,7 +337,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.896}
+  m_AnchoredPosition: {x: 0, y: 1.8959961}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7485503707646199743
@@ -383,7 +383,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7485503707646199737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,7 +413,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9869ec44019817479cc634712dc7cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyParentObjTrans: {fileID: 0}
+  HolderBody: {fileID: 7485503707646199736}
+  EnemyParentObjTrans: {fileID: 0}
+  HealthDepict: {fileID: 7485503706455536024}
 --- !u!1 &7485503707862337971
 GameObject:
   m_ObjectHideFlags: 0
