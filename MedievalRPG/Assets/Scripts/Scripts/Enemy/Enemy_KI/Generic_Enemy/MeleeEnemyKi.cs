@@ -77,18 +77,6 @@ public class MeleeEnemyKi : BaseEnemyKI
         Animator.SetBool(Animator.StringToHash("IsInsideAttackRange"), IsInAttackRange);
     }
 
-    private void FightManagerAddEnemy()
-    {
-        if (!FightManager.instance) return;
-        if (FightManager.instance.enemiesInFight.Contains(this)) return;
-
-        FightManager.instance.enemiesInFight.Add(this);
-
-        if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic) return;
-
-        FightManager.instance.isInFight = true;
-        FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
-    }
 
     #endregion
 
@@ -247,24 +235,7 @@ public class MeleeEnemyKi : BaseEnemyKI
         FightManagerRemoveEnemy();
     }
 
-    private void FightManagerRemoveEnemy()
-    {
-        if (FightManager.instance)
-        {
-            if (FightManager.instance.enemiesInFight.Contains(this))
-            {
-                FightManager.instance.enemiesInFight.Remove(this);
-
-                if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic &&
-                    FightManager.instance.enemiesInFight.Count <= 0)
-                {
-                    FightManager.instance.isInFight = false;
-
-                    FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
-                }
-            }
-        }
-    }
+    
 
     #endregion
 

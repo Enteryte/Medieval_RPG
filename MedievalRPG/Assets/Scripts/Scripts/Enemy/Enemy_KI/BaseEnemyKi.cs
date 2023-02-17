@@ -21,12 +21,11 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected bool HasSeenPlayer;
 
     private bool HasDied;
-    [SerializeField]protected Enemy Enemy;
+    [SerializeField] protected Enemy Enemy;
 
     protected Transform Target;
     protected Vector3 StartPos;
-    [SerializeField]
-    private bool WasNotSpawned;
+    [SerializeField] private bool WasNotSpawned;
 
     [Header("Detectors")] [SerializeField] protected RayDetection RayDetectionPrefab;
     [SerializeField] protected Transform SightContainer;
@@ -38,8 +37,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
     //How low the speed is to be considered not moving, just in case Navmesh doesn't do it's job stopping
     [SerializeField]
     protected float Tolerance;
-    [SerializeField]
-    private float PlayerTooFarAwayDst = 50f;
+
+    [SerializeField] private float PlayerTooFarAwayDst = 50f;
     [SerializeField] private float PlayerDetectionDistance;
     protected float SqrTolerance;
 
@@ -49,7 +48,9 @@ public abstract class BaseEnemyKI : MonoBehaviour
 
     private EnemySpawner MySpawner;
     private bool WasAlerted;
+
     #region Unity Events
+
     public void Start()
     {
         if (WasNotSpawned)
@@ -62,6 +63,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
             Colls = GetComponentsInChildren<Collider>();
         }
     }
+
     /// <summary>
     /// The Method for Initialization
     /// </summary>
@@ -76,42 +78,51 @@ public abstract class BaseEnemyKI : MonoBehaviour
         Target = GameManager.instance.playerGO.transform;
         MySpawner = _mySpawner;
     }
+
     protected virtual void Update()
     {
         if (HasDied || !IsInitialized)
             return;
 
-        if (!IsSeeingPlayer|| Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
-            if(Vector3.Distance(transform.position, Target.position) <= PlayerDetectionDistance)
-                IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
+        if (!IsSeeingPlayer || Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
+        {
+            if (Vector3.Distance(transform.position, Target.position) <= PlayerDetectionDistance)
+                IsSeeingPlayer = true;
+            IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
+        }
     }
+
     /// <summary>
     /// Sets the Speed of the Animator
     /// </summary>
     /// <param name="_speed">The New Value</param>
     public void SetAnimatorSpeed(float _speed) => Animator.speed = _speed;
+
     protected bool DetectorCheck(RayDetection[] _detectors) => _detectors.Any(_rayDetection => _rayDetection.Sight());
-    public void UnusualNoticePlayerReaction(bool _wasAlerted =false)
+
+    public void UnusualNoticePlayerReaction(bool _wasAlerted = false)
     {
         IsSeeingPlayer = true;
         WasAlerted = true;
     }
 
     public void RestartAgent() => Agent.isStopped = false;
+
     #endregion
+
     // ReSharper disable Unity.PerformanceAnalysis
     public virtual void Death()
     {
         HasDied = true;
         Animator.SetTrigger(Animator.StringToHash("Dies"));
-        Animator.SetBool(Animator.StringToHash("IsDead"),true);
+        Animator.SetBool(Animator.StringToHash("IsDead"), true);
         Agent.enabled = false;
         GetComponentInChildren<LocomotionAgent>().enabled = false;
         Destroy(Health.gameObject);
-
+        FightManagerRemoveEnemy();
         if (Enemy.despawnAfterTime)
-            for (int i = 0; i < Colls.Length; i++)
-                Colls[i].enabled = false;
+            foreach (Collider col in Colls)
+                col.enabled = false;
 
         Enemy.EnemyDie();
 
@@ -129,9 +140,34 @@ public abstract class BaseEnemyKI : MonoBehaviour
         Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
         Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
 
-        if (MySpawner && !WasAlerted) 
+        if (MySpawner && !WasAlerted)
             MySpawner.AlertAllAssignedEnemies();
     }
+
+    protected void FightManagerAddEnemy()
+    {
+        if (!FightManager.instance) return;
+        if (FightManager.instance.enemiesInFight.Contains(this)) return;
+
+        FightManager.instance.enemiesInFight.Add(this);
+
+        if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic) return;
+
+        FightManager.instance.isInFight = true;
+        FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
+    }
+    protected void FightManagerRemoveEnemy()
+    {
+        if (!FightManager.instance) return;
+        if (!FightManager.instance.enemiesInFight.Contains(this)) return;
+        FightManager.instance.enemiesInFight.Remove(this);
+
+        if (GameManager.instance.musicAudioSource.clip != FightManager.instance.fightMusic || FightManager.instance.enemiesInFight.Count > 0) return;
+        FightManager.instance.isInFight = false;
+
+        FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
+    }
+
     /// <summary>
     /// The Function that appoints the Detectors into their Position according to the Field of View
     /// </summary>
