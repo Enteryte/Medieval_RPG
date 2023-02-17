@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 // ReSharper disable once CheckNamespace
 public class MeleeEnemyKi : BaseEnemyKI
 {
-    [SerializeField] private float playerDetectionDistance;
+    //[SerializeField] private float playerDetectionDistance;
 
     // ReSharper disable once IdentifierTypo
     [SerializeField] private EnemyDamager EnemyDamager;
