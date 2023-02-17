@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6275092916098873945}
   - component: {fileID: 6275092916098873944}
   - component: {fileID: 7469343810617914115}
+  - component: {fileID: 8570678100248985808}
   m_Layer: 0
   m_Name: SandGroundDust
   m_TagString: Untagged
@@ -59,6 +60,7 @@ MonoBehaviour:
     m_duration: 0
     m_allowVFXStateChange: 1
     m_instantiateShaderSettings: 1
+    m_isAdditionalEffect: 0
     ShaderDataInstance:
       m_isUsingGTS: 0
       m_rainShaderData:
@@ -496,3 +498,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8570678100248985808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6275092916098873946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c778433c6e09f514e9fffc5e4dc1cced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0

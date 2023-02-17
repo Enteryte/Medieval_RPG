@@ -136,65 +136,6 @@ CapsuleCollider:
   m_Height: 1.7788796
   m_Direction: 1
   m_Center: {x: -0.0038045049, y: 0.9072952, z: 2.933291e-11}
---- !u!195 &984126925
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3254797339288808398}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 1.4
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1.61
-  m_BaseOffset: -0.09
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &984126926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3254797339288808398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 234dc60cf3330f3489cfdb2c92efd1a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nPCBP: {fileID: 11400000, guid: da9f0fe2f34d8b84594b8dae512ee007, type: 2}
-  iOCanvas: {fileID: 0}
-  animator: {fileID: 8106655901412207374}
-  possibleNormalDialogues:
-  - {fileID: 11400000, guid: 112d8fb0db3fdd7458b53b471c8e79c0, type: 2}
-  allSideMissionsWithNPC:
-  - {fileID: 11400000, guid: e1367f8c7639a83498a306560c06f41e, type: 2}
-  - {fileID: 11400000, guid: e4413fc48b522914ab2ab0f01a478a93, type: 2}
-  firstWaypoint: {fileID: 0}
-  currWaypoint: {fileID: 0}
-  navMeshAgent: {fileID: 0}
-  iOCanvasLookAtObj: {fileID: 762399552}
-  isInDialogue: 0
-  isNeeded: 0
-  allCorrWaypoints: []
-  nPCCVC: {fileID: 0}
-  nPCBaseMesh: {fileID: 0}
-  allPossibleOL: []
-  npcAudioType: 0
-  choosenOL: {fileID: 0}
-  nPCAudioSource: {fileID: 0}
-  isUsedForMissions: 0
-  idleTimeline: {fileID: 0}
-  cPMissionTaskSymon: {fileID: 0}
-  cPMissionTaskMya: {fileID: 0}
 --- !u!82 &989264054703627655
 AudioSource:
   m_ObjectHideFlags: 0
@@ -291,6 +232,78 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!195 &984126925
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254797339288808398}
+  m_Enabled: 0
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 1.4
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.61
+  m_BaseOffset: -0.09
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &984126926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254797339288808398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234dc60cf3330f3489cfdb2c92efd1a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nPCBP: {fileID: 11400000, guid: da9f0fe2f34d8b84594b8dae512ee007, type: 2}
+  iOCanvas: {fileID: 0}
+  animator: {fileID: 8106655901412207374}
+  possibleNormalDialogues:
+  - {fileID: 11400000, guid: 112d8fb0db3fdd7458b53b471c8e79c0, type: 2}
+  allSideMissionsWithNPC:
+  - {fileID: 11400000, guid: e1367f8c7639a83498a306560c06f41e, type: 2}
+  - {fileID: 11400000, guid: e4413fc48b522914ab2ab0f01a478a93, type: 2}
+  firstWaypoint: {fileID: 0}
+  currWaypoint: {fileID: 0}
+  navMeshAgent: {fileID: 0}
+  iOCanvasLookAtObj: {fileID: 762399552}
+  isInDialogue: 0
+  isNeeded: 0
+  allCorrWaypoints: []
+  nPCCVC: {fileID: 0}
+  nPCBaseMesh: {fileID: 0}
+  allPossibleOL: []
+  npcAudioType: 0
+  choosenOL: {fileID: 0}
+  nPCAudioSource: {fileID: 0}
+  isUsedForMissions: 0
+  idleTimeline: {fileID: 0}
+  cPMissionTaskSymon: {fileID: 0}
+  cPMissionTaskMya: {fileID: 0}
+--- !u!114 &3488207655570079746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254797339288808398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c778433c6e09f514e9fffc5e4dc1cced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
 --- !u!4 &6399151492585813457 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8729224428464104270, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
