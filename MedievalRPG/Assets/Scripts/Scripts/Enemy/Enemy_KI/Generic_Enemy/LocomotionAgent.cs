@@ -31,7 +31,7 @@ public class LocomotionAgent : MonoBehaviour
 
         float deltaX = Vector3.Dot(transformAcc.right, worldDeltaPos);
         float deltaY = Vector3.Dot(transformAcc.forward, worldDeltaPos);
-        Vector2 deltaPos = new(deltaX, deltaY);
+        Vector2 deltaPos = new Vector2(deltaX, deltaY);
 
         float smooth = Mathf.Min(1.0f, Time.deltaTime / 0.15f);
         SmoothDeltaPos = Vector2.Lerp(SmoothDeltaPos, deltaPos, smooth);

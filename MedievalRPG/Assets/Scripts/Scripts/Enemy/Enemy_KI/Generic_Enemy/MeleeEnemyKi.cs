@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 // ReSharper disable once CheckNamespace
 public class MeleeEnemyKi : BaseEnemyKI
 {
+    //[SerializeField] private float playerDetectionDistance;
+
     // ReSharper disable once IdentifierTypo
     [SerializeField] private EnemyDamager EnemyDamager;
 
@@ -229,6 +231,8 @@ public class MeleeEnemyKi : BaseEnemyKI
         yield return new WaitForSeconds(KiStats.Patience);
         RandomTarget = GenerateRandomTarget();
         Agent.SetDestination(RandomTarget);
+
+        FightManagerRemoveEnemy();
     }
 
     
