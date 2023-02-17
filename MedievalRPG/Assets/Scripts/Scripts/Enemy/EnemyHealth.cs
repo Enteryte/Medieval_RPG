@@ -27,6 +27,7 @@ public class EnemyHealth : MonoBehaviour
     {
         AI.UnusualNoticePlayerReaction();
         LifePoints -= _lightDamageTaken;
+        HealthUI.HealthUpdate(LifePoints, false,_lightDamageTaken);
         if (!DeathCheck())
             Anim.SetTrigger(Animator.StringToHash("LightAttackTaken"));
     }
@@ -35,6 +36,7 @@ public class EnemyHealth : MonoBehaviour
     {
         AI.UnusualNoticePlayerReaction();
         LifePoints -= _heavyDamageTaken;
+        HealthUI.HealthUpdate(LifePoints, true,_heavyDamageTaken);
         if (!DeathCheck())
             Anim.SetTrigger(Animator.StringToHash("HeavyAttackTaken"));
     }
@@ -50,8 +52,5 @@ public class EnemyHealth : MonoBehaviour
         return true;
     }
 
-    public void BossHeal()
-    {
-        LifePoints = MaxLifePoints;
-    }
+    public void BossHeal() => LifePoints = MaxLifePoints;
 }

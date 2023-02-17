@@ -27,7 +27,7 @@ public class EnemyUI : MonoBehaviour
         EnemyName.text = _enemyName;
     }
 
-    public void HealthUpdate(float _remainingHP, bool _isHeavyDamage = false)
+    public void HealthUpdate(float _remainingHP, bool _isHeavyDamage, float _damageCaused)
     {
         HealthDepict.value -= _remainingHP * RelativeHealthValue;
     }
