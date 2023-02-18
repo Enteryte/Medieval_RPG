@@ -9,7 +9,6 @@ public class EnemyHealth : MonoBehaviour
     private Animator Anim;
     private BaseEnemyKI AI;
     private float MaxLifePoints;
-    [SerializeField] private EnemyUI HealthUI;
     public float LifePoints { get; private set; }
 
     public void Initialize(EnemyBaseProfile _stats, Animator _anim, BaseEnemyKI _ai)
@@ -19,8 +18,6 @@ public class EnemyHealth : MonoBehaviour
         LifePoints = Stats.normalHealth;
         Anim = _anim;
         AI = _ai;
-        HealthUI.Init(MaxLifePoints, _stats.enemyName);
-        
     }
 
     public void LightDamage(float _lightDamageTaken)
