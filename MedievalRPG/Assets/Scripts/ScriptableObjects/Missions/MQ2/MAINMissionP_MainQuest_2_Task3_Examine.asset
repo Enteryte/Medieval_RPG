@@ -13,24 +13,34 @@ MonoBehaviour:
   m_Name: MAINMissionP_MainQuest_2_Task3_Examine
   m_EditorClassIdentifier: 
   missionTaskType: 6
+  isOptional: 0
+  missionButtonDescription: 
   completeAfterInteracted: 1
   missionTaskCompleted: 1
   cutsceneToTrigger: {fileID: 11400000, guid: ddb11b71634656648a0547afbf8531bf, type: 2}
   cutsceneToTriggerOnce: {fileID: 0}
-  moneyReward: 0
+  moneyReward: 25
   itemRewards: []
+  itemsToRemove: []
   canNormallyBeDisplayed: 0
   canBeDisplayed: 0
   missionTaskToActivate: {fileID: 0}
+  missionTaskToActivate2: {fileID: 0}
   isActiveAtStart: 1
+  isMainMission: 0
+  decisionSprite: {fileID: 0}
   nPCToTalkToBaseProfile: {fileID: 0}
   dialogToPlayAfterInteracted: {fileID: 0}
   dialogToPlayAfterPressedButton: {fileID: 0}
   talkToAllNPCs: 0
-  possibleDialoguesToAdd: []
+  possibleDialoguesToAddFemale: []
+  possibleDialoguesToAddMale: []
   mainNPC: {fileID: 0}
   dialogueToAdd: {fileID: 0}
+  pointsToGainForWin: 0
+  currGainedPoints: 0
   itemToCollectBase: {fileID: 0}
+  itemToCollectBase2: {fileID: 0}
   howManyToCollect: 0
   howManyAlreadyCollected: 0
   dialogAfterSeenFirstItem: {fileID: 0}
@@ -44,6 +54,7 @@ MonoBehaviour:
   missionTriggerBoxToGoTo: {fileID: 0}
   cutsceneWhenInteractedWDoor: {fileID: 0}
   iBPOfItemToExamine: {fileID: 11400000, guid: e77779f9b3d9a764585455e544f5ab60, type: 2}
+  iBPOfItemToExamine2: {fileID: 0}
   eBPToExamine: {fileID: 11400000, guid: 83ec9647a7355fb41b9b6d4782157ee8, type: 2}
   howManyToExamine: 2
   howManyAlreadyExamined: 0

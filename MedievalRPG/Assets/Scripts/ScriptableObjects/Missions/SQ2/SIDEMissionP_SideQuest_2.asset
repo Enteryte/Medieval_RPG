@@ -13,30 +13,39 @@ MonoBehaviour:
   m_Name: SIDEMissionP_SideQuest_2
   m_EditorClassIdentifier: 
   missionType: 2
-  missionName: Einkaufsliste
+  missionName: Sondergericht
   missionDescription: "Wirt Oskar vermisst noch einige Zutaten f\xFCr sein Sondergericht.
     Er kann das Gasthaus nicht verlassen, also braucht er Hilfe, um die Sachen vom
     Markt zu besorgen. Dieser Dienst wird sicher nicht unbewohnt bleiben."
   allMissionTasks:
   - isOptional: 0
-    taskName: "Besorge 5 \xC4pfel."
-    taskDescription: "Besorge 5 \xC4pfel."
+    taskName: "Besorge 5 \xC4pfel"
+    taskDescription: "Besorge 5 \xC4pfel"
     mTB: {fileID: 11400000, guid: b4819acdff79e9843be64e2c7e80e638, type: 2}
   - isOptional: 0
-    taskName: "Besorge 8 K\xFCrbisse."
-    taskDescription: "Besorge 8 K\xFCrbisse."
+    taskName: "Besorge 8 K\xFCrbisse"
+    taskDescription: "Besorge 8 K\xFCrbisse"
     mTB: {fileID: 11400000, guid: b31c1adc7308aa048a0daffe79451c49, type: 2}
   - isOptional: 0
-    taskName: "Besorge 3 H\xFChner."
-    taskDescription: "Besorge 3 H\xFChner."
+    taskName: "Besorge 3 H\xFChner"
+    taskDescription: "Besorge 3 H\xFChner"
     mTB: {fileID: 11400000, guid: 3fe15d582b8950d4095fc7033aa1fa9a, type: 2}
   - isOptional: 0
-    taskName: Bringe dem Wirten die Zutaten.
-    taskDescription: Bringe dem Wirten die Zutaten.
+    taskName: Bringe dem Wirten die Zutaten
+    taskDescription: Bringe dem Wirten die Zutaten
     mTB: {fileID: 11400000, guid: 5562baf86bbfed449b63b02c6bd923c9, type: 2}
   missionCompleted: 0
-  moneyReward: 0
-  itemRewards: []
+  moneyReward: 120
+  itemRewards:
+  - iBP: {fileID: 11400000, guid: 5a45f0671e6384147a1e4cbc10ae6b26, type: 2}
+    howManyToGet: 2
+  itemsToRemove:
+  - iBP: {fileID: 11400000, guid: 5f58492079a78a74e9d3efbc22e66c46, type: 2}
+    howManyToRemove: 5
+  - iBP: {fileID: 11400000, guid: d3e9b97b6fb62a74ca254cbb5915e9d9, type: 2}
+    howManyToRemove: 8
+  - iBP: {fileID: 11400000, guid: be148f3313ac84d458b02526fbbf4507, type: 2}
+    howManyToRemove: 3
   nextMissionToTrigger: {fileID: 0}
   cutsceneToTrigger: {fileID: 0}
   nPCWhereToGetMissionFrom: {fileID: 0}

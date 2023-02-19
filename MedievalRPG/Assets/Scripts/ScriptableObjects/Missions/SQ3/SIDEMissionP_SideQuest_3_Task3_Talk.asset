@@ -19,13 +19,17 @@ MonoBehaviour:
   missionTaskCompleted: 0
   cutsceneToTrigger: {fileID: 0}
   cutsceneToTriggerOnce: {fileID: 0}
-  moneyReward: 0
-  itemRewards: []
+  moneyReward: 150
+  itemRewards:
+  - iBP: {fileID: 11400000, guid: e65c3447699227947a241e79bfb06b65, type: 2}
+    howManyToGet: 3
+  itemsToRemove: []
   canNormallyBeDisplayed: 0
   canBeDisplayed: 1
   missionTaskToActivate: {fileID: 0}
   missionTaskToActivate2: {fileID: 0}
   isActiveAtStart: 1
+  isMainMission: 0
   decisionSprite: {fileID: 0}
   nPCToTalkToBaseProfile: {fileID: 11400000, guid: 46fcc5d8c9d9edd4f867f847bde1abeb, type: 2}
   dialogToPlayAfterInteracted: {fileID: 0}

@@ -167,6 +167,11 @@ public class Item : MonoBehaviour, IInteractable
 
             PlayerValueManager.instance.money += moneyAmount;
 
+            if (moneyAmount > 0)
+            {
+                MessageManager.instance.CreateCollectedMessage(moneyAmount);
+            }
+
             CheckIfNeededForMission();
 
             Interacting.instance.rightHandParentRig.weight = 0;

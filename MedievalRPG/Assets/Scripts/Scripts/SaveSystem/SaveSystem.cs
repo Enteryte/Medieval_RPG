@@ -28,6 +28,10 @@ public class SaveSystem : MonoBehaviour
     public static string continueTxtFile;
     public static string continueTxtFile2;
 
+    [Header("New Game Values")]
+    public ItemBaseProfile[] startItems;
+    public int[] startItemAmounts;
+
     public void Awake()
     {
         if (instance == null)

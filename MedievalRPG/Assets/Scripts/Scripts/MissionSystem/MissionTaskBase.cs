@@ -34,6 +34,7 @@ public class MissionTaskBase : ScriptableObject
     [Header("When Completed Mission Task")]
     public float moneyReward;
     public ItemReward[] itemRewards;
+    public ItemToRemove[] itemsToRemove;
 
     [Header("Can be displayed")]
     public bool canNormallyBeDisplayed = true;

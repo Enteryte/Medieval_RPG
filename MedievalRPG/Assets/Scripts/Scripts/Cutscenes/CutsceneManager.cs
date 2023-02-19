@@ -272,8 +272,8 @@ public class CutsceneManager : MonoBehaviour
         {
             playableDirector.time = PlayerValueManager.instance.afterPlayerDiedSkippingTime1;
 
-            Debug.Log(playableDirector.time);
-            Debug.Log(currCP.timeTillWhereToSkip);
+            //Debug.Log(playableDirector.time);
+            //Debug.Log(currCP.timeTillWhereToSkip);
 
             cutsceneUIAnimator.enabled = false;
             skipCutsceneUI.SetActive(false);
