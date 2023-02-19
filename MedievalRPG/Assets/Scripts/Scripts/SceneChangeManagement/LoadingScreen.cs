@@ -88,17 +88,32 @@ public class LoadingScreen : MonoBehaviour
 
     public void ContinueGameIG()
     {
-        Debug.Log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
-        startScreenMainUIButtonParent.SetActive(false);
-        GameManager.instance.pauseMenuScreen.SetActive(false);
+        LoadingScreen.instance.saveGameBtn.interactable = !FightManager.instance.isInFight;
+        LoadingScreen.instance.loadGameBtn.interactable = !FightManager.instance.isInFight;
 
-        GameManager.instance.gameIsPaused = false;
-        ThirdPersonController.instance.canMove = true;
+        LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
+        //LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
+        //pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
 
-        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+        GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance,
+            ThirdPersonController.instance._input, !pauseMenuScreen.activeSelf);
+
+        LoadingScreen.instance.saveGameBtn.interactable = true;
+        LoadingScreen.instance.loadGameBtn.interactable = true;
 
         GameManager.instance.ContinueGame();
 
-        this.gameObject.SetActive(false);
+        //Debug.Log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
+        //startScreenMainUIButtonParent.SetActive(false);
+        //GameManager.instance.pauseMenuScreen.SetActive(false);
+
+        //GameManager.instance.gameIsPaused = false;
+        //ThirdPersonController.instance.canMove = true;
+
+        //GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+
+        //GameManager.instance.ContinueGame();
+
+        //this.gameObject.SetActive(false);
     }
 }

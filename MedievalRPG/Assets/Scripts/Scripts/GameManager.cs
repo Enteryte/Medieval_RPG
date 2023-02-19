@@ -21,8 +21,7 @@ public class GameManager : MonoBehaviour
 
     public ItemBaseProfile iBPOfEscapeRope;
 
-    public bool
-        playedTheGameThrough = false; // Soll true sein, sobald der Spieler das Spiel zum ersten Mal durchgespielt hat.
+    public bool playedTheGameThrough = false; // Soll true sein, sobald der Spieler das Spiel zum ersten Mal durchgespielt hat.
 
     public List<NPC> allVillageNPCs;
     public List<NPC> allWalkingNPCs;
@@ -43,8 +42,7 @@ public class GameManager : MonoBehaviour
     public bool isNight = false; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
     public CutsceneProfile cutsceneProfileAtNightHolder;
 
-    public CutsceneProfile
-        correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
+    public CutsceneProfile correspondingCutsceneProfilAtNight; // NUR ZUM TESTEN FÜR DIE CUTSCENES! ( in DNCircle ersetzen )
 
     public GameObject cutsceneBlackFadeGO;
     public GameObject interactCanvasasParentGO;
@@ -69,7 +67,8 @@ public class GameManager : MonoBehaviour
 
     public AudioSource musicAudioSource;
 
-    [Header("Day-Night + Weather")] public HDRPTimeOfDay hdrpTOD;
+    [Header("Day-Night + Weather")]
+    public HDRPTimeOfDay hdrpTOD;
 
     public bool shouldChangeTime = true;
     public bool changeDaytime = false;
@@ -77,20 +76,24 @@ public class GameManager : MonoBehaviour
     public float maxRainingDuration;
     public float currRainingDuration = 0;
 
-    [Header("Saving/Loading")] public GameObject saveGameSlotPrefab;
+    [Header("Saving/Loading")]
+    public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
 
     public float autoSaveTime;
     public float passedTimeTillLastSave = 0;
 
-    [Header("Tutorial")] public TutorialBaseProfile meleeTutorial;
+    [Header("Tutorial")]
+    public TutorialBaseProfile meleeTutorial;
     public TutorialBaseProfile rangedTutorial;
 
     public bool displayTutorial = true;
 
-    [Header("Pausing Game")] public double pausedCutsceneTime = -1;
+    [Header("Pausing Game")]
+    public double pausedCutsceneTime = -1;
 
-    [Header("Player AFK")] public AudioSource playerAudioSource;
+    [Header("Player AFK")]
+    public AudioSource playerAudioSource;
     public AudioClip[] allAFKPlayerAudioClips;
 
     public bool isAFK = false;
@@ -98,7 +101,8 @@ public class GameManager : MonoBehaviour
     public float timeTillAfk;
     public float timeSinceLastButtonPressed = 0;
 
-    [Header("NPC One-Liner")] public NPCOneLinerProfile quietMaleOL;
+    [Header("NPC One-Liner")]
+    public NPCOneLinerProfile quietMaleOL;
     public NPCOneLinerProfile[] allMaleProfiles;
 
     public NPCOneLinerProfile quietFemaleOL;
@@ -107,7 +111,8 @@ public class GameManager : MonoBehaviour
     [Header("Cutscenes To Reset On New Game")]
     public List<CutsceneProfile> cutscenesToReset;
 
-    [Header("New-Game-Values")] public bool alreadySpokeWThava = false;
+    [Header("New-Game-Values")]
+    public bool alreadySpokeWThava = false;
     public bool alreadySpokeWOskar = false;
     public bool alreadySpokeWMorrin = false;
 
@@ -928,8 +933,7 @@ public class GameManager : MonoBehaviour
 
                 if (sOG.currentMainMissionName != "")
                 {
-                    newSGSlot.GetComponent<LoadSlot>().loadGameNameTxt.text = "<b>" + sOG.currentMainMissionName +
-                                                                              "</b>, " + sOG.dayOfSaving.ToString();
+                    newSGSlot.GetComponent<LoadSlot>().loadGameNameTxt.text = "<b>" + sOG.currentMainMissionName + "</b>, " + sOG.dayOfSaving.ToString();
                 }
                 else
                 {

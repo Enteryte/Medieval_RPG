@@ -103,17 +103,62 @@ public class TutorialManager : MonoBehaviour
 
         GameManager.instance.ContinuePlayerActions();
 
-        if (!InventoryManager.instance.inventoryScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf)
+        if (GuessTheCardMinigameManager.instance && GuessTheCardMinigameManager.instance.gTCUI.activeSelf)
         {
-            if (currTBP.tutorialToTrigger == null)
+            if (GuessTheCardMinigameManager.instance.gTCUI.activeSelf)
             {
-                GameManager.instance.ContinueGame();
-
-                currTBP = null;
+                GuessTheCardMinigameManager.instance.board.GetComponent<Animator>().speed = 1;
             }
-            else if (currTBP.tutorialToTrigger.useSmallTutorialUI)
+
+            if (!InventoryManager.instance.inventoryScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf)
             {
-                GameManager.instance.ContinueGame();
+                if (currTBP.tutorialToTrigger == null)
+                {
+                    GameManager.instance.ContinueGame();
+
+                    currTBP = null;
+                }
+                else if (currTBP.tutorialToTrigger.useSmallTutorialUI)
+                {
+                    GameManager.instance.ContinueGame();
+                }
+            }
+        }
+        else if (PrickMinigameManager.instance && PrickMinigameManager.instance.prickUI.activeSelf)
+        {
+            if (PrickMinigameManager.instance.prickUI.activeSelf)
+            {
+                PrickMinigameManager.instance.prickCardAnimator.speed = 1;
+            }
+
+            if (!InventoryManager.instance.inventoryScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf)
+            {
+                if (currTBP.tutorialToTrigger == null)
+                {
+                    GameManager.instance.ContinueGame();
+
+                    currTBP = null;
+                }
+                else if (currTBP.tutorialToTrigger.useSmallTutorialUI)
+                {
+                    GameManager.instance.ContinueGame();
+                }
+            }
+        }
+        else
+        {
+            if (!InventoryManager.instance.inventoryScreen.activeSelf && !ShopManager.instance.shopScreen.activeSelf)
+            {
+                if (currTBP.tutorialToTrigger == null)
+                {
+                    GameManager.instance.ContinueGame();
+
+                    currTBP = null;
+                }
+                else if (currTBP.tutorialToTrigger.useSmallTutorialUI)
+                {
+                    GameManager.instance.ContinueGame();
+                }
             }
         }
     }

@@ -214,13 +214,13 @@ public class MissionManager : MonoBehaviour
 
         for (int i = 0; i < missionTaskToComplete.itemsToRemove.Length; i++)
         {
-            for (int x = 0; x < InventoryManager.instance.inventory.slots.Count; x++)
-            {
-                if (InventoryManager.instance.inventory.slots[x].itemBase == missionTaskToComplete.itemsToRemove[i].iBP)
-                {
-                    InventoryManager.instance.inventory.slots[x].RemoveAmount(missionTaskToComplete.itemsToRemove[i].howManyToRemove);
-                }
-            }
+            //for (int x = 0; x < InventoryManager.instance.inventory.slots.Count; x++)
+            //{
+            //    if (InventoryManager.instance.inventory.slots[x].itemBase == missionTaskToComplete.itemsToRemove[i].iBP)
+            //    {
+                    InventoryManager.instance.inventory.RemoveItem(missionTaskToComplete.itemsToRemove[i].iBP, missionTaskToComplete.itemsToRemove[i].howManyToRemove);
+            //    }
+            //}
         }
 
         missionTaskToComplete.canBeDisplayed = false;
@@ -393,13 +393,13 @@ public class MissionManager : MonoBehaviour
 
         for (int i = 0; i < missionToComplete.itemsToRemove.Length; i++)
         {
-            for (int x = 0; x < InventoryManager.instance.inventory.slots.Count; x++)
-            {
-                if (InventoryManager.instance.inventory.slots[x].itemBase == missionToComplete.itemsToRemove[i].iBP)
-                {
-                    InventoryManager.instance.inventory.slots[x].RemoveAmount(missionToComplete.itemsToRemove[i].howManyToRemove);
-                }
-            }
+            //for (int x = 0; x < InventoryManager.instance.inventory.slots.Count; x++)
+            //{
+            //    if (InventoryManager.instance.inventory.slots[x].itemBase == missionToComplete.itemsToRemove[i].iBP)
+            //    {
+                    InventoryManager.instance.inventory.RemoveItem(missionToComplete.itemsToRemove[i].iBP, missionToComplete.itemsToRemove[i].howManyToRemove);
+                //}
+            //}
         }
 
         if (missionToComplete.changeEnvironment)
