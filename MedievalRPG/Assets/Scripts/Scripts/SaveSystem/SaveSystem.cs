@@ -28,6 +28,10 @@ public class SaveSystem : MonoBehaviour
     public static string continueTxtFile;
     public static string continueTxtFile2;
 
+    [Header("New Game Values")]
+    public ItemBaseProfile[] startItems;
+    public int[] startItemAmounts;
+
     public void Awake()
     {
         if (instance == null)
@@ -222,7 +226,7 @@ public class SaveSystem : MonoBehaviour
         Save();
     }
 
-    // Bzw. nach dem Erfüllen einer Mission / Nach der Cutscene der erfüllten Mission
+    // Bzw. nach dem Erfï¿½llen einer Mission / Nach der Cutscene der erfï¿½llten Mission
     public void SaveCheckpoint()
     {
         currSavingType = SavingType.checkpoint;
@@ -851,8 +855,14 @@ public class SaveSystem : MonoBehaviour
     {
         for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
         {
-            sGO.allEnemyPositions.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.position);
-            sGO.allEnemyRotations.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.rotation);
+            sGO.allMeleeEnemyPositions.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.position);
+            sGO.allMeleeEnemyRotations.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.rotation);
+        }
+
+        for (int i = 0; i < GameManager.instance.allArcherEnemies.Count; i++)
+        {
+            sGO.allArcherEnemyPositions.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.position);
+            sGO.allArcherEnemyRotations.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.rotation);
         }
     }
 
@@ -1286,8 +1296,14 @@ public class SaveSystem : MonoBehaviour
     {
         for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
         {
-            GameManager.instance.allMeleeEnemies[i].transform.position = sGO.allEnemyPositions[i];
-            GameManager.instance.allMeleeEnemies[i].transform.rotation = sGO.allEnemyRotations[i];
+            GameManager.instance.allMeleeEnemies[i].transform.position = sGO.allMeleeEnemyPositions[i];
+            GameManager.instance.allMeleeEnemies[i].transform.rotation = sGO.allMeleeEnemyRotations[i];
+        }
+
+        for (int i = 0; i < GameManager.instance.allArcherEnemies.Count; i++)
+        {
+            GameManager.instance.allArcherEnemies[i].transform.position = sGO.allArcherEnemyPositions[i];
+            GameManager.instance.allArcherEnemies[i].transform.rotation = sGO.allArcherEnemyRotations[i];
         }
     }
 
@@ -1373,7 +1389,10 @@ public class SaveSystem : MonoBehaviour
         {
             GameManager.instance.correspondingCutsceneProfilAtNight = null;
 
-            GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
+            if (GameManager.instance.shouldChangeTime)
+            {
+                GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
+            }
         }
         else
         {
@@ -1386,12 +1405,15 @@ public class SaveSystem : MonoBehaviour
 
         GameManager.instance.hdrpTOD.TimeOfDay = sGO.timeOfDay;
 
-        if (sGO.isRaining)
+        if (GameManager.instance.shouldChangeTime)
         {
-            GameManager.instance.hdrpTOD.StartWeather(0);
-        }
+            if (sGO.isRaining)
+            {
+                GameManager.instance.hdrpTOD.StartWeather(0);
+            }
 
-        GameManager.instance.currRainingDuration = sGO.currRainingDuration;
+            GameManager.instance.currRainingDuration = sGO.currRainingDuration;
+        }
     }
 
     public void LoadCutscene(SaveGameObject sGO)
@@ -1435,8 +1457,8 @@ public class SaveSystem : MonoBehaviour
         OptionManager.instance.MusicSliderOnValueChange();
         OptionManager.instance.SFXSliderOnValueChange();
 
-        OptionManager.instance.CameraSensiSliderOnValueChange();
-        OptionManager.instance.MouseSensiSliderOnValueChange();
+        OptionManager.instance.CameraSensitivitySliderOnValueChange();
+        OptionManager.instance.MouseSensitivitySliderOnValueChange();
 
         //OptionManager.instance.controllerToggle.isOn = false;
 

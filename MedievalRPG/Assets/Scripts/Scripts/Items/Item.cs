@@ -147,7 +147,11 @@ public class Item : MonoBehaviour, IInteractable
                     this.gameObject.SetActive(false);
                 }
 
+                this.gameObject.layer = LayerMask.NameToLayer("Default");
+
                 Interacting.instance.howToInteractGO.SetActive(false);
+
+                this.enabled = false;
             }
         }
         else if (itemsToGet.Length > 0 || moneyAmount > 0)
@@ -162,6 +166,11 @@ public class Item : MonoBehaviour, IInteractable
             }
 
             PlayerValueManager.instance.money += moneyAmount;
+
+            if (moneyAmount > 0)
+            {
+                MessageManager.instance.CreateCollectedMessage(moneyAmount);
+            }
 
             CheckIfNeededForMission();
 

@@ -473,8 +473,14 @@ public class NPC : MonoBehaviour, IInteractable
             PlayOneLiner();
         }
 
-        if (isNeeded)
+        if (isNeeded && doActions)
         {
+            if (this.gameObject.GetComponent<NPCScreamingHandler>() != null)
+            {
+                this.gameObject.GetComponent<NPCScreamingHandler>().nPCAudioSource.Stop();
+                this.gameObject.GetComponent<NPCScreamingHandler>().enabled = false;
+            }
+
             GameManager.instance.cantPauseRN = true;
             FightingActions.instance.PlayerCantMove();
         }

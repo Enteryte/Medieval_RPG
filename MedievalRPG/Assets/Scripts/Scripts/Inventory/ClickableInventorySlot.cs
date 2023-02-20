@@ -125,7 +125,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         {
             if (isShopPlayerItem)
             {
-                if (storedItemBase.itemType == ItemBaseProfile.ItemType.none)
+                if (storedItemBase.itemType == ItemBaseProfile.ItemType.none && storedItemBase.neededForMissions || storedItemBase.itemType == ItemBaseProfile.ItemType.bookOrNote)
                 {
                     this.gameObject.GetComponent<Image>().color = Color.red;
                     this.gameObject.GetComponent<Button>().interactable = false;
@@ -251,7 +251,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
     {
         if (clickableSlotType == ClickableSlotType.inventorySlot)
         {
-            if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon && storedItemBase.itemType != ItemBaseProfile.ItemType.bookOrNote)
+            if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon && storedItemBase.itemType != ItemBaseProfile.ItemType.bookOrNote && storedItemBase.itemType != ItemBaseProfile.ItemType.none)
             {
                 SelectHotbarSlotToEquipTo();
             }
@@ -291,7 +291,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
     {
         if (clickableSlotType == ClickableSlotType.inventorySlot)
         {
-            if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon && storedItemBase.itemType != ItemBaseProfile.ItemType.bookOrNote)
+            if (storedItemBase.itemType != ItemBaseProfile.ItemType.weapon && storedItemBase.itemType != ItemBaseProfile.ItemType.bookOrNote && storedItemBase.itemType != ItemBaseProfile.ItemType.none)
             {
                 SelectHotbarSlotToEquipTo();
             }

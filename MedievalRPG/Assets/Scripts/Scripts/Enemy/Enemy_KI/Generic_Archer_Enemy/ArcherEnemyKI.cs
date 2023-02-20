@@ -26,10 +26,12 @@ public class ArcherEnemyKI : BaseEnemyKI
         ArrowPool = _arrowPool;
     }
 
-    public override void Init()
+    public override void Init(EnemySpawner _mySpawner = null)
     {
         base.Init();
         Target = GameManager.instance ? GameManager.instance.playerGO.transform : HardCodeTarget.transform;
+        if (GameManager.instance)
+            GameManager.instance.allArcherEnemies.Add(this);
         IsInitialized = true;
     }
 
@@ -90,14 +92,6 @@ public class ArcherEnemyKI : BaseEnemyKI
                 break;
         }
     }
-
-    private void NoticeEnemy()
-    {
-        HasSeenPlayer = true;
-        Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
-        Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
-    }
-
     private void Flee()
     {
         Vector3 flightDir = transform.position - Target.transform.position;

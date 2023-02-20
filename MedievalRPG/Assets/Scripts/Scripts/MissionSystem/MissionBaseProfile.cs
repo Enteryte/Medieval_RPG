@@ -26,6 +26,7 @@ public class MissionBaseProfile : ScriptableObject
     [Header("When Completed Mission")]
     public float moneyReward;
     public ItemReward[] itemRewards;
+    public ItemToRemove[] itemsToRemove;
 
     public MissionBaseProfile nextMissionToTrigger;
     public CutsceneProfile cutsceneToTrigger;
@@ -58,4 +59,11 @@ public class ItemReward
 {
     public ItemBaseProfile iBP;
     public int howManyToGet;
+}
+
+[System.Serializable]
+public class ItemToRemove
+{
+    public ItemBaseProfile iBP;
+    public int howManyToRemove;
 }

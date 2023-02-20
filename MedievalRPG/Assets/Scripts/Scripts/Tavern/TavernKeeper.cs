@@ -66,6 +66,14 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         InstantiateIOCanvas();
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && getBeerScreen.activeSelf)
+        {
+            DontBuyBeer();
+        }
+    }
+
     // Update is called once per frame
     //void Update()
     //{
@@ -167,6 +175,8 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
         CutsceneManager.instance.cutsceneCam.SetActive(false);
+
+        CutsceneManager.instance.currCP = null;
     }
 
     public IEnumerator ResetBeerDebuff()
@@ -299,8 +309,12 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
         Interacting.instance.currInteractedObjTrans = this.transform;
 
+        Debug.Log("ZUJHKLÖ");
+
         if (neededForMission)
         {
+            Debug.Log("ZUJHKLÖ111111111111111111111");
+
             if (currCorrTask.dialogToPlayAfterInteracted != null && !currCorrTask.dialogToPlayAfterInteracted.alreadyPlayedCutscene)
             {
                 StartCoroutine(CutsceneManager.instance.StartCutsceneFadeIn(currCorrTask.dialogToPlayAfterInteracted));
@@ -309,6 +323,8 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
                 // -----------------------> WIP: Muss noch am Anfang des Spiels auf false gesetzt werden.
                 currCorrTask.dialogToPlayAfterInteracted.alreadyPlayedCutscene = true;
+
+                Debug.Log("ZUJHKLÖ222222222222222222222");
             }
             else
             {
@@ -320,6 +336,8 @@ public class TavernKeeper : MonoBehaviour, IInteractable
                 CutsceneManager.instance.playableDirector.Play();
 
                 DisplayTavernKeeperUI();
+
+                Debug.Log("ZUJHKLÖ3333333333333333333333333333");
             }
             
             //CutsceneManager.instance.playableDirector.Play();
@@ -342,6 +360,8 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
             //    animator.SetBool("IsStanding", true);
             //}
+
+            Debug.Log("ZUJHKLÖ444444444444444444444444444444");
         }
 
         ////////transform.LookAt(GameManager.instance.playerGO.transform);
@@ -406,15 +426,6 @@ public class TavernKeeper : MonoBehaviour, IInteractable
                         //}
                     }
                 }
-
-                if (allCurrCorrTasks.Count > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
             }
             else
             {
@@ -435,7 +446,7 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
                         allCurrCorrTasks.Add(MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB);
 
-                        return true;
+                        //return true;
                     }
                     //else if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0].mTB.talkToAllNPCs)
                     //{
@@ -453,6 +464,13 @@ public class TavernKeeper : MonoBehaviour, IInteractable
             }
         }
 
-        return false;
+        if (allCurrCorrTasks.Count > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

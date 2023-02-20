@@ -186,6 +186,13 @@ public class SceneChangeManager : MonoBehaviour
 
         if (level == 1 && startedNewGame)
         {
+            InventoryManager.instance.inventory.slots.Clear();
+
+            for (int i = 0; i < SaveSystem.instance.startItems.Length; i++)
+            {
+                InventoryManager.instance.inventory.AddItem(SaveSystem.instance.startItems[i], SaveSystem.instance.startItemAmounts[i]);
+            }
+
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim");
         }
         else if (level != 0)

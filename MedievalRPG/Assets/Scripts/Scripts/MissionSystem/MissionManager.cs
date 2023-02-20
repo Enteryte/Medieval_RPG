@@ -212,10 +212,21 @@ public class MissionManager : MonoBehaviour
             InventoryManager.instance.inventory.AddItem(missionTaskToComplete.itemRewards[i].iBP, missionTaskToComplete.itemRewards[i].howManyToGet);
         }
 
+        for (int i = 0; i < missionTaskToComplete.itemsToRemove.Length; i++)
+        {
+            //for (int x = 0; x < InventoryManager.instance.inventory.slots.Count; x++)
+            //{
+            //    if (InventoryManager.instance.inventory.slots[x].itemBase == missionTaskToComplete.itemsToRemove[i].iBP)
+            //    {
+                    InventoryManager.instance.inventory.RemoveItem(missionTaskToComplete.itemsToRemove[i].iBP, missionTaskToComplete.itemsToRemove[i].howManyToRemove);
+            //    }
+            //}
+        }
+
         missionTaskToComplete.canBeDisplayed = false;
 
         if (missionTaskToComplete.missionTaskToActivate != null)
-        { 
+        {
             missionTaskToComplete.missionTaskToActivate.canBeDisplayed = true;
 
             if (missionTaskToComplete.missionTaskToActivate.missionTaskType == MissionTaskBase.MissionTaskType.examine)
@@ -357,7 +368,7 @@ public class MissionManager : MonoBehaviour
 
         if (UIManager.missionToDisplay == missionToComplete)
         {
-            UIManager.missionToDisplay = null;           
+            UIManager.missionToDisplay = null;
         }
 
         if (missionToComplete.nextMissionToTrigger != null)
@@ -378,6 +389,17 @@ public class MissionManager : MonoBehaviour
         for (int i = 0; i < missionToComplete.itemRewards.Length; i++)
         {
             InventoryManager.instance.inventory.AddItem(missionToComplete.itemRewards[i].iBP, missionToComplete.itemRewards[i].howManyToGet);
+        }
+
+        for (int i = 0; i < missionToComplete.itemsToRemove.Length; i++)
+        {
+            //for (int x = 0; x < InventoryManager.instance.inventory.slots.Count; x++)
+            //{
+            //    if (InventoryManager.instance.inventory.slots[x].itemBase == missionToComplete.itemsToRemove[i].iBP)
+            //    {
+                    InventoryManager.instance.inventory.RemoveItem(missionToComplete.itemsToRemove[i].iBP, missionToComplete.itemsToRemove[i].howManyToRemove);
+                //}
+            //}
         }
 
         if (missionToComplete.changeEnvironment)

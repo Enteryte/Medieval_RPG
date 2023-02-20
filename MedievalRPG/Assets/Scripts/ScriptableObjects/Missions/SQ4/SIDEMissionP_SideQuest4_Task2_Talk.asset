@@ -14,13 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionTaskType: 1
   isOptional: 0
-  missionButtonDescription: Schneider Errich
+  missionButtonDescription: Schuldeneintreiber
   completeAfterInteracted: 0
   missionTaskCompleted: 0
   cutsceneToTrigger: {fileID: 0}
   cutsceneToTriggerOnce: {fileID: 0}
-  moneyReward: 0
-  itemRewards: []
+  moneyReward: 100
+  itemRewards:
+  - iBP: {fileID: 11400000, guid: ed5b5adf1a4000d4baa7ee75a2bf2402, type: 2}
+    howManyToGet: 2
+  - iBP: {fileID: 11400000, guid: 7e72d0fc01e4ab14f8e02fced036d680, type: 2}
+    howManyToGet: 1
+  itemsToRemove: []
   canNormallyBeDisplayed: 0
   canBeDisplayed: 0
   missionTaskToActivate: {fileID: 0}

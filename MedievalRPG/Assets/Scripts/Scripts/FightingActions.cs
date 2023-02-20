@@ -240,14 +240,27 @@ public class FightingActions : MonoBehaviour
             if (equippedWeaponL.CompareTag("Bow") && aims == true && CheckIfHasArrows() && PlayerValueManager.instance.currStamina - 15 >= 0)
             {
                 anim.SetTrigger("Shoot");
-                TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
-                GameObject Arrow = Instantiate(arrow);
 
+                RaycastHit hit;
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                
+                GameObject Arrow = Instantiate(arrow);
                 Arrow.transform.position = equippedWeaponL.transform.position;
-                Arrow.transform.rotation = Quaternion.LookRotation(transform.forward, new Vector3(0, 0, 0));
-                Arrow.GetComponent<Rigidbody>().AddForce(transform.forward * shotSpeed, ForceMode.Impulse);
+
+                if(Physics.Raycast(ray, out hit))
+                {
+                    Arrow.transform.LookAt(hit.point);
+                }
+                else
+                {
+                    Arrow.transform.rotation = Quaternion.LookRotation(transform.forward, new Vector3(0, 0, 0));
+                }
+
+                Arrow.GetComponent<Rigidbody>().AddForce(Arrow.transform.forward * shotSpeed, ForceMode.Impulse);
                 Arrow = null;
                 aims = !aims;
+                
+                TPC.HandleBowAimingCameras(TPC._normalVCamera, TPC._bowAimingZoomVCamera, TPC._bowAimingVCamera);
                 TPC.transform.rotation = Quaternion.Euler(0, TPC.transform.rotation.eulerAngles.y, 0);
 
                 for (int i = 0; i < InventoryManager.instance.inventory.slots.Count; i++)
@@ -453,7 +466,6 @@ public class FightingActions : MonoBehaviour
             holdBlock = !holdBlock;
             //TPC.canMove = !holdBlock;
             anim.SetBool("HoldBlock", holdBlock);
-            //FABIENNE: Stamina ziehen
 
             PlayerValueManager.instance.RemoveStamina(15);
         }

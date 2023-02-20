@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2095531351231160492}
   - component: {fileID: 8711166217234005708}
   - component: {fileID: 1063813785649811520}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Axt
   m_TagString: Axe
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ BoxCollider:
   m_GameObject: {fileID: 7946281769368005584}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.050652936, y: 0.2934155, z: 0.37419736}
   m_Center: {x: 0.0050600506, y: 0.46692696, z: -0.016463965}
@@ -71,6 +71,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2095531351231160492}
     m_Modifications:
+    - target: {fileID: 3501314329027395899, guid: 325382084212cc548aa12785542bd60f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7264475717370382495, guid: 325382084212cc548aa12785542bd60f, type: 3}
       propertyPath: m_RootOrder
       value: 0

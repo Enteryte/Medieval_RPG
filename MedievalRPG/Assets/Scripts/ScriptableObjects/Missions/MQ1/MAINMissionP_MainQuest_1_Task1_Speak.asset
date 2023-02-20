@@ -14,15 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionTaskType: 1
   isOptional: 0
-  missionButtonDescription: Lieferung
+  missionButtonDescription: Fleisch abgeben
   completeAfterInteracted: 0
-  missionTaskCompleted: 0
+  missionTaskCompleted: 1
   cutsceneToTrigger: {fileID: 0}
   cutsceneToTriggerOnce: {fileID: 0}
-  moneyReward: 0
+  moneyReward: 35
   itemRewards: []
+  itemsToRemove:
+  - iBP: {fileID: 11400000, guid: 33f679d3132b80e4e8ae4fda2ef9b2df, type: 2}
+    howManyToRemove: 5
   canNormallyBeDisplayed: 1
-  canBeDisplayed: 1
+  canBeDisplayed: 0
   missionTaskToActivate: {fileID: 0}
   missionTaskToActivate2: {fileID: 0}
   isActiveAtStart: 1

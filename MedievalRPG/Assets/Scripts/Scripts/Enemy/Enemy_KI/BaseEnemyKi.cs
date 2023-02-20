@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public abstract class BaseEnemyKI : MonoBehaviour
 {
@@ -19,10 +21,11 @@ public abstract class BaseEnemyKI : MonoBehaviour
     protected bool HasSeenPlayer;
 
     private bool HasDied;
+    [SerializeField] protected Enemy Enemy;
 
     protected Transform Target;
     protected Vector3 StartPos;
-
+    [SerializeField] private bool WasNotSpawned;
 
     [Header("Detectors")] [SerializeField] protected RayDetection RayDetectionPrefab;
     [SerializeField] protected Transform SightContainer;
@@ -34,20 +37,37 @@ public abstract class BaseEnemyKI : MonoBehaviour
     //How low the speed is to be considered not moving, just in case Navmesh doesn't do it's job stopping
     [SerializeField]
     protected float Tolerance;
-    [SerializeField]
-    private float PlayerTooFarAwayDst = 50f;
-		
 
+    [SerializeField] private float PlayerTooFarAwayDst = 50f;
+    [SerializeField] private float PlayerDetectionDistance;
     protected float SqrTolerance;
 
     private int CheckValue;
 
+    private Collider[] Colls;
+
+    private EnemySpawner MySpawner;
+    private bool WasAlerted;
+
     #region Unity Events
+
+    public void Start()
+    {
+        if (WasNotSpawned)
+        {
+            Init();
+
+            if (gameObject.TryGetComponent(out ArcherEnemyKI archerEKI))
+                archerEKI.LinkArrowPool(FightManager.instance.enemyArrowPool);
+
+            Colls = GetComponentsInChildren<Collider>();
+        }
+    }
 
     /// <summary>
     /// The Method for Initialization
     /// </summary>
-    public virtual void Init()
+    public virtual void Init(EnemySpawner _mySpawner = null)
     {
         StartPos = transform.position;
         SqrTolerance = Tolerance * Tolerance;
@@ -55,6 +75,8 @@ public abstract class BaseEnemyKI : MonoBehaviour
         RayDetectorsSight = SetDetectors(KiStats.SightDetectorCountHalf, SightContainer, KiStats.DetectionFOV,
             KiStats.DetectionRange, Color.cyan);
         Health.Initialize(BaseStats, Animator, this);
+        Target = GameManager.instance.playerGO.transform;
+        MySpawner = _mySpawner;
     }
 
     protected virtual void Update()
@@ -62,49 +84,96 @@ public abstract class BaseEnemyKI : MonoBehaviour
         if (HasDied || !IsInitialized)
             return;
 
-        if (!IsSeeingPlayer|| Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
+        Debug.Log("--------------------------------------------------------------r43tgrgv");
+
+        if (!IsSeeingPlayer || Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
+        {
+            if (Vector3.Distance(transform.position, Target.position) <= PlayerDetectionDistance)
+            {
+                IsSeeingPlayer = true;
+                return;
+            }
+
             IsSeeingPlayer = DetectorCheck(RayDetectorsSight);
+        }
     }
 
     /// <summary>
     /// Sets the Speed of the Animator
     /// </summary>
     /// <param name="_speed">The New Value</param>
-    public void SetAnimatorSpeed(float _speed)
-    {
-        Animator.speed = _speed;
-    }
+    public void SetAnimatorSpeed(float _speed) => Animator.speed = _speed;
 
     protected bool DetectorCheck(RayDetection[] _detectors) => _detectors.Any(_rayDetection => _rayDetection.Sight());
 
-    public void GotHitReaction()
+    public void UnusualNoticePlayerReaction(bool _wasAlerted = false)
     {
         IsSeeingPlayer = true;
+        WasAlerted = true;
     }
+
+    public void RestartAgent() => Agent.isStopped = false;
+
     #endregion
 
-    public void RestartAgent()
-    {
-        Agent.isStopped = false;
-    }
     // ReSharper disable Unity.PerformanceAnalysis
     public virtual void Death()
     {
-        //TODO: Turn of all other scripts, animators, etc
         HasDied = true;
         Animator.SetTrigger(Animator.StringToHash("Dies"));
-        Animator.SetBool(Animator.StringToHash("IsDead"),true);
+        Animator.SetBool(Animator.StringToHash("IsDead"), true);
         Agent.enabled = false;
         GetComponentInChildren<LocomotionAgent>().enabled = false;
         Destroy(Health.gameObject);
+        FightManagerRemoveEnemy();
+        if (Enemy.despawnAfterTime)
+            foreach (Collider col in Colls)
+                col.enabled = false;
+
+        Enemy.EnemyDie();
 
         enabled = false;
     }
 
-    public void DisableAnimator()
+    public void DisableAnimator() => Animator.enabled = false;
+
+
+    protected void NoticeEnemy()
     {
-        Animator.enabled = false;
+        if (!GameManager.instance)
+            throw new Exception("No Game Manager Found");
+        HasSeenPlayer = true;
+        Animator.SetTrigger(Animator.StringToHash("NoticedYou"));
+        Animator.SetBool(Animator.StringToHash("KnowsAboutYou"), true);
+
+        if (MySpawner && !WasAlerted)
+            MySpawner.AlertAllAssignedEnemies();
     }
+
+    protected void FightManagerAddEnemy()
+    {
+        if (!FightManager.instance) return;
+        if (FightManager.instance.enemiesInFight.Contains(this)) return;
+
+        FightManager.instance.enemiesInFight.Add(this);
+
+        if (GameManager.instance.musicAudioSource.clip == FightManager.instance.fightMusic) return;
+
+        FightManager.instance.isInFight = true;
+        FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
+    }
+    protected void FightManagerRemoveEnemy()
+    {
+        if (!FightManager.instance) return;
+        if (!FightManager.instance.enemiesInFight.Contains(this)) return;
+        FightManager.instance.enemiesInFight.Remove(this);
+
+        if (GameManager.instance.musicAudioSource.clip != FightManager.instance.fightMusic || FightManager.instance.enemiesInFight.Count > 0) return;
+        FightManager.instance.isInFight = false;
+
+        FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
+    }
+
     /// <summary>
     /// The Function that appoints the Detectors into their Position according to the Field of View
     /// </summary>
@@ -136,10 +205,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
 
     #region EditorDepictors
 
-    protected virtual void OnDrawGizmos()
-    {
-        VisualizeDetectors(Color.cyan, KiStats.DetectionRange, SightContainer);
-    }
+    protected virtual void OnDrawGizmos() => VisualizeDetectors(Color.cyan, KiStats.DetectionRange, SightContainer);
 
     protected void VisualizeDetectors(Color _lineColor, float _range, Transform _container)
     {

@@ -123,7 +123,8 @@ public class InventoryManager : MonoBehaviour
         {
             if (currItemType != ItemBaseProfile.ItemType.none)
             {
-                if (inventory.slots[i].itemBase.itemType == currItemType && !inventory.slots[i].itemBase.neededForMissions)
+                if (inventory.slots[i].itemBase.itemType == currItemType && !inventory.slots[i].itemBase.neededForMissions
+                    || currItemType == ItemBaseProfile.ItemType.bookOrNote && inventory.slots[i].itemBase.itemType == ItemBaseProfile.ItemType.none)
                 {
                     GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventorySlotsParentObjTrans);
 
@@ -143,8 +144,8 @@ public class InventoryManager : MonoBehaviour
             }
             else
             {
-                if (inventory.slots[i].itemBase.neededForMissions)
-                {
+                //if (inventory.slots[i].itemBase.neededForMissions)
+                //{
                     GameObject newInventorySlot = Instantiate(inventorySlotPrefab, inventorySlotsParentObjTrans);
 
                     newInventorySlot.GetComponent<ClickableInventorySlot>().storedItemBase = inventory.slots[i].itemBase;
@@ -157,7 +158,7 @@ public class InventoryManager : MonoBehaviour
                     {
                         newInventorySlot.GetComponent<ClickableInventorySlot>().DisplayAllItemInformationsOnClick();
                     }
-                }
+                //}
             }
         }
 

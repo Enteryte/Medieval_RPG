@@ -13,24 +13,32 @@ MonoBehaviour:
   m_Name: MAINMissionP_MainQuest_2_Task2_Kill
   m_EditorClassIdentifier: 
   missionTaskType: 3
+  isOptional: 0
+  missionButtonDescription: 
   completeAfterInteracted: 1
-  missionTaskCompleted: 0
+  missionTaskCompleted: 1
   cutsceneToTrigger: {fileID: 11400000, guid: 809eb54d068436d429394b7afa392742, type: 2}
   cutsceneToTriggerOnce: {fileID: 0}
-  moneyReward: 0
+  moneyReward: 35
   itemRewards: []
+  itemsToRemove: []
   canNormallyBeDisplayed: 0
   canBeDisplayed: 0
   missionTaskToActivate: {fileID: 11400000, guid: 93bfe8af0fd5094459c4fb999ac42b74, type: 2}
   missionTaskToActivate2: {fileID: 0}
   isActiveAtStart: 1
+  isMainMission: 0
+  decisionSprite: {fileID: 0}
   nPCToTalkToBaseProfile: {fileID: 0}
   dialogToPlayAfterInteracted: {fileID: 0}
   dialogToPlayAfterPressedButton: {fileID: 0}
   talkToAllNPCs: 0
-  possibleDialoguesToAdd: []
+  possibleDialoguesToAddFemale: []
+  possibleDialoguesToAddMale: []
   mainNPC: {fileID: 0}
   dialogueToAdd: {fileID: 0}
+  pointsToGainForWin: 0
+  currGainedPoints: 0
   itemToCollectBase: {fileID: 0}
   itemToCollectBase2: {fileID: 0}
   howManyToCollect: 0
@@ -38,8 +46,8 @@ MonoBehaviour:
   dialogAfterSeenFirstItem: {fileID: 0}
   dialogAfterCollectedFirstItem: {fileID: 0}
   enemyToKillBase: {fileID: 11400000, guid: 83ec9647a7355fb41b9b6d4782157ee8, type: 2}
-  howManyToKill: 1
-  howManyAlreadyKilled: 0
+  howManyToKill: 5
+  howManyAlreadyKilled: 11
   dialogAfterSeenFirstEnemy: {fileID: 0}
   dialogAfterKilledFirstEnemy: {fileID: 0}
   noteOrBookToReadIBP: {fileID: 0}

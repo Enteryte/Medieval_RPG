@@ -34,6 +34,7 @@ public class MerchantBaseProfile : ScriptableObject
                                                                                                                                                   // ERSETZT WERDEN!
     #endregion
 
+#if UNITY_EDITOR
     [CustomEditor(typeof(MerchantBaseProfile))]
     public class MerchantBaseProfileEditor : Editor
     {
@@ -106,4 +107,5 @@ public class MerchantBaseProfile : ScriptableObject
             EditorUtility.SetDirty(target);
         }
     }
+#endif
 }

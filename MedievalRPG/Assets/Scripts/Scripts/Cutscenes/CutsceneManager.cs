@@ -272,7 +272,8 @@ public class CutsceneManager : MonoBehaviour
         {
             playableDirector.time = PlayerValueManager.instance.afterPlayerDiedSkippingTime1;
 
-            Debug.Log(playableDirector.time);
+            //Debug.Log(playableDirector.time);
+            //Debug.Log(currCP.timeTillWhereToSkip);
 
             cutsceneUIAnimator.enabled = false;
             skipCutsceneUI.SetActive(false);
@@ -280,7 +281,9 @@ public class CutsceneManager : MonoBehaviour
             return;
         }
 
-        if (playableDirector.time > currCP.timeTillWhereToSkip)
+        Debug.Log(playableDirector.time);
+        Debug.Log(currCP.timeTillWhereToSkip);
+        if (playableDirector.time <= currCP.timeTillWhereToSkip)
         {
             playableDirector.time = currCP.timeTillWhereToSkip;
         }
@@ -429,6 +432,11 @@ public class CutsceneManager : MonoBehaviour
 
     public void CheckIfPlayerHasGotDamage()
     {
+        if (currCP == null)
+        {
+            return;
+        }
+
         if (PlayerValueManager.instance.CurrHP == PlayerValueManager.instance.normalHP)
         {
             //playableDirector.Stop();
@@ -656,6 +664,7 @@ public class CutsceneManager : MonoBehaviour
     public void ActivateChangingDaytime()
     {
         GameManager.instance.changeDaytime = true;
+        TavernKeeper.instance.DisplayTavernKeeperUI();
         GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
     }
 

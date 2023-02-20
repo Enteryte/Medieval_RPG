@@ -18,20 +18,22 @@ public class EnemyDamagerDelegator : MonoBehaviour
 
     private void LeaveRecoil()
     {
-        ParentKI.RestartAgent();
+        //ParentKI.RestartAgent();
     }
 
     private void DisableAnimator()
     {
         ParentKI.DisableAnimator();
-        StartCoroutine(DespawnEnemy());
+        //StartCoroutine(DespawnEnemy());
     }
 
-    private IEnumerator DespawnEnemy()
-    {
-        yield return new WaitForSeconds(10f);
-        Destroy(transform.parent.gameObject);
-    }
+    //private IEnumerator DespawnEnemy()
+    //{
+    //    //yield return new WaitForSeconds(10f);
+    //    //Destroy(transform.parent.gameObject);
+
+    //    yield return null;
+    //}
 
     public void DamageOn()
     {

@@ -10,6 +10,10 @@ public class MessageManager : MonoBehaviour
     public GameObject collectedMessageObjPrefab;
     public GameObject collectedMessageParentObj;
 
+    [Header("If Is Money")]
+    public Sprite isMoneySprite;
+    public AudioClip collectedMoneyAC;
+
     public void Awake()
     {
         if (instance == null)
@@ -24,5 +28,15 @@ public class MessageManager : MonoBehaviour
 
         newCollMessageObj.GetComponent<CollectedMessageObject>().itemNameTxt.text = collectedItemBP.itemName;
         newCollMessageObj.GetComponent<CollectedMessageObject>().itemSpriteImg.sprite = collectedItemBP.itemSprite;
+    }
+
+    public void CreateCollectedMessage(int moneyAmount)
+    {
+        GameObject newCollMessageObj = Instantiate(collectedMessageObjPrefab, collectedMessageParentObj.transform);
+
+        newCollMessageObj.GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+        newCollMessageObj.GetComponent<CollectedMessageObject>().itemNameTxt.text = moneyAmount.ToString();
+        newCollMessageObj.GetComponent<CollectedMessageObject>().itemSpriteImg.sprite = isMoneySprite;
     }
 }

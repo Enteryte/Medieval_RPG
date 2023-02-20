@@ -233,6 +233,38 @@ public class Interacting : MonoBehaviour
                                 }
                             }
 
+                            if (interactableObj.TryGetComponent(out Enemy enemy) && enemy.cutsceneToPlayAfterExamine != null)
+                            {
+                                interactable.iOCanvas().iOBillboardParentObj.SetActive(false);
+
+                                Debug.Log("------------------------------------------------------------------------------------- Guten Tag");
+
+                                for (int x = 0; x < MissionManager.instance.allCurrAcceptedMissions.Count; x++)
+                                {
+                                    MissionBaseProfile currMBP = MissionManager.instance.allCurrAcceptedMissions[x];
+
+                                    for (int v = 0; v < currMBP.allMissionTasks.Length; v++)
+                                    {
+                                        if (currMBP.allMissionTasks[v].mTB.canBeDisplayed && currMBP.allMissionTasks[v].mTB.missionTaskType == MissionTaskBase.MissionTaskType.examine 
+                                            && currMBP.allMissionTasks[v].mTB.eBPToExamine == enemy.eBP)
+                                        {
+                                            interactable.iOCanvas().iOBillboardParentObj.SetActive(true);
+                                        }
+                                        else
+                                        {
+                                            Debug.Log(currMBP.allMissionTasks[v].mTB.canBeDisplayed);
+                                            Debug.Log(currMBP.allMissionTasks[v].mTB.missionTaskType);
+
+                                            if (currMBP.allMissionTasks[v].mTB.missionTaskType == MissionTaskBase.MissionTaskType.examine)
+                                            {
+                                                Debug.Log(currMBP.allMissionTasks[v].mTB.eBPToExamine);
+                                                Debug.Log(enemy.eBP);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
                             if (GameManager.instance.playtimeInSeconds > 5)
                             {
                                 TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(interactingTutorial);
@@ -240,9 +272,9 @@ public class Interacting : MonoBehaviour
                         }
                     }
 
-                    if (interactableObj != null && interactableObj.GetComponent<Enemy>())
+                    if (interactableObj != null && interactableObj.GetComponent<Enemy>() && !interactableObj.GetComponent<Enemy>().isDead)
                     {
-                        //Debug.Log(interactableObj.gameObject.name);
+                        Debug.Log("ENEMYYYYYYYYYYYYYYYYYYYYYYYYYYY: " + interactableObj.gameObject.name);
 
                         if (FightingActions.instance.equippedWeaponL != null
                         && FightingActions.instance.equippedWeaponL.gameObject.GetComponent<Item>().iBP.weaponType != ItemBaseProfile.WeaponType.bow)
@@ -263,6 +295,17 @@ public class Interacting : MonoBehaviour
                                 FightManager.instance.TargetEnemy(interactableObj.gameObject);
                             }
                         }
+                        else
+                        {
+                            if (Input.GetKeyDown(KeyCode.Q))
+                            {
+                                FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log(interactableObj.gameObject.name);
                     }
                 }
             }
@@ -286,7 +329,7 @@ public class Interacting : MonoBehaviour
                 //{
                 if (interactableObj.TryGetComponent(out IInteractable interactable))
                 {
-                    if (interactable.iOCanvas() != null)
+                    if (interactable.iOCanvas() != null && interactable.iOCanvas().iOBillboardParentObj.activeSelf)
                     {
                         if (interactableObj.TryGetComponent(out NPC npc))
                         {
@@ -391,16 +434,33 @@ public class Interacting : MonoBehaviour
                         {
                             if (door2.canInteract)
                             {
-                                if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                                && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)
+                                if (Blackboard.instance != null)
                                 {
-                                    if (interactable.iOCanvas() != null)
+                                    if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                                        && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)
                                     {
-                                        howToInteractGO.SetActive(true);
+                                        if (interactable.iOCanvas() != null)
+                                        {
+                                            howToInteractGO.SetActive(true);
 
-                                        howToInteractTxt.text = interactable.GetInteractUIText();
+                                            howToInteractTxt.text = interactable.GetInteractUIText();
 
-                                        timeTillInteract = interactable.GetTimeTillInteract();
+                                            timeTillInteract = interactable.GetTimeTillInteract();
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (!ShopManager.instance.shopScreen.activeSelf && ThirdPersonController.instance.canMove)
+                                    {
+                                        if (interactable.iOCanvas() != null)
+                                        {
+                                            howToInteractGO.SetActive(true);
+
+                                            howToInteractTxt.text = interactable.GetInteractUIText();
+
+                                            timeTillInteract = interactable.GetTimeTillInteract();
+                                        }
                                     }
                                 }
                             }

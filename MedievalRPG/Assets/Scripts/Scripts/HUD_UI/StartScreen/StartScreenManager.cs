@@ -224,7 +224,9 @@ public class StartScreenManager : MonoBehaviour
                     {
                         if (dirInfo[i].ToString() == StartScreenManager.currClickedLoadSlot.correspondingSaveDataDirectory.ToString())
                         {
+#if UNITY_EDITOR
                             FileUtil.DeleteFileOrDirectory(StartScreenManager.currClickedLoadSlot.correspondingSaveDataDirectory.ToString());
+#endif
                         }
                     }
                 }
@@ -385,7 +387,9 @@ public class StartScreenManager : MonoBehaviour
                 {
                     if (currSceneIndex <= -1)
                     {
+#if UNITY_EDITOR
                         FileUtil.DeleteFileOrDirectory(dirInfo[i].ToString());
+#endif
                     }
                 }
             }

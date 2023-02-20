@@ -25,6 +25,7 @@ public class LocomotionAgent : MonoBehaviour
 
     private void Update()
     {
+        
         Transform transformAcc = Parent.transform;
         Vector3 worldDeltaPos = Agent.nextPosition - transformAcc.position;
 
@@ -37,8 +38,9 @@ public class LocomotionAgent : MonoBehaviour
 
         if (Time.deltaTime > 1e-5f)
             Velocity = SmoothDeltaPos / Time.deltaTime;
-
-        bool shouldMove = Velocity.magnitude > TOLERANCE && Agent.remainingDistance > Agent.radius;
+        bool shouldMove = false;
+        if(Agent.enabled)
+            shouldMove = Velocity.magnitude > TOLERANCE && Agent.remainingDistance > Agent.radius;
 
         Anim.SetBool(Animator.StringToHash("IsMoving"), shouldMove);
         Anim.SetFloat(Animator.StringToHash("VelX"), Velocity.x);
