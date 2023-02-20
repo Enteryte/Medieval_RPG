@@ -20,6 +20,7 @@ MonoBehaviour:
   playCutsceneMoreThanOnce: 1
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
+  timeTillWhereToSkip2: 0
   timesWhenNewSentenceStarts:
   - 2.1167
   - 4.3667
@@ -28,7 +29,7 @@ MonoBehaviour:
   changeParentTrans: 0
   hasDecisions: 1
   allDecisions:
-  - decisionText: Er hat gezahlt.
+  - decisionText: Er hat gezahlt
     decisionSprite: {fileID: 21300000, guid: 86f15dba532b5d6409cad7e2df9e58a7, type: 3}
     arguePointsToGain: 0
     needsToBeClicked: 1
@@ -41,7 +42,7 @@ MonoBehaviour:
     minMoneyValue: 80
     itemToGet: {fileID: 0}
     amountToGet: 0
-  - decisionText: Er hat nicht gezahlt.
+  - decisionText: Er hat nicht gezahlt
     decisionSprite: {fileID: 21300000, guid: 8b8dc6373f8bacc4db6d8856853be92f, type: 3}
     arguePointsToGain: 0
     needsToBeClicked: 1
@@ -64,3 +65,4 @@ MonoBehaviour:
   cutsceneToPlayAfter: {fileID: 0}
   corresspondingMission: {fileID: 0}
   missionTaskToActivate: {fileID: 0}
+  musicAfterCSFinished: {fileID: 0}

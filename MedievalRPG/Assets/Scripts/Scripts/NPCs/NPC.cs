@@ -250,6 +250,11 @@ public class NPC : MonoBehaviour, IInteractable
     {
         bool isNeeded = false;
 
+        if (doActions)
+        {
+            CutsceneManager.instance.playableDirector.time = 0;
+        }
+
         //if (UIManager.instance.npcMissionButtonParentObjTrans.childCount > 3)
         //{
         //UIManager.instance.npcMissionButtonParentObjTrans.gameObject.SetActive(true);
@@ -302,10 +307,10 @@ public class NPC : MonoBehaviour, IInteractable
                                     CutsceneManager.instance.playableDirector.playableAsset = Interacting.instance.currInteractedObjTrans.GetComponent<NPC>().idleTimeline;
                                     CutsceneManager.instance.playableDirector.Play();
 
-                                    for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
-                                    {
-                                        UIManager.instance.npcBtnKillianGOs[x].SetActive(true);
-                                    }
+                                    //for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
+                                    //{
+                                        UIManager.instance.npcBtnKillianGOs[0].SetActive(true);
+                                    //}
 
                                     Instantiate(UIManager.instance.npcUICloseBtnPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
@@ -332,6 +337,8 @@ public class NPC : MonoBehaviour, IInteractable
                                 {
                                     UIManager.instance.npcBtnKillianGOs[x].SetActive(false);
                                 }
+
+                                CutsceneManager.instance.playableDirector.time = 0;
 
                                 var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
@@ -405,10 +412,10 @@ public class NPC : MonoBehaviour, IInteractable
                                     CutsceneManager.instance.playableDirector.playableAsset = Interacting.instance.currInteractedObjTrans.GetComponent<NPC>().idleTimeline;
                                     CutsceneManager.instance.playableDirector.Play();
 
-                                    for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
-                                    {
-                                        UIManager.instance.npcBtnKillianGOs[x].SetActive(true);
-                                    }
+                                    //for (int x = 0; x < UIManager.instance.npcBtnKillianGOs.Length; x++)
+                                    //{
+                                        UIManager.instance.npcBtnKillianGOs[0].SetActive(true);
+                                    //}
 
                                     Instantiate(UIManager.instance.npcUICloseBtnPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
@@ -431,6 +438,8 @@ public class NPC : MonoBehaviour, IInteractable
                         {
                             if (doActions)
                             {
+                                CutsceneManager.instance.playableDirector.time = 0;
+
                                 var newNPCMissionButton = Instantiate(UIManager.instance.npcMissionButtonPrefab, UIManager.instance.npcMissionButtonParentObjTrans);
 
                                 newNPCMissionButton.transform.GetChild(0).GetComponent<NPCMissionButton>().storedMT = MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[0];

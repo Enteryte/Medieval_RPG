@@ -252,6 +252,8 @@ public class PrickMinigameManager : MonoBehaviour
 
         if (prickEnemy.currentPlayableCards.Count == 0)
         {
+            Debug.Log("IS PLAYING AGAINST");
+
             if (playerPoints > enemyPoints)
             {
                 if (PrickBoard.instance.isPlayingAgainstKilian)
@@ -293,6 +295,27 @@ public class PrickMinigameManager : MonoBehaviour
                 {
                     PlayerValueManager.instance.money -= winMoneyAmount;
                 }
+            }
+            else
+            {
+                if (PrickBoard.instance.isPlayingAgainstKilian)
+                {
+                    CutsceneManager.instance.currCP = PrickBoard.instance.cutsceneToPlayIfLost;
+                    CutsceneManager.instance.playableDirector.playableAsset = PrickBoard.instance.cutsceneToPlayIfLost.cutscene;
+
+                    CutsceneManager.instance.playableDirector.Play();
+
+                    PrickBoard.instance.isPlayingAgainstKilian = false;
+
+                    prickUI.SetActive(false);
+                    prickCamera.enabled = false;
+
+                    this.enabled = false;
+                }
+                //else
+                //{
+                //    PlayerValueManager.instance.money -= winMoneyAmount;
+                //}
             }
 
             playerMoneyTxt.text = PlayerValueManager.instance.money.ToString();
