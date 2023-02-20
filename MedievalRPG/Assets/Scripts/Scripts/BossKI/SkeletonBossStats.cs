@@ -64,9 +64,6 @@ public class SkeletonBossStats : MonoBehaviour
     private void ChangePhase()
     {
         anim.SetTrigger("ActivateSecondPhase");
-
-
-
     }
 
     public void HealBoss()
