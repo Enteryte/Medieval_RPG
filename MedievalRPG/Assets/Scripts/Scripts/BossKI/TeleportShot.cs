@@ -44,22 +44,22 @@ public class TeleportShot : SkeletonBossActions
 
         for (int x = 0; x < RoomEdges.Length; x++)
         {
-            if (RoomEdges[x].position.x < minX)
-            {
-                minX = RoomEdges[x].position.x;
-            }
-            if (RoomEdges[x].position.x > maxX)
+            if (x == 0)
             {
                 maxX = RoomEdges[x].position.x;
             }
-
-            if (RoomEdges[x].position.z < minZ)
+            if (x == 1)
             {
-                minZ = RoomEdges[x].position.z;
+                minX = RoomEdges[x].position.x;
             }
-            if (RoomEdges[x].position.z > maxZ)
+
+            if (x == 2)
             {
                 maxZ = RoomEdges[x].position.z;
+            }
+            if (x == 3)
+            {
+                minZ = RoomEdges[x].position.z;
             }
         }
 

@@ -84,7 +84,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
         if (HasDied || !IsInitialized)
             return;
 
-        Debug.Log("--------------------------------------------------------------r43tgrgv");
+        //Debug.Log("--------------------------------------------------------------r43tgrgv");
 
         if (!IsSeeingPlayer || Vector3.Distance(StartPos, Target.position) > PlayerTooFarAwayDst)
         {

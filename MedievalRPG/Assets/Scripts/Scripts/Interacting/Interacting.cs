@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Interacting : MonoBehaviour
@@ -416,8 +417,22 @@ public class Interacting : MonoBehaviour
                         {
                             if (door.canInteract)
                             {
-                                if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
-                                && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)
+                                if (SceneManager.GetActiveScene().buildIndex == 1)
+                                {
+                                    if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
+                                            && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)
+                                    {
+                                        if (interactable.iOCanvas() != null)
+                                        {
+                                            howToInteractGO.SetActive(true);
+
+                                            howToInteractTxt.text = interactable.GetInteractUIText();
+
+                                            timeTillInteract = interactable.GetTimeTillInteract();
+                                        }
+                                    }
+                                }
+                                else if (ThirdPersonController.instance.canMove)
                                 {
                                     if (interactable.iOCanvas() != null)
                                     {
@@ -434,7 +449,7 @@ public class Interacting : MonoBehaviour
                         {
                             if (door2.canInteract)
                             {
-                                if (Blackboard.instance != null)
+                                if (Blackboard.instance != null && Blackboard.instance.blackboardUI != null && GuessTheCardMinigameManager.instance)
                                 {
                                     if (!ShopManager.instance.shopScreen.activeSelf && !GuessTheCardMinigameManager.instance.gTCUI.activeSelf && !PrickMinigameManager.instance.prickUI.activeSelf
                                         && !Blackboard.instance.blackboardUI.activeSelf && ThirdPersonController.instance.canMove)

@@ -7,6 +7,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -244,26 +245,52 @@ public class GameManager : MonoBehaviour
         // Open/Close Inventory
         if (!readBookOrNoteScreen.activeSelf && !pauseMenuScreen.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.I) && !InventoryManager.instance.inventoryScreen.activeSelf &&
-                !ShopManager.instance.shopScreen.activeSelf && !Blackboard.instance.blackboardUI.activeSelf &&
-                !cantPauseRN)
+            if (SceneManager.GetActiveScene().buildIndex == 1)
             {
-                OpenInventory();
-
-                if (MissionLogScreenHandler.instance != null)
+                if (Input.GetKeyDown(KeyCode.I) && !InventoryManager.instance.inventoryScreen.activeSelf &&
+                    !ShopManager.instance.shopScreen.activeSelf && !Blackboard.instance.blackboardUI.activeSelf &&
+                    !cantPauseRN)
                 {
-                    MissionLogScreenHandler.instance.DisplayMissions();
+                    OpenInventory();
+
+                    if (MissionLogScreenHandler.instance != null)
+                    {
+                        MissionLogScreenHandler.instance.DisplayMissions();
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.I) && InventoryManager.instance.inventoryScreen.activeSelf &&
+                         !ShopManager.instance.shopScreen.activeSelf &&
+                         !Blackboard.instance.blackboardUI.activeSelf /* && !cantPauseRN*/)
+                {
+                    OpenInventory();
+
+                    if (MissionLogScreenHandler.instance != null)
+                    {
+                        MissionLogScreenHandler.instance.DisplayMissions();
+                    }
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.I) && InventoryManager.instance.inventoryScreen.activeSelf &&
-                     !ShopManager.instance.shopScreen.activeSelf &&
-                     !Blackboard.instance.blackboardUI.activeSelf /* && !cantPauseRN*/)
+            else
             {
-                OpenInventory();
-
-                if (MissionLogScreenHandler.instance != null)
+                if (Input.GetKeyDown(KeyCode.I) && !InventoryManager.instance.inventoryScreen.activeSelf &&
+                    !ShopManager.instance.shopScreen.activeSelf && !cantPauseRN)
                 {
-                    MissionLogScreenHandler.instance.DisplayMissions();
+                    OpenInventory();
+
+                    if (MissionLogScreenHandler.instance != null)
+                    {
+                        MissionLogScreenHandler.instance.DisplayMissions();
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.I) && InventoryManager.instance.inventoryScreen.activeSelf &&
+                         !ShopManager.instance.shopScreen.activeSelf)
+                {
+                    OpenInventory();
+
+                    if (MissionLogScreenHandler.instance != null)
+                    {
+                        MissionLogScreenHandler.instance.DisplayMissions();
+                    }
                 }
             }
         }

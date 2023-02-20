@@ -43,6 +43,9 @@ public class ItemBaseProfile : ScriptableObject
     [Header("Needed Items For Buying")]
     public ItemBaseProfile[] itemsNeededForBuying;
 
+    //[Header("Food Item")]
+    //public float healingTime;
+
     #region NeededForMission Values
     [HideInInspector] [Tooltip("An array of missions, where the item is needed.")] [Min(0)] public GameObject[] missionsWhereItsNeeded; // MUSS DURCH MISSIONBASEPROFILES
                                                                                                                                         // ERSETZT WERDEN!
@@ -145,7 +148,7 @@ public class ItemBaseProfile : ScriptableObject
 
             EditorGUILayout.Space();
 
-            iBP.sellingPrice = iBP.buyPrice - ((iBP.buyPrice * 20) / 80);
+            iBP.sellingPrice = iBP.buyPrice - ((iBP.buyPrice * 30) / 70);
 
             if (iBP.neededForMissions)
             {

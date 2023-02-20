@@ -86,6 +86,8 @@ public class SceneChangeManager : MonoBehaviour
         {
             if (StartScreenManager.currSceneIndex > -1)
             {
+                Debug.Log("--------------------------------------" + StartScreenManager.currSceneIndex);
+
                 SceneManager.LoadScene(StartScreenManager.currSceneIndex);
 
                 StartScreenManager.currSceneIndex = -1;
@@ -199,7 +201,7 @@ public class SceneChangeManager : MonoBehaviour
         {
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_2");
 
-            GameManager.instance.musicAudioSource.Play();
+            //GameManager.instance.musicAudioSource.Play();
 
             Debug.Log(PlayerValueManager.instance.CurrHP + " 222222222222222");
 
@@ -221,7 +223,7 @@ public class SceneChangeManager : MonoBehaviour
         }
         else
         {
-            GameManager.instance.musicAudioSource.Play();
+            //GameManager.instance.musicAudioSource.Play();
 
             StartScreenManager.currSelectedSSMBtn = null;
             Debug.Log(StartScreenManager.currSelectedSSMBtn);

@@ -50,26 +50,29 @@ public class MoveBoss : SkeletonBossActions
 
         for (int x = 0; x < RoomEdges.Length; x++)
         {
-            if (RoomEdges[x].position.x < minX)
-            {
-                minX = RoomEdges[x].position.x;
-            }
-            if (RoomEdges[x].position.x > maxX)
+            if (x == 0)
             {
                 maxX = RoomEdges[x].position.x;
             }
-
-            if (RoomEdges[x].position.z < minZ)
+            if (x == 1)
             {
-                minZ = RoomEdges[x].position.z;
+                minX = RoomEdges[x].position.x;
             }
-            if (RoomEdges[x].position.z > maxZ)
+
+            if (x == 2)
             {
                 maxZ = RoomEdges[x].position.z;
+            }
+            if (x == 3)
+            {
+                minZ = RoomEdges[x].position.z;
             }
         }
 
         targetLocation = new Vector3(Random.Range(minX, maxX), 0, Random.Range(minZ, maxZ));
+
+        Debug.Log(targetLocation);
+
         agent.SetDestination(targetLocation);
         mayMove = true;
     }

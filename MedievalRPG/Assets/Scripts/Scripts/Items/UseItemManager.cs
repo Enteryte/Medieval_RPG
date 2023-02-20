@@ -169,7 +169,7 @@ public class UseItemManager : MonoBehaviour
 
         while (pVM.CurrHP < startHealth + iBP.foodHealValue)
         {
-            time += Time.deltaTime / 7;
+            time += Time.deltaTime / iBP.timeTillValueIsHealed;
             pVM.CurrHP = Mathf.Lerp(startHealth, startHealth + iBP.foodHealValue, time);
             pVM.healthSlider.value = pVM.CurrHP;
 
