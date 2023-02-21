@@ -11,6 +11,8 @@ public class BossAnimationEventHandler : MonoBehaviour
     [SerializeField] private SkeletonBossKI KI;
     [SerializeField] private SkeletonBossStats stats;
 
+    public CutsceneProfile creditsCS;
+
     private void TeleportBoss()
     {
         Teleport.TeleportToTargetLocation();
@@ -46,5 +48,11 @@ public class BossAnimationEventHandler : MonoBehaviour
     private void HealBoss()
     {
         stats.HealBoss();
+    }
+    private void TriggerCreditsCS()
+    {
+        CutsceneManager.instance.currCP = creditsCS;
+        CutsceneManager.instance.playableDirector.playableAsset = creditsCS.cutscene;
+        CutsceneManager.instance.playableDirector.Play();
     }
 }

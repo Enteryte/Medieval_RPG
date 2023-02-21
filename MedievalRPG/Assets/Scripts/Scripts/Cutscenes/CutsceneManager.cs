@@ -30,6 +30,8 @@ public class CutsceneManager : MonoBehaviour
 
     public CutsceneProfile[] allCSWAllowedPausing;
 
+    public LoadingScreenProfile afterCreditsLSP;
+
     [Header("CS w. Alchemist")]
     public GameObject alchemistGO;
 
@@ -45,6 +47,9 @@ public class CutsceneManager : MonoBehaviour
 
     [Header("Player Death")]
     public TimelineAsset afterPlayerDiedTL;
+
+    [Header("Options")]
+    public GameObject subtitleTxtObj;
 
     public void Awake()
     {
@@ -537,11 +542,14 @@ public class CutsceneManager : MonoBehaviour
 
     public void ChangeSceneToMainMenu()
     {
+        StartScreenManager.currSceneIndex = 0;
+
         if (LoadingScreen.instance != null)
         {
-            LoadingScreen.instance.placeNameTxt.text = "";
-            LoadingScreen.instance.backgroundImg.sprite = null;
-            LoadingScreen.instance.descriptionTxt.text = "";
+            LoadingScreen.currLSP = afterCreditsLSP;
+            LoadingScreen.instance.placeNameTxt.text = LoadingScreen.currLSP.placeName;
+            LoadingScreen.instance.backgroundImg.sprite = LoadingScreen.currLSP.backgroundSprite;
+            LoadingScreen.instance.descriptionTxt.text = LoadingScreen.currLSP.descriptionTextString;
 
             LoadingScreen.instance.gameObject.SetActive(true);
             LoadingScreen.instance.ActivateAnimator();
@@ -549,8 +557,6 @@ public class CutsceneManager : MonoBehaviour
             //SceneChangeManager.instance.GetComponent<Animator>().enabled = false;
             SceneChangeManager.instance.GetComponent<Animator>().Rebind();
             //SceneChangeManager.instance.GetComponent<Animator>().enabled = true;
-
-            SaveSystem.instance.SaveAutomatic();
 
             SceneChangeManager.instance.loadingScreen.SetActive(true);
             SceneChangeManager.instance.gameObject.GetComponent<Animator>().Play("OpenLoadingScreenInStartScreenAnim");
@@ -743,7 +749,7 @@ public class CutsceneManager : MonoBehaviour
         while (currentTime < 1f)
         {
             currentTime += Time.deltaTime;
-            GameManager.instance.musicAudioSource.volume = Mathf.Lerp(start, OptionManager.instance.musicSlider.value, currentTime / 1f);
+            GameManager.instance.musicAudioSource.volume = Mathf.Lerp(start, AudioManager.Instance.MusicVolume * AudioManager.Instance.MasterVolume, currentTime / 1f);
 
             yield return null;
         }

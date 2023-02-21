@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Windows;
+using UnityEngine.SceneManagement;
 
 public class OptionManager : MonoBehaviour
 {
@@ -123,10 +124,21 @@ public class OptionManager : MonoBehaviour
                 break;
         }
 
-        Screen.SetResolution(screenWidth, screenHeight, windowModeToggle.isOn);
+        Screen.SetResolution(screenWidth, screenHeight, !windowModeToggle.isOn);
     }
 
     #endregion
+
+    public void ChangeSubtitleToggle()
+    {
+        //subtitleToggle.isOn = !subtitleToggle.isOn;
+        StartScreenManager.instance.showSubtitle = subtitleToggle.isOn;
+
+        if (SceneManager.GetActiveScene().buildIndex > 0)
+        {
+            CutsceneManager.instance.subtitleTxtObj.SetActive(StartScreenManager.instance.showSubtitle);
+        }
+    }
 }
 
 public struct SensitivityContainer

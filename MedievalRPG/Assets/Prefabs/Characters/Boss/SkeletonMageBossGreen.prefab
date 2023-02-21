@@ -64,15 +64,18 @@ MonoBehaviour:
   - {fileID: 1168513474809727665}
   - {fileID: 1101524802}
   - {fileID: 4185508108580775883}
+  - {fileID: 820015817207324224}
   secondsToWait: 3
   closeCombatDistance: 1
-  maxArrowsHit: 1
-  weakAttackChance: 40
-  strongAttackChance: 10
-  meteorChance: 0
-  moveChance: 0
+  maxArrowsHit: 0
+  weakAttackChance: 10
+  strongAttackChance: 40
+  meteorChance: 10
+  moveChance: 10
   interactChance: 0
   choiceChanceMultiplier: 2
+  stats: {fileID: 7612770607159211894}
+  testBool: 1
 --- !u!195 &996149790512497301
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -208,7 +211,7 @@ GameObject:
   - component: {fileID: 7612770607159211894}
   m_Layer: 0
   m_Name: Hitbox
-  m_TagString: Untagged
+  m_TagString: BossHitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -270,8 +273,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   KI: {fileID: 4965112904909559921}
+  anim: {fileID: 5822599408987617067}
   maxHP: 2750
   maxHPPhase2: 3250
+  refillTime: 0.5
+  invincible: 0
 --- !u!1001 &2090830663629528519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -283,6 +289,34 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: a1035447c9628da4b8442fcd128ccbff, type: 2}
+    - target: {fileID: 5605319319534375968, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 150b73e9f9e88dd40a0acf75c5a17a70, type: 2}
+    - target: {fileID: 5605319319534375970, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 150b73e9f9e88dd40a0acf75c5a17a70, type: 2}
+    - target: {fileID: 5605319319534375974, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dc543b015b4ce0947ba51523a441093c, type: 2}
+    - target: {fileID: 5605319319534375976, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dc543b015b4ce0947ba51523a441093c, type: 2}
+    - target: {fileID: 5605319319534375978, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dc543b015b4ce0947ba51523a441093c, type: 2}
+    - target: {fileID: 5605319319534375980, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 908f3718ab6b67e47bf23666a91763be, type: 2}
+    - target: {fileID: 5605319319534375982, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 908f3718ab6b67e47bf23666a91763be, type: 2}
     - target: {fileID: 5605319319537555642, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
       propertyPath: m_Name
       value: SK_SkeletonMage_Green Variant
@@ -1241,23 +1275,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5605319319537583424, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0085811615
+      value: -0.008575641
       objectReference: {fileID: 0}
     - target: {fileID: 5605319319537583424, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0091792345
+      value: 0.009185851
       objectReference: {fileID: 0}
     - target: {fileID: 5605319319537583424, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.98592484
+      value: 0.9859246
       objectReference: {fileID: 0}
     - target: {fileID: 5605319319537583424, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6734266
+      value: 0.67342657
       objectReference: {fileID: 0}
     - target: {fileID: 5605319319537583424, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.27828154
+      value: 0.27828157
       objectReference: {fileID: 0}
     - target: {fileID: 5605319319537583424, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
       propertyPath: m_LocalRotation.y
@@ -1265,7 +1299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5605319319537583424, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.23910314
+      value: -0.23910312
       objectReference: {fileID: 0}
     - target: {fileID: 5605319319537583426, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1703,6 +1737,26 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.018743156
       objectReference: {fileID: 0}
+    - target: {fileID: 5605319319537583466, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5605319319537583466, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 5605319319537583466, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 5605319319537583466, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.000000029802315
+      objectReference: {fileID: 0}
+    - target: {fileID: 5605319319537583466, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.000000029802315
+      objectReference: {fileID: 0}
     - target: {fileID: 5605319319537583468, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.042340357
@@ -1814,6 +1868,8 @@ MonoBehaviour:
   ShockWave: {fileID: 7528232874249528175}
   MeteorShield: {fileID: 820015817207324224}
   KI: {fileID: 4965112904909559921}
+  stats: {fileID: 7612770607159211894}
+  creditsCS: {fileID: 11400000, guid: e47b1d33dcff67547ae6bd5b465c943b, type: 2}
 --- !u!4 &5822599408995129693 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5605319319537583258, guid: dbef58bc5d3f27c4a9710a553651fed4, type: 3}

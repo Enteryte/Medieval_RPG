@@ -32,36 +32,15 @@ public class TeleportShot : SkeletonBossActions
 
     private void PickTargetLocation()
     {
-        float minX = 0;
-        float maxX = 0;
-        float minZ = 0;
-        float maxZ = 0;
-
         if(RoomEdges == null)
         {
             RoomEdges = KI.RoomEdges;
         }
-
-        for (int x = 0; x < RoomEdges.Length; x++)
-        {
-            if (RoomEdges[x].position.x < minX)
-            {
-                minX = RoomEdges[x].position.x;
-            }
-            if (RoomEdges[x].position.x > maxX)
-            {
-                maxX = RoomEdges[x].position.x;
-            }
-
-            if (RoomEdges[x].position.z < minZ)
-            {
-                minZ = RoomEdges[x].position.z;
-            }
-            if (RoomEdges[x].position.z > maxZ)
-            {
-                maxZ = RoomEdges[x].position.z;
-            }
-        }
+        
+        float minX = Mathf.Min(RoomEdges[0].position.x, RoomEdges[1].position.x, RoomEdges[2].position.x, RoomEdges[3].position.x);
+        float maxX = Mathf.Max(RoomEdges[0].position.x, RoomEdges[1].position.x, RoomEdges[2].position.x, RoomEdges[3].position.x);
+        float minZ = Mathf.Min(RoomEdges[0].position.z, RoomEdges[1].position.z, RoomEdges[2].position.z, RoomEdges[3].position.z);
+        float maxZ = Mathf.Max(RoomEdges[0].position.z, RoomEdges[1].position.z, RoomEdges[2].position.z, RoomEdges[3].position.z);
 
         targetLocation = new Vector3(Random.Range(minX, maxX), 0, Random.Range(minZ, maxZ));
     }

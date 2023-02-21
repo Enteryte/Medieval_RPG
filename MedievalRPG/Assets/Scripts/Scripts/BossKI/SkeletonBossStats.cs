@@ -61,12 +61,17 @@ public class SkeletonBossStats : MonoBehaviour
         CurrentHP = maxHP;
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Die();
+        }
+    }
+
     private void ChangePhase()
     {
         anim.SetTrigger("ActivateSecondPhase");
-
-
-
     }
 
     public void HealBoss()

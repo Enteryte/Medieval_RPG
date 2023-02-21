@@ -18,7 +18,7 @@ public class PlayerValueManager : MonoBehaviour
         {
             if (invincible == false)
             {
-                if (value <= 0)
+                if (value <= 0 && !isDead)
                 {
                     currHP = 0;
                     Die();

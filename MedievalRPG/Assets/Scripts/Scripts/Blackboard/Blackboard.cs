@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Blackboard : MonoBehaviour, IInteractable
 {
@@ -22,6 +23,11 @@ public class Blackboard : MonoBehaviour, IInteractable
         if (instance == null)
         {
             instance = this;
+
+            if (SceneManager.GetActiveScene().buildIndex != 1)
+            {
+                this.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -35,6 +41,11 @@ public class Blackboard : MonoBehaviour, IInteractable
 
     public void Update()
     {
+        if (!blackboardUI)
+        {
+            return;
+        }
+
         if (blackboardUI.activeSelf && !noteTxtParentGO.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape))

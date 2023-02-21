@@ -12,7 +12,7 @@ public class EnemyDamager : MonoBehaviour
 
     private void OnCollisionEnter(Collision _collision)
     {
-        Debug.Log($"Hit Gameobject: {_collision.gameObject.name}");
+        //Debug.Log($"Hit Gameobject: {_collision.gameObject.name}");
         if (!GameManager.instance)
             return;
         if (_collision.gameObject.CompareTag("Shield"))
