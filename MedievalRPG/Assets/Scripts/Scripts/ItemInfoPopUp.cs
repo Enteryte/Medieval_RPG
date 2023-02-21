@@ -255,7 +255,7 @@ public class ItemInfoPopUp : MonoBehaviour
                             {
                                 neededItemsImages[i].color = Color.white;
 
-                                return;
+                                break;
                             }
                         }
                     }
