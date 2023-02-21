@@ -224,6 +224,8 @@ public class SceneChangeManager : MonoBehaviour
         else
         {
             //GameManager.instance.musicAudioSource.Play();
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
 
             StartScreenManager.currSelectedSSMBtn = null;
             Debug.Log(StartScreenManager.currSelectedSSMBtn);
