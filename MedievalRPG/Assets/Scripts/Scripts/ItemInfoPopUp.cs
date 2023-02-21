@@ -15,7 +15,7 @@ public class ItemInfoPopUp : MonoBehaviour
     public TMP_Text weightTxt;
 
     public TMP_Text mainStatTxt;
-    public TMP_Text[] otherStatTxts;
+    //public TMP_Text[] otherStatTxts;
 
     public GameObject arrowRed;
     public GameObject arrowGreen;
@@ -165,6 +165,8 @@ public class ItemInfoPopUp : MonoBehaviour
             {
                 // Buch oder Notiz
 
+                mainStatTxt.text = "";
+
                 arrowRed.SetActive(false);
                 arrowGreen.SetActive(false);
 
@@ -185,7 +187,22 @@ public class ItemInfoPopUp : MonoBehaviour
                 }
                 else if (iBP.itemType == ItemBaseProfile.ItemType.none)
                 {
-                    itemTypeTxt.text = "Questgegenstand";
+                    if (iBP.readType == ItemBaseProfile.ReadType.book)
+                    {
+                        itemTypeTxt.text = "Buch";
+                    }
+                    else if (iBP.readType == ItemBaseProfile.ReadType.scroll)
+                    {
+                        itemTypeTxt.text = "Brief";
+                    }
+                    else if (iBP.readType == ItemBaseProfile.ReadType.note)
+                    {
+                        itemTypeTxt.text = "Notiz";
+                    }
+                    else
+                    {
+                        itemTypeTxt.text = "Questgegenstand";
+                    }
 
                     arrowRed.SetActive(false);
                     arrowGreen.SetActive(false);
@@ -250,48 +267,48 @@ public class ItemInfoPopUp : MonoBehaviour
                 }
             }
 
-            for (int i = 0; i < otherStatTxts.Length; i++)
-            {
-                if (iBP.otherItemStats != null && iBP.otherItemStats.Length >= i)
-                {
-                    otherStatTxts[i].gameObject.SetActive(false);
+            //for (int i = 0; i < otherStatTxts.Length; i++)
+            //{
+            //    if (iBP.otherItemStats != null && iBP.otherItemStats.Length >= i)
+            //    {
+            //        otherStatTxts[i].gameObject.SetActive(false);
 
-                    if (iBP.otherItemStats[i].itemStatType.ToString().Contains("plus"))
-                    {
-                        if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmg)
-                        {
-                            otherStatTxts[i].text = "+ " + iBP.otherItemStats[i].statValue + " Schadenserhöhung (allgemein)";
-                        }
-                        else if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmgSkeleton)
-                        {
-                            otherStatTxts[i].text = "+ " + iBP.otherItemStats[i].statValue + " Schadenserhöhung (Skelette)";
-                        }
-                        else if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmgUndead)
-                        {
-                            otherStatTxts[i].text = "+ " + iBP.otherItemStats[i].statValue + " Schadenserhöhung (Untote)"; ;
-                        }
-                    }
-                    else if (iBP.otherItemStats[i].itemStatType.ToString().Contains("minus"))
-                    {
-                        if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmg)
-                        {
-                            otherStatTxts[i].text = "- " + iBP.otherItemStats[i].statValue + " Schadensreduzierung (allgemein)";
-                        }
-                        else if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmgSkeleton)
-                        {
-                            otherStatTxts[i].text = "- " + iBP.otherItemStats[i].statValue + " Schadensreduzierung (Skelette)";
-                        }
-                        else if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmgUndead)
-                        {
-                            otherStatTxts[i].text = "- " + iBP.otherItemStats[i].statValue + " Schadensreduzierung (Untote)"; ;
-                        }
-                    }
-                }
-                else
-                {
-                    otherStatTxts[i].gameObject.SetActive(false);
-                }
-            }
+            //        if (iBP.otherItemStats[i].itemStatType.ToString().Contains("plus"))
+            //        {
+            //            if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmg)
+            //            {
+            //                otherStatTxts[i].text = "+ " + iBP.otherItemStats[i].statValue + " Schadenserhöhung (allgemein)";
+            //            }
+            //            else if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmgSkeleton)
+            //            {
+            //                otherStatTxts[i].text = "+ " + iBP.otherItemStats[i].statValue + " Schadenserhöhung (Skelette)";
+            //            }
+            //            else if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmgUndead)
+            //            {
+            //                otherStatTxts[i].text = "+ " + iBP.otherItemStats[i].statValue + " Schadenserhöhung (Untote)"; ;
+            //            }
+            //        }
+            //        else if (iBP.otherItemStats[i].itemStatType.ToString().Contains("minus"))
+            //        {
+            //            if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmg)
+            //            {
+            //                otherStatTxts[i].text = "- " + iBP.otherItemStats[i].statValue + " Schadensreduzierung (allgemein)";
+            //            }
+            //            else if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmgSkeleton)
+            //            {
+            //                otherStatTxts[i].text = "- " + iBP.otherItemStats[i].statValue + " Schadensreduzierung (Skelette)";
+            //            }
+            //            else if (iBP.otherItemStats[i].itemStatType == ItemStat.ItemStatType.plusProcentDmgUndead)
+            //            {
+            //                otherStatTxts[i].text = "- " + iBP.otherItemStats[i].statValue + " Schadensreduzierung (Untote)"; ;
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        otherStatTxts[i].gameObject.SetActive(false);
+            //    }
+            //}
         }        
     }
 }
