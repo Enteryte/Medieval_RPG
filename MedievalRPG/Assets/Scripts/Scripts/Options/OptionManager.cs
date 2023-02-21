@@ -124,7 +124,7 @@ public class OptionManager : MonoBehaviour
                 break;
         }
 
-        Screen.SetResolution(screenWidth, screenHeight, windowModeToggle.isOn);
+        Screen.SetResolution(screenWidth, screenHeight, !windowModeToggle.isOn);
     }
 
     #endregion
