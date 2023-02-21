@@ -20,6 +20,7 @@ public class FightingActions : MonoBehaviour
     public int rollSpeed = 10;
     public bool aims = false;
     public bool holdBlock = false;
+    public float BlockStamiaLooseAmount;
 
     private StarterAssets.ThirdPersonController TPC;
     private DoDamage weaponScriptR;
@@ -539,6 +540,16 @@ public class FightingActions : MonoBehaviour
             time += Time.deltaTime;
             float desiredDuration = time / rollSpeed;
             this.transform.position = Vector3.Lerp(this.transform.position, transform.forward * 3.16f, desiredDuration);
+        }
+
+        if(holdBlock)
+        {
+            PlayerValueManager.instance.RemoveStamina(BlockStamiaLooseAmount * Time.deltaTime);
+            if(PlayerValueManager.instance.currStamina <= 0)
+            {
+                holdBlock = !holdBlock;
+                anim.SetBool("HoldBlock", holdBlock);
+            }
         }
     }
 
