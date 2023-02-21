@@ -749,7 +749,7 @@ public class CutsceneManager : MonoBehaviour
         while (currentTime < 1f)
         {
             currentTime += Time.deltaTime;
-            GameManager.instance.musicAudioSource.volume = Mathf.Lerp(start, OptionManager.instance.musicSlider.value, currentTime / 1f);
+            GameManager.instance.musicAudioSource.volume = Mathf.Lerp(start, AudioManager.Instance.MusicVolume * AudioManager.Instance.MasterVolume, currentTime / 1f);
 
             yield return null;
         }

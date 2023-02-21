@@ -12,7 +12,7 @@ public class AudioManager : MonoBehaviour
     private List<AudioSource> music = new List<AudioSource>();
     private List<AudioSource> effects = new List<AudioSource>();
 
-    public float MasterVolume { private get; set; } = 1.0f;
+    public float MasterVolume = 1.0f;
     public float EnvironmentalVolume = 0.5f;
     public float VoiceVolume = 0.5f;
     public float MusicVolume = 0.5f;
