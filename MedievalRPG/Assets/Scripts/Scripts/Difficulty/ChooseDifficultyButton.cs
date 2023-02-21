@@ -16,6 +16,8 @@ public class ChooseDifficultyButton : MonoBehaviour, IPointerClickHandler, IPoin
 
     public TMP_Text difficultyDescriptionTxt;
 
+    [SerializeField] DifficultyHandler.Difficulties diff;
+
     public void OnPointerClick(PointerEventData eventData)
     {
         screenToOpen.SetActive(true);
@@ -26,6 +28,7 @@ public class ChooseDifficultyButton : MonoBehaviour, IPointerClickHandler, IPoin
 
         //SceneChangeManager.instance.startedNewGame = true;
         //SceneChangeManager.instance.LoadVillage();
+        ChooseDifficulty();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -40,5 +43,10 @@ public class ChooseDifficultyButton : MonoBehaviour, IPointerClickHandler, IPoin
         boarder.gameObject.SetActive(false);
 
         difficultyDescriptionTxt.text = "";
+    }
+
+    public void ChooseDifficulty()
+    {
+        DifficultyHandler.instance.SetDifficulty(diff);
     }
 }

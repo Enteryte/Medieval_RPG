@@ -55,7 +55,7 @@ public class EnemyArrowController : MonoBehaviour
             Debug.LogError($"Error in GotHit method: " + ex.Message);
         }
 
-        PlayerValueManager.instance.CurrHP -= Damage;
+        PlayerValueManager.instance.CurrHP -= Damage * DifficultyHandler.instance.dmgMultiplier;
         CanDamage = false;
     }
 

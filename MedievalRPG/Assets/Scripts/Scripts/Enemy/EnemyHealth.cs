@@ -14,7 +14,7 @@ public class EnemyHealth : MonoBehaviour
     public void Initialize(EnemyBaseProfile _stats, Animator _anim, BaseEnemyKI _ai)
     {
         Stats = _stats;
-        MaxLifePoints = Stats.normalHealth;
+        MaxLifePoints = Stats.normalHealth * DifficultyHandler.instance.enemyHpMultiplier;
         LifePoints = Stats.normalHealth;
         Anim = _anim;
         AI = _ai;

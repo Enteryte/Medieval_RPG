@@ -92,7 +92,7 @@ public class SaveGameObject
     public float bleedingTimes;
     public float currBleedingTimes;
 
-    public int bleedingDamage;
+    public float bleedingDamage;
 
     // - Speed Buff
     public float currSBBuffTime;

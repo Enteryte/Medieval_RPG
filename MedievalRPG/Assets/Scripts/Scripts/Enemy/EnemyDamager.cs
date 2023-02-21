@@ -57,7 +57,7 @@ public class EnemyDamager : MonoBehaviour
             {
                 Debug.LogError($"Error in GotHit method: " + ex.Message);
             }
-            PlayerValueManager.instance.CurrHP -= Damage;
+            PlayerValueManager.instance.CurrHP -= Damage * DifficultyHandler.instance.dmgMultiplier;
             IsDamaging = false;
         }
         else

@@ -58,6 +58,7 @@ public class SkeletonBossStats : MonoBehaviour
     private void Start()
     {
         hpSlider = GameObject.FindGameObjectWithTag("BossHpLeiste").GetComponent<Image>();
+        maxHP *= DifficultyHandler.instance.bossHpMultiplier;
         CurrentHP = maxHP;
     }
 

@@ -92,6 +92,8 @@ public class InventoryManager : MonoBehaviour
             inventory.database.items[i].hasBeenRead = false;
         }
 
+        maxHoldingWeight *= DifficultyHandler.instance.traglastMultiplier;
+
         weightTxt.text = currHoldingWeight + " / " + maxHoldingWeight;
         moneyTxt.text = PlayerValueManager.instance.money.ToString();
 
