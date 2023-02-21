@@ -138,8 +138,6 @@ public class OptionManager : MonoBehaviour
         {
             CutsceneManager.instance.subtitleTxtObj.SetActive(StartScreenManager.instance.showSubtitle);
         }
-
-        Debug.Log(StartScreenManager.instance.showSubtitle);
     }
 }
 
