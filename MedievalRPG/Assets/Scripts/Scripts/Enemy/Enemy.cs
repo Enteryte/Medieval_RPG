@@ -2,6 +2,7 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour, IInteractable
 {
@@ -21,6 +22,9 @@ public class Enemy : MonoBehaviour, IInteractable
 
     [Header("If Has To Examine Enemy")]
     public CutsceneProfile cutsceneToPlayAfterExamine;
+
+    [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Animator anim;
 
     public void Start()
     {
@@ -55,6 +59,9 @@ public class Enemy : MonoBehaviour, IInteractable
     public void EnemyDie()
     {
         isDead = true;
+
+        agent.enabled = false;
+        anim.enabled = false;
 
         CheckIfNeededForMission();
 

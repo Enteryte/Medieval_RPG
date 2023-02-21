@@ -2928,6 +2928,8 @@ MonoBehaviour:
   lootItems: []
   lootMoney: 0
   cutsceneToPlayAfterExamine: {fileID: 0}
+  agent: {fileID: 5863456180467336199}
+  anim: {fileID: 4847724058137788944}
 --- !u!114 &7841201779610566451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3047,6 +3049,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e861a113d413247bdbd2fd144d071f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9004918802076151979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847724058147188970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e6dabf235c249b4eb25e5d638d8d6f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debuffType: 0
+  amount: 5
+  debuffTime: 5
 --- !u!1 &4847724058147188974 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 306882876510475207, guid: 746041d87bbb1934aa613f48eff3b825, type: 3}
