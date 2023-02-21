@@ -66,6 +66,8 @@ public class GameManager : MonoBehaviour
     public GameObject prickMGUI;
     public GameObject gTCMGUI;
 
+    public bool alreadyPlayedAgainstKilian = false; // --------------------------> SPEICHERN!
+
     public AudioSource musicAudioSource;
 
     [Header("Day-Night + Weather")]

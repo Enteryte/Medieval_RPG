@@ -199,6 +199,7 @@ public class SaveSystem : MonoBehaviour
             OptionManager.instance.windowModeToggle.isOn = false;
             OptionManager.instance.resolutionDropdown.value = 0;
             OptionManager.instance.subtitleToggle.isOn = true;
+            StartScreenManager.instance.showSubtitle = true;
 
             OptionManager.instance.cameraSensiSlider.value = 0.5f;
             OptionManager.instance.mouseSensiSlider.value = 0.5f;
@@ -1040,7 +1041,7 @@ public class SaveSystem : MonoBehaviour
         // Video
         sGO.isWindowed = OptionManager.instance.windowModeToggle.isOn;
         sGO.resolutionDDValue = OptionManager.instance.resolutionDropdown.value;
-        sGO.displaySubtitle = OptionManager.instance.subtitleToggle.isOn;
+        sGO.displaySubtitle = StartScreenManager.instance.showSubtitle;
 
         // Controls
         sGO.camSensiSlValue = OptionManager.instance.cameraSensiSlider.value;
@@ -1447,6 +1448,7 @@ public class SaveSystem : MonoBehaviour
         OptionManager.instance.windowModeToggle.isOn = sGO.isWindowed;
         OptionManager.instance.resolutionDropdown.value = sGO.resolutionDDValue;
         OptionManager.instance.subtitleToggle.isOn = sGO.displaySubtitle;
+        StartScreenManager.instance.showSubtitle = sGO.displaySubtitle;
 
         OptionManager.instance.cameraSensiSlider.value = sGO.camSensiSlValue;
         OptionManager.instance.mouseSensiSlider.value = sGO.mouseSensiSlValue;

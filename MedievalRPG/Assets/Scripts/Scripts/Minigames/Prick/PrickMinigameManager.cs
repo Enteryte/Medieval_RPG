@@ -258,15 +258,18 @@ public class PrickMinigameManager : MonoBehaviour
             {
                 if (PrickBoard.instance.isPlayingAgainstKilian)
                 {
+                    CutsceneManager.instance.playableDirector.time = 0;
                     CutsceneManager.instance.currCP = PrickBoard.instance.cutsceneToPlayIfWon;
                     CutsceneManager.instance.playableDirector.playableAsset = PrickBoard.instance.cutsceneToPlayIfWon.cutscene;
-
-                    CutsceneManager.instance.playableDirector.Play();
 
                     PrickBoard.instance.isPlayingAgainstKilian = false;
 
                     prickUI.SetActive(false);
                     prickCamera.enabled = false;
+
+                    CutsceneManager.instance.playableDirector.Play();
+
+                    GameManager.instance.alreadyPlayedAgainstKilian = true;
 
                     this.enabled = false;
                 }
@@ -279,15 +282,18 @@ public class PrickMinigameManager : MonoBehaviour
             {
                 if (PrickBoard.instance.isPlayingAgainstKilian)
                 {
+                    CutsceneManager.instance.playableDirector.time = 0;
                     CutsceneManager.instance.currCP = PrickBoard.instance.cutsceneToPlayIfLost;
                     CutsceneManager.instance.playableDirector.playableAsset = PrickBoard.instance.cutsceneToPlayIfLost.cutscene;
-
-                    CutsceneManager.instance.playableDirector.Play();
 
                     PrickBoard.instance.isPlayingAgainstKilian = false;
 
                     prickUI.SetActive(false);
                     prickCamera.enabled = false;
+
+                    CutsceneManager.instance.playableDirector.Play();
+
+                    GameManager.instance.alreadyPlayedAgainstKilian = true;
 
                     this.enabled = false;
                 }
@@ -300,15 +306,18 @@ public class PrickMinigameManager : MonoBehaviour
             {
                 if (PrickBoard.instance.isPlayingAgainstKilian)
                 {
+                    CutsceneManager.instance.playableDirector.time = 0;
                     CutsceneManager.instance.currCP = PrickBoard.instance.cutsceneToPlayIfLost;
                     CutsceneManager.instance.playableDirector.playableAsset = PrickBoard.instance.cutsceneToPlayIfLost.cutscene;
-
-                    CutsceneManager.instance.playableDirector.Play();
 
                     PrickBoard.instance.isPlayingAgainstKilian = false;
 
                     prickUI.SetActive(false);
                     prickCamera.enabled = false;
+
+                    CutsceneManager.instance.playableDirector.Play();
+
+                    GameManager.instance.alreadyPlayedAgainstKilian = true;
 
                     this.enabled = false;
                 }

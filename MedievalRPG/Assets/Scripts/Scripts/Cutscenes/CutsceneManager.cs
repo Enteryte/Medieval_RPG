@@ -48,6 +48,9 @@ public class CutsceneManager : MonoBehaviour
     [Header("Player Death")]
     public TimelineAsset afterPlayerDiedTL;
 
+    [Header("Options")]
+    public GameObject subtitleTxtObj;
+
     public void Awake()
     {
         if (instance == null)

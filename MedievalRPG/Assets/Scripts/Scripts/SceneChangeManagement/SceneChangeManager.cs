@@ -186,6 +186,11 @@ public class SceneChangeManager : MonoBehaviour
     {
         PlayerValueManager.instance.isDead = LoadingScreen.instance.playerWasDead;
 
+        if (GameManager.instance)
+        {
+            CutsceneManager.instance.subtitleTxtObj.SetActive(StartScreenManager.instance.showSubtitle);
+        }
+
         if (level == 1 && startedNewGame)
         {
             InventoryManager.instance.inventory.slots.Clear();

@@ -40,6 +40,7 @@ public class StartScreenManager : MonoBehaviour
     public AnimationClip closeAreYouSureBackToMMAnim;
 
     public Toggle showTutorialToggle;
+    public bool showSubtitle = false;
 
     public GameObject saveGameSlotPrefab;
     public GameObject saveGameSlotParentObj;
