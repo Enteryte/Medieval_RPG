@@ -116,6 +116,27 @@ public class UIManager : MonoBehaviour
     public void UpdateMissionDisplayTasks(MissionTaskBase finishedMissionTask, MissionTaskBase newMissionTaskBase, MissionTask newMissionTask, 
         MissionTaskBase newMissionTaskBase2, MissionTask newMissionTask2, string newMissionTaskDescription, bool hasNewTaskToActivate)
     {
+        for (int i = 0; i < missionTaskObjParentObj.transform.childCount; i++)
+        {
+            for (int y = 0; y < missionTaskObjParentObj.transform.childCount; y++)
+            {
+                if (y != i)
+                {
+                    if (missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase
+                        == missionTaskObjParentObj.transform.GetChild(y).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase)
+                    {
+                        Destroy(missionTaskObjParentObj.transform.GetChild(i).gameObject);
+                    }
+                }
+            }
+            //if (!missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase.canBeDisplayed
+            //    && missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase.missionTaskCompleted)
+            //{
+            //    Debug.Log(missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase);
+            //    Destroy(missionTaskObjParentObj.transform.GetChild(i).gameObject);
+            //}
+        }
+
         if (hasNewTaskToActivate)
         {
             var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
@@ -156,6 +177,33 @@ public class UIManager : MonoBehaviour
 
     public void AddAndUpdateMissionDisplayTasks(MissionTaskBase newMissionBase, string taskDescrption)
     {
+        for (int i = 0; i < missionTaskObjParentObj.transform.childCount; i++)
+        {
+            for (int y = 0; y < missionTaskObjParentObj.transform.childCount; y++)
+            {
+                if (y != i)
+                {
+                    if (missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase
+                        == missionTaskObjParentObj.transform.GetChild(y).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase)
+                    {
+                        Destroy(missionTaskObjParentObj.transform.GetChild(i).gameObject);
+                    }
+                }
+            }
+
+            if (missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase.missionTaskCompleted)
+            {
+                Destroy(missionTaskObjParentObj.transform.GetChild(i).gameObject);
+            }
+
+            //if (!missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase.canBeDisplayed
+            //    && missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase.missionTaskCompleted)
+            //{
+            //    Debug.Log(missionTaskObjParentObj.transform.GetChild(i).GetComponent<MissionTaskDisplayText>().storedMissionTaskBase);
+            //    Destroy(missionTaskObjParentObj.transform.GetChild(i).gameObject);
+            //}
+        }
+
         var newMissionTaskObj = Instantiate(missionTaskObjPrefab, missionTaskObjParentObj.transform);
 
         newMissionTaskObj.GetComponent<MissionTaskDisplayText>().storedMissionTaskBase = newMissionBase;
