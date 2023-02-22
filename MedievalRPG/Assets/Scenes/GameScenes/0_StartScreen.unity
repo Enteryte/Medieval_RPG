@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 12767.223, g: 7682.6562, b: 3804.832, a: 1}
+  m_IndirectSpecularColor: {r: 12750.066, g: 7671.8867, b: 3799.8203, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5141,7 +5141,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 335768291}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.2904434, y: 0.9638756, z: -17.997799}
+  m_LocalPosition: {x: 12.674486, y: 8.872139, z: 12.674487}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59749,6 +59749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae5901d622c6f591af138216844963d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MasterVolume: 1
   EnvironmentalVolume: 0.5
   VoiceVolume: 0.5
   MusicVolume: 0.5
@@ -68147,6 +68148,24 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2168254815051021546, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
   m_PrefabInstance: {fileID: 2168254814488803602}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1307490288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307490287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfbe99d1b6b3ac428c0d4e48824ec0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgMultiplier: 1
+  traglastMultiplier: 1
+  enemyHpMultiplier: 1
+  bossHpMultiplier: 1
+  pricesMultiplier: 1
+  bleedingMultiplier: 1
 --- !u!1001 &1307856840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89505,6 +89524,10 @@ PrefabInstance:
       value: -28.810408
       objectReference: {fileID: 0}
     - target: {fileID: 2168254815125299192, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: diff
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2168254815125299192, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: textToDisplay
       value: "Nicht nur das Blut deiner Feiner wird str\xF6men, sondern auch dein
         eigenes. Stelle dich einer h\xE4rteren Herausforderung, welche dich an deine
@@ -89637,6 +89660,10 @@ PrefabInstance:
     - target: {fileID: 2168254815318116252, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 268435455
+      objectReference: {fileID: 0}
+    - target: {fileID: 2168254815318116254, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: diff
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2168254815318116254, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: textToDisplay
@@ -89960,6 +89987,22 @@ PrefabInstance:
     - target: {fileID: 2168254816059091730, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -34.5722
+      objectReference: {fileID: 0}
+    - target: {fileID: 2168254816059091731, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2168254816059091731, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2168254816059091731, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2168254816059091731, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2168254816059091732, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
       propertyPath: textToDisplay

@@ -51,7 +51,7 @@ public class DebuffManager : MonoBehaviour
     public float bleedingTimes = 12;
     public float currBleedingTimes = 0;
 
-    public int bleedingDamage = 0;
+    public float bleedingDamage = 0;
 
     // Speed Buff
     public float currSBBuffTime;
@@ -199,7 +199,7 @@ public class DebuffManager : MonoBehaviour
         lowerArmorCoro = StartCoroutine(TimeTillArmorDebuffIsOver(debuffTime));
     }
 
-    public void Bleeding(float bleedingTimes, int bleedingDamage, bool resetTimer)
+    public void Bleeding(float bleedingTimes, float bleedingDamage, bool resetTimer)
     {
         bleedingDebuff = true;
 
@@ -208,7 +208,7 @@ public class DebuffManager : MonoBehaviour
             currBleedingTimes = 0;
         }
 
-        bleedingCoro = StartCoroutine(TimeTillBleedingDebuffIsOver(bleedingTimes, bleedingDamage));
+        bleedingCoro = StartCoroutine(TimeTillBleedingDebuffIsOver(bleedingTimes, bleedingDamage * DifficultyHandler.instance.bleedingMultiplier));
     }
 
     IEnumerator TimeTillSpeedBuffIsOver(float buffTime)
@@ -359,7 +359,7 @@ public class DebuffManager : MonoBehaviour
         lowerArmorImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
     }
 
-    IEnumerator TimeTillBleedingDebuffIsOver(float bleedingTimes, int bleedingDamage)
+    IEnumerator TimeTillBleedingDebuffIsOver(float bleedingTimes, float bleedingDamage)
     {
         this.bleedingTimes = bleedingTimes;
         this.bleedingDamage = bleedingDamage;
