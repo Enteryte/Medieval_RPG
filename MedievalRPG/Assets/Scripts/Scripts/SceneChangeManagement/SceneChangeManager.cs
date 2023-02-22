@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class SceneChangeManager : MonoBehaviour
 {
@@ -193,6 +194,21 @@ public class SceneChangeManager : MonoBehaviour
 
         if (level == 1 && startedNewGame)
         {
+            if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
+            {
+                //var dirInfo = Directory.GetDirectories(Application.persistentDataPath + "/SaveData/");
+
+                //for (int i = 0; i < dirInfo.Length; i++)
+                //{
+                //    if (dirInfo[i].ToString() == StartScreenManager.currClickedLoadSlot.correspondingSaveDataDirectory.ToString())
+                //    {
+#if UNITY_EDITOR
+                        FileUtil.DeleteFileOrDirectory(Application.persistentDataPath + "/SaveData/");
+#endif
+                //    }
+                //}
+            }
+
             InventoryManager.instance.inventory.slots.Clear();
 
             for (int i = 0; i < SaveSystem.instance.startItems.Length; i++)

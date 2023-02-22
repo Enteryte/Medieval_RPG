@@ -86,6 +86,8 @@ public class GameManager : MonoBehaviour
     public float autoSaveTime;
     public float passedTimeTillLastSave = 0;
 
+    public MissionTaskBase mTBWSearchingOnGraveyard;
+
     [Header("Tutorial")]
     public TutorialBaseProfile meleeTutorial;
     public TutorialBaseProfile rangedTutorial;
@@ -438,8 +440,16 @@ public class GameManager : MonoBehaviour
             {
                 if (CutsceneManager.instance.currCP == null)
                 {
-                    LoadingScreen.instance.saveGameBtn.interactable = !FightManager.instance.isInFight;
-                    LoadingScreen.instance.loadGameBtn.interactable = !FightManager.instance.isInFight;
+                    if (mTBWSearchingOnGraveyard.canBeDisplayed && !mTBWSearchingOnGraveyard.missionTaskCompleted)
+                    {
+                        LoadingScreen.instance.saveGameBtn.interactable = false;
+                        LoadingScreen.instance.loadGameBtn.interactable = false;
+                    }
+                    else
+                    {
+                        LoadingScreen.instance.saveGameBtn.interactable = !FightManager.instance.isInFight;
+                        LoadingScreen.instance.loadGameBtn.interactable = !FightManager.instance.isInFight;
+                    }
 
                     LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
                     LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);

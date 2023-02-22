@@ -162,7 +162,7 @@ public abstract class BaseEnemyKI : MonoBehaviour
         FightManager.instance.isInFight = true;
         FightManager.instance.StartCoroutine(FightManager.instance.FadeOldMusicOut());
     }
-    protected void FightManagerRemoveEnemy()
+    public void FightManagerRemoveEnemy()
     {
         if (!FightManager.instance) return;
         if (!FightManager.instance.enemiesInFight.Contains(this)) return;

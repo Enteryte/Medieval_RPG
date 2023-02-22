@@ -60,8 +60,14 @@ public class Enemy : MonoBehaviour, IInteractable
     {
         isDead = true;
 
+        if (this.gameObject.GetComponent<MeleeEnemyKi>())
+        {
+            Debug.Log("IS HEREEEEEEEEEEeeeee");
+            this.gameObject.GetComponent<MeleeEnemyKi>().FightManagerRemoveEnemy();
+        }
+
         agent.enabled = false;
-        anim.enabled = false;
+        //anim.enabled = false;
 
         CheckIfNeededForMission();
 
