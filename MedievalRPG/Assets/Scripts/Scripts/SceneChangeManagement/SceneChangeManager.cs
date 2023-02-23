@@ -222,7 +222,7 @@ public class SceneChangeManager : MonoBehaviour
         {
             StartScreenManager.instance.mainObjectAnimator.Play("CloseLoadingScreenInStartScreenAnim_2");
 
-            //GameManager.instance.musicAudioSource.Play();
+            GameManager.instance.musicAudioSource.Play();
 
             Debug.Log(PlayerValueManager.instance.CurrHP + " 222222222222222");
 
@@ -244,7 +244,7 @@ public class SceneChangeManager : MonoBehaviour
         }
         else
         {
-            //GameManager.instance.musicAudioSource.Play();
+            GameManager.instance.musicAudioSource.Play();
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
 
