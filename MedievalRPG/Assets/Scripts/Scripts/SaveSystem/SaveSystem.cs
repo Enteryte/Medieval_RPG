@@ -826,6 +826,8 @@ public class SaveSystem : MonoBehaviour
                 sGO.currentMainMissionName = MissionManager.instance.allCurrAcceptedMissions[i].missionName;
             }
         }
+
+        sGO.alreadyPlayedAgainstKilian = GameManager.instance.alreadyPlayedAgainstKilian;
     }
 
     public void SaveNPCs(SaveGameObject sGO)
@@ -1240,6 +1242,8 @@ public class SaveSystem : MonoBehaviour
                 MissionManager.instance.allCurrOpenNotAcceptedMissions.Add(MissionManager.instance.allMissions[i]);
             }
         }
+
+        GameManager.instance.alreadyPlayedAgainstKilian = sGO.alreadyPlayedAgainstKilian;
     }
 
     public void LoadNPCs(SaveGameObject sGO)

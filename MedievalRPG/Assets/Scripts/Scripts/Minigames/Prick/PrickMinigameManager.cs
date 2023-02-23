@@ -146,6 +146,7 @@ public class PrickMinigameManager : MonoBehaviour
             if (endPrickRoundUI.activeSelf)
             {
                 //prickCardAnimator.enabled = false;
+                //prickCardAnimator.speed = 1;
 
                 for (int i = 0; i < playerCardGOs.Length; i++)
                 {
@@ -179,6 +180,8 @@ public class PrickMinigameManager : MonoBehaviour
 
                 playerPoints = 0;
                 enemyPoints = 0;
+
+                EndRound(true);
 
                 playerPointsTxt.text = playerPoints.ToString() + " PKTE.";
                 enemyPointsTxt.text = enemyPoints.ToString() + " PKTE.";
@@ -278,55 +281,58 @@ public class PrickMinigameManager : MonoBehaviour
         layerPlayerCardObjMiddle.SetActive(true);
         layerEnemyCardObjMiddle.SetActive(true);
 
-        EndRound();
+        EndRound(false);
     }
 
-    public void EndRound()
+    public void EndRound(bool endedMatch)
     {
         prickCardAnimator.enabled = true;
         prickCardAnimator.Play(endRoundAnim.name);
 
-        if (layedEnemyCB != null && layedPlayerCB != null)
+        if (!endedMatch)
         {
-            if (layedEnemyCB.cardColor != layedPlayerCB.cardColor)
+            if (layedEnemyCB != null && layedPlayerCB != null)
             {
-                if (playerStartedRound)
+                if (layedEnemyCB.cardColor != layedPlayerCB.cardColor)
                 {
-                    playerPoints += 1;
+                    if (playerStartedRound)
+                    {
+                        playerPoints += 1;
+                    }
+                    else
+                    {
+                        enemyPoints += 1;
+                    }
+                    //    if (layedPlayerCB.cardNumber > layedEnemyCB.cardNumber)
+                    //    {
+                    //        playerPoints += 1;
+                    //    }
+                    //    else
+                    //    {
+                    //        enemyPoints += 1;
+                    //    }
                 }
                 else
                 {
-                    enemyPoints += 1;
+                    if (layedPlayerCB.cardNumber < layedEnemyCB.cardNumber)
+                    {
+                        playerPoints += 1;
+                    }
+                    else
+                    {
+                        enemyPoints += 1;
+                    }
                 }
-                //    if (layedPlayerCB.cardNumber > layedEnemyCB.cardNumber)
-                //    {
-                //        playerPoints += 1;
-                //    }
-                //    else
-                //    {
-                //        enemyPoints += 1;
-                //    }
             }
-            else
+            else if (layedEnemyCB == null)
             {
-                if (layedPlayerCB.cardNumber < layedEnemyCB.cardNumber)
-                {
-                    playerPoints += 1;
-                }
-                else
-                {
-                    enemyPoints += 1;
-                }
+                playerPoints += 1;
             }
-        }
-        else if (layedEnemyCB == null)
-        {
-            playerPoints += 1;
-        }
-        else if (layedPlayerCB == null)
-        {
-            enemyPoints += 1;
-        }
+            else if (layedPlayerCB == null)
+            {
+                enemyPoints += 1;
+            }
+        }       
  
         playerPointsTxt.text = playerPoints.ToString() + " PKTE.";
         enemyPointsTxt.text = enemyPoints.ToString() + " PKTE.";
@@ -416,7 +422,10 @@ public class PrickMinigameManager : MonoBehaviour
         //layedEnemyCB = null;
         //layedPlayerCB = null;
 
-        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(pointsAndGoldTutorial);
+        if (!endedMatch)
+        {
+            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(pointsAndGoldTutorial);
+        }
     }
 
     public void StartNewRound()
@@ -475,6 +484,8 @@ public class PrickMinigameManager : MonoBehaviour
 
     public void StartNewMatch()
     {
+        prickCardAnimator.speed = 1;
+
         for (int i = 0; i < PrickMinigameManager.instance.playerCardGOs.Length; i++)
         {
             playerCardGOs[i].GetComponent<Button>().interactable = false;
@@ -498,6 +509,7 @@ public class PrickMinigameManager : MonoBehaviour
 
         startNewMatchBtn.interactable = false;
 
+        prickCardAnimator.Rebind();
         prickCardAnimator.enabled = true;
         prickCardAnimator.Play(startNewMatchAnim.name);
     }

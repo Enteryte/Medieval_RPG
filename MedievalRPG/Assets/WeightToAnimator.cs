@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeightToAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator anim;
+    [SerializeField] public Animator anim;
 
     [SerializeField] private float moveStopValue;
 
@@ -26,14 +26,21 @@ public class WeightToAnimator : MonoBehaviour
             animationSpeed = 1;
         }
 
+        if(DebuffManager.instance.slowPlayerCoro != null)
+        {
+            animationSpeed = 0.35f;
+        }
+
         ChangeAnimatorSpeed();
     }
 
     private void ChangeAnimatorSpeed()
     {
+        Debug.Log(animationSpeed);
+        Debug.Log(anim.speed);
         if(animationSpeed >= 0.3f && animationSpeed <= 0.4f)
         {
-            anim.speed = 0.9f;
+            anim.speed = 0.7f;
             return;
         }
 
@@ -42,7 +49,7 @@ public class WeightToAnimator : MonoBehaviour
     
     private void Update()
     {
-        if (!GameManager.instance.gameIsPaused)
+        if (!GameManager.instance.gameIsPaused /*&& DebuffManager.instance.slowPlayerCoro == null*/)
         {
             CheckSpeed();
         }

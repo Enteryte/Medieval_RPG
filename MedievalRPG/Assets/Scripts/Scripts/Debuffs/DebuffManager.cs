@@ -102,19 +102,19 @@ public class DebuffManager : MonoBehaviour
 
     public void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.X))
-        //{
-        //    LowerMaxStamina(60);
-        //    LowerStrength(2);
-        //    Bleeding();
-        //    SlowPlayer();
-        //    LowerMaxArmor(40);
-        //}
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            //    LowerMaxStamina(60);
+            //    LowerStrength(2);
+            //    Bleeding();
+            //SlowPlayer(10, true);
+            //    LowerMaxArmor(40);
+        }
     }
 
+    #region Buffs
     public void StrengthenPlayer(float strengthUpAmount, float buffTime, bool resetTimer)
     {
-
         strengthUpBuff = true;
 
         currStrengthUpAmount = strengthUpAmount;
@@ -152,6 +152,7 @@ public class DebuffManager : MonoBehaviour
 
         higherDamageCoro = StartCoroutine(TimeTillDamageBuffIsOver(buffTime));
     }
+    #endregion
 
     public void SlowPlayer(float debuffTime, bool resetTimer)
     {
@@ -164,7 +165,16 @@ public class DebuffManager : MonoBehaviour
             timerSD = 0;
         }
 
-        ThirdPersonController.instance.MoveSpeed = 0.7f;
+        //if (ThirdPersonController.instance.mass.animationSpeed > 0)
+        //{
+        //    ThirdPersonController.instance.mass.animationSpeed -= 0.2f;
+        //    ThirdPersonController.instance.mass.anim.speed = ThirdPersonController.instance.mass.animationSpeed;
+
+        //    //if (ThirdPersonController.instance.mass.animationSpeed < 0.3f)
+        //    //{
+        //    //    ThirdPersonController.instance.mass.animationSpeed = 0.3f;
+        //    //}
+        //}
 
         slowPlayerCoro = StartCoroutine(TimeTillSlowDebuffIsOver(debuffTime));
     }
@@ -348,7 +358,7 @@ public class DebuffManager : MonoBehaviour
 
         if (InventoryManager.instance.currHoldingWeight <= InventoryManager.instance.maxHoldingWeight)
         {
-            tPC._animator.speed = 1;
+            //tPC._animator.speed = 1;
 
             ThirdPersonController.instance.MoveSpeed = ThirdPersonController.instance.normalMoveSpeed;
 
