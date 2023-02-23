@@ -36,8 +36,8 @@ public class WeightToAnimator : MonoBehaviour
 
     private void ChangeAnimatorSpeed()
     {
-        Debug.Log(animationSpeed);
-        Debug.Log(anim.speed);
+        //Debug.Log(animationSpeed);
+        //Debug.Log(anim.speed);
         if(animationSpeed >= 0.3f && animationSpeed <= 0.4f)
         {
             anim.speed = 0.7f;

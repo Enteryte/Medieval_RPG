@@ -49,7 +49,6 @@ public class AudioManager : MonoBehaviour
     private void SortLists()
     {
         AudioSource[] sources = GameObject.FindObjectsOfType<AudioSource>();
-
         foreach (AudioSource source in sources)
         {
             AudioVolumeHandler audio = source.gameObject.GetComponent<AudioVolumeHandler>();

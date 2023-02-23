@@ -197,7 +197,7 @@ public class GameManager : MonoBehaviour
                     var rndmAudioNumber = Random.Range(0, allAFKPlayerAudioClips.Length);
                     playerAudioSource.clip = allAFKPlayerAudioClips[rndmAudioNumber];
 
-                    playerAudioSource.volume = 1;
+                    playerAudioSource.volume = AudioManager.Instance.VoiceVolume * AudioManager.Instance.MasterVolume;
                     playerAudioSource.Play();
                 }
             }
