@@ -11,6 +11,10 @@ public class MeleeEnemyKi : BaseEnemyKI
 
     // ReSharper disable once IdentifierTypo
     [SerializeField] private EnemyDamager EnemyDamager;
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip[] attackClips;
+    [SerializeField] private AudioClip[] idleClips;
+
 
     private bool IsInAttackRange;
 
@@ -116,6 +120,8 @@ public class MeleeEnemyKi : BaseEnemyKI
         {
             IsAttackCoroutineStarted = true;
             Animator.SetTrigger(Animator.StringToHash("AttackLaunch"));
+            source.clip = attackClips[Random.Range(0, attackClips.Length)];
+            source.Play();
             yield return new WaitForSeconds(KiStats.AttackCoolDown);
 
             IsAttackCoroutineStarted = false;
@@ -229,6 +235,8 @@ public class MeleeEnemyKi : BaseEnemyKI
     private IEnumerator TimeToLookAtNewRandomTarget()
     {
         yield return new WaitForSeconds(KiStats.Patience);
+        source.clip = idleClips[Random.Range(0,idleClips.Length)];
+        source.Play();
         RandomTarget = GenerateRandomTarget();
         Agent.SetDestination(RandomTarget);
 

@@ -9,6 +9,12 @@ public class EnemyHealth : MonoBehaviour
     private Animator Anim;
     private BaseEnemyKI AI;
     private float MaxLifePoints;
+
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip[] HitClips;
+    [SerializeField] private AudioClip[] DeathClips;
+
+
     public float LifePoints { get; private set; }
 
     public void Initialize(EnemyBaseProfile _stats, Animator _anim, BaseEnemyKI _ai)
@@ -20,12 +26,25 @@ public class EnemyHealth : MonoBehaviour
         AI = _ai;
     }
 
+    private void HitSound()
+    {
+        audioSource.clip = HitClips[UnityEngine.Random.Range(0, HitClips.Length - 1)];
+        audioSource.Play();
+    }
+    private void DeathSound()
+    {
+        audioSource.clip = HitClips[UnityEngine.Random.Range(0, DeathClips.Length - 1)];
+        audioSource.Play();
+    }
+
     public void LightDamage(float _lightDamageTaken)
     {
         AI.UnusualNoticePlayerReaction();
         LifePoints -= _lightDamageTaken;
         if (!DeathCheck())
             Anim.SetTrigger(Animator.StringToHash("LightAttackTaken"));
+
+        HitSound();
     }
 
     public void HeavyDamage(float _heavyDamageTaken)
@@ -34,6 +53,8 @@ public class EnemyHealth : MonoBehaviour
         LifePoints -= _heavyDamageTaken;
         if (!DeathCheck())
             Anim.SetTrigger(Animator.StringToHash("HeavyAttackTaken"));
+
+        HitSound();
     }
 
     /// <summary>
@@ -44,6 +65,7 @@ public class EnemyHealth : MonoBehaviour
         if (LifePoints > 0)
             return false;
         AI.Death();
+        DeathSound();
         return true;
     }
 
