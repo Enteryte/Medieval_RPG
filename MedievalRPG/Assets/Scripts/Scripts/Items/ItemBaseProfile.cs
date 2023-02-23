@@ -53,7 +53,7 @@ public class ItemBaseProfile : ScriptableObject
 
     #region FoodItem Values
     [HideInInspector] public float foodHealValue;
-    [HideInInspector] public float timeTillValueIsHealed;
+    public float timeTillValueIsHealed;
     #endregion
 
     #region WeaponItem Values
@@ -149,6 +149,15 @@ public class ItemBaseProfile : ScriptableObject
             EditorGUILayout.Space();
 
             iBP.sellingPrice = iBP.buyPrice - ((iBP.buyPrice * 30) / 70);
+
+            if (iBP.buyPrice <= 1)
+            {
+                iBP.sellingPrice = 0;
+            }
+            else if (iBP.buyPrice < 8)
+            {
+                iBP.sellingPrice = 1;
+            }
 
             if (iBP.neededForMissions)
             {

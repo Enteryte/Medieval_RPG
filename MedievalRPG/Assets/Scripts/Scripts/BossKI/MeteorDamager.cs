@@ -13,7 +13,11 @@ public class MeteorDamager : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             PlayerValueManager.instance.CurrHP -= damage;
-            DebuffManager.instance.SlowPlayer(debuffTime, resetDebuffTImer);
+
+            if (DebuffManager.instance.slowPlayerCoro == null)
+            {
+                DebuffManager.instance.SlowPlayer(debuffTime, resetDebuffTImer);
+            }
         }
     }
 }

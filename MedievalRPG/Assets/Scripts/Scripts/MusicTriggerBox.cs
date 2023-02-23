@@ -14,10 +14,10 @@ public class MusicTriggerBox : MonoBehaviour
         float currentTime = 0;
         float start = musicAudioSource.volume;
 
-        while (currentTime < 1.5f)
+        while (currentTime < 0.5)
         {
             currentTime += Time.deltaTime;
-            musicAudioSource.volume = Mathf.Lerp(start, 0, currentTime / 1.5f);
+            musicAudioSource.volume = Mathf.Lerp(start, 0, currentTime / 0.5f);
 
             yield return null;
         }
@@ -43,10 +43,10 @@ public class MusicTriggerBox : MonoBehaviour
         float currentTime = 0;
         float start = 0;
 
-        while (currentTime < 1.5f)
+        while (currentTime < 0.5f)
         {
             currentTime += Time.deltaTime;
-            musicAudioSource.volume = Mathf.Lerp(start, OptionManager.instance.musicSlider.value, currentTime / 1.5f);
+            musicAudioSource.volume = Mathf.Lerp(start, OptionManager.instance.musicSlider.value, currentTime / 0.5f);
 
             yield return null;
         }
@@ -82,7 +82,7 @@ public class MusicTriggerBox : MonoBehaviour
         {
             if (!FightManager.instance.isInFight)
             {
-                StartCoroutine(FadeNewMusicIn());
+                StartCoroutine(FadeOldMusicOut());
             }
             else
             {
