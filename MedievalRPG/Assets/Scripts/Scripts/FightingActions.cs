@@ -38,6 +38,8 @@ public class FightingActions : MonoBehaviour
     public ItemBaseProfile stoneIBP;
     public static ItemBaseProfile lastWeapon;
 
+    [SerializeField] private PlayerAudioManager pam;
+
     public void Awake()
     {
         instance = this;
@@ -523,6 +525,7 @@ public class FightingActions : MonoBehaviour
         {
             StartCoroutine(GameManager.instance.playerGO.GetComponent<ThirdPersonController>().Roll());
             anim.SetTrigger("RollNew");
+            pam.Roll();
         }
     }
 

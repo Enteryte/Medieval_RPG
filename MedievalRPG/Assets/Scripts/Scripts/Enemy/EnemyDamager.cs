@@ -9,6 +9,12 @@ public class EnemyDamager : MonoBehaviour
     private bool IsDamaging;
     private Animator anim;
     private NavMeshAgent Agent;
+    private PlayerAudioManager pam;
+
+    private void Start()
+    {
+        pam = FindObjectOfType<PlayerAudioManager>();
+    }
 
     private void OnCollisionEnter(Collision _collision)
     {
@@ -20,6 +26,7 @@ public class EnemyDamager : MonoBehaviour
             //Add Recoil Animation and stop the damager here.
             anim.SetTrigger(Animator.StringToHash("Recoil"));
             Agent.isStopped = true;
+            pam.GotHit(true);
             return;
         }
 
@@ -52,6 +59,7 @@ public class EnemyDamager : MonoBehaviour
             try
             {
                 gDmg.GotHit(true);
+                pam.GotHit(false);
             }
             catch (Exception ex)
             {
