@@ -62,6 +62,8 @@ public class SaveGameObject
     public List<int> allCurrCollectMissionProgresses = new List<int>();
     public List<int> allCurrExamineMissionProgresses = new List<int>();
 
+    public bool alreadyPlayedAgainstKilian;
+
     // Item-Database
     public List<bool> itemIsNew = new List<bool>();
 

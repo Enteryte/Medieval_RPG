@@ -192,20 +192,20 @@ public class InventoryManager : MonoBehaviour
 
     public void CheckHoldingWeight()
     {
-        if (currHoldingWeight > maxHoldingWeight && ThirdPersonController.instance.MoveSpeed == ThirdPersonController.instance.normalMoveSpeed)
-        {
-            //ThirdPersonController.instance._animator.speed = 0.65f;
+        //if (currHoldingWeight > maxHoldingWeight && ThirdPersonController.instance.MoveSpeed == ThirdPersonController.instance.normalMoveSpeed)
+        //{
+        //    //ThirdPersonController.instance._animator.speed = 0.65f;
 
-            ThirdPersonController.instance.MoveSpeed = 0.7f;
-        }
-        else if(currHoldingWeight <= maxHoldingWeight && ThirdPersonController.instance.MoveSpeed != ThirdPersonController.instance.normalMoveSpeed)
-        {
-            if (!DebuffManager.instance.slowPlayerDebuff)
-            {
-                ThirdPersonController.instance._animator.speed = 1;
-            }
+        //    ThirdPersonController.instance.MoveSpeed = 0.7f;
+        //}
+        //else if(currHoldingWeight <= maxHoldingWeight && ThirdPersonController.instance.MoveSpeed != ThirdPersonController.instance.normalMoveSpeed)
+        //{
+        //    if (!DebuffManager.instance.slowPlayerDebuff)
+        //    {
+        //        ThirdPersonController.instance._animator.speed = 1;
+        //    }
 
-            ThirdPersonController.instance.MoveSpeed = ThirdPersonController.instance.normalMoveSpeed;
-        }
+        //    ThirdPersonController.instance.MoveSpeed = ThirdPersonController.instance.normalMoveSpeed;
+        //}
     }
 }
