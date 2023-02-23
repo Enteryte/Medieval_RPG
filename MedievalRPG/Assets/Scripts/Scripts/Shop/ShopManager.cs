@@ -500,7 +500,7 @@ public class ShopManager : MonoBehaviour
 
         if (isBuying)
         {
-            itemBuySellPriceTxt.text = iBP.buyPrice.ToString();
+            itemBuySellPriceTxt.text = iBP.highBuyPrice.ToString();
         }
         else
         {
@@ -584,7 +584,7 @@ public class ShopManager : MonoBehaviour
 
             Debug.Log("Bought: " + itemBase.itemName);
 
-            PlayerValueManager.instance.money -= (itemBase.buyPrice * amount);
+            PlayerValueManager.instance.money -= (itemBase.highBuyPrice * amount);
 
             bOSMScreen.boughtOrSoldTxt.text = "Item erworben";
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 12737.758, g: 7671.918, b: 3811.1016, a: 1}
+  m_IndirectSpecularColor: {r: 12767.051, g: 7682.5547, b: 3804.8164, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5189,7 +5189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 335768291}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 388.6123, y: 217.01569, z: -114.62452}
+  m_LocalPosition: {x: -115.64955, y: 1.1914005, z: 3.4076767}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59618,6 +59618,7 @@ GameObject:
   - component: {fileID: 991766511}
   - component: {fileID: 991766512}
   - component: {fileID: 991766513}
+  - component: {fileID: 991766514}
   m_Layer: 0
   m_Name: Empty:StartScreenManager
   m_TagString: Untagged
@@ -59799,6 +59800,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 630af4288cee8f94dab660a1d9aba0ab, type: 2}
   - {fileID: 11400000, guid: 6b64398b94532544ca28ff65057a03c7, type: 2}
   startItemAmounts: 0500000005000000010000000100000008000000010000000100000001000000
+  gems: {fileID: 11400000, guid: 8ee8cce49b90eab4bb6b97f3875f2169, type: 2}
 --- !u!114 &991766513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59816,6 +59818,25 @@ MonoBehaviour:
   VoiceVolume: 0.5
   MusicVolume: 0.5
   EffectsVolume: 0.5
+--- !u!114 &991766514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991766505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfbe99d1b6b3ac428c0d4e48824ec0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgMultiplier: 1
+  traglastMultiplier: 1
+  enemyHpMultiplier: 1
+  bossHpMultiplier: 1
+  pricesMultiplier: 1
+  bleedingMultiplier: 1
+  diffStage: 0
 --- !u!1001 &993479935
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68210,24 +68231,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2168254815051021546, guid: dc86cfc1e7fe557488a21c33eb0190a1, type: 3}
   m_PrefabInstance: {fileID: 2168254814488803602}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1307490288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1307490287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dfbe99d1b6b3ac428c0d4e48824ec0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dmgMultiplier: 1
-  traglastMultiplier: 1
-  enemyHpMultiplier: 1
-  bossHpMultiplier: 1
-  pricesMultiplier: 1
-  bleedingMultiplier: 1
 --- !u!1001 &1307856840
 PrefabInstance:
   m_ObjectHideFlags: 0

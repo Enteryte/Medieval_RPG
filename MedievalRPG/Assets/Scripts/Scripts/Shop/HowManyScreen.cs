@@ -42,7 +42,7 @@ public class HowManyScreen : MonoBehaviour
         }
         else
         {
-            currPriceTxt.text = (currIBP.buyPrice * maxAmount).ToString();
+            currPriceTxt.text = (currIBP.highBuyPrice * maxAmount).ToString();
         }
 
         currDisplayedAmount = maxAmount;
@@ -60,7 +60,7 @@ public class HowManyScreen : MonoBehaviour
         }
         else
         {
-            currPriceTxt.text = (currIBP.buyPrice * howManySSlider.value).ToString();
+            currPriceTxt.text = (currIBP.highBuyPrice * howManySSlider.value).ToString();
         }
 
         Debug.Log(howManySSlider.value.ToString());
@@ -86,7 +86,7 @@ public class HowManyScreen : MonoBehaviour
         }
         else
         {
-            currMaxAmount = ((int)PlayerValueManager.instance.money / iBP.buyPrice);
+            currMaxAmount = ((int)PlayerValueManager.instance.money / iBP.highBuyPrice);
         }
 
         SetStartValues(currMaxAmount);
@@ -132,7 +132,7 @@ public class HowManyScreen : MonoBehaviour
         }
         else
         {
-            currPriceTxt.text = (currIBP.buyPrice * howManySSlider.value).ToString();
+            currPriceTxt.text = (currIBP.highBuyPrice * howManySSlider.value).ToString();
         }
     }
 

@@ -96,7 +96,7 @@ public class MeleeEnemyKi : BaseEnemyKI
                 break;
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             case false when _isSeeingPlayer:
-                NoticeEnemy();
+               NoticeEnemy();
                 break;
             case true when _isSeeingPlayer:
                 CheckAttackPossible();
@@ -187,7 +187,7 @@ public class MeleeEnemyKi : BaseEnemyKI
         }
 
         if (IsSearching && Agent.velocity.sqrMagnitude <= Tolerance)
-            StartCoroutine(WaitUntilGivingUp());
+            StartCoroutine(WaitUntilGivingUp()); //würd ich auch gern...
     }
 
     private IEnumerator WaitUntilGivingUp()

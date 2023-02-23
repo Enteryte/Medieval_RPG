@@ -47,12 +47,6 @@ public class Item : MonoBehaviour, IInteractable
         GameManager.instance.allInteractableObjects.Add(this.gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void InstantiateIOCanvas()
     {
         GameObject newIOCanvas = Instantiate(Interacting.instance.interactCanvasPrefab, Interacting.instance.iOCSParentObj.transform);
@@ -160,6 +154,18 @@ public class Item : MonoBehaviour, IInteractable
 
             for (int i = 0; i < itemsToGet.Length; i++)
             {
+                if (itemsToGet[i] == SaveSystem.instance.gems)
+                {
+
+                    amountsToGet[i] -= DifficultyHandler.instance.diffStage;
+                    
+                    if(amountsToGet[i] <= 0)
+                    {
+                        amountsToGet[i] = 0;
+                        continue;
+                    }
+                }
+
                 InventoryManager.instance.inventory.AddItem(itemsToGet[i], amountsToGet[i]);
 
                 MessageManager.instance.CreateCollectedMessage(itemsToGet[i]);
@@ -205,7 +211,7 @@ public class Item : MonoBehaviour, IInteractable
                     if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.missionTaskType == MissionTaskBase.MissionTaskType.collect)
                     {
                         if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.itemToCollectBase == iBP
-                            || MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.itemToCollectBase2 != null 
+                            || MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.itemToCollectBase2 != null
                             && MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.itemToCollectBase2 == iBP)
                         {
                             if (MissionManager.instance.allCurrAcceptedMissions[i].allMissionTasks[y].mTB.completeAfterInteracted)

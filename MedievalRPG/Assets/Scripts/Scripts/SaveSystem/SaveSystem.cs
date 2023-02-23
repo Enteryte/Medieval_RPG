@@ -31,6 +31,7 @@ public class SaveSystem : MonoBehaviour
     [Header("New Game Values")]
     public ItemBaseProfile[] startItems;
     public int[] startItemAmounts;
+    public ItemBaseProfile gems;
 
     public void Awake()
     {

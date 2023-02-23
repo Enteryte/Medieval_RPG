@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DifficultyHandler : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class DifficultyHandler : MonoBehaviour
     [HideInInspector] public float bossHpMultiplier = 1;
     [HideInInspector] public float pricesMultiplier = 1;
     [HideInInspector] public float bleedingMultiplier = 1;
+    [HideInInspector] public int diffStage = 0;
 
     [HideInInspector]
     public enum Difficulties
@@ -29,6 +31,18 @@ public class DifficultyHandler : MonoBehaviour
         }
     }
 
+    private void OnLevelWasLoaded(int level)
+    {
+        if(SceneManager.GetActiveScene().buildIndex > 0)
+        {
+            for (int i = 0; i < InventoryManager.instance.inventory.database.items.Length; i++)
+            {
+                InventoryManager.instance.inventory.database.items[i].highBuyPrice = InventoryManager.instance.inventory.database.items[i].buyPrice;
+                InventoryManager.instance.inventory.database.items[i].highBuyPrice  = Mathf.RoundToInt(InventoryManager.instance.inventory.database.items[i].highBuyPrice * pricesMultiplier);
+            }
+        }
+    }
+
     public void SetDifficulty(Difficulties diff)
     {
         if(diff == Difficulties.düster)
@@ -43,6 +57,7 @@ public class DifficultyHandler : MonoBehaviour
             bossHpMultiplier = 1;
             pricesMultiplier = 1.2f;
             bleedingMultiplier = 1;
+            diffStage = 1;
         }
         if (diff == Difficulties.illusorisch)
         {
@@ -52,6 +67,7 @@ public class DifficultyHandler : MonoBehaviour
             bossHpMultiplier = 1.5f;
             pricesMultiplier = 1.25f;
             bleedingMultiplier = 2;
+            diffStage = 2;
         }
     }   
 }       
