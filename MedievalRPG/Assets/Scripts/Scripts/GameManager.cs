@@ -435,8 +435,7 @@ public class GameManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape) && !readBookOrNoteScreen.activeSelf &&
                 !ShopManager.instance.shopScreen.activeSelf
-                && !TutorialManager.instance.bigTutorialUI
-                    .activeSelf /* && /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*/ /*alid()*/)
+                && !TutorialManager.instance.bigTutorialUI.activeSelf /* && /*!CutsceneManager.instance.playableDirector.playableGraph.IsV*/ /*alid()*/)
             {
                 if (CutsceneManager.instance.currCP == null)
                 {
@@ -473,6 +472,17 @@ public class GameManager : MonoBehaviour
                 else if (CutsceneManager.instance.currCP != null &&
                          CutsceneManager.instance.currCP.canPauseWhilePlaying)
                 {
+                    if (mTBWSearchingOnGraveyard.canBeDisplayed && !mTBWSearchingOnGraveyard.missionTaskCompleted)
+                    {
+                        LoadingScreen.instance.saveGameBtn.interactable = false;
+                        LoadingScreen.instance.loadGameBtn.interactable = false;
+                    }
+                    else
+                    {
+                        LoadingScreen.instance.saveGameBtn.interactable = !FightManager.instance.isInFight;
+                        LoadingScreen.instance.loadGameBtn.interactable = !FightManager.instance.isInFight;
+                    }
+
                     LoadingScreen.instance.gameObject.SetActive(!pauseMenuScreen.activeSelf);
                     LoadingScreen.instance.startScreenMainUIButtonParent.SetActive(!pauseMenuScreen.activeSelf);
                     pauseMenuScreen.SetActive(!pauseMenuScreen.activeSelf);
@@ -836,6 +846,12 @@ public class GameManager : MonoBehaviour
         if (InventoryManager.instance.inventoryScreen.activeSelf)
         {
             ThirdPersonController.instance._animator.Play("Inventory Pose");
+
+            if (TutorialManager.instance.smallTutorialUI.activeSelf)
+            {
+                TutorialManager.instance.smallTutorialUI.SetActive(false);
+                //TutorialManager.instance.animator.Rebind();
+            }
 
             PauseGame();
             cantPauseRN = true;

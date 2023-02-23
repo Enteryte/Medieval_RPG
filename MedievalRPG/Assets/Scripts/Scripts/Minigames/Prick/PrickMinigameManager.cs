@@ -120,28 +120,109 @@ public class PrickMinigameManager : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.Escape) && prickEnemy.currentPlayableCards.Count > 0 || Input.GetKeyDown(KeyCode.Escape) & playerCardGOs)
         if (Input.GetKeyDown(KeyCode.Escape) && !TutorialManager.instance.bigTutorialUI.activeSelf/* && startNewMatchBtn.GetComponent<Button>().interactable && prickEnemy.currentPlayableCards.Count == 0*/)
         {
-            //if (endPrickRoundUI.activeSelf)
-            //{
-            //    endPrickRoundUI.SetActive(false);
-            //}
-            //else
-            //{
-            //    endPrickRoundUI.SetActive(true);
-            //}
+            if (prickEnemy.currentPlayableCards.Count <= 0 && playerPoints == 0 && enemyPoints == 0)
+            {
+                prickUI.SetActive(false);
+                prickCamera.enabled = false;
 
-            prickUI.SetActive(false);
-            prickCamera.enabled = false;
+                ThirdPersonController.instance.canMove = true;
 
-            ThirdPersonController.instance.canMove = true;
+                GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
-            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
+                GameManager.instance.ContinueGame();
+                GameManager.instance.cantPauseRN = false;
 
-            GameManager.instance.ContinueGame();
-            GameManager.instance.cantPauseRN = false;
+                CutsceneManager.instance.ActivateHUDUI();
 
-            CutsceneManager.instance.ActivateHUDUI();
+                this.enabled = false;
+            }
+            else if (!TutorialManager.instance.bigTutorialUI.activeSelf)
+            {
+                endPrickRoundUI.SetActive(!endPrickRoundUI.activeSelf);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Return) && !TutorialManager.instance.bigTutorialUI.activeSelf)
+        {
+            if (endPrickRoundUI.activeSelf)
+            {
+                //prickCardAnimator.enabled = false;
 
-            this.enabled = false;
+                for (int i = 0; i < playerCardGOs.Length; i++)
+                {
+                    playerCardGOs[i].SetActive(false);
+                }
+
+                for (int i = 0; i < enemyCardGOs.Length; i++)
+                {
+                    enemyCardGOs[i].SetActive(false);
+                }
+
+                prickEnemy.currentPlayableCards.Clear();
+
+                layedPlayerCB = null;
+                layedPlayerCardObj.SetActive(false);
+                layerPlayerCardObjMiddle.SetActive(false);
+
+                layedEnemyCB = null;
+                layedEnemyCardObj.SetActive(false);
+                layerEnemyCardObjMiddle.SetActive(false);
+
+                for (int i = 0; i < PrickMinigameManager.instance.playerCardGOs.Length; i++)
+                {
+                    playerCardGOs[i].GetComponent<Button>().interactable = false;
+                    playerCardGOs[i].GetComponent<LayoutElement>().ignoreLayout = false;
+                }
+
+                allUnusedCards.Clear();
+
+                currGivenCardNumber = 0;
+
+                playerPoints = 0;
+                enemyPoints = 0;
+
+                playerPointsTxt.text = playerPoints.ToString() + " PKTE.";
+                enemyPointsTxt.text = enemyPoints.ToString() + " PKTE.";
+
+                for (int i = 0; i < allCards.Count; i++)
+                {
+                    allUnusedCards.Add(allCards[i]);
+                }
+
+                if (PrickBoard.instance.isPlayingAgainstKilian)
+                {
+                    CutsceneManager.instance.playableDirector.time = 0;
+                    CutsceneManager.instance.currCP = PrickBoard.instance.cutsceneToPlayIfLost;
+                    CutsceneManager.instance.playableDirector.playableAsset = PrickBoard.instance.cutsceneToPlayIfLost.cutscene;
+
+                    PrickBoard.instance.isPlayingAgainstKilian = false;
+
+                    prickUI.SetActive(false);
+                    prickCamera.enabled = false;
+
+                    CutsceneManager.instance.playableDirector.Play();
+
+                    GameManager.instance.alreadyPlayedAgainstKilian = true;
+
+                    this.enabled = false;
+                }
+                else
+                {
+                    PlayerValueManager.instance.money -= winMoneyAmount;
+                }
+
+                if (PlayerValueManager.instance.money >= winMoneyAmount)
+                {
+                    startNewMatchBtn.interactable = true;
+                }
+                else
+                {
+                    startNewMatchBtn.interactable = false;
+                }
+
+                playerMoneyTxt.text = PlayerValueManager.instance.money.ToString();
+
+                endPrickRoundUI.SetActive(false);
+            }
         }
         //else if (Input.GetKeyDown(KeyCode.Escape) && PlayerValueManager.instance.money == 0)
         //{

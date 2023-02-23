@@ -1285,10 +1285,10 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //if (clickableSlotType == ClickableSlotType.inventorySlot && storedItemBase != null && storedItemBase.itemType == ItemBaseProfile.ItemType.weapon)
-        //{
-        //    TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(InventoryManager.instance.equipmentTutorial);
-        //}
+        if (clickableSlotType == ClickableSlotType.inventorySlot && storedItemBase != null && storedItemBase.itemType == ItemBaseProfile.ItemType.weapon)
+        {
+            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(InventoryManager.instance.equipmentTutorial);
+        }
 
         Debug.Log("GHBJNK");
 
