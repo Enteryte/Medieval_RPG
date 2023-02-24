@@ -396,11 +396,16 @@ public class CutsceneManager : MonoBehaviour
             }
         }
 
+        ActivateHUDUI();
+
         ThirdPersonController.instance.canMove = true;
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, true);
 
         GameManager.instance.gameIsPaused = false;
         GameManager.instance.cantPauseRN = false;
+
+        CutsceneManager.instance.currCP = null;
+        CutsceneManager.instance.playableDirector.playableAsset = null;
     }
 
     #region TimelineSignals: Optional
@@ -646,10 +651,16 @@ public class CutsceneManager : MonoBehaviour
 
     public void ActivateHUDUI()
     {
-        GameManager.instance.interactCanvasasParentGO.SetActive(true);
+        if (!GameManager.instance.interactCanvasasParentGO.activeSelf)
+        {
+            GameManager.instance.interactCanvasasParentGO.SetActive(true);
+        }
+
         GameManager.instance.mapGO.SetActive(true);
         GameManager.instance.hotbarGO.SetActive(true);
         GameManager.instance.playerStatsGO.SetActive(true);
+
+        //CutsceneManager.instance.ResetNPCAfterDialogue();
 
         LoadingScreen.instance.DeactivateAnimator();
     }

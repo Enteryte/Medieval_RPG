@@ -140,6 +140,8 @@ public class Merchant : MonoBehaviour, IInteractable
     {
         neededForMission = CheckIfNeededForMission();
 
+        CutsceneManager.instance.DeactivateHUDUI();
+
         whereToSetPlayerTrans.gameObject.SetActive(true);
         Interacting.instance.currInteractedObjTrans = this.transform;
 
@@ -187,7 +189,7 @@ public class Merchant : MonoBehaviour, IInteractable
             ShopManager.instance.DisplayMainScreenButtons();
 
             CutsceneManager.instance.ChangePlayerParentToCurrInteractObj();
-            CutsceneManager.instance.DeactivateHUDUI();
+            //CutsceneManager.instance.DeactivateHUDUI();
 
             normalMerchantObj.SetActive(false);
 
