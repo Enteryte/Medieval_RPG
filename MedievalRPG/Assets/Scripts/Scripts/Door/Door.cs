@@ -248,6 +248,7 @@ public class Door : MonoBehaviour, IInteractable
                         correspondingMissionTasks[i].missionTaskCompleted = true;
                     }
 
+                    CutsceneManager.instance.DeactivateHUDUI();
                     CutsceneManager.instance.currCP = correspondingMissionTasks[i].cutsceneToTrigger;
                     CutsceneManager.instance.playableDirector.playableAsset = correspondingMissionTasks[i].cutsceneToTrigger.cutscene;
                     CutsceneManager.instance.playableDirector.Play();

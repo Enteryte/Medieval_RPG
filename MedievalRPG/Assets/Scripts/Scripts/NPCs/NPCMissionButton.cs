@@ -85,6 +85,9 @@ public class NPCMissionButton : MonoBehaviour
 
             GameManager.instance.cantPauseRN = false;
             CutsceneManager.instance.CloseCutscene();
+
+            CutsceneManager.instance.currCP = null;
+            CutsceneManager.instance.playableDirector.playableAsset = null;
         }
 
         //Interacting.instance.currInteractedObjTrans.gameObject.GetComponent<NPC>().nPCCVC.enabled = true;

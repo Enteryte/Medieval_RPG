@@ -309,6 +309,8 @@ public class TavernKeeper : MonoBehaviour, IInteractable
 
         Interacting.instance.currInteractedObjTrans = this.transform;
 
+        CutsceneManager.instance.ChangePlayerParentToCurrInteractObj();
+
         Debug.Log("ZUJHKLÖ");
 
         if (neededForMission)
@@ -367,6 +369,8 @@ public class TavernKeeper : MonoBehaviour, IInteractable
         ////////transform.LookAt(GameManager.instance.playerGO.transform);
 
         //isInDialogue = true;
+
+        CutsceneManager.instance.DeactivateHUDUI();
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
 
