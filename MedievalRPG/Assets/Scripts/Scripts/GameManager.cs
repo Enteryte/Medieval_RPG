@@ -165,6 +165,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        //if (CutsceneManager.instance.playableDirector.playableAsset != null && !CutsceneManager.instance.playableDirector.playableGraph.IsPlaying() && pas)
+        //{
+        //    CutsceneManager.instance.currCP = null;
+        //    CutsceneManager.instance.playableDirector.playableAsset = null;
+        //}
+
         //if (Input.GetKeyDown(KeyCode.Alpha5))
         //{
         //    CutsceneManager.instance.SleepTillEvening();
@@ -222,17 +228,17 @@ public class GameManager : MonoBehaviour
         {
             playtimeInSeconds += Time.deltaTime;
 
-            if (passedTimeTillLastSave < autoSaveTime)
-            {
-                passedTimeTillLastSave += Time.deltaTime;
+            //if (passedTimeTillLastSave < autoSaveTime)
+            //{
+            //    passedTimeTillLastSave += Time.deltaTime;
 
-                if (passedTimeTillLastSave >= autoSaveTime)
-                {
-                    passedTimeTillLastSave = 0;
+            //    if (passedTimeTillLastSave >= autoSaveTime)
+            //    {
+            //        passedTimeTillLastSave = 0;
 
-                    SaveSystem.instance.SaveAutomatic();
-                }
-            }
+            //        SaveSystem.instance.SaveAutomatic();
+            //    }
+            //}
         }
 
         //if (ThirdPersonController.instance._animator.GetBool("UsingHBItem"))
@@ -666,6 +672,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        TavernKeeper.instance.animator.speed = 0;
+
         for (int i = 0; i < allNPCScreamingHandler.Count; i++)
         {
             allNPCScreamingHandler[i].nPCAudioSource.Pause();
@@ -765,6 +773,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        TavernKeeper.instance.animator.speed = 1;
+
         for (int i = 0; i < allNPCScreamingHandler.Count; i++)
         {
             if (allNPCScreamingHandler[i].isPlayingAudio)
@@ -860,6 +870,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            CutsceneManager.instance.ActivateHUDUI();
+
             ThirdPersonController.instance._animator.enabled = false;
             ThirdPersonController.instance._animator.Rebind();
             ThirdPersonController.instance._animator.enabled = true;

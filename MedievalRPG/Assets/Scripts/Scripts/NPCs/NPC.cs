@@ -373,7 +373,6 @@ public class NPC : MonoBehaviour, IInteractable
                                 ThirdPersonController.instance._animator.SetFloat("Speed", 0);
 
                                 GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
-
                             }
 
                             isNeeded = true;
@@ -493,8 +492,12 @@ public class NPC : MonoBehaviour, IInteractable
 
         if (isNeeded && doActions)
         {
+            CutsceneManager.instance.ChangePlayerParentToCurrInteractObj();
+
             if (this.gameObject.GetComponent<NPCScreamingHandler>() != null)
             {
+                CutsceneManager.instance.DeactivateHUDUI();
+
                 this.gameObject.GetComponent<NPCScreamingHandler>().nPCAudioSource.Stop();
                 this.gameObject.GetComponent<NPCScreamingHandler>().enabled = false;
             }
