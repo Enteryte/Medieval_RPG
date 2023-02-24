@@ -7,6 +7,8 @@ public class ShieldScript : MonoBehaviour
     [SerializeField] private float fadeSpeed;
     [SerializeField] private MeshRenderer mat1;
     [SerializeField] private MeshRenderer mat2;
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioSource source1;
 
     private SkeletonBossStats stats;
     private bool fadeIn = true;
@@ -15,6 +17,8 @@ public class ShieldScript : MonoBehaviour
     {
         stats = GameObject.FindGameObjectWithTag("BossHitbox").GetComponent<SkeletonBossStats>();
         stats.invincible = true;
+        source.volume = AudioManager.Instance.EffectsVolume * AudioManager.Instance.MasterVolume;
+        source1.volume = AudioManager.Instance.EffectsVolume * AudioManager.Instance.MasterVolume;
     }
 
     public void Deactivate()

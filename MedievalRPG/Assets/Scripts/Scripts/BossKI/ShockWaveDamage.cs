@@ -10,6 +10,7 @@ public class ShockWaveDamage : MonoBehaviour
     [SerializeField] private float lifeTime;
     [SerializeField] private float colliderTime;
     [SerializeField] private float timeToWaitBeforeGrowing;
+    [SerializeField] private AudioSource source;
 
     private float secondsGone_1;
     private float secondsGone_2;
@@ -21,6 +22,7 @@ public class ShockWaveDamage : MonoBehaviour
     {
         coll = GetComponent<CapsuleCollider>();
         speed /= 100;
+        source.volume = AudioManager.Instance.EffectsVolume * AudioManager.Instance.MasterVolume;
     }
 
     private void GrowRadius()

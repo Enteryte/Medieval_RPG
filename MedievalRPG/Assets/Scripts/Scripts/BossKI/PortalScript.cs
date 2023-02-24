@@ -7,9 +7,11 @@ public class PortalScript : MonoBehaviour
     [HideInInspector] public Transform target;
 
     [SerializeField] private float secondsToWait = 2;
+    [SerializeField] private AudioSource source;
 
     private void Start()
     {
+        source.volume = AudioManager.Instance.EffectsVolume;
         StartCoroutine(DeleteThis());
     }
 

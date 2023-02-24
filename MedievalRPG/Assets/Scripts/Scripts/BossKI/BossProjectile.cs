@@ -10,6 +10,12 @@ public class BossProjectile : MonoBehaviour
 
     [SerializeField] private float damage = 5;
     [SerializeField] private Rigidbody rig;
+    [SerializeField] private AudioSource source;
+
+    private void Start()
+    {
+        source.volume = AudioManager.Instance.EffectsVolume * AudioManager.Instance.MasterVolume;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
