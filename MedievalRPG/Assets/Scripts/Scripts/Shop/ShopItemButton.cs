@@ -86,7 +86,7 @@ public class ShopItemButton : MonoBehaviour
 
         if (this.gameObject.transform.parent == ShopManager.instance.merchantItemSlotParentTrans)
         {
-            if (PlayerValueManager.instance.money >= storedItemBase.buyPrice)
+            if (PlayerValueManager.instance.money >= storedItemBase.highBuyPrice)
             {
                 btnComp.interactable = true;
             }
@@ -103,7 +103,7 @@ public class ShopItemButton : MonoBehaviour
 
         if (ShopManager.instance.isBuying)
         {
-            itemBuyPriceTxt.text = storedItemBase.buyPrice.ToString();
+            itemBuyPriceTxt.text = storedItemBase.highBuyPrice.ToString();
         }
         else
         {

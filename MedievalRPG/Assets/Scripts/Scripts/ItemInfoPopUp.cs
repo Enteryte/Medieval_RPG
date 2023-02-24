@@ -219,7 +219,7 @@ public class ItemInfoPopUp : MonoBehaviour
                 }
                 else
                 {
-                    buyOrSellPriceTxt.text = iBP.buyPrice.ToString();
+                    buyOrSellPriceTxt.text = iBP.highBuyPrice.ToString();
                 }
             }
             else

@@ -32,6 +32,7 @@ public class ItemBaseProfile : ScriptableObject
 
     [Header("Shop Values")]
     [Tooltip("The purchase price of the item.")] [Min(0)] public int buyPrice;
+    [Tooltip("The purchase price of the item.")] [Min(0)] public int highBuyPrice;
     [Tooltip("The selling price of the item.")] public int sellingPrice;
 
     //public float previewSpawnPositionZ;
@@ -148,16 +149,17 @@ public class ItemBaseProfile : ScriptableObject
 
             EditorGUILayout.Space();
 
-            iBP.sellingPrice = iBP.buyPrice - ((iBP.buyPrice * 30) / 70);
+            iBP.sellingPrice = iBP.highBuyPrice - ((iBP.highBuyPrice * 30) / 70);
 
-            if (iBP.buyPrice <= 1)
+            if (iBP.highBuyPrice <= 1)
             {
                 iBP.sellingPrice = 0;
             }
-            else if (iBP.buyPrice < 8)
+            else if (iBP.highBuyPrice < 8)
             {
                 iBP.sellingPrice = 1;
             }
+
 
             if (iBP.neededForMissions)
             {
@@ -241,12 +243,12 @@ public class ItemBaseProfile : ScriptableObject
                 serializedObject.ApplyModifiedProperties();
             }
 
-            CheckIfItemValueIsZero(iBP.buyPrice);
+            CheckIfItemValueIsZero(iBP.highBuyPrice);
             CheckIfItemValueIsZero(iBP.sellingPrice);
 
-            if (iBP.sellingPrice > iBP.buyPrice)
+            if (iBP.sellingPrice > iBP.highBuyPrice)
             {
-                iBP.sellingPrice = iBP.buyPrice;
+                iBP.sellingPrice = iBP.highBuyPrice;
             }
 
             EditorUtility.SetDirty(target);

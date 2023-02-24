@@ -55,7 +55,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             }
             else
             {
-                if (storedItemBase.buyPrice > PlayerValueManager.instance.money)
+                if (storedItemBase.highBuyPrice > PlayerValueManager.instance.money)
                 {
                     this.gameObject.GetComponent<Image>().color = Color.red;
                     this.gameObject.GetComponent<Button>().interactable = false;
@@ -140,7 +140,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             {
                 if (storedItemBase.itemsNeededForBuying.Length > 0)
                 {
-                    if (storedItemBase.CheckNeededItemsForBuying() && storedItemBase.buyPrice <= PlayerValueManager.instance.money)
+                    if (storedItemBase.CheckNeededItemsForBuying() && storedItemBase.highBuyPrice <= PlayerValueManager.instance.money)
                     {
                         this.gameObject.GetComponent<Image>().color = Color.white;
                         this.gameObject.GetComponent<Button>().interactable = true;
@@ -151,7 +151,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                         this.gameObject.GetComponent<Button>().interactable = false;
                     }
                 }
-                else if (storedItemBase.buyPrice > PlayerValueManager.instance.money)
+                else if (storedItemBase.highBuyPrice > PlayerValueManager.instance.money)
                 {
                     this.gameObject.GetComponent<Image>().color = Color.red;
                     this.gameObject.GetComponent<Button>().interactable = false;
