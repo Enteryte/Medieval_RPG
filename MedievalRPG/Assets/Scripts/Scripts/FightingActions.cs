@@ -538,14 +538,14 @@ public class FightingActions : MonoBehaviour
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         }
 
-        if (isRolling)
+        if (isRolling && !GameManager.instance.gameIsPaused)
         {
             time += Time.deltaTime;
             float desiredDuration = time / rollSpeed;
             this.transform.position = Vector3.Lerp(this.transform.position, transform.forward * 3.16f, desiredDuration);
         }
 
-        if(holdBlock)
+        if(holdBlock && !GameManager.instance.gameIsPaused)
         {
             PlayerValueManager.instance.RemoveStamina(BlockStamiaLooseAmount * Time.deltaTime);
             if(PlayerValueManager.instance.currStamina <= 0)

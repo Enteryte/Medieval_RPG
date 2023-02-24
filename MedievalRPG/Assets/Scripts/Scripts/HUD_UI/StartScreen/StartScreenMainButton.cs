@@ -15,6 +15,8 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
     public bool canPressButtonMoreThanOnce = false;
 
+    public bool ignoreScreenToOpen = false;
+
     //public void Update()
     //{
     //    if (StartScreenManager.currSelectedSSMBtn.closeScreenAnim != null)
@@ -46,7 +48,12 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
     public void OnSelect(BaseEventData eventData)
     {
-        if (this.gameObject.name == "Text (TMP):ContinueAndStopPausingGame"/* || this.gameObject.name == "Text (TMP):SaveGame"*/)
+        if (GameManager.instance)
+        {
+            GameManager.instance.areYouSureScreenIsActive = false;
+        }
+
+        if (this.gameObject.name == "Text (TMP):ContinueAndStopPausingGame" || this.gameObject.name == "Text (TMP):SaveGame")
         {
             return;
         }
@@ -115,7 +122,12 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (this.gameObject.name == "Text (TMP):ContinueAndStopPausingGame"/* || this.gameObject.name == "Text (TMP):SaveGame"*/)
+        if (GameManager.instance)
+        {
+            GameManager.instance.areYouSureScreenIsActive = false;
+        }
+
+        if (this.gameObject.name == "Text (TMP):ContinueAndStopPausingGame" || this.gameObject.name == "Text (TMP):SaveGame")
         {
             return;
         }
@@ -155,10 +167,12 @@ public class StartScreenMainButton : MonoBehaviour, ISelectHandler, IPointerEnte
             {
                 screenToOpen.SetActive(true);
 
-                if (GameManager.instance != null)
+                if (GameManager.instance != null && !ignoreScreenToOpen)
                 {
                     GameManager.instance.areYouSureScreenIsActive = true;
                 }
+
+                Debug.Log("wsedfcgvhbjnkml,ö.");
 
                 StartScreenManager.instance.mainAnimator.enabled = true;
                 StartScreenManager.instance.mainAnimator.Rebind();

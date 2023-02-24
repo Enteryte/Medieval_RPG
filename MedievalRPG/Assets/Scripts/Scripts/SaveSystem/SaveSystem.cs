@@ -218,6 +218,17 @@ public class SaveSystem : MonoBehaviour
 
         sw.Write(JsonString);
         sw.Close();
+
+        Debug.Log("HJKL");
+        if (GameManager.instance)
+        {
+            Debug.Log("HJKL");
+            if (GameManager.instance.pauseMenuScreen.activeSelf)
+            {
+                Debug.Log("HJKL");
+                GameManager.instance.areYouSureScreenIsActive = true;
+            }
+        }
     }
 
     // Immer nach einer bestimmten Zeit

@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
     public GameObject mapGO;
     public GameObject hotbarGO;
     public GameObject playerStatsGO;
+    public GameObject bowUIGO;
+    public GameObject crosshairGO;
 
     public CinemachineVirtualCamera normalPlayerFollowCamCVC;
 
@@ -473,7 +475,11 @@ public class GameManager : MonoBehaviour
                         LoadingScreen.instance.loadGameBtn.interactable = true;
 
                         ContinueGame();
+
+                        Debug.Log("--------------------------------------------");
                     }
+
+                    Debug.Log("--------------------------------------------");
                 }
                 else if (CutsceneManager.instance.currCP != null &&
                          CutsceneManager.instance.currCP.canPauseWhilePlaying)
@@ -503,7 +509,11 @@ public class GameManager : MonoBehaviour
                     else
                     {
                         ContinueGame();
+
+                        Debug.Log("--------------------------------------------");
                     }
+
+                    Debug.Log("--------------------------------------------");
                 }
 
                 //else if (CutsceneManager.instance.currCP != null && CutsceneManager.instance.playableDirector.playableGraph.IsValid() 
@@ -641,6 +651,8 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
+        areYouSureScreenIsActive = false;
+
         // Player
         playerGO.GetComponent<Animator>().speed = 0;
 
@@ -832,6 +844,8 @@ public class GameManager : MonoBehaviour
 
         GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance,
             ThirdPersonController.instance._input, true);
+
+        GameManager.instance.areYouSureScreenIsActive = false;
     }
 
     public void OpenInventory()

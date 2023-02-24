@@ -104,6 +104,11 @@ public class PlayerValueManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.gameIsPaused)
+        {
+            return;
+        }
+
         if (!DebuffManager.instance.lowerStaminaDebuff)
         {
             if (currStamina < normalStamina && currWaitingTime < timeTillRefillStamina)

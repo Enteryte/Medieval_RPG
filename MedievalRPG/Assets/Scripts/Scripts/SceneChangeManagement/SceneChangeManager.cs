@@ -244,7 +244,11 @@ public class SceneChangeManager : MonoBehaviour
         }
         else
         {
-            GameManager.instance.musicAudioSource.Play();
+            if (level != 0)
+            {
+                GameManager.instance.musicAudioSource.Play();
+            }
+
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
 

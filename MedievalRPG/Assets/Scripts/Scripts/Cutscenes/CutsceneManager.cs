@@ -659,6 +659,8 @@ public class CutsceneManager : MonoBehaviour
         GameManager.instance.mapGO.SetActive(true);
         GameManager.instance.hotbarGO.SetActive(true);
         GameManager.instance.playerStatsGO.SetActive(true);
+        GameManager.instance.bowUIGO.SetActive(true);
+        GameManager.instance.crosshairGO.SetActive(true);
 
         //CutsceneManager.instance.ResetNPCAfterDialogue();
 
@@ -671,6 +673,8 @@ public class CutsceneManager : MonoBehaviour
         GameManager.instance.mapGO.SetActive(false);
         GameManager.instance.hotbarGO.SetActive(false);
         GameManager.instance.playerStatsGO.SetActive(false);
+        GameManager.instance.bowUIGO.SetActive(false);
+        GameManager.instance.crosshairGO.SetActive(false);
     }
 
     public void SetCurrentTimeoNull()
