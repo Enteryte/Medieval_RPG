@@ -44,6 +44,11 @@ public class Item : MonoBehaviour, IInteractable
             MissionManager.instance.objectsToExamine.Add(this);
         }
 
+        if (itemsToGet.Length > 0 || moneyAmount > 0)
+        {
+            GameManager.instance.allInteractableChests.Add(this);
+        }
+
         GameManager.instance.allInteractableObjects.Add(this.gameObject);
     }
 
@@ -156,7 +161,6 @@ public class Item : MonoBehaviour, IInteractable
             {
                 if (itemsToGet[i] == SaveSystem.instance.gems)
                 {
-
                     amountsToGet[i] -= DifficultyHandler.instance.diffStage;
                     
                     if(amountsToGet[i] <= 0)

@@ -331,7 +331,13 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         {
             if (storedItemBase != null)
             {
+                Debug.Log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+
                 ClearEquipmentSlot();
+            }
+            else
+            {
+                Debug.Log("RDFGHBJNMK;LÖTZUIJOKLÖ");
             }
         }
         else if (clickableSlotType == ClickableSlotType.shopSlot)
@@ -339,6 +345,11 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             ShopManager.instance.isShopPlayerItem = isShopPlayerItem;
 
             OpenHowManyScreen(storedItemBase, isShopPlayerItem);
+        }
+
+        if (InventoryManager.instance.currHoldingWeight < 0)
+        {
+            InventoryManager.instance.currHoldingWeight = 0;
         }
 
         InventoryManager.instance.weightTxt.text = InventoryManager.instance.currHoldingWeight + " / " + InventoryManager.instance.maxHoldingWeight;
@@ -623,6 +634,9 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     Debug.Log("ßßßßßßßßßßßßßßßßßßßßßßßß");
                 }
             }
+
+
+            Debug.Log("gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
         }
         else
         {
@@ -639,19 +653,12 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             for (int i = 0; i < EquippingManager.instance.rightWeaponParentObj.transform.childCount; i++)
             {
                 if (EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).GetComponent<Item>().iBP == ibToUse)
-                {
-                    storedItemBase = ibToUse;
-
-                    EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
-                    FightingActions.instance.equippedWeaponR = EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject;
-
-                    FightingActions.instance.GetWeapon();
-
+                {            
                     if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
                     {
                         if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
                         {
-                            //FightingActions.instance.anim.SetTrigger("DeequipBow");
+                            FightingActions.instance.anim.SetTrigger("DeequipBow");
 
                             FightingActions.instance.anim.ResetTrigger("BowIdle");
                             EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
@@ -674,21 +681,31 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                             }
                         }
 
-                        //if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
-                        //{
-                        //    FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
-                        //}
+                        if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+                        {
+                            FightingActions.instance.anim.SetTrigger("DeequipGreatSword");
+                        }
 
-                        //if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
-                        //{
-                        //    EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
-                        //}
+                        if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
+                        {
+                            EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().ClearEquipmentSlot();
+                        }
                     }
+
+                    storedItemBase = ibToUse;
+
+                    EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
+                    FightingActions.instance.equippedWeaponR = EquippingManager.instance.rightWeaponParentObj.transform.GetChild(i).gameObject;
+
+                    FightingActions.instance.GetWeapon();
 
                     EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase = storedItemBase;
                     EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedAmount = 1;
 
-                    //EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedAmountTxt.gameObject.SetActive(false);
+                    if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedAmountTxt != null)
+                    {
+                        EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedAmountTxt.gameObject.SetActive(false);
+                    }
 
                     EquippingManager.instance.rightWeaponES.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                     EquippingManager.instance.rightWeaponES.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = storedItemBase.itemSprite;
@@ -702,7 +719,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                     //var eventSystem = EventSystem.current;
                     //eventSystem.SetSelectedGameObject(null);
                     //eventSystem.SetSelectedGameObject(EquippingManager.instance.rightWeaponES.gameObject, new BaseEventData(eventSystem));
-                    Debug.Log("IS HERE!2");
+                    //Debug.Log("IS HERE!2");
 
                     //FightingActions.instance.anim.SetTrigger("DeequipBow");
 
@@ -714,13 +731,6 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             {
                 if (EquippingManager.instance.weaponParentObj.transform.GetChild(i).GetComponent<Item>().iBP == ibToUse)
                 {
-                    storedItemBase = ibToUse;
-
-                    EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
-                    FightingActions.instance.equippedWeaponL = EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject;
-
-                    FightingActions.instance.GetWeapon();
-
                     if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null)
                     {
                         if (EquippingManager.instance.rightWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.greatsword)
@@ -753,6 +763,13 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                             FightingActions.instance.anim.SetTrigger("DeequipBow");
                         }
                     }
+
+                    storedItemBase = ibToUse;
+
+                    EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject.SetActive(true);
+                    FightingActions.instance.equippedWeaponL = EquippingManager.instance.weaponParentObj.transform.GetChild(i).gameObject;
+
+                    FightingActions.instance.GetWeapon();
 
                     if (storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
                     {
@@ -845,6 +862,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             FightingActions.lastWeapon = null;
         }
 
+        Debug.Log("gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+
         InventoryManager.instance.DisplayItemsOfCategory();
     }
 
@@ -893,6 +912,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         if (ibToUse != null)
         {
             newIB = ibToUse;
+
+            Debug.Log("TGFHBJNnjnjwnjwnjw");
         }
         else
         {
@@ -911,12 +932,22 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             //{
             InventoryManager.instance.RemoveHoldingWeight(oldIB.weight, storedAmount);
             //}
+
+            Debug.Log("ddwdwHBJNKM;L:");
         }
 
         //if (newIB != null)
         //{
         storedItemBase = newIB;
-        storedAmount = Convert.ToInt32(HotbarManager.instance.hbHMScreen.howManyHBSlider.value);
+
+        if (amountToStore > 0 && amountToStore != -1)
+        {
+            storedAmount = amountToStore;
+        }
+        else
+        {
+            storedAmount = Convert.ToInt32(HotbarManager.instance.hbHMScreen.howManyHBSlider.value);
+        }
 
         this.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = newIB.itemSprite;
 
@@ -991,6 +1022,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         InventoryManager.instance.currClickedBtn = null;
 
         InventoryManager.instance.DisplayItemsOfCategory();
+
+        //this.gameObject.GetComponent<Image>().sprite = null;
     }
 
     public void ClearHotbarSlot()
@@ -1272,6 +1305,10 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
             {
                 SelectAction();
             }
+            else if (clickableSlotType == ClickableSlotType.equipmentSlot && storedItemBase != null)
+            {
+                SelectAction();
+            }
             else
             {
                 if (InventoryManager.instance.currClickedBtn == null || InventoryManager.instance.currClickedBtn != this && this.gameObject.name != "CISCOPY")
@@ -1280,7 +1317,6 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
                 }
             }
         }
-
     }
 
     public void OnPointerEnter(PointerEventData eventData)

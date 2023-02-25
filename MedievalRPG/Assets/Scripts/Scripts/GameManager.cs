@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> allInteractableObjects;
     public List<Door> allInteractableDoors;
+    public List<Item> allInteractableChests;
     public List<MeleeEnemyKi> allMeleeEnemies;
     public List<ArcherEnemyKI> allArcherEnemies;
 

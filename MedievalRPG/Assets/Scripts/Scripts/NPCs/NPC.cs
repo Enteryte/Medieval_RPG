@@ -34,6 +34,8 @@ public class NPC : MonoBehaviour, IInteractable
 
     public GameObject nPCBaseMesh;
 
+    public bool deactivateOnStart = false;
+
     [Header("NPC One-Liner")]
     public List<NPCOneLinerProfile> allPossibleOL = new List<NPCOneLinerProfile>();
 
@@ -93,6 +95,11 @@ public class NPC : MonoBehaviour, IInteractable
         if (this.gameObject.GetComponent<NPCScreamingHandler>() == null)
         {
             nPCAudioSource = this.gameObject.GetComponent<AudioSource>();
+        }
+
+        if (deactivateOnStart)
+        {
+            this.gameObject.SetActive(false);
         }
 
         //if (nPCCVC != null && nPCCVC.m_Follow == null)

@@ -84,10 +84,12 @@ public class SaveGameObject
     public List<int> storedItemID = new List<int>();
     public List<int> storedItemAmount = new List<int>();
 
-    // Interactable Objects ( /+ Doors )
+    // Interactable Objects ( /+ Doors /+ Chests )
     public List<string> allInteractableObjectNames = new List<string>();
+    public List<bool> allInteractableObjectIsActive = new List<bool>();
 
     public List<bool> isDoorOpen = new List<bool>();
+    public List<bool> isChestOpen = new List<bool>();
 
     // Debuffs
     // - Bleeding
