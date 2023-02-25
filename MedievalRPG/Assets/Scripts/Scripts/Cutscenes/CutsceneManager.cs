@@ -659,8 +659,13 @@ public class CutsceneManager : MonoBehaviour
         GameManager.instance.mapGO.SetActive(true);
         GameManager.instance.hotbarGO.SetActive(true);
         GameManager.instance.playerStatsGO.SetActive(true);
-        GameManager.instance.bowUIGO.SetActive(true);
-        GameManager.instance.crosshairGO.SetActive(true);
+
+        if (EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase != null 
+            && EquippingManager.instance.leftWeaponES.GetComponent<ClickableInventorySlot>().storedItemBase.weaponType == ItemBaseProfile.WeaponType.bow)
+        {
+            GameManager.instance.bowUIGO.SetActive(true);
+            GameManager.instance.crosshairGO.SetActive(true);
+        }
 
         //CutsceneManager.instance.ResetNPCAfterDialogue();
 
