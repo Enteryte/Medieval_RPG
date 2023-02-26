@@ -32,6 +32,8 @@ public class CutsceneManager : MonoBehaviour
 
     public LoadingScreenProfile afterCreditsLSP;
 
+    public AudioClip normalVillageMusicC;
+
     [Header("CS w. Alchemist")]
     public GameObject alchemistGO;
 
@@ -763,7 +765,15 @@ public class CutsceneManager : MonoBehaviour
 
         GameManager.instance.musicAudioSource.volume = 0;
 
-        GameManager.instance.musicAudioSource.clip = currCP.musicAfterCSFinished;
+        if (currCP == null)
+        {
+            GameManager.instance.musicAudioSource.clip = normalVillageMusicC;
+        }
+        else
+        {
+            GameManager.instance.musicAudioSource.clip = currCP.musicAfterCSFinished;
+        }
+
         GameManager.instance.musicAudioSource.Play();
 
         while (currentTime < 1f)

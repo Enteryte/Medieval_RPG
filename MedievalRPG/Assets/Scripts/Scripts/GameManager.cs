@@ -685,7 +685,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        TavernKeeper.instance.animator.speed = 0;
+        if (TavernKeeper.instance)
+        {
+            TavernKeeper.instance.animator.speed = 0;
+        }
 
         for (int i = 0; i < allNPCScreamingHandler.Count; i++)
         {
@@ -786,7 +789,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        TavernKeeper.instance.animator.speed = 1;
+        if (TavernKeeper.instance)
+        {
+            TavernKeeper.instance.animator.speed = 1;
+        }
 
         for (int i = 0; i < allNPCScreamingHandler.Count; i++)
         {

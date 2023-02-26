@@ -15,7 +15,7 @@ public class MissionTriggerBox : MonoBehaviour
             Debug.Log("MissionTriggerBox: IS NULL!");
         }
 
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
 
     public void OnTriggerEnter(Collider other)
