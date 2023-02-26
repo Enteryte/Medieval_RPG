@@ -16,11 +16,11 @@ public class DeleteSaveDataButton : MonoBehaviour
 
         if (!StartScreenManager.instance.dontAskOnDeleteDataAgain)
         {
-            StartScreenManager.instance.mainAnimator.Play(openAreYouSureDeleteScreenAnim.name);
+            StartScreenManager.instance.mainAnimator.Play(openAreYouSureDeleteScreenAnim.name);            
         }
         else
         {
-            // WIP: Delete SaveData of currClickedLoadSlot
+            ////// WIP: Delete SaveData of currClickedLoadSlot
 
             StartScreenManager.instance.saveGameScreenshot.enabled = false;
             StartScreenManager.instance.saveGameScreenshot.sprite = null;
@@ -39,6 +39,8 @@ public class DeleteSaveDataButton : MonoBehaviour
                     }
                 }
             }
+
+            SceneChangeManager.instance.uiAudioSource.PlayOneShot(StartScreenManager.instance.deleteSaveFileAC);
 
             StartScreenManager.currClickedLoadSlot = null;
             Destroy(correspondingLoadSlot.gameObject);

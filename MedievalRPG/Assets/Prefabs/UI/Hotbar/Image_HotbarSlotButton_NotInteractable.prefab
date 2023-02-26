@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7953959625676543860}
   - component: {fileID: 8737994373567945181}
   - component: {fileID: 3613898192617564045}
+  - component: {fileID: -231260771523805092}
   m_Layer: 5
   m_Name: Image_HotbarSlotButton_NotInteractable
   m_TagString: Untagged
@@ -92,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iBP: {fileID: 0}
-  itemAmountInInv: 0
+  itemAmount: 0
   itemSpriteImg: {fileID: 7953959625676543860}
   itemAmountTxt: {fileID: 4952761925385384930}
   correspondingMainScreenHotbarSlotBtn: {fileID: 0}
@@ -111,6 +112,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &-231260771523805092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8105848314533728456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a926404e9d6d44cab1dc151172365d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAC: {fileID: 8300000, guid: 4fe9c2baae3cf37479bd197d69f2a753, type: 3}
+  clickAC: {fileID: 8300000, guid: 7cf51d7d2c14a3448a5f9550c7033fb3, type: 3}
 --- !u!1 &8166251755631681794
 GameObject:
   m_ObjectHideFlags: 0

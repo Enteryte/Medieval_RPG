@@ -15,6 +15,8 @@ public class SceneChangeManager : MonoBehaviour
     public bool pressedContinue = false;
     public CutsceneProfile startCutsceneP;
 
+    public AudioSource uiAudioSource;
+
     [Header("Deactivate If Load GameScene")]
     public List<GameObject> allGOsToDeactivate;
     public List<GameObject> allGosToActivate;

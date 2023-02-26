@@ -194,7 +194,7 @@ public class SaveSystem : MonoBehaviour
             OptionManager.instance.masterSlider.value = 0.5f;
             OptionManager.instance.environmentSlider.value = 0.5f;
             OptionManager.instance.voiceSlider.value = 0.5f;
-            OptionManager.instance.musicSlider.value = 0.5f;
+            OptionManager.instance.musicSlider.value = 0.1f;
             OptionManager.instance.sfxSlider.value = 0.5f;
 
             OptionManager.instance.windowModeToggle.isOn = false;
@@ -202,7 +202,7 @@ public class SaveSystem : MonoBehaviour
             OptionManager.instance.subtitleToggle.isOn = true;
             StartScreenManager.instance.showSubtitle = true;
 
-            OptionManager.instance.cameraSensiSlider.value = 0.5f;
+            OptionManager.instance.cameraSensiSlider.value = 1f;
             OptionManager.instance.mouseSensiSlider.value = 0.5f;
 
             OptionManager.instance.controllerToggle.isOn = false;
@@ -251,18 +251,19 @@ public class SaveSystem : MonoBehaviour
     {
         SaveGameObject sGO = new SaveGameObject();
 
-        if (currSavingType == SavingType.manual)
-        {
-            sGO.savingType = "Manuel";
-        }
-        else if (currSavingType == SavingType.auto)
-        {
-            sGO.savingType = "Autosave";
-        }
-        else
-        {
-            sGO.savingType = "Checkpoint";
-        }
+        sGO.savingType = "Manuel";
+        //if (currSavingType == SavingType.manual)
+        //{
+        //    sGO.savingType = "Manuel";
+        //}
+        //else if (currSavingType == SavingType.auto)
+        //{
+        //    sGO.savingType = "Autosave";
+        //}
+        //else
+        //{
+        //    sGO.savingType = "Checkpoint";
+        //}
 
         sGO.currSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
@@ -608,31 +609,31 @@ public class SaveSystem : MonoBehaviour
             //LoadEnemies(sGO);
             LoadInventoryAndItemDatabase(sGO);
 
-            if (continuePath.Contains("_D2") || continuePath.Contains("_D1") || LoadingScreen.currLSP.sceneToLoadIndex == 3 || LoadingScreen.currLSP.sceneToLoadIndex == 4)
-            {
-                if (sGO.changeDaytime)
-                {
-                    GameManager.instance.correspondingCutsceneProfilAtNight = null;
+            //if (continuePath.Contains("_D2") || continuePath.Contains("_D1") || LoadingScreen.currLSP.sceneToLoadIndex == 3 || LoadingScreen.currLSP.sceneToLoadIndex == 4)
+            //{
+            //    if (sGO.changeDaytime)
+            //    {
+            //        GameManager.instance.correspondingCutsceneProfilAtNight = null;
 
-                    GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
-                }
-                else
-                {
-                    GameManager.instance.correspondingCutsceneProfilAtNight = GameManager.instance.cutsceneProfileAtNightHolder;
+            //        GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
+            //    }
+            //    else
+            //    {
+            //        GameManager.instance.correspondingCutsceneProfilAtNight = GameManager.instance.cutsceneProfileAtNightHolder;
 
-                    GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 0;
-                }
+            //        GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 0;
+            //    }
 
-                GameManager.instance.changeDaytime = sGO.changeDaytime;
+            //    GameManager.instance.changeDaytime = sGO.changeDaytime;
 
-                GameManager.instance.hdrpTOD.TimeOfDay = sGO.timeOfDay;
+            //    GameManager.instance.hdrpTOD.TimeOfDay = sGO.timeOfDay;
 
-                GameManager.instance.currRainingDuration = 0;
-            }
-            else
-            {
+            //    GameManager.instance.currRainingDuration = 0;
+            //}
+            //else
+            //{
                 LoadDaytimeAndWeather(sGO);
-            }
+            //}
 
             LoadBuffsAndDebuffs(sGO);
             //LoadInteractableObjects(sGO);
@@ -868,17 +869,17 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveEnemies(SaveGameObject sGO)
     {
-        for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
-        {
-            sGO.allMeleeEnemyPositions.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.position);
-            sGO.allMeleeEnemyRotations.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.rotation);
-        }
+        //for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
+        //{
+        //    sGO.allMeleeEnemyPositions.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.position);
+        //    sGO.allMeleeEnemyRotations.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.rotation);
+        //}
 
-        for (int i = 0; i < GameManager.instance.allArcherEnemies.Count; i++)
-        {
-            sGO.allArcherEnemyPositions.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.position);
-            sGO.allArcherEnemyRotations.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.rotation);
-        }
+        //for (int i = 0; i < GameManager.instance.allArcherEnemies.Count; i++)
+        //{
+        //    sGO.allArcherEnemyPositions.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.position);
+        //    sGO.allArcherEnemyRotations.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.rotation);
+        //}
     }
 
     public void SaveInteractableObjects(SaveGameObject sGO)
@@ -888,16 +889,23 @@ public class SaveSystem : MonoBehaviour
             if (GameManager.instance.allInteractableObjects[i] != null)
             {
                 sGO.allInteractableObjectNames.Add(GameManager.instance.allInteractableObjects[i].name);
+                sGO.allInteractableObjectIsActive.Add(GameManager.instance.allInteractableObjects[i].activeSelf);
             }
             else
             {
                 sGO.allInteractableObjectNames.Add(null);
+                sGO.allInteractableObjectIsActive.Add(false);
             }
         }
 
         for (int i = 0; i < GameManager.instance.allInteractableDoors.Count; i++)
         {
             sGO.isDoorOpen.Add(GameManager.instance.allInteractableDoors[i].isOpen);
+        }
+
+        for (int i = 0; i < GameManager.instance.allInteractableChests.Count; i++)
+        {
+            sGO.isChestOpen.Add(GameManager.instance.allInteractableChests[i].isOpen);
         }
     }
 
@@ -1101,6 +1109,9 @@ public class SaveSystem : MonoBehaviour
         PlayerValueManager.instance.money = sGO.currPlayerMoney;
         PlayerValueManager.instance.healthSlider.value = sGO.currPlayerHealth;
         PlayerValueManager.instance.staminaSlider.value = sGO.currPlayerStamina;
+
+        PlayerValueManager.instance.CurrHP = sGO.currPlayerHealth;
+        PlayerValueManager.instance.currStamina = sGO.currPlayerStamina;
     }
 
     public void LoadInventoryAndItemDatabase(SaveGameObject sGO)
@@ -1238,7 +1249,7 @@ public class SaveSystem : MonoBehaviour
                     //{
                     UIManager.missionToDisplay = MissionManager.instance.allMissions[i];
 
-                        UIManager.instance.CreateMissionDisplay();
+                    UIManager.instance.CreateMissionDisplay();
 
                     //UIAnimationHandler.instance.howChangedMissionTxt.text = UIAnimationHandler.instance.addedMissionString;
                     //UIAnimationHandler.instance.addedMissionTxt.text = MissionManager.instance.allCurrAcceptedMissions[i].missionName;
@@ -1260,6 +1271,12 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadNPCs(SaveGameObject sGO)
     {
+        //if (sGO.isNPCVisible.Count > GameManager.instance.allVillageNPCs.Count)
+        //{
+        //    GameManager.instance.allVillageNPCs[GameManager.instance.allVillageNPCs.Count].gameObject.SetActive(false);
+        //    GameManager.instance.allVillageNPCs.Remove(GameManager.instance.allVillageNPCs[GameManager.instance.allVillageNPCs.Count]);
+        //}
+
         for (int i = 0; i < GameManager.instance.allVillageNPCs.Count; i++)
         {
             if (GameManager.instance.allWalkingNPCs.Contains(GameManager.instance.allVillageNPCs[i]))
@@ -1311,37 +1328,61 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadEnemies(SaveGameObject sGO)
     {
-        for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
-        {
-            GameManager.instance.allMeleeEnemies[i].transform.position = sGO.allMeleeEnemyPositions[i];
-            GameManager.instance.allMeleeEnemies[i].transform.rotation = sGO.allMeleeEnemyRotations[i];
-        }
+        //for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
+        //{
+        //    GameManager.instance.allMeleeEnemies[i].transform.position = sGO.allMeleeEnemyPositions[i];
+        //    GameManager.instance.allMeleeEnemies[i].transform.rotation = sGO.allMeleeEnemyRotations[i];
+        //}
 
-        for (int i = 0; i < GameManager.instance.allArcherEnemies.Count; i++)
-        {
-            GameManager.instance.allArcherEnemies[i].transform.position = sGO.allArcherEnemyPositions[i];
-            GameManager.instance.allArcherEnemies[i].transform.rotation = sGO.allArcherEnemyRotations[i];
-        }
+        //for (int i = 0; i < GameManager.instance.allArcherEnemies.Count; i++)
+        //{
+        //    GameManager.instance.allArcherEnemies[i].transform.position = sGO.allArcherEnemyPositions[i];
+        //    GameManager.instance.allArcherEnemies[i].transform.rotation = sGO.allArcherEnemyRotations[i];
+        //}
     }
 
     public void LoadInteractableObjects(SaveGameObject sGO)
     {
         for (int i = 0; i < GameManager.instance.allInteractableObjects.Count; i++)
         {
+            if (GameManager.instance.allInteractableObjects[i] == null)
+            {
+                break;
+            }
+
             if (!sGO.allInteractableObjectNames.Contains(GameManager.instance.allInteractableObjects[i].name))
             {
-                GameManager.instance.allInteractableObjects[i].gameObject.SetActive(false);
-                //GameManager.instance.allInteractableObjects.Remove(GameManager.instance.allInteractableObjects[i]);
+                //if (GameManager.instance.allInteractableObjects[i] != null)
+                //{
+                    GameManager.instance.allInteractableObjects[i].gameObject.SetActive(false);
+                    //GameManager.instance.allInteractableObjects.Remove(GameManager.instance.allInteractableObjects[i]);
+                //}
             }
             else
             {
-                GameManager.instance.allInteractableObjects[i].gameObject.SetActive(true);
+                GameManager.instance.allInteractableObjects[i].gameObject.SetActive(sGO.allInteractableObjectIsActive[i]);
             }
         }
 
         for (int i = 0; i < GameManager.instance.allInteractableDoors.Count; i++)
         {
-            GameManager.instance.allInteractableDoors[i].isOpen = sGO.isDoorOpen[i];
+            if (sGO.isDoorOpen[i] == true)
+            {
+                Debug.Log("OPEN");
+                GameManager.instance.allInteractableDoors[i].OpenDoor(Vector3.zero);
+            }
+            //GameManager.instance.allInteractableDoors[i].isOpen = sGO.isDoorOpen[i];
+        }
+
+        for (int i = 0; i < GameManager.instance.allInteractableChests.Count; i++)
+        {
+            if (sGO.isChestOpen[i] == true)
+            {
+                Debug.Log("OPEN");
+                GameManager.instance.allInteractableChests[i].isOpen = true;
+
+                GameManager.instance.allInteractableChests[i].gameObject.GetComponent<Animator>().enabled = true;
+            }
         }
     }
 
@@ -1402,34 +1443,65 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadDaytimeAndWeather(SaveGameObject sGO)
     {
-        if (sGO.changeDaytime)
+        //if (continuePath.Contains("_D2") || continuePath.Contains("_D1") || LoadingScreen.currLSP.sceneToLoadIndex == 3 || LoadingScreen.currLSP.sceneToLoadIndex == 4)
+        //{
+        //    if (sGO.changeDaytime)
+        //    {
+        //        GameManager.instance.correspondingCutsceneProfilAtNight = null;
+
+        //        GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
+        //    }
+        //    else
+        //    {
+        //        GameManager.instance.correspondingCutsceneProfilAtNight = GameManager.instance.cutsceneProfileAtNightHolder;
+
+        //        GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 0;
+        //    }
+
+        //    GameManager.instance.changeDaytime = sGO.changeDaytime;
+
+        //    GameManager.instance.hdrpTOD.TimeOfDay = sGO.timeOfDay;
+
+        //    GameManager.instance.currRainingDuration = 0;
+
+        if (!continuePath.Contains("_D2") && !continuePath.Contains("_D1") || LoadingScreen.currLSP != null && LoadingScreen.currLSP.sceneToLoadIndex != 3 && LoadingScreen.currLSP.sceneToLoadIndex != 4)
         {
-            GameManager.instance.correspondingCutsceneProfilAtNight = null;
+            if (sGO.changeDaytime)
+            {
+                GameManager.instance.correspondingCutsceneProfilAtNight = null;
+
+                if (GameManager.instance.shouldChangeTime)
+                {
+                    GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
+                }
+            }
+            else
+            {
+                GameManager.instance.correspondingCutsceneProfilAtNight = GameManager.instance.cutsceneProfileAtNightHolder;
+
+                GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 0;
+            }
+
+            GameManager.instance.changeDaytime = sGO.changeDaytime;
+
+            GameManager.instance.hdrpTOD.TimeOfDay = sGO.timeOfDay;
 
             if (GameManager.instance.shouldChangeTime)
             {
-                GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 1;
+                if (sGO.isRaining)
+                {
+                    GameManager.instance.hdrpTOD.StartWeather(0);
+                }
+
+                GameManager.instance.currRainingDuration = sGO.currRainingDuration;
             }
         }
         else
         {
-            GameManager.instance.correspondingCutsceneProfilAtNight = GameManager.instance.cutsceneProfileAtNightHolder;
+            GameManager.instance.changeDaytime = false;
+            GameManager.instance.correspondingCutsceneProfilAtNight = null;
 
-            GameManager.instance.hdrpTOD.m_timeOfDayMultiplier = 0;
-        }
-
-        GameManager.instance.changeDaytime = sGO.changeDaytime;
-
-        GameManager.instance.hdrpTOD.TimeOfDay = sGO.timeOfDay;
-
-        if (GameManager.instance.shouldChangeTime)
-        {
-            if (sGO.isRaining)
-            {
-                GameManager.instance.hdrpTOD.StartWeather(0);
-            }
-
-            GameManager.instance.currRainingDuration = sGO.currRainingDuration;
+            GameManager.instance.hdrpTOD.UseWeatherFX = false;
         }
     }
 

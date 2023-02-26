@@ -11,9 +11,14 @@ public class CutsceneTriggerBox : MonoBehaviour
     public bool triggerWhenMissionIsAccepted = false; // Triggers Cutscene if mission is accepted.
     public bool triggerWhenMissionTaskIsCompleted = false; // Triggers Cutscene if mission task is completed.
 
-    public CutsceneProfile cutsceneToTrigger; // Better more a dialogue or monologue  than an actual cutscene.
+    public CutsceneProfile cutsceneToTrigger; // Better more a dialogue or monologue than an actual cutscene.
 
     public bool triggerOnExit = false;
+
+    public void Start()
+    {
+        GameManager.instance.allInteractableObjects.Add(this.gameObject);
+    }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -34,7 +39,7 @@ public class CutsceneTriggerBox : MonoBehaviour
                     CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
                     CutsceneManager.instance.playableDirector.Play();
 
-                    Destroy(this.gameObject);
+                    this.gameObject.SetActive(false);
                 }
                 else if (triggerWhenMissionIsAccepted)
                 {
@@ -44,7 +49,7 @@ public class CutsceneTriggerBox : MonoBehaviour
                         CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
                         CutsceneManager.instance.playableDirector.Play();
 
-                        Destroy(this.gameObject);
+                        this.gameObject.SetActive(false);
                     }
                 }
                 else if (triggerWhenMissionTaskIsCompleted)
@@ -57,13 +62,13 @@ public class CutsceneTriggerBox : MonoBehaviour
                             CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
                             CutsceneManager.instance.playableDirector.Play();
 
-                            Destroy(this.gameObject);
+                            this.gameObject.SetActive(false);
                         }
                     }
                 }
             }
 
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }       
     }
 
@@ -79,7 +84,7 @@ public class CutsceneTriggerBox : MonoBehaviour
                     CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
                     CutsceneManager.instance.playableDirector.Play();
 
-                    Destroy(this.gameObject);
+                    this.gameObject.SetActive(false);
                 }
                 else if (triggerWhenMissionIsAccepted)
                 {
@@ -89,7 +94,7 @@ public class CutsceneTriggerBox : MonoBehaviour
                         CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
                         CutsceneManager.instance.playableDirector.Play();
 
-                        Destroy(this.gameObject);
+                        this.gameObject.SetActive(false);
                     }
                 }
                 else if (triggerWhenMissionTaskIsCompleted)
@@ -102,13 +107,13 @@ public class CutsceneTriggerBox : MonoBehaviour
                             CutsceneManager.instance.playableDirector.playableAsset = cutsceneToTrigger.cutscene;
                             CutsceneManager.instance.playableDirector.Play();
 
-                            Destroy(this.gameObject);
+                            this.gameObject.SetActive(false);
                         }
                     }
                 }
             }
 
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 }

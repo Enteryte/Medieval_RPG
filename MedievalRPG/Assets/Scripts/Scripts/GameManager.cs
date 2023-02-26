@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> allInteractableObjects;
     public List<Door> allInteractableDoors;
+    public List<Item> allInteractableChests;
     public List<MeleeEnemyKi> allMeleeEnemies;
     public List<ArcherEnemyKI> allArcherEnemies;
 
@@ -89,6 +90,8 @@ public class GameManager : MonoBehaviour
     public float passedTimeTillLastSave = 0;
 
     public MissionTaskBase mTBWSearchingOnGraveyard;
+
+    public AudioSource uiAudioSource;
 
     [Header("Tutorial")]
     public TutorialBaseProfile meleeTutorial;
@@ -684,7 +687,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        TavernKeeper.instance.animator.speed = 0;
+        if (TavernKeeper.instance)
+        {
+            TavernKeeper.instance.animator.speed = 0;
+        }
 
         for (int i = 0; i < allNPCScreamingHandler.Count; i++)
         {
@@ -785,7 +791,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        TavernKeeper.instance.animator.speed = 1;
+        if (TavernKeeper.instance)
+        {
+            TavernKeeper.instance.animator.speed = 1;
+        }
 
         for (int i = 0; i < allNPCScreamingHandler.Count; i++)
         {
@@ -1029,6 +1038,11 @@ public class GameManager : MonoBehaviour
                 newSGSlot.GetComponent<LoadSlot>().loadGameSavingTypeTxt.text = sOG.savingType;
             }
         }
+    }
+
+    public void SetUIAudioOneShot(AudioClip audioClipToPlay)
+    {
+        uiAudioSource.PlayOneShot(audioClipToPlay);
     }
 
     public Sprite LoadNewSprite(string FilePath, float PixelsPerUnit = 100.0f)

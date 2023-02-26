@@ -14,6 +14,8 @@ public class MissionTriggerBox : MonoBehaviour
         {
             Debug.Log("MissionTriggerBox: IS NULL!");
         }
+
+        //this.gameObject.SetActive(false);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -31,7 +33,7 @@ public class MissionTriggerBox : MonoBehaviour
                     CutsceneManager.instance.playableDirector.Play();
                 }
 
-                Destroy(this.gameObject);
+                this.gameObject.SetActive(false);
             }
         }
     }
