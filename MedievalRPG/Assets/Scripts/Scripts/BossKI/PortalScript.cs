@@ -11,7 +11,7 @@ public class PortalScript : MonoBehaviour
 
     private void Start()
     {
-        source.volume = AudioManager.Instance.EffectsVolume;
+        source.volume = AudioManager.Instance.EffectsVolume * AudioManager.Instance.MasterVolume;
         StartCoroutine(DeleteThis());
     }
 

@@ -7,6 +7,12 @@ public class MeteorDamager : MonoBehaviour
     [SerializeField] private float damage;
     [SerializeField] private float debuffTime;
     [SerializeField] private bool resetDebuffTImer;
+    [SerializeField] private AudioSource source;
+
+    private void Start()
+    {
+        source.volume = AudioManager.Instance.EffectsVolume * AudioManager.Instance.MasterVolume;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
