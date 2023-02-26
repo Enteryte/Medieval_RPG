@@ -330,7 +330,7 @@ public class GameManager : MonoBehaviour
         //}
 
         // Day-Night
-        if (!gameIsPaused && changeDaytime && shouldChangeTime)
+        if (!gameIsPaused && changeDaytime && shouldChangeTime && correspondingCutsceneProfilAtNight != null)
         {
             if (hdrpTOD.TimeOfDay >= 16.8f && CutsceneManager.instance.currCP == null
                 || hdrpTOD.TimeOfDay >= 16.8f && !CutsceneManager.instance.playableDirector.playableGraph.IsPlaying())

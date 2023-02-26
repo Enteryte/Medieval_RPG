@@ -127,14 +127,14 @@ public class StartScreenManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                SetMainMenuLoadingScreenProfile();
+
                 if (Directory.Exists(Application.persistentDataPath + "/SaveData/"))
                 {
                     var dirInfo = Directory.GetDirectories(Application.persistentDataPath + "/SaveData/");
 
                     if (dirInfo.Length > 0)
                     {
-                        SetMainMenuLoadingScreenProfile();
-
                         dontChangeToggle = true;
 
                         //OptionManager.instance.tutorialToggle.isOn = showTutorialToggle.isOn;
@@ -440,9 +440,11 @@ public class StartScreenManager : MonoBehaviour
     {
         LoadingScreen.currLSP = mainMenuLSP;
 
-        LoadingScreen.instance.placeNameTxt.text = mainMenuLSP.placeName;
+        LoadingScreen.instance.placeNameTxt.text = "";
         LoadingScreen.instance.backgroundImg.sprite = mainMenuLSP.backgroundSprite;
-        LoadingScreen.instance.descriptionTxt.text = mainMenuLSP.descriptionTextString;
+        LoadingScreen.instance.descriptionTxt.text = "";
+
+        Debug.Log("LOADINGSCREEN MM");
     }
 
     public Sprite LoadNewSprite(string FilePath, float PixelsPerUnit = 100.0f)

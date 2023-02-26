@@ -52,6 +52,9 @@ public class LocomotionAgent : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        transform.position = Agent.nextPosition;
+        if (Agent != null)
+        {
+            transform.position = Agent.nextPosition;
+        }
     }
 }
