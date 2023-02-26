@@ -28,6 +28,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7505710490118841967}
   m_RootOrder: 3
@@ -162,6 +163,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.75441, y: 0.75441, z: 0.75441}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7505710490118841967}
   m_RootOrder: 0
@@ -237,6 +239,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7505710490118841967}
   m_RootOrder: 2
@@ -371,6 +374,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7505710490118841967}
   m_RootOrder: 1
@@ -491,6 +495,7 @@ GameObject:
   - component: {fileID: 7505710490118841964}
   - component: {fileID: 7016939084203618234}
   - component: {fileID: 282048058623253001}
+  - component: {fileID: -1217557969017047526}
   m_Layer: 5
   m_Name: Button_ItemInformations
   m_TagString: Untagged
@@ -508,6 +513,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7505710489012818225}
   - {fileID: 7505710489967537525}
@@ -620,10 +626,7 @@ MonoBehaviour:
   itemNameTxt: {fileID: 7505710489967537522}
   itemBuyPriceTxt: {fileID: 7505710489031966319}
   itemMindLvlTxt: {fileID: 7505710488275946790}
-  shopCursor: {fileID: 0}
-  isPressing: 0
-  timeToPress: 1
-  pressedTime: 0
+  clickCursor: {fileID: 0}
   btnComp: {fileID: 7505710490118841964}
 --- !u!114 &282048058623253001
 MonoBehaviour:
@@ -686,3 +689,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &-1217557969017047526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7505710490118841966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a926404e9d6d44cab1dc151172365d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAC: {fileID: 8300000, guid: 4fe9c2baae3cf37479bd197d69f2a753, type: 3}
+  clickAC: {fileID: 8300000, guid: 7cf51d7d2c14a3448a5f9550c7033fb3, type: 3}

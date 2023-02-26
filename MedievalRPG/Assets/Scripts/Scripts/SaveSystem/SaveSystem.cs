@@ -251,18 +251,19 @@ public class SaveSystem : MonoBehaviour
     {
         SaveGameObject sGO = new SaveGameObject();
 
-        if (currSavingType == SavingType.manual)
-        {
-            sGO.savingType = "Manuel";
-        }
-        else if (currSavingType == SavingType.auto)
-        {
-            sGO.savingType = "Autosave";
-        }
-        else
-        {
-            sGO.savingType = "Checkpoint";
-        }
+        sGO.savingType = "Manuel";
+        //if (currSavingType == SavingType.manual)
+        //{
+        //    sGO.savingType = "Manuel";
+        //}
+        //else if (currSavingType == SavingType.auto)
+        //{
+        //    sGO.savingType = "Autosave";
+        //}
+        //else
+        //{
+        //    sGO.savingType = "Checkpoint";
+        //}
 
         sGO.currSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
@@ -868,17 +869,17 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveEnemies(SaveGameObject sGO)
     {
-        for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
-        {
-            sGO.allMeleeEnemyPositions.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.position);
-            sGO.allMeleeEnemyRotations.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.rotation);
-        }
+        //for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
+        //{
+        //    sGO.allMeleeEnemyPositions.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.position);
+        //    sGO.allMeleeEnemyRotations.Add(GameManager.instance.allMeleeEnemies[i].gameObject.transform.rotation);
+        //}
 
-        for (int i = 0; i < GameManager.instance.allArcherEnemies.Count; i++)
-        {
-            sGO.allArcherEnemyPositions.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.position);
-            sGO.allArcherEnemyRotations.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.rotation);
-        }
+        //for (int i = 0; i < GameManager.instance.allArcherEnemies.Count; i++)
+        //{
+        //    sGO.allArcherEnemyPositions.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.position);
+        //    sGO.allArcherEnemyRotations.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.rotation);
+        //}
     }
 
     public void SaveInteractableObjects(SaveGameObject sGO)
@@ -1327,17 +1328,17 @@ public class SaveSystem : MonoBehaviour
 
     public void LoadEnemies(SaveGameObject sGO)
     {
-        for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
-        {
-            GameManager.instance.allMeleeEnemies[i].transform.position = sGO.allMeleeEnemyPositions[i];
-            GameManager.instance.allMeleeEnemies[i].transform.rotation = sGO.allMeleeEnemyRotations[i];
-        }
+        //for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
+        //{
+        //    GameManager.instance.allMeleeEnemies[i].transform.position = sGO.allMeleeEnemyPositions[i];
+        //    GameManager.instance.allMeleeEnemies[i].transform.rotation = sGO.allMeleeEnemyRotations[i];
+        //}
 
-        for (int i = 0; i < GameManager.instance.allArcherEnemies.Count; i++)
-        {
-            GameManager.instance.allArcherEnemies[i].transform.position = sGO.allArcherEnemyPositions[i];
-            GameManager.instance.allArcherEnemies[i].transform.rotation = sGO.allArcherEnemyRotations[i];
-        }
+        //for (int i = 0; i < GameManager.instance.allArcherEnemies.Count; i++)
+        //{
+        //    GameManager.instance.allArcherEnemies[i].transform.position = sGO.allArcherEnemyPositions[i];
+        //    GameManager.instance.allArcherEnemies[i].transform.rotation = sGO.allArcherEnemyRotations[i];
+        //}
     }
 
     public void LoadInteractableObjects(SaveGameObject sGO)

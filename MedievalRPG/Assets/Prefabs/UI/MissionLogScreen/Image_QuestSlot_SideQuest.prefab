@@ -680,6 +680,7 @@ GameObject:
   - component: {fileID: 4171237594537733435}
   - component: {fileID: 4171237594537733428}
   - component: {fileID: -754475870067423701}
+  - component: {fileID: 8913143935158825148}
   m_Layer: 5
   m_Name: Image_QuestSlot_SideQuest
   m_TagString: Untagged
@@ -856,3 +857,20 @@ MonoBehaviour:
   sideColorImg: {fileID: 4171237593335349515}
   hoverGradientImg: {fileID: 4171237592753295622}
   missionSymbolImg: {fileID: 4171237594057344821}
+  boarder: {fileID: 0}
+  corrMBP: {fileID: 0}
+  isSelectedImg: {fileID: 0}
+--- !u!114 &8913143935158825148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4171237594537733430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a926404e9d6d44cab1dc151172365d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAC: {fileID: 8300000, guid: 4fe9c2baae3cf37479bd197d69f2a753, type: 3}
+  clickAC: {fileID: 8300000, guid: 7cf51d7d2c14a3448a5f9550c7033fb3, type: 3}

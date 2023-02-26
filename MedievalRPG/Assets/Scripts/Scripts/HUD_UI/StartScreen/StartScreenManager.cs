@@ -52,6 +52,8 @@ public class StartScreenManager : MonoBehaviour
     public bool changeBackToMM = false;
     public bool dontChangeToggle = false;
 
+    public AudioClip deleteSaveFileAC;
+
     public void Awake()
     {
         if (instance == null)
@@ -75,6 +77,8 @@ public class StartScreenManager : MonoBehaviour
     {
         if (Input.anyKey && canPressAnyKey)
         {
+            SceneChangeManager.instance.uiAudioSource.PlayOneShot(deleteSaveFileAC);
+
             mainAnimator.Play("AfterPressedAnyKey");
             canPressAnyKey = false;
         }
@@ -214,6 +218,8 @@ public class StartScreenManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 // --------------------------------------------------------------------------> WIP: Delete SavaData
+
+                SceneChangeManager.instance.uiAudioSource.PlayOneShot(StartScreenManager.instance.deleteSaveFileAC);
 
                 mainAnimator.Play(closeAreYouSureDeleteSavaDataAnim.name);
 

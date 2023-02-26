@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 5164069286090002722}
   - component: {fileID: 5803950328683995019}
   - component: {fileID: 2012955955292856795}
+  - component: {fileID: 6361121009023049616}
   m_Layer: 5
   m_Name: Image_HotbarSlotButton_Interactable
   m_TagString: Untagged
@@ -448,3 +449,17 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &6361121009023049616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6464235140802598558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a926404e9d6d44cab1dc151172365d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAC: {fileID: 8300000, guid: 4fe9c2baae3cf37479bd197d69f2a753, type: 3}
+  clickAC: {fileID: 8300000, guid: 7cf51d7d2c14a3448a5f9550c7033fb3, type: 3}

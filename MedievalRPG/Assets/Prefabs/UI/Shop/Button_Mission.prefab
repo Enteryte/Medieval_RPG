@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 5154182492504083263}
   - component: {fileID: 380542505921515206}
   - component: {fileID: 8411701263435680698}
+  - component: {fileID: 1560808428027535968}
   m_Layer: 5
   m_Name: Button_Mission
   m_TagString: Untagged
@@ -373,6 +374,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &1560808428027535968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6621413130003005264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a926404e9d6d44cab1dc151172365d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAC: {fileID: 8300000, guid: 3a0018191ccf4ab49a1dcb6e2518ffe1, type: 3}
+  clickAC: {fileID: 8300000, guid: fb82d3f0074b5ff46857e2e81f4d74b5, type: 3}
 --- !u!1 &7652947877410140742
 GameObject:
   m_ObjectHideFlags: 0

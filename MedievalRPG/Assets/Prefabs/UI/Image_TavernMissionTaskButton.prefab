@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 1270285978877497819}
   - component: {fileID: 1270285978877497816}
   - component: {fileID: 8457996568783498697}
+  - component: {fileID: 6546246067771352780}
   m_Layer: 5
   m_Name: Image_TavernMissionTaskButton
   m_TagString: Untagged
@@ -326,6 +327,20 @@ MonoBehaviour:
   missionTypeImg: {fileID: 587429114}
   mainQuestSprite: {fileID: 21300000, guid: dc659c823331db74bae6e262fc102098, type: 3}
   sideQuestSprite: {fileID: 21300000, guid: 8b8dc6373f8bacc4db6d8856853be92f, type: 3}
+--- !u!114 &6546246067771352780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1270285978877497814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a926404e9d6d44cab1dc151172365d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAC: {fileID: 8300000, guid: 4fe9c2baae3cf37479bd197d69f2a753, type: 3}
+  clickAC: {fileID: 8300000, guid: 7cf51d7d2c14a3448a5f9550c7033fb3, type: 3}
 --- !u!1 &1270285979580103526
 GameObject:
   m_ObjectHideFlags: 0

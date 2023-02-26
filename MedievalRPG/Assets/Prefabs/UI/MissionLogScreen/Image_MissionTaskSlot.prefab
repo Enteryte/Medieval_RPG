@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 3702435822766561388}
   - component: {fileID: 3702435822766561391}
   - component: {fileID: 2429084156856645086}
+  - component: {fileID: 3392203805886046415}
   m_Layer: 5
   m_Name: Image_MissionTaskSlot
   m_TagString: Untagged
@@ -169,6 +170,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mTaskDescriptionTxt: {fileID: 3702435823082202933}
   checkMark: {fileID: 3702435822259740952}
+--- !u!114 &3392203805886046415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3702435822766561393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a926404e9d6d44cab1dc151172365d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverAC: {fileID: 8300000, guid: 3a0018191ccf4ab49a1dcb6e2518ffe1, type: 3}
+  clickAC: {fileID: 8300000, guid: fb82d3f0074b5ff46857e2e81f4d74b5, type: 3}
 --- !u!1 &3702435823082202935
 GameObject:
   m_ObjectHideFlags: 0

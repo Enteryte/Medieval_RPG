@@ -91,6 +91,8 @@ public class GameManager : MonoBehaviour
 
     public MissionTaskBase mTBWSearchingOnGraveyard;
 
+    public AudioSource uiAudioSource;
+
     [Header("Tutorial")]
     public TutorialBaseProfile meleeTutorial;
     public TutorialBaseProfile rangedTutorial;
@@ -1036,6 +1038,11 @@ public class GameManager : MonoBehaviour
                 newSGSlot.GetComponent<LoadSlot>().loadGameSavingTypeTxt.text = sOG.savingType;
             }
         }
+    }
+
+    public void SetUIAudioOneShot(AudioClip audioClipToPlay)
+    {
+        uiAudioSource.PlayOneShot(audioClipToPlay);
     }
 
     public Sprite LoadNewSprite(string FilePath, float PixelsPerUnit = 100.0f)

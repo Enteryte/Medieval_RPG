@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MissionLogTypeButton : MonoBehaviour
+public class MissionLogTypeButton : MonoBehaviour /*IPointerClickHandler, IPointerEnterHandler*/
 {
     public GameObject arrowLookingDown;
     public GameObject arrowLookingUp;
 
     public GameObject buttonParentObj;
+
+    public AudioClip showMissionsAC;
+    public AudioClip dontShowMissionsAC;
 
     public void Start()
     {
@@ -38,5 +42,19 @@ public class MissionLogTypeButton : MonoBehaviour
                 MissionLogScreenHandler.instance.mainMissionSlot.gameObject.SetActive(false);
             }
         }
+
+        if (arrowLookingDown.activeSelf)
+        {
+            GameManager.instance.SetUIAudioOneShot(showMissionsAC);
+        }
+        else
+        {
+            GameManager.instance.SetUIAudioOneShot(dontShowMissionsAC);
+        }
     }
+
+    //public void OnPointerClick(PointerEventData eventData)
+    //{
+    //    if ()
+    //}
 }

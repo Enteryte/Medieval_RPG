@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using TMPro;
 using System;
 
-public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnterHandler, IPointerExitHandler
+public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public enum ClickableSlotType
     {
@@ -35,6 +35,9 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
     public HotbarSlotButton correspondingMainScreenHotbarSlotBtn;
 
     [HideInInspector] public bool isShopPlayerItem = false;
+
+    public AudioClip hoverAC;
+    public AudioClip clickAC;
 
     public void Start()
     {
@@ -1321,6 +1324,8 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        GameManager.instance.SetUIAudioOneShot(hoverAC);
+
         if (clickableSlotType == ClickableSlotType.inventorySlot && storedItemBase != null && storedItemBase.itemType == ItemBaseProfile.ItemType.weapon)
         {
             TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(InventoryManager.instance.equipmentTutorial);
@@ -1412,5 +1417,10 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         }
 
         //this.gameObject.transform.GetChild(0).GetComponent<Image>().enabled = true;
-    }   
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        GameManager.instance.SetUIAudioOneShot(clickAC);
+    }
 }

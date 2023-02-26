@@ -273,37 +273,37 @@ public class Interacting : MonoBehaviour
                         }
                     }
 
-                    if (interactableObj != null && interactableObj.GetComponent<Enemy>() && !interactableObj.GetComponent<Enemy>().isDead)
-                    {
-                        Debug.Log("ENEMYYYYYYYYYYYYYYYYYYYYYYYYYYY: " + interactableObj.gameObject.name);
+                    //if (interactableObj != null && interactableObj.GetComponent<Enemy>() && !interactableObj.GetComponent<Enemy>().isDead)
+                    //{
+                    //    Debug.Log("ENEMYYYYYYYYYYYYYYYYYYYYYYYYYYY: " + interactableObj.gameObject.name);
 
-                        if (FightingActions.instance.equippedWeaponL != null
-                        && FightingActions.instance.equippedWeaponL.gameObject.GetComponent<Item>().iBP.weaponType != ItemBaseProfile.WeaponType.bow)
-                        {
-                            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
+                    //    if (FightingActions.instance.equippedWeaponL != null
+                    //    && FightingActions.instance.equippedWeaponL.gameObject.GetComponent<Item>().iBP.weaponType != ItemBaseProfile.WeaponType.bow)
+                    //    {
+                    //        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
 
-                            if (Input.GetKeyDown(KeyCode.Q))
-                            {
-                                FightManager.instance.TargetEnemy(interactableObj.gameObject);
-                            }
-                        }
-                        else if (FightingActions.instance.equippedWeaponL == null)
-                        {
-                            TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
+                    //        if (Input.GetKeyDown(KeyCode.Q))
+                    //        {
+                    //            FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                    //        }
+                    //    }
+                    //    else if (FightingActions.instance.equippedWeaponL == null)
+                    //    {
+                    //        TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(selectingAndParryTutorial);
 
-                            if (Input.GetKeyDown(KeyCode.Q))
-                            {
-                                FightManager.instance.TargetEnemy(interactableObj.gameObject);
-                            }
-                        }
-                        else
-                        {
-                            if (Input.GetKeyDown(KeyCode.Q))
-                            {
-                                FightManager.instance.TargetEnemy(interactableObj.gameObject);
-                            }
-                        }
-                    }
+                    //        if (Input.GetKeyDown(KeyCode.Q))
+                    //        {
+                    //            FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        if (Input.GetKeyDown(KeyCode.Q))
+                    //        {
+                    //            FightManager.instance.TargetEnemy(interactableObj.gameObject);
+                    //        }
+                    //    }
+                    //}
                     else
                     {
                         Debug.Log(interactableObj.gameObject.name);
