@@ -880,6 +880,11 @@ public class SaveSystem : MonoBehaviour
         //    sGO.allArcherEnemyPositions.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.position);
         //    sGO.allArcherEnemyRotations.Add(GameManager.instance.allArcherEnemies[i].gameObject.transform.rotation);
         //}
+
+        for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
+        {
+            sGO.enemyIsActive.Add(GameManager.instance.allMeleeEnemies[i].gameObject.activeSelf);
+        }
     }
 
     public void SaveInteractableObjects(SaveGameObject sGO)
@@ -1008,6 +1013,15 @@ public class SaveSystem : MonoBehaviour
         // Daytime
         sGO.changeDaytime = GameManager.instance.changeDaytime;
         sGO.timeOfDay = GameManager.instance.hdrpTOD.TimeOfDay;
+
+        if (GameManager.instance.correspondingCutsceneProfilAtNight == null)
+        {
+            sGO.nightCSisNull = true;
+        }
+        else
+        {
+            sGO.nightCSisNull = false;
+        }
 
         // Weather
         sGO.isRaining = GameManager.instance.hdrpTOD.WeatherActive();
@@ -1339,6 +1353,11 @@ public class SaveSystem : MonoBehaviour
         //    GameManager.instance.allArcherEnemies[i].transform.position = sGO.allArcherEnemyPositions[i];
         //    GameManager.instance.allArcherEnemies[i].transform.rotation = sGO.allArcherEnemyRotations[i];
         //}
+
+        for (int i = 0; i < GameManager.instance.allMeleeEnemies.Count; i++)
+        {
+            GameManager.instance.allMeleeEnemies[i].gameObject.SetActive(sGO.enemyIsActive[i]);
+        }
     }
 
     public void LoadInteractableObjects(SaveGameObject sGO)
@@ -1396,6 +1415,12 @@ public class SaveSystem : MonoBehaviour
             DebuffManager.instance.currBleedingTimes = sGO.currBleedingTimes;
 
             DebuffManager.instance.Bleeding(sGO.bleedingTimes, sGO.bleedingDamage, false);
+
+            DebuffManager.instance.bleedingImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            DebuffManager.instance.bleedingImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
         }
 
         if (sGO.timerSB > -1)
@@ -1404,12 +1429,20 @@ public class SaveSystem : MonoBehaviour
 
             DebuffManager.instance.SpeedUpPlayer(sGO.currSBBuffTime, false);
         }
+        else
+        {
+            DebuffManager.instance.higherSpeedImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
+        }
 
         if (sGO.timerDB > -1)
         {
             DebuffManager.instance.timerDB = sGO.timerDB;
 
             DebuffManager.instance.SetPlayerDamageHigher(sGO.currDBBuffTime, false);
+        }
+        else
+        {
+            DebuffManager.instance.higherDamageImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
         }
 
         if (sGO.timerSD > -1)
@@ -1418,12 +1451,20 @@ public class SaveSystem : MonoBehaviour
 
             DebuffManager.instance.SlowPlayer(sGO.currSDDebuffTime, false);
         }
+        else
+        {
+            DebuffManager.instance.slowPlayerImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
+        }
 
         if (sGO.timerStD > -1)
         {
             DebuffManager.instance.timerStD = sGO.timerStD;
 
             DebuffManager.instance.LowerMaxStamina(sGO.currStrengthReduceAmount, sGO.currStDDebuffTime, false);
+        }
+        else
+        {
+            DebuffManager.instance.lowerStaminaImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
         }
 
         if (sGO.timerShD > -1)
@@ -1432,12 +1473,20 @@ public class SaveSystem : MonoBehaviour
 
             DebuffManager.instance.LowerStrength(sGO.currStrengthReduceAmount, sGO.currShDDebuffTime, false);
         }
+        else
+        {
+            DebuffManager.instance.lowerStrengthImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
+        }
 
         if (sGO.timerAD > -1)
         {
             DebuffManager.instance.timerAD = sGO.timerAD;
 
             DebuffManager.instance.LowerMaxArmor(sGO.currArmorReduceAmount, sGO.currADDebuffTime, false);
+        }
+        else
+        {
+            DebuffManager.instance.lowerArmorImg.gameObject.transform.parent.parent.gameObject.SetActive(false);
         }
     }
 
@@ -1468,7 +1517,14 @@ public class SaveSystem : MonoBehaviour
         {
             if (sGO.changeDaytime)
             {
-                GameManager.instance.correspondingCutsceneProfilAtNight = null;
+                if (sGO.nightCSisNull)
+                {
+                    GameManager.instance.correspondingCutsceneProfilAtNight = null;
+                }
+                else
+                {
+                    GameManager.instance.correspondingCutsceneProfilAtNight = GameManager.instance.cutsceneProfileAtNightHolder;
+                }
 
                 if (GameManager.instance.shouldChangeTime)
                 {

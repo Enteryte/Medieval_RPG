@@ -39,6 +39,8 @@ public class SaveGameObject
     public List<Vector3> allArcherEnemyPositions = new List<Vector3>();
     public List<Quaternion> allArcherEnemyRotations = new List<Quaternion>();
 
+    public List<bool> enemyIsActive = new List<bool>();
+
     // --------------------------------------------- WIP: Noch schauen, ob man das überhaupt benötigt.
     //// Merchants
     //public List<Vector3> allMerchantPositions = new List<Vector3>();
@@ -134,6 +136,7 @@ public class SaveGameObject
 
     public bool isRaining;
     public float currRainingDuration;
+    public bool nightCSisNull;
 
     // Cutscene
     public bool cutsceneIsCurrPlaying;
