@@ -53,6 +53,7 @@ public class StartScreenManager : MonoBehaviour
     public bool dontChangeToggle = false;
 
     public AudioClip deleteSaveFileAC;
+    public LoadingScreenProfile mainMenuLSP;
 
     public void Awake()
     {
@@ -87,6 +88,8 @@ public class StartScreenManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                SetMainMenuLoadingScreenProfile();
+
                 // Start new game
                 mainObjectAnimator.Rebind();
                 mainObjectAnimator.enabled = true;
@@ -130,6 +133,8 @@ public class StartScreenManager : MonoBehaviour
 
                     if (dirInfo.Length > 0)
                     {
+                        SetMainMenuLoadingScreenProfile();
+
                         dontChangeToggle = true;
 
                         //OptionManager.instance.tutorialToggle.isOn = showTutorialToggle.isOn;
@@ -288,6 +293,8 @@ public class StartScreenManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                SetMainMenuLoadingScreenProfile();
+
                 changeBackToMM = true;
 
                 LoadingScreen.instance.gameObject.SetActive(true);
@@ -325,6 +332,8 @@ public class StartScreenManager : MonoBehaviour
 
     public void ContinueGameButton()
     {
+        SetMainMenuLoadingScreenProfile();
+
         // Continue game
         LoadingScreen.instance.gameObject.SetActive(true);
         LoadingScreen.instance.ActivateAnimator();
@@ -425,6 +434,15 @@ public class StartScreenManager : MonoBehaviour
         Debug.Log(OptionManager.instance.tutorialToggle.isOn);
         Debug.Log(showTutorialToggle.isOn);
         //}
+    }
+
+    public void SetMainMenuLoadingScreenProfile()
+    {
+        LoadingScreen.currLSP = mainMenuLSP;
+
+        LoadingScreen.instance.placeNameTxt.text = mainMenuLSP.placeName;
+        LoadingScreen.instance.backgroundImg.sprite = mainMenuLSP.backgroundSprite;
+        LoadingScreen.instance.descriptionTxt.text = mainMenuLSP.descriptionTextString;
     }
 
     public Sprite LoadNewSprite(string FilePath, float PixelsPerUnit = 100.0f)
