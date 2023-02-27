@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5113440889669732355}
-  - component: {fileID: 2550068986642753136}
   m_Layer: 0
   m_Name: Watchtower
   m_TagString: Untagged
@@ -41,20 +40,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &2550068986642753136
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2566595168935472020}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1001 &243576823699322746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -900,6 +885,24 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ba327e97275533149afb1dc62ed84d29, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c42e3ec1fcf35dc4e896b10e7f81b8ef, type: 3}
+--- !u!1 &2488721695357790854 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c42e3ec1fcf35dc4e896b10e7f81b8ef, type: 3}
+  m_PrefabInstance: {fileID: 3335160594106341335}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1873338794261676426
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2488721695357790854}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.7024536, y: 12.058032, z: 4.751526}
+  m_Center: {x: -0.5442505, y: 4.962608, z: 29.147003}
 --- !u!4 &3009081432261505084 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c42e3ec1fcf35dc4e896b10e7f81b8ef, type: 3}
