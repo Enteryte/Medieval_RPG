@@ -235,7 +235,7 @@ public class ClickableInventorySlot : MonoBehaviour, ISelectHandler, IPointerEnt
         //    ShopManager.instance.hMScreen.buyOrSellTxt.text = "Wie oft möchtst du das Item verkaufen?";
         //}
 
-        if (iBP.itemType == ItemBaseProfile.ItemType.weapon)
+        if (iBP.itemType == ItemBaseProfile.ItemType.weapon && iBP.weaponType != ItemBaseProfile.WeaponType.arrow)
         {
             ShopManager.instance.BuyOrSellItem(iBP, 1);
         }
