@@ -95,12 +95,6 @@ public class PlayerValueManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -151,17 +145,6 @@ public class PlayerValueManager : MonoBehaviour
         {
             TutorialManager.instance.CheckIfTutorialIsAlreadyCompleted(staminaTutorial);
         }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            CurrHP = 0;
-        }
-
-        //if (Input.GetKeyDown(KeyCode.L))
-        //{
-        //    CurrHP = 0;
-        //    Debug.Log(CurrHP);
-        //}
     }
 
     public void RemoveStamina(float staminaAmountToRemove)

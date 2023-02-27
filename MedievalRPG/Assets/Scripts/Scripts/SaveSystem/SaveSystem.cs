@@ -841,8 +841,6 @@ public class SaveSystem : MonoBehaviour
         }
 
         sGO.alreadyPlayedAgainstKilian = GameManager.instance.alreadyPlayedAgainstKilian;
-
-        sGO.gateIsOpen = GameManager.instance.gateIsOpen;
     }
 
     public void SaveNPCs(SaveGameObject sGO)
@@ -1283,15 +1281,6 @@ public class SaveSystem : MonoBehaviour
         }
 
         GameManager.instance.alreadyPlayedAgainstKilian = sGO.alreadyPlayedAgainstKilian;
-
-        GameManager.instance.gateIsOpen = sGO.gateIsOpen;
-
-        if (sGO.gateIsOpen && GameManager.instance.townsgateBeam != null)
-        {
-            GameManager.instance.townsgateBeam.SetActive(false);
-            GameManager.instance.townsgate1.transform.localRotation = Quaternion.Euler(-90, 0, -45);
-            GameManager.instance.townsgate2.transform.localRotation = Quaternion.Euler(-90, 0, 120);
-        }
     }
 
     public void LoadNPCs(SaveGameObject sGO)

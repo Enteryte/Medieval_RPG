@@ -198,7 +198,7 @@ public class SceneChangeManager : MonoBehaviour
 
             if (level > 0 && ThirdPersonController.instance)
             {
-                GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+                //GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
             }
         }
 

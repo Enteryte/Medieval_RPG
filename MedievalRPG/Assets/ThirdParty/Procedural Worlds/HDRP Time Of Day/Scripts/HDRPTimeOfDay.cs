@@ -1281,7 +1281,10 @@ namespace ProceduralWorlds.HDRPTOD
                 }
             }
 
-            CurrentTime = ConvertTimeOfDay();
+            if(CurrentTime <= 17.5f)
+            {
+                CurrentTime = ConvertTimeOfDay();
+            }
             //This is used to evaluate systems that can range from 0-1
             UpdateSunRotation(CurrentTime);
 
