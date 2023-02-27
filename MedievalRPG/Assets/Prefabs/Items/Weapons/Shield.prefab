@@ -91,6 +91,9 @@ MonoBehaviour:
   amountsToGet: 
   moneyAmount: 0
   isOpen: 0
+  openedChestAC: {fileID: 0}
+  openChestAC: {fileID: 0}
+  chestAudioSource: {fileID: 0}
 --- !u!1001 &4142823147196299114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -154,6 +157,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1e912631a35879740a8a2ce63cabbbf1, type: 2}
     - target: {fileID: 919132149155446097, guid: a9f22809599229c4a90d16b7209706c2, type: 3}
       propertyPath: m_Name
       value: Shield 1
