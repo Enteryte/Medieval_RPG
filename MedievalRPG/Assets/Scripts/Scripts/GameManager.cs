@@ -654,6 +654,14 @@ public class GameManager : MonoBehaviour
         yield break;
     }
 
+    public void PlayerCanMove()
+    {
+        ThirdPersonController.instance.canMove = true;
+        ThirdPersonController.instance._animator.SetFloat("Speed", 0);
+
+        FightingActions.instance.gameObject.GetComponent<Animator>().applyRootMotion = false;
+    }
+
     public void PauseGame()
     {
         areYouSureScreenIsActive = false;
