@@ -178,6 +178,7 @@ public class PlayerValueManager : MonoBehaviour
 
     public void Die()
     {
+        FightManager.instance.isInFight = false;
         //Sterbegedöns einfügen
 
         //ThirdPersonController.instance._animator.Play("Death");

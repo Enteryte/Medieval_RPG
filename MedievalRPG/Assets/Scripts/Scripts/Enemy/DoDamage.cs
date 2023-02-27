@@ -15,7 +15,13 @@ public class DoDamage : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isActive != true || !other.gameObject.CompareTag("Enemy")) return;
+        if (isActive != true) return;
+
+        if(other.gameObject.CompareTag("Destructable"))
+        {
+            other.gameObject.GetComponent<Animator>().enabled = true;
+            other.gameObject.GetComponent<AudioSource>().Play();
+        }
 
         if(other.gameObject.CompareTag("BossHitbox"))
         {
@@ -29,7 +35,7 @@ public class DoDamage : MonoBehaviour
             }
         }
 
-        if (other.TryGetComponent(out EnemyHealth eHealth))
+        if (other.gameObject.CompareTag("Enemy") && other.TryGetComponent(out EnemyHealth eHealth))
         {
             if (lightAttack)
                 eHealth.LightDamage(lightDamage);

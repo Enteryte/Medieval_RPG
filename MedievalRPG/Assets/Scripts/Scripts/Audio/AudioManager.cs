@@ -99,7 +99,7 @@ public class AudioManager : MonoBehaviour
 
         foreach (AudioSource source in voice)
         {
-            source.volume = VoiceVolume * MasterVolume;
+            source.volume = VoiceVolume * MasterVolume * 2;
         }
     }
     public void SetMusicVolume()
