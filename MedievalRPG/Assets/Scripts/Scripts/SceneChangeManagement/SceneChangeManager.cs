@@ -192,14 +192,14 @@ public class SceneChangeManager : MonoBehaviour
     {
         PlayerValueManager.instance.isDead = LoadingScreen.instance.playerWasDead;
 
-        if (level > 0)
-        {
-            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
-        }
-
         if (level != 1 || !startedNewGame)
         {
             GameManager.instance.blackscreenForOpeningCS.SetActive(false);
+
+            if (level > 0 && ThirdPersonController.instance)
+            {
+                GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+            }
         }
 
         if (GameManager.instance)
