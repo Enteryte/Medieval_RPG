@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using StarterAssets;
 
 public class SceneChangeManager : MonoBehaviour
 {
@@ -190,6 +191,11 @@ public class SceneChangeManager : MonoBehaviour
     public void OnLevelWasLoaded(int level)
     {
         PlayerValueManager.instance.isDead = LoadingScreen.instance.playerWasDead;
+
+        if (level > 0)
+        {
+            GameManager.instance.FreezeCameraAndSetMouseVisibility(ThirdPersonController.instance, ThirdPersonController.instance._input, false);
+        }
 
         if (level != 1 || !startedNewGame)
         {
