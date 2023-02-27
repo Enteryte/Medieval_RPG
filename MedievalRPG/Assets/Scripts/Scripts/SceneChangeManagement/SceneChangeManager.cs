@@ -17,6 +17,8 @@ public class SceneChangeManager : MonoBehaviour
 
     public AudioSource uiAudioSource;
 
+    public MissionBaseProfile mBPToCheckForGates;
+
     [Header("Deactivate If Load GameScene")]
     public List<GameObject> allGOsToDeactivate;
     public List<GameObject> allGosToActivate;
@@ -188,6 +190,11 @@ public class SceneChangeManager : MonoBehaviour
     public void OnLevelWasLoaded(int level)
     {
         PlayerValueManager.instance.isDead = LoadingScreen.instance.playerWasDead;
+
+        if (level != 1 || !startedNewGame)
+        {
+            GameManager.instance.blackscreenForOpeningCS.SetActive(false);
+        }
 
         if (GameManager.instance)
         {

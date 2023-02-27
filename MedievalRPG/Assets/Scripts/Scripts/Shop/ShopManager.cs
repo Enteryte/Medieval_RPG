@@ -35,6 +35,9 @@ public class ShopManager : MonoBehaviour
 
     public bool isShopPlayerItem = false;
 
+    public AudioClip boughtItemAC;
+    public AudioClip soldItemAC;
+
     [Header("Player Item-Display")]
     public ShopCategoryButton currPlayerClickedSCBtn;
     public Transform playerItemSlotParentTrans;
@@ -544,6 +547,8 @@ public class ShopManager : MonoBehaviour
                             {
                                 MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.howManyAlreadyCollected = InventoryManager.instance.inventory.slots[y].itemAmount - amount;
 
+                                GameManager.instance.uiAudioSource.PlayOneShot(soldItemAC);
+
                                 break;
                             }
                         }
@@ -561,12 +566,14 @@ public class ShopManager : MonoBehaviour
                     {
                         //for (int y = 0; y < InventoryManager.instance.inventory.slots.Count; y++)
                         //{
-                            if (MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.itemToCollectBase == itemBase)
-                            {
-                                MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.howManyAlreadyCollected += amount;
+                        if (MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.itemToCollectBase == itemBase)
+                        {
+                            MissionManager.instance.allCurrAcceptedMissions[x].allMissionTasks[i].mTB.howManyAlreadyCollected += amount;
 
-                                break;
-                            }
+                            GameManager.instance.uiAudioSource.PlayOneShot(boughtItemAC);
+
+                            break;
+                        }
                         //}
                     }
                 }

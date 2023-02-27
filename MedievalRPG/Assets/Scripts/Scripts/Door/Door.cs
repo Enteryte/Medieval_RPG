@@ -23,6 +23,9 @@ public class Door : MonoBehaviour, IInteractable
     public MissionBaseProfile[] correspondingMissions;
     public MissionTaskBase[] correspondingMissionTasks;
 
+    public AudioClip doorSoundAC;
+    public AudioSource doorAudioSource;
+
     [Header("Needed Items For Opening")]
     public List<ItemBaseProfile> neededItemsForOpening;
 
@@ -271,6 +274,8 @@ public class Door : MonoBehaviour, IInteractable
             }
             else
             {
+                doorAudioSource.PlayOneShot(doorSoundAC);
+
                 if (isOpen)
                 {
                     CloseDoor();

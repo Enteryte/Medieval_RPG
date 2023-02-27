@@ -66,6 +66,8 @@ public class SaveGameObject
 
     public bool alreadyPlayedAgainstKilian;
 
+    public bool gateIsOpen;
+
     // Item-Database
     public List<bool> itemIsNew = new List<bool>();
 

@@ -34,7 +34,7 @@ public class MessageManager : MonoBehaviour
     {
         GameObject newCollMessageObj = Instantiate(collectedMessageObjPrefab, collectedMessageParentObj.transform);
 
-        newCollMessageObj.GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        newCollMessageObj.GetComponent<CollectedMessageObject>().itemSpriteImg.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
         newCollMessageObj.GetComponent<CollectedMessageObject>().itemNameTxt.text = moneyAmount.ToString();
         newCollMessageObj.GetComponent<CollectedMessageObject>().itemSpriteImg.sprite = isMoneySprite;

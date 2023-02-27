@@ -444,6 +444,8 @@ public class CutsceneManager : MonoBehaviour
 
     public void CheckIfPlayerHasGotDamage()
     {
+        GameManager.instance.OpenGate();
+
         if (currCP == null)
         {
             return;
