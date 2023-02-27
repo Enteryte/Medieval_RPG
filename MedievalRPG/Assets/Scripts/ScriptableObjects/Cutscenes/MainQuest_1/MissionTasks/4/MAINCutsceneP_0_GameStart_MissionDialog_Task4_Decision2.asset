@@ -20,6 +20,7 @@ MonoBehaviour:
   playCutsceneMoreThanOnce: 0
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
+  timeTillWhereToSkip2: 0
   timesWhenNewSentenceStarts:
   - 6.15
   - 16.98
@@ -29,23 +30,29 @@ MonoBehaviour:
   hasDecisions: 1
   allDecisions:
   - decisionText: Annehmen
+    decisionSprite: {fileID: 0}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 5f9571861381c6045b4ce91a85a28f26, type: 2}
     missionToActivate: {fileID: 0}
     isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 12
     checkMoney: 0
-    minMoneyValue: 0
+    minMoneyValue: 12
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Ablehnen
+    decisionSprite: {fileID: 0}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: b6b5a6f50f2f860459067b371f09f04c, type: 2}
     missionToActivate: {fileID: 0}
     isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 12
     checkMoney: 0
-    minMoneyValue: 0
+    minMoneyValue: 12
     itemToGet: {fileID: 0}
     amountToGet: 0
   mBTToCheck: {fileID: 0}
@@ -58,3 +65,4 @@ MonoBehaviour:
   cutsceneToPlayAfter: {fileID: 0}
   corresspondingMission: {fileID: 0}
   missionTaskToActivate: {fileID: 0}
+  musicAfterCSFinished: {fileID: 0}

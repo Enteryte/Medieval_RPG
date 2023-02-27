@@ -32,6 +32,10 @@ public class Item : MonoBehaviour, IInteractable
 
     public bool isOpen = false;
 
+    public AudioClip openedChestAC; // Getting Items
+    public AudioClip openChestAC; // Opening Chest
+    public AudioSource chestAudioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +51,8 @@ public class Item : MonoBehaviour, IInteractable
         if (itemsToGet.Length > 0 || moneyAmount > 0)
         {
             GameManager.instance.allInteractableChests.Add(this);
+
+            chestAudioSource = this.gameObject.GetComponent<AudioSource>();
         }
 
         GameManager.instance.allInteractableObjects.Add(this.gameObject);
@@ -157,6 +163,8 @@ public class Item : MonoBehaviour, IInteractable
         {
             GameManager.instance.playerGO.GetComponent<ThirdPersonController>()._animator.SetBool("GrabItem", false);
 
+            GameManager.instance.uiAudioSource.PlayOneShot(openedChestAC);
+
             for (int i = 0; i < itemsToGet.Length; i++)
             {
                 if (itemsToGet[i] == SaveSystem.instance.gems)
@@ -192,6 +200,11 @@ public class Item : MonoBehaviour, IInteractable
             isOpen = true;
 
             this.gameObject.GetComponent<Animator>().enabled = true;
+
+            if (chestAudioSource != null)
+            {
+                chestAudioSource.PlayOneShot(openChestAC);
+            }
 
             //Destroy(iOCanvas.gameObject);
             //Destroy(this.gameObject);

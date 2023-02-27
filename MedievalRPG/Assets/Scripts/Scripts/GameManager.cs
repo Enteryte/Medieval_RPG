@@ -73,6 +73,13 @@ public class GameManager : MonoBehaviour
 
     public AudioSource musicAudioSource;
 
+    public bool gateIsOpen = false;
+    public GameObject townsgate1;
+    public GameObject townsgate2;
+    public GameObject townsgateBeam;
+
+    public GameObject blackscreenForOpeningCS;
+
     [Header("Day-Night + Weather")]
     public HDRPTimeOfDay hdrpTOD;
 
@@ -1043,6 +1050,14 @@ public class GameManager : MonoBehaviour
     public void SetUIAudioOneShot(AudioClip audioClipToPlay)
     {
         uiAudioSource.PlayOneShot(audioClipToPlay);
+    }
+
+    public void OpenGate()
+    {
+        gateIsOpen = true;
+        townsgateBeam.SetActive(false);
+        townsgate1.transform.localRotation = Quaternion.Euler(-90, 0, -45);
+        townsgate2.transform.localRotation = Quaternion.Euler(-90, 0, 120);
     }
 
     public Sprite LoadNewSprite(string FilePath, float PixelsPerUnit = 100.0f)

@@ -20,38 +20,64 @@ MonoBehaviour:
   playCutsceneMoreThanOnce: 1
   alreadyPlayedCutscene: 0
   timeTillWhereToSkip: 0
+  timeTillWhereToSkip2: 0
   timesWhenNewSentenceStarts:
   - 10.2
+  canPauseWhilePlaying: 0
   tutorialToTrigger: {fileID: 0}
   changeParentTrans: 0
   hasDecisions: 0
   allDecisions:
   - decisionText: Heutiges Angebot
+    decisionSprite: {fileID: 0}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: e341f2a588c0ce14f9f2d6b3bdb26f30, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 0
+    checkMoney: 0
+    minMoneyValue: 12
     itemToGet: {fileID: 0}
-    amountToGet: 0
+    amountToGet: 12
   - decisionText: Verletzung
+    decisionSprite: {fileID: 0}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: 13689900f2ab76942b6e0258e3b09935, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 12
+    checkMoney: 0
+    minMoneyValue: 12
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: Hilfe anbieten
+    decisionSprite: {fileID: 0}
     arguePointsToGain: 0
     needsToBeClicked: 1
     cutsceneToPlay: {fileID: 11400000, guid: f258d89f13062564884428137b8446d0, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 0
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   - decisionText: "Gespr\xE4ch beenden"
+    decisionSprite: {fileID: 0}
     arguePointsToGain: 0
     needsToBeClicked: 0
     cutsceneToPlay: {fileID: 11400000, guid: 8b2f375db5b1b6e4aaf9ca9316e4098b, type: 2}
     missionToActivate: {fileID: 0}
+    isMissionRelevant: 1
+    hasToGiveMoney: 0
+    moneyAmountToGive: 0
+    checkMoney: 0
+    minMoneyValue: 0
     itemToGet: {fileID: 0}
     amountToGet: 0
   mBTToCheck: {fileID: 0}
@@ -64,3 +90,4 @@ MonoBehaviour:
   cutsceneToPlayAfter: {fileID: 0}
   corresspondingMission: {fileID: 0}
   missionTaskToActivate: {fileID: 0}
+  musicAfterCSFinished: {fileID: 0}
